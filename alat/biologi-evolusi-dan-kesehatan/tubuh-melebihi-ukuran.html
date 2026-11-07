@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tubuh yang Bekerja Melebihi Ukurannya</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,400&family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdf6e8; --card:#ffffff; --line:#f0e2c4;
+    --ink:#3a3226; --dim:#8a7c62;
+    --accent:#b8697a; --accent-soft:#f5e6ea;
+    --display:'Fredoka',sans-serif; --sans:'Quicksand',sans-serif; --serif:'Spectral',Georgia,serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;}
+  .wrap{max-width:640px;margin:0 auto;padding:0 20px 80px;}
+
+  .hero{padding:40px 10px 22px;text-align:center;}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(24px,5.5vw,32px);margin:0 0 10px;color:#7a3a4a;}
+  .hero p{color:var(--dim);font-size:14.5px;max-width:480px;margin:0 auto;}
+  .hero .seri{font-family:var(--mono);font-size:11px;color:var(--accent);border:1px solid var(--accent);padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px;}
+
+  .tab-nav{display:flex;gap:8px;margin-bottom:22px;}
+  .tab-btn{flex:1;font-family:var(--display);font-weight:600;font-size:13.5px;background:#fff;border:2px solid var(--line);
+    color:var(--dim);padding:13px 6px;border-radius:14px;cursor:pointer;text-align:center;}
+  .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  .intro-card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:20px;margin-bottom:20px;}
+  .intro-card p{font-size:14.5px;color:var(--dim);margin:0 0 10px;}
+  .intro-card p strong{color:var(--ink);}
+
+  .topik{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:22px 20px;margin-bottom:16px;}
+  .topik-num{font-family:var(--mono);font-size:11px;color:var(--accent);border:1px solid var(--accent);padding:3px 9px;
+    border-radius:20px;display:inline-block;margin-bottom:10px;}
+  .topik h2{font-family:var(--display);font-size:18px;margin:0 0 12px;color:#7a3a4a;}
+  .topik-illust{text-align:center;margin-bottom:14px;}
+  .topik-illust svg{width:70px;height:70px;}
+  .topik p{font-size:14px;color:var(--dim);margin:0 0 10px;}
+  .topik p strong{color:var(--ink);}
+  .renungan-box{background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;
+    padding:14px 16px;margin-top:12px;}
+  .renungan-box .lbl{font-family:var(--mono);font-size:10.5px;color:var(--accent);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:6px;}
+  .renungan-box p{font-family:var(--serif);font-style:italic;font-size:14.5px;color:#7a3a4a;margin:0;}
+
+  .card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px;}
+  .kid-card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:14px 10px;text-align:center;
+    cursor:pointer;transition:border-color .15s;}
+  .kid-card.active{border-color:var(--accent);background:var(--accent-soft);}
+  .kid-card svg{width:44px;height:44px;}
+  .kid-card .kid-title{font-family:var(--display);font-weight:600;font-size:12px;color:var(--ink);margin-top:6px;line-height:1.25;}
+
+  .reveal-card{display:none;background:var(--card);border:2px solid var(--accent);border-radius:18px;padding:22px;margin-bottom:20px;}
+  .reveal-card.show{display:block;}
+  .reveal-illust{text-align:center;margin-bottom:14px;}
+  .reveal-illust svg{width:90px;height:90px;}
+  .reveal-title{font-family:var(--display);font-weight:700;font-size:18px;text-align:center;color:#7a3a4a;margin-bottom:10px;}
+  .reveal-text{font-size:15px;color:var(--ink);text-align:center;margin-bottom:14px;}
+  .reveal-tanya{background:var(--accent-soft);border-radius:12px;padding:14px 16px;text-align:center;font-family:var(--display);
+    font-size:14px;color:#7a3a4a;}
+
+  footer{text-align:center;padding-top:28px;color:#b9ad94;font-size:11.5px;font-family:var(--mono);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="seri">Seri 3 dari 3</div><br>
+    <h1>🫁 Tubuh yang Bekerja Melebihi Ukurannya</h1>
+    <p>Tujuh topik lanjutan — kali ini tentang bagaimana tubuh yang kecil bisa menyimpan kemampuan yang jauh lebih besar dari ukurannya sendiri.</p>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="ortu">📖 Bacaan Orang Tua</button>
+    <button class="tab-btn" data-tab="anak">✨ Versi Anak</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-ortu">
+    <div class="intro-card">
+      <p>Seri pertama tentang perlindungan otomatis, seri kedua tentang pembaruan diri sendiri — seri ketiga ini tentang sesuatu yang berbeda: bagaimana tubuh kita yang kecil ternyata menyembunyikan kapasitas kerja yang jauh melampaui ukurannya, dan tahu persis kapan harus berhenti supaya tidak berlebihan.</p>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">15</span>
+      <h2>Paru-Paru yang Dikemas Seluas Lapangan Tenis</h2>
+      <div class="topik-illust"><svg viewBox="0 0 70 70">
+        <path d="M30 15 C20 15 15 25 15 40 C15 50 20 55 28 52 L28 20 Z" fill="none" stroke="#b8697a" stroke-width="2.5"/>
+        <path d="M40 15 C50 15 55 25 55 40 C55 50 50 55 42 52 L42 20 Z" fill="none" stroke="#b8697a" stroke-width="2.5"/>
+        <circle cx="24" cy="35" r="1.5" fill="#5a8a7c"/><circle cx="27" cy="40" r="1.5" fill="#5a8a7c"/>
+        <circle cx="46" cy="35" r="1.5" fill="#5a8a7c"/><circle cx="43" cy="40" r="1.5" fill="#5a8a7c"/>
+      </svg></div>
+      <p>Paru-paru kita muat di dalam rongga dada yang tidak terlalu besar, tapi di dalamnya tersimpan sekitar <strong>300 juta kantung udara kecil (alveolus)</strong>. Kalau seluruh permukaan alveolus itu dibentangkan datar, luasnya diperkirakan sekitar <strong>70 meter persegi — kira-kira seluas lapangan tenis</strong> (angka pastinya bervariasi antar kajian ilmiah, tapi gambaran besarnya konsisten: jauh lebih luas dari ukuran dada kita).</p>
+      <p>Semua permukaan luas itu perlu dilipat serapat mungkin supaya oksigen bisa masuk ke darah secepat dan sebanyak yang tubuh butuhkan, tanpa membuat dada kita harus seukuran lemari.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Kadang kapasitas sesuatu tidak ditentukan oleh seberapa besar wadahnya, tapi seberapa cerdas ia dilipat dan disusun di dalam wadah itu.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">16</span>
+      <h2>Sistem Limfatik, Pembersih Sunyi Tanpa Pompa</h2>
+      <div class="topik-illust"><svg viewBox="0 0 70 70">
+        <path d="M15 35 Q25 20 35 35 Q45 50 55 35" fill="none" stroke="#b8697a" stroke-width="2.5"/>
+        <circle cx="25" cy="30" r="4" fill="none" stroke="#5a8a7c" stroke-width="2"/>
+        <circle cx="45" cy="40" r="4" fill="none" stroke="#5a8a7c" stroke-width="2"/>
+      </svg></div>
+      <p>Selain darah, tubuh kita punya sistem cairan kedua: getah bening (limfa), yang bertugas mengangkut cairan berlebih dan menyaring kuman lewat ribuan kelenjar getah bening di sepanjang jalurnya. Bedanya dengan darah: sistem ini <strong>tidak punya pompa sendiri seperti jantung</strong> — ia mengalir justru karena gerakan otot-otot kita sehari-hari, seperti berjalan atau menggerakkan tangan.</p>
+      <p>Artinya, sesuatu yang tampak sederhana seperti gerakan tubuh kita ternyata sekaligus menjalankan tugas kebersihan internal yang jauh lebih penting dari yang kita sadari.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Ada sistem penting dalam diri kita yang bahkan tidak diberi "mesin" sendiri — ia justru dititipkan pada aktivitas biasa kita, seolah gerakan sehari-hari kita sengaja dirancang untuk ikut menjaga kebersihan dalam diri kita.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">17</span>
+      <h2>Rambut yang Tahu Kapan Harus Berhenti Tumbuh</h2>
+      <div class="topik-illust"><svg viewBox="0 0 70 70">
+        <line x1="20" y1="55" x2="18" y2="15" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/>
+        <line x1="30" y1="55" x2="30" y2="10" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/>
+        <line x1="40" y1="55" x2="42" y2="20" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/>
+        <line x1="50" y1="55" x2="48" y2="12" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/>
+      </svg></div>
+      <p>Setiap helai rambut punya siklus tumbuh yang sudah "diprogram": fase tumbuh aktif, fase istirahat, lalu rontok digantikan helai baru. Panjang maksimalnya berbeda-beda tergantung fase tumbuhnya — itulah kenapa bulu mata kita berhenti tumbuh di sekitar 1 cm dan tidak pernah memanjang sepanjang rambut kepala, meski keduanya sama-sama rambut.</p>
+      <p>Kalau bulu mata tumbuh sepanjang rambut kepala, ia justru akan mengganggu penglihatan, bukan melindunginya.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Tahu kapan harus berhenti ternyata sama pentingnya dengan tahu kapan harus tumbuh — dan tubuh kita sudah diberi kemampuan mengukur keduanya secara tepat, tanpa kita pernah mengajarinya.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">18</span>
+      <h2>Kuku yang Tumbuh Pas Secukupnya</h2>
+      <div class="topik-illust"><svg viewBox="0 0 70 70">
+        <path d="M25 50 L25 25 C25 15 45 15 45 25 L45 50 Z" fill="none" stroke="#b8697a" stroke-width="2.5"/>
+      </svg></div>
+      <p>Kuku tumbuh terus-menerus sepanjang hidup (rata-rata sekitar 3 mm per bulan untuk kuku jari tangan) untuk melindungi ujung jari yang penuh saraf sensitif dan membantu kita menggaruk atau mencungkil benda kecil. Kecepatan tumbuhnya cukup lambat untuk tidak mengganggu, tapi cukup cepat untuk terus mengganti bagian yang aus terpakai.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Sesuatu yang kita anggap remeh dan hanya perlu dipotong sesekali ternyata punya kecepatan tumbuh yang pas — tidak terlalu cepat hingga mengganggu, tidak terlalu lambat hingga gagal melindungi.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">19</span>
+      <h2>Air Liur yang Mulai Bekerja Sebelum Makanan Masuk</h2>
+      <div class="topik-illust"><svg viewBox="0 0 70 70">
+        <path d="M35 15 C35 15 20 40 20 48 C20 55 27 60 35 60 C43 60 50 55 50 48 C50 40 35 15 35 15 Z" fill="none" stroke="#b8697a" stroke-width="2.5"/>
+      </svg></div>
+      <p>Kelenjar air liur mulai memproduksi cairan lebih banyak begitu kita mencium atau bahkan sekadar membayangkan makanan kesukaan kita — sebelum satu suap pun masuk ke mulut. Air liur ini sudah membawa enzim (amilase) yang mulai memecah karbohidrat lebih awal, mempersiapkan pencernaan sebelum pencernaan itu sendiri dimulai.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Tubuh kita sudah mulai "bersiap" bahkan sebelum kejadian yang sesungguhnya tiba — sebuah persiapan yang dimulai dari sekadar mencium aroma, bukan menunggu sampai kebutuhan itu benar-benar mendesak.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">20</span>
+      <h2>Bulu Kuduk yang Berdiri Sendiri</h2>
+      <div class="topik-illust"><svg viewBox="0 0 70 70">
+        <line x1="15" y1="45" x2="15" y2="55" stroke="#c9c0a4" stroke-width="6" stroke-linecap="round"/>
+        <line x1="27" y1="30" x2="27" y2="55" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/>
+        <line x1="39" y1="25" x2="39" y2="55" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/>
+        <line x1="51" y1="35" x2="51" y2="55" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/>
+      </svg></div>
+      <p>Saat kedinginan atau terkejut/takut, otot-otot kecil di pangkal setiap folikel rambut (disebut otot arrector pili) berkontraksi otomatis, menegakkan bulu-bulu halus di kulit — yang kita kenal sebagai "merinding". Pada nenek moyang berbulu tebal, refleks ini membantu menahan udara hangat di antara bulu atau membuat tubuh tampak lebih besar saat terancam. Pada kita, bulunya sudah terlalu halus untuk fungsi itu, tapi refleksnya tetap ada dan tetap otomatis.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Bahkan reaksi tubuh yang terasa aneh dan tidak terlalu berguna sekalipun, ternyata punya jejak sejarah dan alasan — tubuh kita menyimpan kisah panjang yang tidak selalu kita pahami maknanya, tapi tetap bekerja dengan setia.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">21</span>
+      <h2>Sel Darah Merah, Pabrik yang Tak Pernah Berhenti</h2>
+      <div class="topik-illust"><svg viewBox="0 0 70 70">
+        <circle cx="22" cy="25" r="6" fill="#c1705a" opacity="0.8"/>
+        <circle cx="38" cy="20" r="6" fill="#c1705a" opacity="0.8"/>
+        <circle cx="50" cy="32" r="6" fill="#c1705a" opacity="0.8"/>
+        <circle cx="28" cy="42" r="6" fill="#c1705a" opacity="0.8"/>
+        <circle cx="44" cy="48" r="6" fill="#c1705a" opacity="0.8"/>
+      </svg></div>
+      <p>Sel darah merah hanya hidup sekitar <strong>120 hari</strong>, lalu digantikan yang baru. Untuk menjaga jumlahnya tetap cukup, sumsum tulang kita memproduksi sekitar <strong>2 juta sel darah merah baru setiap detik</strong> — siang malam, tanpa jeda, sepanjang hidup kita.</p>
+      <p>Angka itu berarti sejak kamu mulai membaca kalimat ini sampai selesai, sudah berjuta-juta sel darah merah baru selesai dibuat di dalam tubuhmu.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Ada pabrik yang bekerja jutaan kali per detik di dalam tulang-tulang kita, tanpa suara, tanpa lelah, dan tanpa pernah kita perhatikan — sejak sebelum kita lahir sampai detik ini.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-anak">
+    <p style="text-align:center;color:var(--dim);font-size:13.5px;margin-bottom:16px;">Ketuk salah satu untuk lihat penjelasannya!</p>
+    <div class="card-grid" id="cardGrid"></div>
+    <div class="reveal-card" id="revealCard">
+      <div class="reveal-illust" id="revealIllust"></div>
+      <div class="reveal-title" id="revealTitle"></div>
+      <div class="reveal-text" id="revealText"></div>
+      <div class="reveal-tanya" id="revealTanya"></div>
+    </div>
+  </div>
+
+  <footer>Laboratorium Fiqih &amp; Fisiologi — bagian dari Bank Alat JAZMI/Qiladat</footer>
+</div>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  const TOPIK_ANAK = [
+    {
+      judul: 'Paru-Paru Seluas Lapangan Tenis',
+      icon: `<svg viewBox="0 0 70 70"><path d="M30 15 C20 15 15 25 15 40 C15 50 20 55 28 52 L28 20 Z" fill="none" stroke="#b8697a" stroke-width="2.5"/><path d="M40 15 C50 15 55 25 55 40 C55 50 50 55 42 52 L42 20 Z" fill="none" stroke="#b8697a" stroke-width="2.5"/></svg>`,
+      teks: 'Kalau dibentangkan datar, bagian dalam paru-parumu yang kecil itu luasnya kira-kira seluas lapangan tenis! Dilipat rapi supaya muat di dada kecilmu.',
+      tanya: '🤔 Bagaimana ya caranya sesuatu yang sangat luas bisa dilipat sekecil itu di dalam dadamu?'
+    },
+    {
+      judul: 'Sungai Pembersih Tanpa Pompa',
+      icon: `<svg viewBox="0 0 70 70"><path d="M15 35 Q25 20 35 35 Q45 50 55 35" fill="none" stroke="#b8697a" stroke-width="2.5"/><circle cx="25" cy="30" r="4" fill="none" stroke="#5a8a7c" stroke-width="2"/></svg>`,
+      teks: 'Selain darah, tubuhmu punya "sungai" pembersih kedua — tapi anehnya tidak punya pompa sendiri seperti jantung. Ia mengalir justru karena kamu bergerak!',
+      tanya: '🤔 Jadi kalau kamu suka lari-larian, apa itu juga membantu sungai pembersih ini bekerja?'
+    },
+    {
+      judul: 'Bulu Mata yang Tahu Kapan Berhenti',
+      icon: `<svg viewBox="0 0 70 70"><line x1="20" y1="55" x2="18" y2="15" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/><line x1="30" y1="55" x2="30" y2="10" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/><line x1="40" y1="55" x2="42" y2="20" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/></svg>`,
+      teks: 'Kenapa ya bulu matamu tidak pernah tumbuh sepanjang rambut di kepalamu? Karena keduanya punya "jam berhenti" tumbuh yang berbeda-beda!',
+      tanya: '🤔 Kira-kira apa yang akan terjadi kalau bulu matamu tumbuh sepanjang rambut kepalamu?'
+    },
+    {
+      judul: 'Kuku yang Tumbuh Pas-Pasan',
+      icon: `<svg viewBox="0 0 70 70"><path d="M25 50 L25 25 C25 15 45 15 45 25 L45 50 Z" fill="none" stroke="#b8697a" stroke-width="2.5"/></svg>`,
+      teks: 'Kukumu terus tumbuh sedikit demi sedikit setiap hari untuk melindungi ujung jarimu yang sensitif — tidak terlalu cepat, tidak terlalu lambat.',
+      tanya: '🤔 Coba lihat kukumu sekarang — apa kamu pernah minta tubuhmu menumbuhkannya?'
+    },
+    {
+      judul: 'Air Liur yang Siap Duluan',
+      icon: `<svg viewBox="0 0 70 70"><path d="M35 15 C35 15 20 40 20 48 C20 55 27 60 35 60 C43 60 50 55 50 48 C50 40 35 15 35 15 Z" fill="none" stroke="#b8697a" stroke-width="2.5"/></svg>`,
+      teks: 'Begitu kamu mencium bau makanan enak, air liurmu langsung bersiap — bahkan sebelum kamu makan sesuap pun!',
+      tanya: '🤔 Coba ingat: pernahkah kamu merasa "ngiler" hanya karena mencium bau makanan enak?'
+    },
+    {
+      judul: 'Bulu Kuduk yang Berdiri Sendiri',
+      icon: `<svg viewBox="0 0 70 70"><line x1="27" y1="30" x2="27" y2="55" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/><line x1="39" y1="25" x2="39" y2="55" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/><line x1="51" y1="35" x2="51" y2="55" stroke="#b8697a" stroke-width="2" stroke-linecap="round"/></svg>`,
+      teks: 'Kalau kamu kedinginan atau kaget, bulu-bulu halus di kulitmu berdiri sendiri — itu namanya "merinding", dan itu terjadi tanpa kamu minta.',
+      tanya: '🤔 Kapan terakhir kali kamu merasa merinding? Apa kamu sengaja membuatnya terjadi?'
+    },
+    {
+      judul: 'Pabrik Darah yang Super Cepat',
+      icon: `<svg viewBox="0 0 70 70"><circle cx="22" cy="25" r="6" fill="#c1705a" opacity="0.8"/><circle cx="38" cy="20" r="6" fill="#c1705a" opacity="0.8"/><circle cx="50" cy="32" r="6" fill="#c1705a" opacity="0.8"/><circle cx="28" cy="42" r="6" fill="#c1705a" opacity="0.8"/></svg>`,
+      teks: 'Setiap detik, tulang-tulangmu membuat sekitar 2 juta sel darah merah baru! Sejak kamu mulai membaca ini, sudah jutaan yang selesai dibuat.',
+      tanya: '🤔 Coba hitung dalam hati sampai 5 — kira-kira berapa juta sel darah merah baru yang sudah dibuat tubuhmu selama itu?'
+    }
+  ];
+
+  function buatCardGrid(){
+    const grid = document.getElementById('cardGrid');
+    grid.innerHTML = '';
+    TOPIK_ANAK.forEach((t, i) => {
+      const card = document.createElement('div');
+      card.className = 'kid-card';
+      card.innerHTML = `${t.icon}<div class="kid-title">${t.judul}</div>`;
+      card.addEventListener('click', () => tampilkan(i, card));
+      grid.appendChild(card);
+    });
+  }
+
+  function tampilkan(i, cardEl){
+    document.querySelectorAll('.kid-card').forEach(c => c.classList.remove('active'));
+    cardEl.classList.add('active');
+    const t = TOPIK_ANAK[i];
+    document.getElementById('revealIllust').innerHTML = t.icon;
+    document.getElementById('revealTitle').textContent = t.judul;
+    document.getElementById('revealText').textContent = t.teks;
+    document.getElementById('revealTanya').textContent = t.tanya;
+    document.getElementById('revealCard').classList.add('show');
+    document.getElementById('revealCard').scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  buatCardGrid();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

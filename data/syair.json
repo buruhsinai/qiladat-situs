@@ -1,0 +1,45 @@
+{
+  "_catatan": "DATA CONTOH/DEMO. Ganti seluruh isi array 'bait' dengan data syair resmi JAZMI. Struktur field harus dipertahankan agar script.js tetap berfungsi.",
+  "bait": [
+    {
+      "id": "bait-001",
+      "arab": "وَلَقَدْ أَمُرُّ عَلَى اللَّئِيمِ يَسُبُّنِي فَمَضَيْتُ ثُمَّتَ قُلْتُ لَا يَعْنِيْنِي",
+      "terjemahan": "Sungguh, aku pernah melewati orang hina yang mencelaku, maka aku berlalu saja lalu berkata: ia tak sedang membicarakanku.",
+      "penyair": "Contoh: Penyair Jahiliyah (placeholder)",
+      "sumber": "Contoh sumber — Diwan (placeholder)",
+      "tema": "akhlak",
+      "series": null,
+      "tautanDetail": "#"
+    },
+    {
+      "id": "bait-002",
+      "arab": "إِذَا أَنْتَ أَكْرَمْتَ الْكَرِيمَ مَلَكْتَهُ وَإِنْ أَنْتَ أَكْرَمْتَ اللَّئِيمَ تَمَرَّدَا",
+      "terjemahan": "Jika engkau memuliakan orang yang mulia, engkau akan memilikinya; jika engkau memuliakan orang hina, ia akan membangkang.",
+      "penyair": "Contoh: al-Mutanabbi (placeholder)",
+      "sumber": "Contoh sumber — Diwan al-Mutanabbi (placeholder)",
+      "tema": "akhlak",
+      "series": "Jejak Syair Santri",
+      "tautanDetail": "#"
+    },
+    {
+      "id": "bait-003",
+      "arab": "قِفَا نَبْكِ مِنْ ذِكْرَى حَبِيبٍ وَمَنْزِلِ بِسِقْطِ اللِّوَى بَيْنَ الدَّخُولِ فَحَوْمَلِ",
+      "terjemahan": "Berhentilah, mari kita menangis mengenang kekasih dan tempat tinggal, di tepi bukit pasir antara Dakhul dan Haumal.",
+      "penyair": "Contoh: Imru' al-Qais — Mu'allaqat (placeholder)",
+      "sumber": "Contoh sumber — al-Mu'allaqat (placeholder)",
+      "tema": "mu'allaqat",
+      "series": "Jejak Syair Santri",
+      "tautanDetail": "#"
+    },
+    {
+      "id": "bait-004",
+      "arab": "وَمَنْ هَابَ أَسْبَابَ الْمَنَايَا يَنَلْنَهُ وَلَوْ رَامَ أَسْبَابَ السَّمَاءِ بِسُلَّمِ",
+      "terjemahan": "Siapa yang takut pada sebab-sebab kematian, ia tetap akan mendapatinya, sekalipun ia mencoba naik ke langit dengan tangga.",
+      "penyair": "Contoh: Zuhair bin Abi Sulma (placeholder)",
+      "sumber": "Contoh sumber — Diwan (placeholder)",
+      "tema": "kematian",
+      "series": null,
+      "tautanDetail": "#"
+    }
+  ]
+}

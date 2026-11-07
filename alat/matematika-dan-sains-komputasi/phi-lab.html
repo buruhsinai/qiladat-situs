@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>φ — Rasio Emas: Ruang Parameter</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F1424; --bg-deep:#0A0E1B; --panel:#161C33; --panel-2:#1D2440;
+    --line:rgba(232,227,211,0.10); --line-strong:rgba(232,227,211,0.20);
+    --ink:#E7E2D2; --ink-dim:#9AA0BE; --ink-faint:#6A7092;
+    --gold:#D8B45C; --gold-deep:#8A6A22; --teal:#4FB3AA; --copper:#C97B4A; --violet:#9E8FD8;
+    --serif:"Fraunces",Georgia,serif; --sans:"Karla",-apple-system,sans-serif; --arabic:"Amiri",serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{margin:0;background:radial-gradient(ellipse 1200px 600px at 50% -10%, rgba(216,180,92,0.06), transparent 60%),var(--bg);
+    color:var(--ink);font-family:var(--sans);line-height:1.6;-webkit-font-smoothing:antialiased;}
+  ::selection{background:rgba(216,180,92,0.3);}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  .topbar{border-bottom:1px solid var(--line);padding:16px 0;position:sticky;top:0;background:var(--bg);z-index:10;}
+  .topbar .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;align-items:baseline;}
+  .brand{font-family:var(--serif);font-size:15px;color:var(--ink-dim);}
+  .brand b{color:var(--ink);}
+  .nav-links{display:flex;gap:16px;font-size:12.5px;flex-wrap:wrap;}
+  .nav-links a{color:var(--ink-faint);text-decoration:none;}
+  .nav-links a:hover{color:var(--gold);}
+
+  .hero{padding:44px 0 24px;}
+  .hero-arabic{font-family:var(--arabic);font-size:22px;color:var(--copper);margin:0 0 6px;}
+  h1{font-family:var(--serif);font-weight:340;font-size:clamp(36px,5.6vw,58px);line-height:1.02;margin:0 0 16px;max-width:16ch;}
+  h1 em{font-style:italic;color:var(--gold);}
+  .lede{font-size:16.5px;color:var(--ink-dim);max-width:66ch;margin:0;}
+  .phi-badge{display:inline-block;font-family:ui-monospace,Menlo,monospace;background:var(--panel-2);
+    border:1px solid var(--line-strong);color:var(--gold);padding:2px 8px;border-radius:3px;font-size:14px;}
+
+  .module{padding:44px 0;border-top:1px solid var(--line);}
+  .kicker{font-size:12.5px;color:var(--copper);font-weight:600;margin:0 0 8px;}
+  h2{font-family:var(--serif);font-weight:340;font-size:clamp(24px,3vw,32px);margin:0 0 14px;max-width:26ch;}
+  .module-intro{max-width:68ch;font-size:15px;color:var(--ink-dim);margin:0 0 22px;}
+  .module-intro strong{color:var(--ink);font-weight:600;}
+  .module-intro code{font-family:ui-monospace,Menlo,monospace;background:var(--panel-2);color:var(--gold);
+    padding:1px 6px;border-radius:3px;font-size:0.9em;}
+
+  .stage{display:grid;grid-template-columns:270px 1fr;gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:3px;overflow:hidden;}
+  @media (max-width:820px){.stage{grid-template-columns:1fr;}}
+  .controls{background:var(--panel);padding:20px 18px 24px;display:flex;flex-direction:column;gap:16px;}
+  .ctrl-label{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-dim);}
+  .ctrl-label span{font-family:var(--serif);color:var(--gold);font-size:14px;}
+  input[type=range]{-webkit-appearance:none;width:100%;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold-deep));
+    border-radius:2px;outline:none;margin:8px 0 2px;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;
+    background:var(--ink);border:2px solid var(--gold);cursor:pointer;margin-top:-6px;}
+  input[type=range]::-moz-range-thumb{width:13px;height:13px;border-radius:50%;background:var(--ink);border:2px solid var(--gold);cursor:pointer;}
+  input[type=range]::-moz-range-track{height:3px;background:var(--panel-2);border-radius:2px;}
+  .toggle-row{display:flex;justify-content:space-between;align-items:center;font-size:13px;color:var(--ink-dim);
+    cursor:pointer;user-select:none;}
+  .toggle-row input{display:none;}
+  .toggle-pill{width:34px;height:19px;border-radius:10px;background:var(--panel-2);border:1px solid var(--line-strong);
+    position:relative;flex:none;}
+  .toggle-pill::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;
+    background:var(--ink-faint);transition:transform .15s,background .15s;}
+  .toggle-row input:checked + .toggle-pill{background:rgba(216,180,92,0.18);border-color:var(--gold-deep);}
+  .toggle-row input:checked + .toggle-pill::after{transform:translateX(15px);background:var(--gold);}
+  .divider{height:1px;background:var(--line);}
+  .preset-row{display:flex;flex-wrap:wrap;gap:6px;}
+  .preset-btn{font-size:11px;color:var(--ink-dim);background:var(--panel-2);border:1px solid var(--line-strong);
+    padding:5px 9px;border-radius:20px;cursor:pointer;}
+  .preset-btn:hover{border-color:var(--gold);color:var(--gold);}
+  .readout{background:var(--panel-2);border:1px solid var(--line-strong);border-radius:3px;padding:12px 14px;font-size:13px;}
+  .readout .big{font-family:var(--serif);font-size:22px;color:var(--gold);margin:0 0 3px;}
+  .readout .desc{color:var(--ink-dim);font-size:12.5px;line-height:1.5;}
+
+  .canvas-side{background:var(--bg-deep);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:22px;min-height:340px;}
+  .canvas-side svg{width:100%;max-width:440px;}
+
+  table.conv{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px;}
+  table.conv th, table.conv td{padding:6px 8px;text-align:right;border-bottom:1px solid var(--line);}
+  table.conv th{color:var(--ink-faint);font-weight:600;font-size:11.5px;}
+  table.conv td{color:var(--ink-dim);font-family:ui-monospace,Menlo,monospace;}
+  table.conv td.hi{color:var(--gold);}
+
+  .formula-block{background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--gold-deep);
+    padding:14px 18px;margin:16px 0;font-family:ui-monospace,Menlo,monospace;font-size:13.5px;color:var(--gold);max-width:68ch;}
+
+  footer{border-top:1px solid var(--line);padding:24px 0 46px;font-size:12.5px;color:var(--ink-faint);}
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <div class="brand"><b>JAZMI</b> · φ Ruang Parameter</div>
+  <div class="nav-links">
+    <a href="#konstruksi">Konstruksi</a><a href="#spiral">Spiral</a><a href="#filotaksis">Filotaksis</a>
+    <a href="#logam">Rasio Logam</a><a href="#pentagon">Pentagon</a><a href="#fibonacci">Fibonacci</a>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <div class="hero">
+    <p class="hero-arabic">النسبة الذهبية</p>
+    <h1>Rasio <em>Emas.</em></h1>
+    <p class="lede">
+      φ = <span class="phi-badge">(1+√5)/2 ≈ 1.6180339887…</span> bukan satu angka
+      terisolasi yang "kebetulan indah". Ia titik temu enam konstruksi berbeda —
+      pembagian garis, persegi bersarang, sudut penyebaran biji bunga matahari,
+      keluarga rasio logam, diagonal pentagon, dan barisan Fibonacci — yang semuanya,
+      lewat jalur berbeda, berujung pada bilangan yang sama persis. Enam modul di
+      bawah semuanya bisa digeser secara langsung.
+    </p>
+  </div>
+
+  <!-- ============ MODULE 1: KONSTRUKSI DASAR ============ -->
+  <section class="module" id="konstruksi">
+    <p class="kicker">01 — Konstruksi Dasar</p>
+    <h2>Membagi satu garis jadi dua bagian yang saling mencerminkan</h2>
+    <p class="module-intro">
+      Sebuah garis dibagi di titik P menjadi bagian <code>a</code> (kiri) dan
+      <code>b</code> (kanan). Rasio emas adalah satu-satunya pembagian di mana
+      <strong>rasio keseluruhan-terhadap-bagian-besar</strong> sama persis dengan
+      <strong>rasio bagian-besar-terhadap-bagian-kecil</strong> — proporsi yang
+      konsisten di dua skala sekaligus.
+    </p>
+    <div class="stage">
+      <div class="controls">
+        <div>
+          <label class="ctrl-label" for="k1pos">Posisi titik P <span id="k1valPos">61.8%</span></label>
+          <input type="range" id="k1pos" min="1" max="99" step="0.1" value="61.8">
+        </div>
+        <button class="preset-btn" id="k1snap" style="width:100%;padding:8px;">Kunci tepat ke φ</button>
+        <div class="divider"></div>
+        <div class="readout">
+          <p class="big" id="k1big">(a+b)/a = 1.618</p>
+          <p class="desc" id="k1desc">a/b = 1.618 — kedua rasio ini sama. Ini rasio emas.</p>
+        </div>
+      </div>
+      <div class="canvas-side"><svg viewBox="0 0 400 160" id="k1svg"></svg></div>
+    </div>
+  </section>
+
+  <!-- ============ MODULE 2: SPIRAL & PERSEGI ============ -->
+  <section class="module" id="spiral">
+    <p class="kicker">02 — Spiral &amp; Persegi Emas</p>
+    <h2>Kenapa hanya φ yang membuat persegi bisa disayat selamanya</h2>
+    <p class="module-intro">
+      Ambil persegi panjang, potong persegi terbesar yang muat, lihat sisanya.
+      Ulangi. Ini <strong>algoritma Euclid</strong> yang sama seperti mencari FPB dua
+      bilangan — hanya di sini dilakukan dengan panjang, bukan bilangan bulat. Kalau
+      rasio panjang:lebar berupa pecahan (rasional), proses ini <strong>pasti
+      berhenti</strong> — sisanya habis tanpa sisa, seperti ubin yang pas menutup
+      seluruh permukaan. Kalau rasionya irasional, proses ini <strong>tidak pernah
+      berhenti</strong>. φ adalah kasus paling ekstrem: potongannya selalu
+      menyisakan persegi panjang yang sebangun sempurna dengan yang sebelumnya,
+      selamanya — itulah yang memungkinkan busur spiral tersambung mulus tanpa akhir.
+    </p>
+    <div class="stage">
+      <div class="controls">
+        <label class="toggle-row" for="k2lock">Kunci ke φ (spiral klasik)
+          <input type="checkbox" id="k2lock" checked><span class="toggle-pill"></span>
+        </label>
+        <div id="k2ratioWrap" style="display:none;">
+          <label class="ctrl-label" for="k2ratio">Rasio W:H <span id="k2valRatio">1.618</span></label>
+          <input type="range" id="k2ratio" min="1.05" max="2.6" step="0.001" value="1.618">
+          <div class="preset-row" style="margin-top:8px;">
+            <button class="preset-btn" data-r="1.5">3:2 (rasional)</button>
+            <button class="preset-btn" data-r="1.6">8:5 (Fibonacci)</button>
+            <button class="preset-btn" data-r="1.41421356">√2 (irasional)</button>
+            <button class="preset-btn" data-r="2.41421356">1+√2 (perak)</button>
+          </div>
+        </div>
+        <div>
+          <label class="ctrl-label" for="k2steps">Jumlah potongan <span id="k2valSteps">10</span></label>
+          <input type="range" id="k2steps" min="2" max="18" step="1" value="10">
+        </div>
+        <div class="divider"></div>
+        <div class="readout">
+          <p class="big" id="k2big">φ terkunci</p>
+          <p class="desc" id="k2desc">Tak pernah berhenti — setiap sisa sebangun sempurna dengan yang sebelumnya.</p>
+        </div>
+      </div>
+      <div class="canvas-side"><svg viewBox="0 0 420 340" id="k2svg"></svg></div>
+    </div>
+  </section>
+
+  <!-- ============ MODULE 3: FILOTAKSIS ============ -->
+  <section class="module" id="filotaksis">
+    <p class="kicker">03 — Sudut Emas &amp; Filotaksis</p>
+    <h2>Satu sudut yang dipakai hampir semua tanaman berbunga</h2>
+    <p class="module-intro">
+      Tempatkan biji ke-n pada sudut <code>n × θ</code> dan jarak <code>√n</code> dari
+      pusat (model Vogel, cara nyata biji bunga matahari tersusun). Coba geser
+      <code>θ</code> menjauh dari sudut emas (137.5°) walau hanya satu derajat —
+      pola langsung pecah jadi jari-jari lurus dengan celah kosong di antaranya.
+      <strong>Hanya di sudut emas</strong> — sudut yang paling sulit didekati oleh
+      pecahan sederhana mana pun — biji-biji itu terisi rapat tanpa celah dan tanpa
+      pernah dua biji berbaris lurus sempurna dari pusat.
+    </p>
+    <div class="stage">
+      <div class="controls">
+        <div>
+          <label class="ctrl-label" for="k3angle">Sudut divergensi θ <span id="k3valAngle">137.508°</span></label>
+          <input type="range" id="k3angle" min="90" max="180" step="0.01" value="137.50776">
+        </div>
+        <div>
+          <label class="ctrl-label" for="k3n">Jumlah biji <span id="k3valN">300</span></label>
+          <input type="range" id="k3n" min="30" max="800" step="10" value="300">
+        </div>
+        <div class="preset-row">
+          <button class="preset-btn" data-ang="137.50776">Sudut emas</button>
+          <button class="preset-btn" data-ang="137">137° (dekat, gagal)</button>
+          <button class="preset-btn" data-ang="90">90° (jari lurus)</button>
+          <button class="preset-btn" data-ang="120">120° (3 lengan)</button>
+          <button class="preset-btn" data-ang="144">144° (5 lengan)</button>
+        </div>
+        <div class="divider"></div>
+        <div class="readout">
+          <p class="big" id="k3big">Terkunci di sudut emas</p>
+          <p class="desc" id="k3desc">Tanpa celah, tanpa jari-jari lurus — pengisian paling padat yang mungkin.</p>
+        </div>
+      </div>
+      <div class="canvas-side"><svg viewBox="0 0 400 400" id="k3svg"></svg></div>
+    </div>
+  </section>
+
+  <!-- ============ MODULE 4: RASIO LOGAM ============ -->
+  <section class="module" id="logam">
+    <p class="kicker">04 — Keluarga Rasio Logam</p>
+    <h2>φ ternyata anak sulung dari keluarga tak terhingga</h2>
+    <p class="module-intro">
+      Rasio emas adalah solusi dari <code>x = 1 + 1/x</code>. Ganti angka 1 itu
+      dengan bilangan asli <code>n</code> mana pun, dan didapat "rasio logam" baru:
+      n=1 rasio emas, n=2 rasio perak, n=3 rasio perunggu, dan seterusnya. Semuanya
+      berperilaku serupa φ (pecahan berlanjut paling sederhana yang mungkin untuk
+      pola n-nya), tapi hanya φ yang selisih dengan kebalikannya sendiri tepat 1 —
+      keistimewaan yang tak dimiliki anggota keluarga lain.
+    </p>
+    <div class="stage">
+      <div class="controls">
+        <div>
+          <label class="ctrl-label" for="k4n">n (pola pecahan berlanjut) <span id="k4valN">1</span></label>
+          <input type="range" id="k4n" min="1" max="8" step="1" value="1">
+        </div>
+        <div class="divider"></div>
+        <div class="readout">
+          <p class="big" id="k4big">x₁ = φ = 1.618034</p>
+          <p class="desc" id="k4desc">Pecahan berlanjut [1;1,1,1,…] — rasio emas.</p>
+        </div>
+      </div>
+      <div class="canvas-side" style="align-items:flex-start;">
+        <div class="formula-block" id="k4formula" style="max-width:100%;">x = (n + √(n²+4)) / 2</div>
+        <table class="conv" id="k4table"></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODULE 5: PENTAGON ============ -->
+  <section class="module" id="pentagon">
+    <p class="kicker">05 — Pentagon &amp; Pentagram</p>
+    <h2>φ bersembunyi di setiap diagonal, di setiap skala</h2>
+    <p class="module-intro">
+      Rasio diagonal terhadap sisi pada pentagon beraturan selalu tepat φ — tidak
+      peduli seberapa besar atau kecil pentagonnya. Lima titik potong diagonal
+      pentagram membentuk pentagon baru yang lebih kecil, diperkecil persis
+      1/φ² — dan pentagram di dalamnya bisa dibentuk lagi, tanpa batas.
+    </p>
+    <div class="stage">
+      <div class="controls">
+        <div>
+          <label class="ctrl-label" for="k5depth">Kedalaman rekursi <span id="k5valDepth">3</span></label>
+          <input type="range" id="k5depth" min="0" max="7" step="1" value="3">
+        </div>
+        <div>
+          <label class="ctrl-label" for="k5rot">Rotasi <span id="k5valRot">0°</span></label>
+          <input type="range" id="k5rot" min="0" max="72" step="1" value="0">
+        </div>
+        <div class="divider"></div>
+        <div class="readout">
+          <p class="big" id="k5big">diagonal / sisi = φ</p>
+          <p class="desc">Setiap lapis pentagram lebih kecil 1/φ² dari lapis sebelumnya — diberi warna berbeda per kedalaman.</p>
+        </div>
+      </div>
+      <div class="canvas-side"><svg viewBox="0 0 400 400" id="k5svg"></svg></div>
+    </div>
+  </section>
+
+  <!-- ============ MODULE 6: FIBONACCI ============ -->
+  <section class="module" id="fibonacci">
+    <p class="kicker">06 — Konvergensi Fibonacci</p>
+    <h2>Barisan bilangan bulat yang diam-diam menuju φ</h2>
+    <p class="module-intro">
+      Barisan 1, 1, 2, 3, 5, 8, 13, 21, … — tiap suku adalah jumlah dua suku
+      sebelumnya. Rasio dua suku berurutan berosilasi mendekati φ, semakin dekat
+      setiap langkah, tak pernah menyentuhnya persis — karena φ irasional dan
+      setiap rasio Fibonacci adalah pecahan (rasional).
+    </p>
+    <div class="stage">
+      <div class="controls">
+        <div>
+          <label class="ctrl-label" for="k6n">Jumlah suku <span id="k6valN">15</span></label>
+          <input type="range" id="k6n" min="4" max="30" step="1" value="15">
+        </div>
+        <div class="divider"></div>
+        <div class="readout">
+          <p class="big" id="k6big">F₁₅/F₁₄ = 1.618033</p>
+          <p class="desc" id="k6desc">Selisih dari φ: 0.0000003</p>
+        </div>
+      </div>
+      <div class="canvas-side"><svg viewBox="0 0 420 260" id="k6svg"></svg></div>
+    </div>
+  </section>
+
+</div>
+
+<footer><div class="wrap">
+  <span>JAZMI — Jalinan Zamrud Islamiah · Laboratorium Alat</span>
+  <span>Enam jalur, satu bilangan: φ ≈ 1.6180339887498949</span>
+</div></footer>
+
+<script>
+(function(){
+"use strict";
+const NS = "http://www.w3.org/2000/svg";
+const PHI = (1+Math.sqrt(5))/2;
+const PALETTE = ['#D8B45C','#4FB3AA','#C97B4A','#9E8FD8','#7FB3D8','#D87FA0','#8FD8A0','#D8CB6F'];
+function el(tag, attrs){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); return e; }
+function svgOf(id){ return document.getElementById(id); }
+
+/* ================= MODULE 1: KONSTRUKSI DASAR ================= */
+(function(){
+  const svg = svgOf('k1svg');
+  const posEl = document.getElementById('k1pos');
+  const valPos = document.getElementById('k1valPos');
+  const big = document.getElementById('k1big');
+  const desc = document.getElementById('k1desc');
+  const W = 360, x0 = 20, y0 = 80;
+
+  function render(){
+    const pct = +posEl.value;
+    valPos.textContent = pct.toFixed(1) + '%';
+    const a = W*pct/100, b = W - a;
+    svg.innerHTML = '';
+    svg.appendChild(el('line',{x1:x0,y1:y0,x2:x0+W,y2:y0,stroke:'rgba(232,227,211,0.25)','stroke-width':2}));
+    svg.appendChild(el('line',{x1:x0,y1:y0,x2:x0+a,y2:y0,stroke:'#D8B45C','stroke-width':5,'stroke-linecap':'round'}));
+    svg.appendChild(el('line',{x1:x0+a,y1:y0,x2:x0+a+b,y2:y0,stroke:'#4FB3AA','stroke-width':5,'stroke-linecap':'round'}));
+    [x0, x0+a, x0+W].forEach(px=>{
+      svg.appendChild(el('circle',{cx:px,cy:y0,r:4,fill:'#E7E2D2'}));
+    });
+    const t1 = document.createElementNS(NS,'text');
+    t1.setAttribute('x', x0+a/2); t1.setAttribute('y', y0-16); t1.setAttribute('fill','#D8B45C');
+    t1.setAttribute('text-anchor','middle'); t1.setAttribute('font-size','15'); t1.textContent='a';
+    svg.appendChild(t1);
+    const t2 = document.createElementNS(NS,'text');
+    t2.setAttribute('x', x0+a+b/2); t2.setAttribute('y', y0-16); t2.setAttribute('fill','#4FB3AA');
+    t2.setAttribute('text-anchor','middle'); t2.setAttribute('font-size','15'); t2.textContent='b';
+    svg.appendChild(t2);
+
+    const r1 = b>0.01 ? (a+b)/a : Infinity;
+    const r2 = b>0.01 ? a/b : Infinity;
+    const close = Math.abs(r1-PHI) < 0.01;
+    big.textContent = '(a+b)/a = ' + r1.toFixed(4);
+    big.style.color = close ? '#D8B45C' : '#9AA0BE';
+    desc.textContent = 'a/b = ' + r2.toFixed(4) + (close ? ' — kedua rasio ini sama. Ini rasio emas.' : ' — berbeda dari rasio di atas. Geser hingga keduanya berimpit.');
+  }
+  posEl.addEventListener('input', render);
+  document.getElementById('k1snap').addEventListener('click', ()=>{
+    posEl.value = (100/(1+1/PHI)).toFixed(2); // a/(a+b)=1/phi -> pct = 100/phi... solve: a/b=phi, a=W*p, b=W*(1-p), p/(1-p)=phi -> p=phi/(1+phi)
+    posEl.value = (100*PHI/(1+PHI)).toFixed(3);
+    render();
+  });
+  render();
+})();
+
+/* ================= MODULE 2: SPIRAL & PERSEGI ================= */
+(function(){
+  const svg = svgOf('k2svg');
+  const lockEl = document.getElementById('k2lock');
+  const ratioWrap = document.getElementById('k2ratioWrap');
+  const ratioEl = document.getElementById('k2ratio');
+  const valRatio = document.getElementById('k2valRatio');
+  const stepsEl = document.getElementById('k2steps');
+  const valSteps = document.getElementById('k2valSteps');
+  const big = document.getElementById('k2big');
+  const desc = document.getElementById('k2desc');
+
+  // Classic rotating pinwheel (verified point-continuous) -- used only when locked to phi.
+  function buildPinwheel(W,H,maxSteps){
+    let x=0,y=0,w=W,h=H,dir=0; const squares=[];
+    for(let i=0;i<maxSteps;i++){
+      if(w<0.05||h<0.05) break;
+      const s=Math.min(w,h); let sq;
+      if(dir===0){ sq={x:x+w-s,y:y,size:s,dir}; w-=s; }
+      else if(dir===1){ sq={x:x,y:y+h-s,size:s,dir}; h-=s; }
+      else if(dir===2){ sq={x:x,y:y,size:s,dir}; x+=s; w-=s; }
+      else { sq={x:x,y:y,size:s,dir}; y+=s; h-=s; }
+      squares.push(sq); dir=(dir+1)%4;
+    }
+    return squares;
+  }
+  function arcFor(sq){
+    const {x,y,size:s,dir}=sq;
+    const TL=[x,y],TR=[x+s,y],BR=[x+s,y+s],BL=[x,y+s];
+    if(dir===0) return {start:TR,end:BL,center:BR,r:s};
+    if(dir===1) return {start:BR,end:TL,center:BL,r:s};
+    if(dir===2) return {start:BL,end:TR,center:TL,r:s};
+    return {start:TL,end:BR,center:TR,r:s};
+  }
+
+  // True Euclidean cut (always the actual longer side) -- honest rational/irrational test.
+  function buildEuclid(W,H,maxSteps){
+    let w=W,h=H; const squares=[]; let x=0,y=0;
+    for(let i=0;i<maxSteps;i++){
+      if(w<0.05||h<0.05) break;
+      if(w>=h){ squares.push({x,y,size:h}); x+=h; w-=h; }
+      else { squares.push({x,y,size:w}); y+=w; h-=w; }
+    }
+    return {squares, terminated: (w<0.05||h<0.05)};
+  }
+
+  function render(){
+    const locked = lockEl.checked;
+    ratioWrap.style.display = locked ? 'none' : 'block';
+    const steps = +stepsEl.value;
+    valSteps.textContent = steps;
+    svg.innerHTML = '';
+    const OW = 380, OH = 300, ox=20, oy=20;
+
+    if(locked){
+      const H0 = OW/PHI;
+      const squares = buildPinwheel(OW, H0, steps);
+      squares.forEach((sq,i)=>{
+        svg.appendChild(el('rect',{x:ox+sq.x,y:oy+sq.y,width:sq.size,height:sq.size,
+          fill:'none',stroke:PALETTE[i%PALETTE.length],'stroke-width':1.2,opacity:0.55}));
+      });
+      let d = '';
+      squares.forEach((sq,i)=>{
+        const a = arcFor(sq);
+        const large = 0, sweep = 1;
+        if(i===0) d += 'M'+(ox+a.start[0])+','+(oy+a.start[1])+' ';
+        d += 'A'+a.r+','+a.r+' 0 '+large+' '+sweep+' '+(ox+a.end[0])+','+(oy+a.end[1])+' ';
+      });
+      svg.appendChild(el('path',{d, fill:'none', stroke:'#D8B45C','stroke-width':2.5,'stroke-linecap':'round'}));
+      big.textContent = 'φ terkunci';
+      big.style.color = '#D8B45C';
+      desc.textContent = 'Tak pernah berhenti — setiap sisa sebangun sempurna dengan yang sebelumnya. Busur spiral tersambung mulus tanpa celah.';
+    } else {
+      const r = +ratioEl.value;
+      valRatio.textContent = r.toFixed(3);
+      const H0 = OW/r;
+      const {squares, terminated} = buildEuclid(OW, H0, steps);
+      squares.forEach((sq,i)=>{
+        svg.appendChild(el('rect',{x:ox+sq.x,y:oy+sq.y,width:sq.size,height:sq.size,
+          fill:PALETTE[i%PALETTE.length],'fill-opacity':0.12,stroke:PALETTE[i%PALETTE.length],'stroke-width':1.4}));
+      });
+      big.textContent = terminated ? ('Berhenti setelah '+squares.length+' potong') : 'Belum berhenti (masih tersisa)';
+      big.style.color = terminated ? '#C97B4A' : '#4FB3AA';
+      desc.textContent = terminated
+        ? 'Rasio ini bisa ditulis sebagai pecahan sederhana — algoritma Euclid-nya berhenti persis, seperti mencari FPB dua bilangan bulat.'
+        : 'Sejauh presisi ini dihitung, sisa rectangle terus mengecil tanpa pernah habis — tanda rasio irasional.';
+    }
+  }
+  lockEl.addEventListener('change', render);
+  ratioEl.addEventListener('input', render);
+  stepsEl.addEventListener('input', render);
+  document.querySelectorAll('#k2ratioWrap .preset-btn').forEach(b=>{
+    b.addEventListener('click', ()=>{ ratioEl.value = b.dataset.r; render(); });
+  });
+  render();
+})();
+
+/* ================= MODULE 3: FILOTAKSIS ================= */
+(function(){
+  const svg = svgOf('k3svg');
+  const angleEl = document.getElementById('k3angle');
+  const valAngle = document.getElementById('k3valAngle');
+  const nEl = document.getElementById('k3n');
+  const valN = document.getElementById('k3valN');
+  const big = document.getElementById('k3big');
+  const desc = document.getElementById('k3desc');
+  const GOLDEN_ANGLE = 137.50776405003785;
+
+  function render(){
+    const angle = +angleEl.value;
+    const n = +nEl.value;
+    valAngle.textContent = angle.toFixed(3) + '°';
+    valN.textContent = n;
+    svg.innerHTML = '';
+    const cx=200, cy=200, c=9.2;
+    const rad = angle*Math.PI/180;
+    for(let i=1;i<=n;i++){
+      const r = c*Math.sqrt(i);
+      if(r>195) break;
+      const a = i*rad;
+      const px = cx + r*Math.cos(a), py = cy + r*Math.sin(a);
+      svg.appendChild(el('circle',{cx:px,cy:py,r:2.6,fill:PALETTE[i%PALETTE.length],opacity:0.85}));
+    }
+    const diff = Math.abs(angle-GOLDEN_ANGLE);
+    if(diff<0.01){
+      big.textContent = 'Terkunci di sudut emas';
+      big.style.color='#D8B45C';
+      desc.textContent = 'Tanpa celah, tanpa jari-jari lurus — pengisian paling padat yang mungkin, karena 137.5° adalah sudut yang paling sulit didekati pecahan sederhana mana pun.';
+    } else {
+      big.textContent = 'θ = '+angle.toFixed(2)+'° — pola pecah';
+      big.style.color='#4FB3AA';
+      desc.textContent = 'Begitu θ mendekati pecahan sederhana dari 360° (mis. 1/2, 1/3, 2/5), biji-biji berbaris lurus jadi jari-jari dengan celah kosong — resonansi radial yang terlihat jelas.';
+    }
+  }
+  angleEl.addEventListener('input', render);
+  nEl.addEventListener('input', render);
+  document.querySelectorAll('#filotaksis .preset-btn').forEach(b=>{
+    b.addEventListener('click', ()=>{ angleEl.value=b.dataset.ang; render(); });
+  });
+  render();
+})();
+
+/* ================= MODULE 4: RASIO LOGAM ================= */
+(function(){
+  const nEl = document.getElementById('k4n');
+  const valN = document.getElementById('k4valN');
+  const big = document.getElementById('k4big');
+  const desc = document.getElementById('k4desc');
+  const table = document.getElementById('k4table');
+  const NAMES = ['','emas','perak','perunggu','tembaga','nikel','timah','seng','besi'];
+
+  function render(){
+    const n = +nEl.value;
+    valN.textContent = n;
+    const x = (n + Math.sqrt(n*n+4))/2;
+    big.textContent = 'x = ' + x.toFixed(6) + (n===1 ? ' (= φ)' : '');
+    big.style.color = n===1 ? '#D8B45C' : '#4FB3AA';
+    desc.textContent = 'Pecahan berlanjut [' + n + ';' + n + ',' + n + ',' + n + ',…] — rasio ' + (NAMES[n]||('logam ke-'+n)) + '.';
+
+    let h0=0,h1=1;
+    let rows = '<tr><th>langkah</th><th>konvergen</th><th>≈ nilai</th><th>selisih dari x</th></tr>';
+    for(let k=1;k<=9;k++){
+      const h2 = n*h1+h0;
+      const val = h2/h1;
+      const err = Math.abs(val-x);
+      rows += '<tr><td>'+k+'</td><td>'+h2+'/'+h1+'</td><td class="hi">'+val.toFixed(6)+'</td><td>'+err.toExponential(2)+'</td></tr>';
+      h0=h1; h1=h2;
+    }
+    table.innerHTML = rows;
+  }
+  nEl.addEventListener('input', render);
+  render();
+})();
+
+/* ================= MODULE 5: PENTAGON ================= */
+(function(){
+  const svg = svgOf('k5svg');
+  const depthEl = document.getElementById('k5depth');
+  const valDepth = document.getElementById('k5valDepth');
+  const rotEl = document.getElementById('k5rot');
+  const valRot = document.getElementById('k5valRot');
+
+  function pentPoints(cx,cy,r,rotDeg){
+    const pts=[];
+    for(let i=0;i<5;i++){
+      const a = (rotDeg-90)*Math.PI/180 + i*2*Math.PI/5;
+      pts.push([cx+r*Math.cos(a), cy+r*Math.sin(a)]);
+    }
+    return pts;
+  }
+  function starPath(pts){
+    // connect every 2nd point (pentagram)
+    let d='';
+    for(let i=0;i<5;i++){
+      const p = pts[(i*2)%5];
+      d += (i===0?'M':'L') + p[0].toFixed(2)+','+p[1].toFixed(2)+' ';
+    }
+    return d+'Z';
+  }
+
+  function render(){
+    const depth = +depthEl.value;
+    const rot = +rotEl.value;
+    valDepth.textContent = depth;
+    valRot.textContent = rot+'°';
+    svg.innerHTML = '';
+    const cx=200, cy=200;
+    let R = 170;
+    let rotation = rot;
+    for(let d=0; d<=depth; d++){
+      const pts = pentPoints(cx,cy,R,rotation);
+      svg.appendChild(el('path',{d:starPath(pts), fill:'none', stroke:PALETTE[d%PALETTE.length], 'stroke-width':Math.max(0.8,2.2-d*0.2), 'stroke-linejoin':'round'}));
+      R = R/(PHI*PHI);
+      rotation += 36;
+    }
+  }
+  depthEl.addEventListener('input', render);
+  rotEl.addEventListener('input', render);
+  render();
+})();
+
+/* ================= MODULE 6: FIBONACCI ================= */
+(function(){
+  const svg = svgOf('k6svg');
+  const nEl = document.getElementById('k6n');
+  const valN = document.getElementById('k6valN');
+  const big = document.getElementById('k6big');
+  const desc = document.getElementById('k6desc');
+
+  function render(){
+    const n = +nEl.value;
+    valN.textContent = n;
+    const fib = [1,1];
+    for(let i=2;i<n;i++) fib.push(fib[i-1]+fib[i-2]);
+    const ratios = [];
+    for(let i=2;i<n;i++) ratios.push(fib[i]/fib[i-1]);
+
+    svg.innerHTML = '';
+    const x0=40,y0=20,w=360,h=200;
+    svg.appendChild(el('line',{x1:x0,y1:y0,x2:x0,y2:y0+h,stroke:'rgba(232,227,211,0.2)','stroke-width':1}));
+    svg.appendChild(el('line',{x1:x0,y1:y0+h,x2:x0+w,y2:y0+h,stroke:'rgba(232,227,211,0.2)','stroke-width':1}));
+    // y range: 1.0 to 2.0 mapped to h..0
+    function yOf(v){ return y0 + h - (v-1.0)/(2.0-1.0)*h; }
+    const phiY = yOf(PHI);
+    svg.appendChild(el('line',{x1:x0,y1:phiY,x2:x0+w,y2:phiY,stroke:'#D8B45C','stroke-width':1,'stroke-dasharray':'4,3'}));
+    const lbl = document.createElementNS(NS,'text');
+    lbl.setAttribute('x',x0+w-2); lbl.setAttribute('y',phiY-5); lbl.setAttribute('fill','#D8B45C');
+    lbl.setAttribute('text-anchor','end'); lbl.setAttribute('font-size','11'); lbl.textContent='φ';
+    svg.appendChild(lbl);
+
+    let d='';
+    ratios.forEach((r,i)=>{
+      const px = x0 + (i/(ratios.length-1||1))*w;
+      const py = yOf(r);
+      d += (i===0?'M':'L') + px.toFixed(2)+','+py.toFixed(2)+' ';
+      svg.appendChild(el('circle',{cx:px,cy:py,r:3,fill:'#4FB3AA'}));
+    });
+    svg.appendChild(el('path',{d, fill:'none', stroke:'#4FB3AA','stroke-width':1.6}));
+
+    const lastRatio = ratios[ratios.length-1];
+    big.textContent = 'F' + n + '/F' + (n-1) + ' = ' + lastRatio.toFixed(6);
+    desc.textContent = 'Selisih dari φ: ' + Math.abs(lastRatio-PHI).toExponential(3);
+  }
+  nEl.addEventListener('input', render);
+  render();
+})();
+
+})();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

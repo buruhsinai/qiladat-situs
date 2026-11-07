@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lebah: Survei Sumur dengan Anggaran Terbatas</title>
+<style>
+:root{--bg:#eaf0ee;--card:#fff;--ink:#0d333b;--dim:#4d6a70;--line:#c5d5d2;--soft:#f3f7f6;--lagoon:#17687a;--lagoon-ink:#fff;--buoy:#d9441a;--good:#1c7a45;--good-bg:#e2f3e8;--mid:#8a5a00;--mid-bg:#fdf0d2}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b181d;--card:#12242b;--ink:#e6f1ee;--dim:#9bbbc0;--line:#27434d;--soft:#0f1f25;--lagoon:#5cc0d2;--lagoon-ink:#08262d;--buoy:#ff8059;--good:#7fdba3;--good-bg:#14352a;--mid:#f2c46a;--mid-bg:#3a2d10}}
+:root[data-theme="dark"]{--bg:#0b181d;--card:#12242b;--ink:#e6f1ee;--dim:#9bbbc0;--line:#27434d;--soft:#0f1f25;--lagoon:#5cc0d2;--lagoon-ink:#08262d;--buoy:#ff8059;--good:#7fdba3;--good-bg:#14352a;--mid:#f2c46a;--mid-bg:#3a2d10}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:22px 16px 80px}
+h1{font:700 clamp(1.6rem,4.6vw,2.3rem)/1.15 Georgia,"Times New Roman",serif;margin:0 0 8px}
+h2{font:700 1.08rem/1.3 Georgia,serif;margin:0 0 8px}
+.lead{color:var(--dim);max-width:66ch;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:18px;align-items:start}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card+.card{margin-top:14px}
+.mapwrap{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--line);aspect-ratio:1/1;background:#efece3}
+canvas#map{width:100%;height:100%;display:block;cursor:crosshair;touch-action:manipulation}
+#three3d{position:absolute;inset:0;display:none;cursor:grab;touch-action:none;user-select:none}
+#three3d canvas{display:block;width:100%!important;height:100%!important}
+.cam3d{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:3}
+.cam3d[hidden]{display:none}
+.cam3d button{min-height:36px;padding:5px 10px;font-size:.85rem;background:rgba(255,255,255,.94);color:#0d333b;border-color:#9bb7bd}
+button{font:inherit;font-size:.95rem;min-height:42px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--ink);cursor:pointer}
+button.go{background:var(--lagoon);color:var(--lagoon-ink);border-color:var(--lagoon);font-weight:700}
+button[aria-pressed="true"]{outline:3px solid var(--lagoon);outline-offset:-1px;font-weight:700}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.seg{display:inline-flex;margin:0 0 10px}
+.seg button{border-radius:0;min-width:70px}
+.seg button:first-child{border-radius:10px 0 0 10px}.seg button:last-child{border-radius:0 10px 10px 0}
+.hint{margin:10px 0 0;color:var(--dim);font-size:.95rem}
+.story{margin:0}
+.prog{height:10px;background:var(--soft);border-radius:6px;margin-top:10px;overflow:hidden;border:1px solid var(--line)}
+#bar{height:100%;width:0;background:var(--lagoon)}
+.answer strong{display:block;font:700 1.25rem/1.2 Georgia,serif}
+.answer span{color:var(--dim);font-size:.93rem;display:block;margin-top:4px}
+.badge{display:inline-block;margin-top:8px;padding:3px 10px;border-radius:99px;background:var(--soft);border:1px solid var(--line);font-size:.85rem}
+.badge.good{background:var(--good-bg);color:var(--good)}.badge.mid{background:var(--mid-bg);color:var(--mid)}
+.field{margin:0 0 12px}.field label{display:flex;justify-content:space-between;font-size:.95rem;font-weight:600}
+.field input{width:100%}.field small{color:var(--dim);display:block;line-height:1.35}
+.note{color:var(--dim);font-size:.92rem}
+details.about,details.legend{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+details summary{cursor:pointer;font-weight:700}
+.legendgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;margin-top:10px;font-size:.92rem}
+.legendgrid span{display:flex;gap:8px;align-items:center}.legendgrid i{flex:none;width:18px;height:18px;border-radius:50%;display:inline-block}
+.warn{color:var(--buoy);min-height:1.2em;margin:6px 0 0;font-size:.92rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Lebah: Survei Sumur dengan Anggaran Terbatas</h1>
+  <p class="lead">Desa ingin menggali satu sumur di tempat air tanahnya paling melimpah. Tetapi setiap survei (bor uji) mahal, jadi jumlahnya dibatasi. Lapisan air tanah tersembunyi, dan satu-satunya cara tahu adalah menyurvei. Koloni lebah madu mencari titik terbaik dengan jumlah survei yang sama sedikitnya.</p>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <div class="seg" role="group" aria-label="Mode tampilan">
+          <button id="v2" type="button" aria-pressed="true">Peta 2D</button><button id="v3" type="button" aria-pressed="false">Maket 3D</button>
+        </div>
+        <div class="mapwrap">
+          <canvas id="map"></canvas>
+          <div id="three3d"></div>
+          <div class="cam3d" id="cam3d" hidden><button id="cTop" type="button">Dari atas</button><button id="cTilt" type="button">Miring</button></div>
+        </div>
+        <p class="hint">Titik kecil berwarna = hasil satu survei (biru: air sedikit, merah: air melimpah). Lapisan air tanah tersembunyi sampai pencarian selesai. Ketuk peta untuk menaruh atau menghapus lapisan air tanah buatanmu, dan nyalakan "Intip" untuk melihatnya.</p>
+        <p class="warn" id="msg" role="status"></p>
+        <div class="bar">
+          <button class="go" id="play" type="button">▶ Mulai survei</button>
+          <button id="reseed" type="button">↻ Ulangi</button>
+          <button id="sample" type="button">🎲 Kasus baru</button>
+          <button id="peek" type="button" aria-pressed="false">🔍 Intip</button>
+          <button id="voice" type="button" aria-pressed="false">🔇 Suara</button>
+          <button id="tour" type="button">❓ Tur singkat</button>
+        </div>
+        <details class="legend" open>
+          <summary>Arti gambar di peta</summary>
+          <div class="legendgrid">
+            <span><i style="background:#e8a11c;border:2px solid #fff"></i>Calon sumur yang dijaga lebah pekerja (angka = berapa kali berturut-turut tidak membaik)</span>
+            <span><i style="background:linear-gradient(90deg,#2b6fd1,#d9441a)"></i>Titik survei: biru air sedikit, merah air melimpah</span>
+            <span><i style="background:#f4d03f;border:2px solid #7a5b00"></i>Lebah yang sedang terbang menyurvei titik baru</span>
+            <span><i style="background:#c62d2d"></i>Sumur usulan (titik survei terbaik)</span>
+            <span><i style="background:#fff;border:3px solid #1c7a45"></i>Titik terbaik sebenarnya (muncul di akhir)</span>
+            <span><i style="background:rgba(20,120,140,.55)"></i>Lapisan air tanah (saat diintip atau di akhir)</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" aria-live="polite">
+        <h2>Apa yang sedang terjadi?</h2>
+        <p class="story" id="story"></p>
+        <div class="note" style="margin-top:8px">Anggaran survei: <b id="bTxt">0 / 300</b></div>
+        <div class="prog" aria-hidden="true"><div id="bar"></div></div>
+        <div id="tourBox" hidden style="margin-top:12px;padding:10px 12px;border:1px dashed var(--lagoon);border-radius:10px"><b id="tT"></b><p id="tX" class="note" style="margin:6px 0"></p><div class="bar" style="margin:0"><button id="tP" type="button" aria-label="Sebelumnya">⏮</button><button id="tN" class="go" type="button">Lanjut ⏭</button><button id="tC" type="button">Tutup</button></div></div>
+      </div>
+      <div class="card" aria-live="polite">
+        <h2>Hasilnya</h2>
+        <div class="answer"><strong id="aMain">—</strong><span id="aSub">Hasil muncul setelah anggaran habis.</span></div>
+        <span class="badge" id="aBadge">Belum dijalankan</span>
+        <p class="note" id="tally" aria-live="polite"></p>
+      </div>
+      <div class="card">
+        <h2>Atur sendiri</h2>
+        <div class="field"><label for="bud">Anggaran survei <b id="budV">300</b></label><input id="bud" type="range" min="100" max="1000" step="50" value="300"><small>Berapa kali boleh menyurvei. Makin kecil, makin sulit.</small></div>
+        <div class="field"><label for="sn">Calon sumur (jumlah lebah pekerja) <b id="snV">10</b></label><input id="sn" type="range" min="4" max="20" value="10"><small>Jumlah pengamat sama banyak. Lebah terbagi tiga peran: pekerja, pengamat, dan pengintai.</small></div>
+        <div class="field"><label for="lim">Batas kesabaran <b id="limV">10</b></label><input id="lim" type="range" min="2" max="30" value="10"><small>Berapa kali calon sumur boleh tidak membaik sebelum ditinggalkan dan diganti titik acak oleh pengintai.</small></div>
+        <div class="field"><label for="wt">Kekuatan lapisan air baru <b id="wtV">7</b></label><input id="wt" type="range" min="3" max="10" value="7"></div>
+        <div class="field"><label for="spd">Kecepatan <b id="spdV">1×</b></label><input id="spd" type="range" min="0.25" max="4" step="0.25" value="1"></div>
+        <details>
+          <summary>Seberapa andal?</summary>
+          <p class="note">Mengulang 30 kali di peta ini dengan anggaran yang sama: sekali memakai lebah dan sekali menyurvei titik acak. Dihitung berapa kali hasilnya mencapai 95% dari air terbaik sebenarnya.</p>
+          <button id="trial" type="button" style="width:100%">Bandingkan lebah dan survei acak</button>
+          <p class="note" id="trialOut" aria-live="polite"></p>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <details class="about">
+    <summary>Bagaimana lebah mencarinya?</summary>
+    <ol>
+      <li>Ada sejumlah calon sumur, masing-masing dijaga satu <b>lebah pekerja</b>. Di awal, calon sumur ditaruh acak dan masing-masing disurvei sekali.</li>
+      <li>Tiap pekerja menyurvei satu titik baru di dekat calon sumurnya, digeser ke arah (atau menjauhi) calon sumur lain yang dipilih acak. Bila titik baru lebih baik, calon sumur pindah ke sana. Bila tidak, ia tetap dan "kesabarannya" berkurang.</li>
+      <li>Lalu para <b>lebah pengamat</b> mengambil keputusan: mereka lebih sering memilih calon sumur yang airnya banyak, dan menyurvei titik baru di sekitarnya. Calon yang menjanjikan jadi lebih sering diperiksa.</li>
+      <li>Calon sumur yang terlalu lama tidak membaik ditinggalkan. <b>Lebah pengintai</b> menggantinya dengan titik acak baru, jadi pencarian tidak terjebak di satu tempat.</li>
+      <li>Setiap survei menghabiskan satu jatah anggaran. Saat habis, titik survei terbaik menjadi sumur usulan, lalu lapisan air sebenarnya dibuka untuk dicocokkan.</li>
+    </ol>
+    <ul>
+      <li>Ini miniatur. Potensi air dihitung dari beberapa lapisan buatan berbentuk lonceng, tanpa derau pengukuran, kedalaman, atau biaya galian. Jangan dipakai sendirian untuk menentukan lokasi sumur sungguhan.</li>
+      <li>Pembanding yang adil adalah survei acak dengan anggaran yang sama. Bila anggaran sangat besar, acak pun cukup. Keunggulan lebah paling terasa saat survei mahal dan jumlahnya sedikit.</li>
+      <li>Mengikuti Artificial Bee Colony (Karaboga, 2005), versi ruang 2 dimensi, perubahan satu arah (satu sumbu) tiap percobaan.</li>
+    </ul>
+  </details>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){'use strict';
+const $=id=>document.getElementById(id);
+const S=800,L=100,sc=S/L,U=S/640,MPU=10;
+const cv=$('map'),ctx=cv.getContext('2d');cv.width=cv.height=S;
+const clamp=v=>Math.max(0,Math.min(L,v));
+
+/* ===== kota ===== */
+const Rp=[12,30,50,69,88],Rw=[1.8,1.8,3.4,1.8,1.8];
+const edge=i=>[i===0?0:Rp[i-1]+Rw[i-1]/2,i===5?L:Rp[i]-Rw[i]/2];
+const SP={'2,2':{n:'Pasar Lama',c:'#e3a857'},'4,1':{n:'Sekolah',c:'#8fb3dd'},'1,4':{n:'Balai Warga',c:'#d29a7a'}};
+const blocks=[],lots=[];let sd=11;const rr=()=>(sd=sd*16807%2147483647)/2147483647;
+for(let i=0;i<=5;i++)for(let j=0;j<=5;j++){
+  const [x0,x1]=edge(i),[y0,y1]=edge(j),park=(i===3&&j===3),sp=SP[i+','+j];
+  blocks.push({x0,x1,y0,y1,park});
+  if(park)continue;
+  if(sp){const mx=(x1-x0)*.2,my=(y1-y0)*.2;lots.push({x0:x0+mx,x1:x1-mx,y0:y0+my,y1:y1-my,h:2,col:sp.c,n:sp.n});continue;}
+  const cols=x1-x0>11?3:2,rows=y1-y0>11?3:2,gw=(x1-x0)/cols,gh=(y1-y0)/rows;
+  for(let a=0;a<cols;a++)for(let c=0;c<rows;c++){const m=.55+rr()*.5;lots.push({x0:x0+a*gw+m,x1:x0+(a+1)*gw-m,y0:y0+c*gh+m,y1:y0+(c+1)*gh-m,h:1+rr()*2.4,col:'#dcd5c3'});}
+}
+const base=document.createElement('canvas');base.width=base.height=S;
+(function(){const c=base.getContext('2d');c.fillStyle='#fbf8ef';c.fillRect(0,0,S,S);
+  for(const b of blocks){const x=b.x0*sc,y=b.y0*sc,w=(b.x1-b.x0)*sc,h=(b.y1-b.y0)*sc;c.fillStyle='#d7d1bd';c.fillRect(x-3,y-3,w+6,h+6);c.fillStyle=b.park?'#cfe3c0':'#ebe7dc';c.fillRect(x,y,w,h);}
+  for(const l of lots){const x=l.x0*sc,y=l.y0*sc,w=(l.x1-l.x0)*sc,h=(l.y1-l.y0)*sc;c.fillStyle=l.col;c.fillRect(x,y,w,h);c.strokeStyle='#b0a98f';c.lineWidth=1.5;c.strokeRect(x,y,w,h);
+    if(l.n){c.fillStyle='#0d333b';c.font='bold '+12*U+'px system-ui';c.textAlign='center';c.fillText(l.n,x+w/2,y-6*U);}}
+})();
+
+/* ===== lapisan air tanah (tersembunyi) ===== */
+let aq=[],opt={x:0,y:0,v:1};
+const hc=document.createElement('canvas');hc.width=hc.height=100;const hx=hc.getContext('2d');let tex=null;
+function field(x,y){let s=3;for(const q of aq){const dx=x-q.x,dy=y-q.y;s+=100*q.a*Math.exp(-(dx*dx+dy*dy)/(2*q.s*q.s));}return s;}
+function rebuildField(){
+  opt={x:0,y:0,v:0};for(let x=0;x<=L;x+=.5)for(let y=0;y<=L;y+=.5){const v=field(x,y);if(v>opt.v)opt={x,y,v};}
+  const im=hx.createImageData(100,100);
+  for(let j=0;j<100;j++)for(let i=0;i<100;i++){const v=field(i+.5,j+.5),o=(j*100+i)*4;im.data[o]=20;im.data[o+1]=120;im.data[o+2]=140;im.data[o+3]=Math.round(255*Math.min(.8,v/opt.v*.85));}
+  hx.putImageData(im,0,0);if(tex)tex.needsUpdate=true;
+}
+function defaults(){aq=[{x:66,y:34,a:1,s:5},{x:25,y:70,a:.8,s:5},{x:30,y:25,a:.55,s:5}];}
+
+/* ===== ABC ===== */
+let src=[],ph=0,cyc=0,surveys=0,best=null,pts=[],done=false,playing=false,spd=1,view='2d',dirty3=true,acc=0,lastAct=null,peek=false;
+const SN=()=>+$('sn').value,B=()=>+$('bud').value,LIM=()=>+$('lim').value;
+function survey(x,y){const v=field(x,y);surveys++;pts.push({x,y,v});if(!best||v>best.v)best={x,y,v};return v;}
+function seed(){
+  src=[];ph=0;cyc=0;surveys=0;best=null;pts=[];done=false;lastAct=null;acc=0;runId++;lastSpoken='';
+  for(let i=0;i<SN();i++){const x=Math.random()*L,y=Math.random()*L;src.push({x,y,f:survey(x,y),t:0});}
+  if(surveys>=B())done=true;
+}
+function tryNear(i){
+  const s=src[i];let k=Math.floor(Math.random()*src.length);if(k===i)k=(k+1)%src.length;
+  const ax=Math.random()<.5,phi=Math.random()*2-1,nx=ax?clamp(s.x+phi*(s.x-src[k].x)):s.x,ny=ax?s.y:clamp(s.y+phi*(s.y-src[k].y));
+  const v=survey(nx,ny),ok=v>s.f;lastAct={from:{x:s.x,y:s.y},to:{x:nx,y:ny},role:'',ok,v,t0:tNow};
+  if(ok){s.x=nx;s.y=ny;s.f=v;s.t=0;}else s.t++;
+  return lastAct;
+}
+function step(){ /* tepat satu survei per panggilan */
+  const n=src.length;
+  for(;;){
+    if(ph<n){const a=tryNear(ph);a.role='pekerja';ph++;break;}
+    if(ph<2*n){let fm=0;for(const s of src)if(s.f>fm)fm=s.f;let tot=0;const pr=src.map(s=>.1+.9*s.f/fm);for(const p of pr)tot+=p;
+      let r=Math.random()*tot,i=0;for(;i<n-1;i++){r-=pr[i];if(r<=0)break;}
+      const a=tryNear(i);a.role='pengamat';ph++;break;}
+    if(ph===2*n){ph++;let bi=-1,bt=LIM();for(let i=0;i<n;i++)if(src[i].t>bt){bt=src[i].t;bi=i;}
+      if(bi>=0){const x=Math.random()*L,y=Math.random()*L,old={x:src[bi].x,y:src[bi].y};src[bi]={x,y,f:survey(x,y),t:0};lastAct={from:old,to:{x,y},role:'pengintai',ok:true,v:src[bi].f,t0:tNow};break;}
+      continue;}
+    ph=0;cyc++;
+  }
+  if(surveys>=B())done=true;
+}
+const meters=v=>Math.round(v*MPU);
+function randomBest(n){let b=0;for(let i=0;i<n;i++){const v=field(Math.random()*L,Math.random()*L);if(v>b)b=v;}return b;}
+
+/* ===== 2D ===== */
+const col=v=>'hsl('+(210-210*Math.min(1,v/100))+',80%,50%)';
+function bee(x,y,col2){ctx.fillStyle='rgba(255,255,255,.7)';ctx.beginPath();ctx.ellipse(x-4*U,y-5*U,5*U,3*U,-.5,0,6.2832);ctx.ellipse(x+4*U,y-5*U,5*U,3*U,.5,0,6.2832);ctx.fill();ctx.fillStyle=col2;ctx.strokeStyle='#4a3500';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(x,y,7*U,5*U,0,0,6.2832);ctx.fill();ctx.stroke();ctx.fillStyle='#4a3500';ctx.fillRect(x-2*U,y-4*U,2*U,8*U);}
+function draw2D(){
+  ctx.drawImage(base,0,0);
+  if(peek||done){ctx.imageSmoothingEnabled=true;ctx.drawImage(hc,0,0,S,S);}
+  if(done){ctx.strokeStyle='#1c7a45';ctx.lineWidth=4*U*.7;ctx.setLineDash([8,5]);ctx.beginPath();ctx.arc(opt.x*sc,opt.y*sc,17*U,0,6.2832);ctx.stroke();ctx.setLineDash([]);}
+  for(const p of pts){ctx.fillStyle=col(p.v);ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=1;ctx.beginPath();ctx.arc(p.x*sc,p.y*sc,3.2*U,0,6.2832);ctx.fill();ctx.stroke();}
+  src.forEach(s=>{const x=s.x*sc,y=s.y*sc;ctx.fillStyle='#e8a11c';ctx.strokeStyle='#fff';ctx.lineWidth=3*U*.7;ctx.beginPath();ctx.arc(x,y,9*U,0,6.2832);ctx.fill();ctx.stroke();ctx.fillStyle='#fff';ctx.font='bold '+11*U+'px system-ui';ctx.textAlign='center';ctx.fillText(s.t,x,y+4*U);});
+  if(lastAct&&!done){const k=Math.min(1,(tNow-lastAct.t0)/(1000/(30*spd))),a=lastAct,x=(a.from.x+(a.to.x-a.from.x)*k)*sc,y=(a.from.y+(a.to.y-a.from.y)*k)*sc;
+    ctx.strokeStyle=a.role==='pengintai'?'#8a3fb8':'#7a5b00';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(a.from.x*sc,a.from.y*sc);ctx.lineTo(a.to.x*sc,a.to.y*sc);ctx.stroke();ctx.setLineDash([]);bee(x,y,a.role==='pengamat'?'#f4d03f':a.role==='pengintai'?'#c9a0e8':'#e8a11c');}
+  if(best){const x=best.x*sc,y=best.y*sc;ctx.fillStyle='#c62d2d';ctx.strokeStyle='#fff';ctx.lineWidth=3*U*.7;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-9*U,y-18*U);ctx.arc(x,y-26*U,13*U,2.2,.94,false);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(x,y-26*U,4.5*U,0,6.2832);ctx.fill();}
+}
+
+/* ===== 3D ===== */
+let R,SC,CAM,heatM,ptsM,srcG,beeM,bestG,optM,cam={th:.55,ph:.95,r:108},tNow=0,ptsN=0;
+const MAXP=1100;
+function bx(x0,x1,y0,y1,h,c,y){const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,h,y1-y0),new THREE.MeshLambertMaterial({color:c}));m.position.set((x0+x1)/2-50,(y||0)+h/2,(y0+y1)/2-50);return m;}
+function init3D(){
+  if(R)return true;
+  try{R=new THREE.WebGLRenderer({antialias:true});}catch(e){R=null;return false;}
+  R.setPixelRatio(Math.min(2,window.devicePixelRatio||1));$('three3d').appendChild(R.domElement);
+  SC=new THREE.Scene();SC.background=new THREE.Color(0xd6e6e3);CAM=new THREE.PerspectiveCamera(45,1,1,600);
+  SC.add(new THREE.AmbientLight(0xffffff,.75));const dl=new THREE.DirectionalLight(0xffffff,.7);dl.position.set(40,90,30);SC.add(dl);
+  const g=new THREE.Mesh(new THREE.PlaneGeometry(L,L),new THREE.MeshLambertMaterial({color:0xb9b5a6}));g.rotation.x=-Math.PI/2;SC.add(g);
+  for(const b of blocks)SC.add(bx(b.x0,b.x1,b.y0,b.y1,.3,b.park?0xcfe3c0:0xebe7dc));
+  for(const l of lots)SC.add(bx(l.x0,l.x1,l.y0,l.y1,l.h*1.3,new THREE.Color(l.col),.3));
+  tex=new THREE.CanvasTexture(hc);heatM=new THREE.Mesh(new THREE.PlaneGeometry(L,L),new THREE.MeshBasicMaterial({map:tex,transparent:true,opacity:.7,depthWrite:false}));heatM.rotation.x=-Math.PI/2;heatM.position.y=4.8;SC.add(heatM);
+  const pg=new THREE.BufferGeometry();pg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(MAXP*3),3));pg.setAttribute('color',new THREE.BufferAttribute(new Float32Array(MAXP*3),3));pg.setDrawRange(0,0);
+  ptsM=new THREE.Points(pg,new THREE.PointsMaterial({size:2.6,vertexColors:true,sizeAttenuation:true}));ptsM.frustumCulled=false;SC.add(ptsM);
+  srcG=new THREE.Group();SC.add(srcG);
+  beeM=new THREE.Group();const bb=new THREE.Mesh(new THREE.SphereGeometry(1.1,12,8),new THREE.MeshLambertMaterial({color:0xf4d03f}));bb.scale.set(1.3,1,1);const w=new THREE.Mesh(new THREE.CircleGeometry(1.2,10),new THREE.MeshBasicMaterial({color:0xffffff,transparent:true,opacity:.6,side:THREE.DoubleSide}));w.rotation.x=-Math.PI/2;w.position.y=1.1;beeM.add(bb,w);SC.add(beeM);
+  bestG=new THREE.Group();const cone=new THREE.Mesh(new THREE.ConeGeometry(2.2,5,12),new THREE.MeshLambertMaterial({color:0xc62d2d}));cone.rotation.x=Math.PI;cone.position.y=3;const cl=new THREE.Mesh(new THREE.CylinderGeometry(.5,.5,30,8),new THREE.MeshBasicMaterial({color:0xc62d2d,transparent:true,opacity:.45}));cl.position.y=15;bestG.add(cone,cl);SC.add(bestG);
+  optM=new THREE.Mesh(new THREE.RingGeometry(5,6.4,32),new THREE.MeshBasicMaterial({color:0x1c7a45,side:THREE.DoubleSide}));optM.rotation.x=-Math.PI/2;SC.add(optM);
+  bind3D();dirty3=true;return true;
+}
+function sync3D(){
+  if(dirty3||srcG.children.length!==src.length){while(srcG.children.length)srcG.remove(srcG.children[0]);for(let i=0;i<src.length;i++){const c=new THREE.Mesh(new THREE.CylinderGeometry(1,1.4,1,12),new THREE.MeshLambertMaterial({color:0xe8a11c}));srcG.add(c);}dirty3=false;}
+  const pa=ptsM.geometry.attributes.position,ca=ptsM.geometry.attributes.color,c=new THREE.Color();
+  const n=Math.min(MAXP,pts.length);if(n!==ptsN||n===0){for(let i=0;i<n;i++){const p=pts[i];pa.setXYZ(i,p.x-50,5.5,p.y-50);c.setHSL((210-210*Math.min(1,p.v/100))/360,.8,.5);ca.setXYZ(i,c.r,c.g,c.b);}pa.needsUpdate=true;ca.needsUpdate=true;ptsM.geometry.setDrawRange(0,n);ptsN=n;}
+  src.forEach((s,i)=>{const m=srcG.children[i],h=3+s.f*.22;m.scale.y=h;m.position.set(s.x-50,5+h/2-4.5,s.y-50);});
+  heatM.visible=peek||done;
+  if(lastAct&&!done){const k=Math.min(1,(tNow-lastAct.t0)/(1000/(30*spd))),a=lastAct;beeM.visible=true;beeM.position.set(a.from.x+(a.to.x-a.from.x)*k-50,9+Math.sin(tNow/90)*.5+Math.sin(k*3.14)*4,a.from.y+(a.to.y-a.from.y)*k-50);}else beeM.visible=false;
+  bestG.visible=!!best;if(best)bestG.position.set(best.x-50,5,best.y-50);
+  optM.visible=done;if(done)optM.position.set(opt.x-50,5,opt.y-50);
+}
+function resize3D(){const b=$('three3d'),w=b.clientWidth,h=b.clientHeight;if(!w||!h)return;if(R.domElement.width!==Math.round(w*R.getPixelRatio())){R.setSize(w,h,false);CAM.aspect=w/h;CAM.updateProjectionMatrix();}}
+function draw3D(){
+  if(!R)return;resize3D();sync3D();
+  CAM.position.set(cam.r*Math.sin(cam.ph)*Math.sin(cam.th),cam.r*Math.cos(cam.ph),cam.r*Math.sin(cam.ph)*Math.cos(cam.th));CAM.lookAt(0,0,0);R.render(SC,CAM);
+}
+function bind3D(){
+  const el=R.domElement;let drag=null;
+  el.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,mv:0};el.setPointerCapture(e.pointerId);$('three3d').style.cursor='grabbing';});
+  el.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.mv+=Math.abs(dx)+Math.abs(dy);cam.th-=dx*.008;cam.ph=Math.max(.12,Math.min(1.45,cam.ph-dy*.008));drag.x=e.clientX;drag.y=e.clientY;});
+  el.addEventListener('pointerup',e=>{$('three3d').style.cursor='grab';if(drag&&drag.mv<6){const r=el.getBoundingClientRect(),v=new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1),rc=new THREE.Raycaster();rc.setFromCamera(v,CAM);
+    const o=rc.ray.origin,d=rc.ray.direction;if(d.y<-1e-4){const t=-o.y/d.y,x=o.x+d.x*t+50,y=o.z+d.z*t+50;if(x>=0&&x<=L&&y>=0&&y<=L)mapClick(x,y);}}drag=null;});
+  el.addEventListener('wheel',e=>{e.preventDefault();cam.r=Math.max(45,Math.min(180,cam.r*(e.deltaY>0?1.08:.92)));},{passive:false});
+}
+
+/* ===== interaksi ===== */
+function mapClick(x,y){
+  $('msg').textContent='';
+  const i=aq.findIndex(q=>Math.hypot(x-q.x,y-q.y)<5);
+  if(i>=0){if(aq.length>1)aq.splice(i,1);else{$('msg').textContent='Minimal harus ada satu lapisan air tanah.';return;}}
+  else if(aq.length>=5){$('msg').textContent='Lapisan air tanah maksimal 5.';return;}
+  else aq.push({x,y,a:+$('wt').value/10,s:5});
+  if(!peek&&!done)$('msg').textContent='Lapisan diubah. Nyalakan "Intip" bila ingin melihat letaknya.';
+  changed();
+}
+cv.addEventListener('click',e=>{const r=cv.getBoundingClientRect();mapClick((e.clientX-r.left)/r.width*L,(e.clientY-r.top)/r.height*L);});
+function changed(){playing=false;dirty3=true;rebuildField();seed();refresh();}
+function setView(v){view=v;$('v2').setAttribute('aria-pressed',v==='2d');$('v3').setAttribute('aria-pressed',v==='3d');
+  if(v==='3d'&&!init3D()){$('msg').textContent='Perangkat ini tidak mendukung tampilan 3D. Tampilan 2D tetap bisa dipakai.';view='2d';$('v2').setAttribute('aria-pressed',true);$('v3').setAttribute('aria-pressed',false);}
+  cv.style.display=view==='2d'?'block':'none';$('three3d').style.display=view==='3d'?'block':'none';$('cam3d').hidden=view!=='3d';ptsN=-1;}
+$('v2').onclick=()=>setView('2d');$('v3').onclick=()=>setView('3d');
+$('cTop').onclick=()=>{cam.ph=.12;cam.th=0;};$('cTilt').onclick=()=>{cam.ph=.95;cam.th=.55;cam.r=108;};
+$('play').onclick=()=>{if(done)seed();playing=!playing;refresh();};
+$('reseed').onclick=()=>{playing=false;seed();ptsN=-1;refresh();};
+$('peek').onclick=()=>{peek=!peek;$('peek').setAttribute('aria-pressed',peek);};
+$('sample').onclick=()=>{aq=[];const n=2+Math.floor(Math.random()*3);for(let i=0;i<n;i++)aq.push({x:10+Math.random()*80,y:10+Math.random()*80,a:.35+Math.random()*.65,s:4.5+Math.random()*2});changed();};
+['sn','lim','bud'].forEach(id=>$(id).oninput=()=>{$('snV').textContent=SN();$('limV').textContent=LIM();$('budV').textContent=B();playing=false;seed();ptsN=-1;refresh();});
+$('wt').oninput=()=>$('wtV').textContent=$('wt').value;
+$('spd').oninput=()=>{spd=+$('spd').value;$('spdV').textContent=spd+'×';};
+$('trial').onclick=()=>{let a=0,r=0;const th=opt.v*.95;
+  for(let t=0;t<30;t++){seed();while(!done)step();if(best.v>=th)a++;if(randomBest(B())>=th)r++;}
+  playing=false;seed();ptsN=-1;refresh();
+  $('trialOut').textContent='Dari 30 pencarian dengan anggaran '+B()+' survei: lebah mencapai 95% air terbaik '+a+' kali, survei acak '+r+' kali.';};
+
+/* ===== tur dan suara ===== */
+let voiceOn=false,lastSpoken='',tourOn=false,ti=0,runId=0,scored=-1;const tally={a:0,b:0};
+const VT={'0':'Calon sumur ditaruh acak dan tiap calon disurvei sekali. Lapisan air tanah tersembunyi.','1':'Lebah pekerja dan pengamat menyurvei titik baru di dekat calon sumur. Yang lebih baik menggantikan yang lama.','2':'Lebah pengamat lebih sering memeriksa calon sumur yang menjanjikan. Pengintai mengganti calon yang mandek.','3':'Anggaran hampir habis. Pencarian makin terfokus.','d':'Anggaran survei habis. Titik survei terbaik menjadi sumur usulan, lalu lapisan air sebenarnya dibuka.'};
+function say(t){if(!voiceOn||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='id-ID';const v=speechSynthesis.getVoices().find(x=>/^id/i.test(x.lang));if(v)u.voice=v;u.rate=.95;speechSynthesis.speak(u);}
+function speakMaybe(k){if(k===lastSpoken)return;lastSpoken=k;if(!tourOn)say(VT[k]);}
+if(!window.speechSynthesis)$('voice').disabled=true;
+$('voice').onclick=()=>{voiceOn=!voiceOn;$('voice').setAttribute('aria-pressed',voiceOn);$('voice').textContent=voiceOn?'🔊 Suara':'🔇 Suara';if(voiceOn){lastSpoken='';refresh();}else if(window.speechSynthesis)speechSynthesis.cancel();};
+const TS=[['1. Masalahnya','Desa ingin menggali satu sumur di tempat air tanahnya paling banyak. Lapisan air tersembunyi, dan tiap survei (bor uji) menghabiskan satu jatah anggaran.'],
+['2. Tiga peran lebah','Pekerja menjaga calon sumur dan menyurvei titik di dekatnya. Pengamat lebih sering memilih calon yang menjanjikan. Pengintai mengganti calon yang mandek dengan titik acak.'],
+['3. Batas kesabaran','Calon sumur yang berkali-kali tidak membaik ditinggalkan. Angka di dalam lingkaran oranye adalah hitungan kegagalan berturut-turut.'],
+['4. Coba sendiri','Kecilkan anggaran dan lihat betapa sulitnya. Ketuk peta untuk menaruh lapisan air baru, lalu nyalakan Intip untuk melihatnya.'],
+['5. Lihat dari 3D','Di maket 3D, tiap calon sumur menjadi tabung setinggi potensi airnya, dan titik survei melayang di atas kota. Tekan Mulai survei.']];
+function showTour(){const s=TS[ti];$('tT').textContent=s[0];$('tX').textContent=s[1];$('tN').textContent=ti===TS.length-1?'Selesai':'Lanjut ⏭';$('tourBox').hidden=false;if(ti===4)setView('3d');else if(view==='3d')setView('2d');say(s[1]);}
+function endTour(){tourOn=false;$('tourBox').hidden=true;if(window.speechSynthesis)speechSynthesis.cancel();lastSpoken='';}
+$('tour').onclick=()=>{tourOn=true;ti=0;showTour();};
+$('tN').onclick=()=>{if(ti>=TS.length-1){endTour();return;}ti++;showTour();};
+$('tP').onclick=()=>{if(ti>0){ti--;showTour();}};
+$('tC').onclick=endTour;
+
+/* ===== teks dan hasil ===== */
+function refresh(){
+  const p=surveys/B();$('bar').style.width=Math.min(100,p*100)+'%';$('bTxt').textContent=Math.min(surveys,B())+' / '+B();
+  $('play').textContent=playing?'⏸ Jeda':(done?'▶ Survei lagi':(surveys>SN()?'▶ Lanjutkan':'▶ Mulai survei'));
+  const s=surveys<=SN()?'Calon sumur ditaruh acak dan masing-masing disurvei sekali. Lapisan air tanah tersembunyi. Tekan Mulai survei.':done?'Anggaran survei habis. Titik survei terbaik menjadi sumur usulan (pin merah), lalu lapisan air sebenarnya dibuka. Lingkaran hijau putus-putus adalah titik terbaik sebenarnya.':(p<.35?'Pekerja dan pengamat menyurvei titik baru di dekat calon sumur. Yang lebih baik menggantikan yang lama.':p<.75?'Pengamat lebih sering memeriksa calon yang menjanjikan, dan pengintai mengganti calon yang mandek.':'Anggaran hampir habis dan pencarian makin terfokus. ')+' Terbaik sejauh ini: '+Math.round(best.v)+' liter/menit.';
+  $('story').textContent=s;speakMaybe(surveys<=SN()?'0':done?'d':p<.35?'1':p<.75?'2':'3');
+  if(!done){$('aMain').textContent=best?'Sementara: '+Math.round(best.v)+' liter/menit':'—';$('aSub').textContent=surveys>SN()?'Pencarian belum selesai.':'Hasil muncul setelah anggaran habis.';$('aBadge').textContent=surveys>SN()?'Sedang menyurvei':'Belum dijalankan';$('aBadge').className='badge';return;}
+  const pct=best.v/opt.v*100,ok=pct>=95;
+  let ra=0;for(let i=0;i<20;i++)ra+=randomBest(B())/opt.v*100;ra/=20;
+  if(scored!==runId&&!tourOn){scored=runId;tally[ok?'a':'b']++;$('tally').textContent='Catatan sesi ini: '+(tally.a+tally.b)+' pencarian selesai, '+tally.a+' mencapai 95%, '+tally.b+' kurang dari 95%.';}
+  $('aMain').textContent='Sumur di ('+meters(best.x)+', '+meters(best.y)+') m';
+  $('aSub').innerHTML='Air: '+Math.round(best.v)+' liter/menit, yaitu '+pct.toFixed(0)+'% dari terbaik sebenarnya ('+Math.round(opt.v)+' liter/menit di ('+meters(opt.x)+', '+meters(opt.y)+') m).<br>Survei terpakai: '+surveys+'. Rata-rata survei acak dengan anggaran sama: '+ra.toFixed(0)+'%.';
+  $('aBadge').textContent=ok?'Tepat: mencapai 95% atau lebih':pct>=80?'Mendekati: '+pct.toFixed(0)+'%':'Meleset: '+pct.toFixed(0)+'%';$('aBadge').className='badge '+(ok?'good':'mid');
+}
+
+/* ===== putaran ===== */
+let last=0;
+function loop(t){requestAnimationFrame(loop);tNow=t;const dt=Math.min(.1,(t-last)/1000||0);last=t;if(document.hidden)return;
+  if(playing&&!done){acc+=dt*30*spd;let n=0;while(acc>=1&&!done){step();acc--;n++;}if(n)refresh();if(done){playing=false;acc=0;refresh();}}
+  if(view==='3d')draw3D();else draw2D();}
+defaults();rebuildField();seed();refresh();requestAnimationFrame(loop);
+})();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

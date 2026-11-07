@@ -1,0 +1,22 @@
+{
+  "_catatan": "'thumbTone' mengatur warna blok placeholder visual (1-4) untuk item 'visual' yang belum punya gambar asli. 'tanggal' pada video/audio WAJIB diisi (format YYYY-MM-DD, tanggal upload/publikasi asli) — HOME mengurutkan otomatis dari tanggal terbaru, jadi entri baru boleh ditambahkan di posisi mana saja dalam array ini, tidak harus di paling atas. 'unggulan': true menandai video sebagai 'Video Pilihan' di HOME (maksimal 2 yang tampil di sana) — video yang ditandai unggulan TETAP muncul juga di 'Video Terbaru' sesuai urutan tanggalnya, tidak dikeluarkan dari daftar biasa. 'deskripsi' bersifat opsional, disimpan sebagai data cadangan (belum ditampilkan di HOME).",
+  "visual": [
+    { "id": "vis-001", "judul": "[Contoh] Poster Bait — Jejak Syair Santri", "thumbTone": 1, "tautan": "#" },
+    { "id": "vis-002", "judul": "[Contoh] Ilustrasi Lintasan Langit", "thumbTone": 2, "tautan": "#" },
+    { "id": "vis-003", "judul": "[Contoh] Dokumentasi Kajian Pondok", "thumbTone": 3, "tautan": "#" },
+    { "id": "vis-004", "judul": "[Contoh] Kartu Kutipan Herbal Nusantara", "thumbTone": 4, "tautan": "#" }
+  ],
+  "video": [
+    { "id": "vid-001", "judul": "Wanita Biasa Yang Sudah Dijamin Surga Semasa Hidupnya", "tanggal": "2020-08-11", "deskripsi": "Potongan dari ceramah ustadz Musthofa Al Buthoni dengan judul Sampai Jumpa di Surga", "unggulan": true, "tautanYoutube": "https://youtu.be/-TgpNiiRG-A?si=BDtOqtMinowzaapT" },
+    { "id": "vid-002", "judul": "Amal Sholeh Bahtera Lautan Dunia", "tanggal": "2020-08-21", "deskripsi": "Potongan dari ceramah ustadz Musthofa Al Buthoni dengan judul Muhasabah Akhir Tahun", "unggulan": true, "tautanYoutube": "https://youtu.be/QSxHEdi4xN0?si=wkrH0mqilpUEDM1X" },
+    { "id": "vid-003", "judul": "Islam Memuliakan Wanita - Ustadz Riyadh Bin Badr Bajrey", "tanggal": "2020-09-05", "deskripsi": "Join & Share\nsoundcloud.com/user-328676226\ninstagram.com/qiladat\nfacebook.com/profile.php?id=100054183161819", "unggulan": false, "tautanYoutube": "https://youtu.be/DkBkI6gQTj4?si=f0u_ifyaPIu5FTOq" },
+    { "id": "vid-004", "judul": "Pengenalan Bait-Bait Kesehatan Arjūzah Fī Tadbīr Asshihhah karya Ibnu Sina", "tanggal": "2022-09-14", "deskripsi": "", "unggulan": false, "tautanYoutube": "https://youtu.be/mRAMFOBOyqg?si=P2RXubb_FeT2FbfA" },
+    { "id": "vid-005", "judul": "Penjelasan Kenapa Saudi Sering Lebih Dulu Berganti Bulan Dari Indonesia", "tanggal": "2023-06-28", "deskripsi": "", "unggulan": false, "tautanYoutube": "https://youtu.be/5E5K0rHsfBI?si=Utn57R8zLuUqYIDd" },
+    { "id": "vid-006", "judul": "Menyentuh wanita membatalkan wudu? Simaklah ayat ini", "tanggal": "2023-08-12", "deskripsi": "", "unggulan": false, "tautanYoutube": "https://youtu.be/V0QeZJ6d2oE?si=BmihE0zbORE-QQKi" },
+    { "id": "vid-007", "judul": "Seberapa besar peluang besok hari ied?", "tanggal": "2024-04-09", "deskripsi": "", "unggulan": false, "tautanYoutube": "https://youtu.be/Kia4ERMCEcU?si=YC0r9d64hwVxE1VN" }
+  ],
+  "audio": [
+    { "id": "aud-001", "judul": "[Contoh] Pembacaan Bait — Jejak Syair Santri Eps. 7", "tanggal": "2026-08-05", "tautanSoundcloud": "#" },
+    { "id": "aud-002", "judul": "[Contoh] Audio Kajian Riyadhus Shalihin", "tanggal": "2026-08-20", "tautanSoundcloud": "#" }
+  ]
+}

@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proyeksi Peta — Dari Bola ke Bidang Datar</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0B0F1E;--panel:#141A30;--panel2:#1B2340;--ink:#E8E6F5;--soft:#9C9DC4;--electron:#4FD8E0;--plasma:#B26BFF;--line:#2A3158;--good:#3FA66B;--warn:#D9A441;--bad:#D9564A;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.65;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 24px 96px;}
+  header.hero{background:radial-gradient(ellipse at top,#1B2360 0%,#0B0F1E 65%);padding:56px 24px 40px;border-bottom:1px solid var(--line);}
+  header.hero .wrap{padding-bottom:0;}
+  .eyebrow{color:var(--plasma);font-size:0.9rem;margin:0 0 6px;font-weight:600;}
+  h1{font-size:clamp(1.6rem,4vw,2.3rem);margin:0 0 14px;font-weight:700;background:linear-gradient(90deg,var(--electron),var(--plasma));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .lede{max-width:640px;color:#C3C4E0;font-size:1.02rem;margin:0;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  h2{font-size:1.35rem;font-weight:700;margin:0 0 8px;color:var(--plasma);}
+  .sub{color:var(--soft);font-size:0.9rem;margin:0 0 16px;}
+  p{margin:0 0 14px;}
+  ul,ol{padding-left:22px;} li{margin-bottom:8px;}
+  .fam-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;margin:16px 0;}
+  .fam-card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;font-size:0.85rem;}
+  .fam-card b{color:var(--electron);}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;margin-top:16px;}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+  button{font-family:'Space Grotesk',sans-serif;background:var(--panel2);border:1px solid var(--line);color:var(--ink);padding:8px 14px;border-radius:6px;font-size:0.8rem;cursor:pointer;}
+  button.active{background:var(--electron);color:#0B0F1E;border-color:var(--electron);}
+  label.chk{display:flex;align-items:center;gap:6px;font-size:0.8rem;color:var(--soft);}
+  select{font-family:'Inter',sans-serif;background:var(--panel2);color:var(--ink);border:1px solid var(--line);padding:8px 10px;border-radius:6px;font-size:0.85rem;}
+  input[type=file]{color:var(--soft);font-size:0.8rem;}
+  .field{margin:12px 0;}
+  .field label{display:block;font-size:0.8rem;color:var(--soft);margin-bottom:6px;}
+  .field input[type=range]{width:100%;accent-color:var(--electron);}
+  .value{font-family:'JetBrains Mono',monospace;color:var(--electron);font-weight:600;}
+  .canvas-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+  @media (max-width:680px){.canvas-grid{grid-template-columns:1fr;}}
+  .canvas-box{background:#10152A;border:1px solid var(--line);border-radius:6px;overflow:hidden;text-align:center;}
+  .canvas-box canvas{display:block;width:100%;height:auto;}
+  .canvas-box .lbl{font-size:0.7rem;color:var(--soft);padding:6px;font-family:'JetBrains Mono',monospace;}
+  .status-line{font-size:0.8rem;color:var(--soft);margin-top:8px;text-align:center;}
+
+  .formula{background:#080B16;color:#C3C4E0;padding:12px 16px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.85rem;display:inline-block;margin:6px 0;}
+  .limits{background:#241B0F;border:1px solid #5A4A1E;border-radius:8px;padding:20px;}
+  .limits h3{margin-top:0;font-size:1rem;color:var(--warn);}
+  footer{padding:28px 24px;text-align:center;color:var(--soft);font-size:0.82rem;border-top:1px solid var(--line);}
+  a{color:var(--electron);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">JAZMI — Modul Sains · Kartografi Matematis</p>
+    <h1>Proyeksi Peta: Dari Bola ke Bidang Datar</h1>
+    <p class="lede">Bumi itu bola. Peta itu datar. Tidak ada cara memindahkan permukaan bola ke bidang datar tanpa merusak sesuatu — jarak, bentuk, arah, atau luas. Di sinilah Anda bisa mencoba sendiri delapan cara matematis mengatasinya, bahkan dengan gambar apa pun yang Anda punya.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section id="belajar">
+    <h2>Belajar</h2>
+    <p>Mengapa peta harus terdistorsi? Ini bukan soal teknologi cetak yang kurang canggih — ini fakta matematis murni. Teorema Egregium Gauss (1827) membuktikan permukaan lengkung seperti bola tidak bisa dipetakan ke bidang datar sambil mempertahankan semua jarak sekaligus. Setiap proyeksi peta terpaksa memilih: distorsi apa yang mau dikorbankan?</p>
+    <div class="fam-grid">
+      <div class="fam-card"><b>Konformal</b> — bentuk lokal terjaga (sudut benar), tapi luas bisa sangat membesar/mengecil. Contoh: Mercator.</div>
+      <div class="fam-card"><b>Equal-area</b> — luas selalu proporsional dengan aslinya, tapi bentuk bisa gepeng/melar. Contoh: Sinusoidal, Mollweide.</div>
+      <div class="fam-card"><b>Equidistant</b> — jarak dari satu titik pusat akurat ke segala arah, tapi tidak di tempat lain. Contoh: Azimuthal Equidistant.</div>
+      <div class="fam-card"><b>Kompromi</b> — tidak sempurna di aspek mana pun, tapi "kelihatan wajar" secara keseluruhan. Contoh: Orthographic (foto dari luar angkasa).</div>
+    </div>
+    <p>Berdasarkan bentuk bidang proyeksinya, tiga keluarga utama: <strong>silinder</strong> (Equirectangular, Mercator — dunia jadi persegi panjang), <strong>pseudo-silinder</strong> (Sinusoidal, Mollweide — dunia jadi bentuk daun/elips), dan <strong>azimuthal</strong> (Orthographic, Stereographic, Equidistant, Lambert — dunia dilihat dari satu titik seperti melihat bola dari luar).</p>
+  </section>
+
+  <section id="eksplorasi">
+    <h2>Eksplorasi — Mesin Proyeksi</h2>
+    <p class="sub">Unggah gambar apa pun — peta sungguhan atau bukan — dan alat ini akan memperlakukannya seolah gambar itu adalah proyeksi equirectangular (garis lintang-bujur lurus sederhana), lalu menghitung ulang setiap piksel ke proyeksi yang Anda pilih.</p>
+
+    <div class="panel">
+      <div class="toolbar">
+        <input type="file" id="file-input" accept="image/*">
+        <button id="btn-sample">🌍 Pakai Pola Uji Bawaan</button>
+        <button id="btn-wiki">🗺 Coba Peta Dunia (perlu internet)</button>
+      </div>
+
+      <div class="field">
+        <label>Proyeksi tujuan</label>
+        <select id="proj-select">
+          <optgroup label="Silinder">
+            <option value="equirect">Equirectangular (Plate Carrée)</option>
+            <option value="mercator">Mercator</option>
+          </optgroup>
+          <optgroup label="Pseudo-silinder (Equal-Area)">
+            <option value="sinusoidal">Sinusoidal</option>
+            <option value="mollweide">Mollweide</option>
+          </optgroup>
+          <optgroup label="Azimuthal">
+            <option value="orthographic">Orthographic (globe)</option>
+            <option value="stereographic">Stereographic</option>
+            <option value="equidistant">Azimuthal Equidistant</option>
+            <option value="lambert">Lambert Azimuthal Equal-Area</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="canvas-grid" id="azimuthal-controls-holder">
+        <div class="field">
+          <label>Pusat garis bujur (λ₀) — <span class="value" id="lon0-val">0</span>°</label>
+          <input type="range" id="lon0-slider" min="-180" max="180" step="1" value="0">
+        </div>
+        <div class="field">
+          <label>Pusat garis lintang (φ₁) — <span class="value" id="lat1-val">0</span>°</label>
+          <input type="range" id="lat1-slider" min="-90" max="90" step="1" value="0">
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <label class="chk"><input type="checkbox" id="chk-grid" checked> Graticule (garis lintang-bujur)</label>
+        <label class="chk"><input type="checkbox" id="chk-tissot"> Tissot's Indicatrix (lingkaran distorsi)</label>
+      </div>
+
+      <div class="canvas-grid">
+        <div class="canvas-box">
+          <canvas id="src-canvas" width="720" height="360"></canvas>
+          <div class="lbl">SUMBER (dianggap equirectangular)</div>
+        </div>
+        <div class="canvas-box">
+          <canvas id="out-canvas" width="720" height="480"></canvas>
+          <div class="lbl" id="out-label">HASIL PROYEKSI</div>
+        </div>
+      </div>
+      <div class="status-line" id="status-line">Menyiapkan pola uji…</div>
+    </div>
+  </section>
+
+  <section id="perhitungan">
+    <h2>Perhitungan</h2>
+    <p>Semua proyeksi di sini dihitung <strong>terbalik</strong> (inverse mapping): untuk setiap piksel di gambar hasil, ditentukan dulu koordinat (bujur λ, lintang φ) yang seharusnya muncul di situ, baru diambil warnanya dari gambar sumber pada posisi itu — pendekatan standar dalam rendering proyeksi peta digital.</p>
+    <p><strong>Mercator:</strong></p>
+    <div class="formula">y = ln(tan(π/4 + φ/2))</div>
+    <p><strong>Sinusoidal:</strong></p>
+    <div class="formula">x = λ·cos(φ), y = φ</div>
+    <p><strong>Mollweide</strong> (θ bantu, 2θ+sin2θ = π·sin φ):</p>
+    <div class="formula">x = (2√2/π)·λ·cos(θ), y = √2·sin(θ)</div>
+    <p><strong>Keluarga Azimuthal</strong> (satu formula umum, beda hanya pada hubungan ρ↔c):</p>
+    <div class="formula">φ = asin(cos(c)sin(φ₁) + (y·sin(c)cos(φ₁))/ρ)
+λ = λ₀ + atan2(x·sin(c), ρ·cos(c)cos(φ₁) − y·sin(c)sin(φ₁))</div>
+    <p>dengan ρ=√(x²+y²), dan c(ρ) berbeda tiap jenis: Orthographic c=asin(ρ), Stereographic c=2·atan(ρ/2), Equidistant c=ρ, Lambert Equal-Area c=2·asin(ρ/2).</p>
+  </section>
+
+  <section id="metode">
+    <h2>Metode</h2>
+    <p>Formula di atas diverifikasi terhadap rujukan standar kartografi matematis (Snyder, "Map Projections: A Working Manual", USGS Professional Paper 1395) — sumber formula proyeksi peta yang dipakai luas dalam GIS dan perangkat lunak pemetaan profesional.</p>
+  </section>
+
+  <section id="batasan">
+    <div class="limits">
+      <h3>Batasan</h3>
+      <ul>
+        <li><strong>Gambar yang bukan peta sungguhan akan tetap "berhasil" diproses secara matematis</strong> — mesin ini hanya menerapkan transformasi koordinat, tanpa tahu apakah gambarnya benar-benar mewakili Bumi. Hasilnya sah secara geometris (Anda benar-benar melihat efek proyeksinya), tapi tidak punya makna geografis kalau sumbernya bukan peta asli. Anggap ini sebagai "distorsi artistik yang jujur secara matematika", bukan peta sungguhan.</li>
+        <li>Pengambilan warna piksel memakai nearest-neighbor (bukan interpolasi bilinear) — hasil di resolusi rendah bisa terlihat sedikit bergerigi, terutama di dekat kutub atau tepi proyeksi.</li>
+        <li>Proyeksi konik (mis. Albers, Lambert Conformal Conic) belum tersedia di versi ini — hanya silinder, pseudo-silinder, dan azimuthal.</li>
+        <li>Tissot's Indicatrix di sini adalah pendekatan lingkaran kecil (~5° sudut) yang diproyeksikan langsung — bukan elips distorsi yang dihitung analitik penuh dari turunan parsial, tapi hasil visualnya tetap representatif.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="referensi">
+    <h2>Referensi</h2>
+    <ul>
+      <li>Snyder, J.P. (1987). <em>Map Projections: A Working Manual</em>. USGS Professional Paper 1395.</li>
+      <li>Wikipedia, entri "Map projection", "Mercator projection", "Mollweide projection", "Tissot's indicatrix".</li>
+    </ul>
+  </section>
+
+</div>
+
+<footer>JAZMI — Modul Sains · Proyeksi Peta · Belajar → Memodelkan → Menguji → Membuat</footer>
+
+<script>
+(function(){
+  const DEG=Math.PI/180;
+  const srcCanvas=document.getElementById('src-canvas');
+  const srcCtx=srcCanvas.getContext('2d', {willReadFrequently:true});
+  const outCanvas=document.getElementById('out-canvas');
+  const outCtx=outCanvas.getContext('2d');
+  const statusLine=document.getElementById('status-line');
+  const projSelect=document.getElementById('proj-select');
+  const azHolder=document.getElementById('azimuthal-controls-holder');
+  const lon0Slider=document.getElementById('lon0-slider'), lat1Slider=document.getElementById('lat1-slider');
+  const lon0Val=document.getElementById('lon0-val'), lat1Val=document.getElementById('lat1-val');
+  const chkGrid=document.getElementById('chk-grid'), chkTissot=document.getElementById('chk-tissot');
+  const outLabel=document.getElementById('out-label');
+  const SW=srcCanvas.width, SH=srcCanvas.height;
+
+  function drawSamplePattern(){
+    for(let y=0;y<SH;y++){
+      const lat=90-(y/SH)*180;
+      for(let x=0;x<SW;x++){
+        const lon=(x/SW)*360-180;
+        const hue=((lon+180)/360)*360;
+        const light= 35+25*Math.cos(lat*DEG);
+        srcCtx.fillStyle='hsl('+hue.toFixed(0)+',65%,'+light.toFixed(0)+'%)';
+        srcCtx.fillRect(x,y,1,1);
+      }
+    }
+    srcCtx.strokeStyle='rgba(255,255,255,0.55)'; srcCtx.lineWidth=1;
+    for(let lon=-180;lon<=180;lon+=30){
+      const x=(lon+180)/360*SW;
+      srcCtx.beginPath(); srcCtx.moveTo(x,0); srcCtx.lineTo(x,SH); srcCtx.stroke();
+    }
+    for(let lat=-60;lat<=60;lat+=30){
+      const y=(90-lat)/180*SH;
+      srcCtx.beginPath(); srcCtx.moveTo(0,y); srcCtx.lineTo(SW,y); srcCtx.stroke();
+    }
+    srcCtx.strokeStyle='#fff'; srcCtx.lineWidth=2;
+    srcCtx.beginPath(); srcCtx.moveTo(0,SH/2); srcCtx.lineTo(SW,SH/2); srcCtx.stroke();
+    statusLine.textContent='Pola uji bawaan siap — garis grid & ekuator tebal untuk menunjukkan distorsi dengan jelas.';
+    project();
+  }
+
+  document.getElementById('btn-sample').addEventListener('click', drawSamplePattern);
+  document.getElementById('file-input').addEventListener('change', (e)=>{
+    const file=e.target.files[0];
+    if(!file) return;
+    const img=new Image();
+    img.onload=()=>{
+      srcCtx.clearRect(0,0,SW,SH);
+      srcCtx.drawImage(img,0,0,SW,SH);
+      statusLine.textContent='Gambar Anda dimuat dan diperlakukan sebagai proyeksi equirectangular '+SW+'×'+SH+'.';
+      project();
+    };
+    img.src=URL.createObjectURL(file);
+  });
+  document.getElementById('btn-wiki').addEventListener('click', ()=>{
+    statusLine.textContent='Memuat peta dunia dari Wikimedia Commons…';
+    const img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=()=>{
+      try{
+        srcCtx.clearRect(0,0,SW,SH);
+        srcCtx.drawImage(img,0,0,SW,SH);
+        statusLine.textContent='Peta dunia dimuat.';
+        project();
+      }catch(err){
+        statusLine.textContent='Gagal membaca piksel gambar (kemungkinan dibatasi CORS). Gunakan tombol unggah gambar sendiri sebagai gantinya.';
+      }
+    };
+    img.onerror=()=>{ statusLine.textContent='Gagal memuat dari internet — cek koneksi, atau gunakan tombol unggah gambar sendiri.'; };
+    img.src='https://upload.wikimedia.org/wikipedia/commons/8/83/Equirectangular_projection_SW.jpg';
+  });
+
+  function inverseProject(type,px,py,W,H,lat1,lon0){
+    if(type==='equirect'){
+      const lon=(px/W)*360-180, lat=90-(py/H)*180;
+      return [lon,lat];
+    }
+    if(type==='mercator'){
+      const latLimit=85;
+      const lon=(px/W)*360-180;
+      const yMax=Math.log(Math.tan(Math.PI/4+(latLimit*DEG)/2));
+      const v=1-2*(py/H);
+      const y=v*yMax;
+      const lat=(2*Math.atan(Math.exp(y))-Math.PI/2)/DEG;
+      return [lon,lat];
+    }
+    if(type==='sinusoidal'){
+      const u=(px/W)*2-1, v=1-(py/H)*2;
+      const lat=v*90;
+      const cosLat=Math.cos(lat*DEG);
+      if(Math.abs(cosLat)<1e-6) return [0,lat];
+      const lon=(u*180)/cosLat;
+      if(lon<-180||lon>180) return null;
+      return [lon,lat];
+    }
+    if(type==='mollweide'){
+      const u=(px/W)*2-1, v=1-(py/H)*2;
+      const X=u*2*Math.SQRT2, Y=v*Math.SQRT2;
+      if((X*X)/8+(Y*Y)/2>1) return null;
+      const theta=Math.asin(Math.max(-1,Math.min(1,Y/Math.SQRT2)));
+      const lat=Math.asin(Math.max(-1,Math.min(1,(2*theta+Math.sin(2*theta))/Math.PI)))/DEG;
+      const cosTheta=Math.cos(theta);
+      const lon=Math.abs(cosTheta)<1e-6?0:(Math.PI*X)/(2*Math.SQRT2*cosTheta)/DEG;
+      if(lon<-180||lon>180) return null;
+      return [lon,lat];
+    }
+    // azimuthal family
+    const cx=W/2, cy=H/2;
+    const halfSize=Math.min(W,H)/2*0.92;
+    let rhoMax;
+    if(type==='orthographic') rhoMax=1;
+    else if(type==='stereographic') rhoMax=2*Math.tan(80*DEG);
+    else if(type==='equidistant') rhoMax=Math.PI;
+    else rhoMax=2; // lambert
+    const S=halfSize/rhoMax;
+    const x=(px-cx)/S, y=-(py-cy)/S;
+    const rho=Math.sqrt(x*x+y*y);
+    if(rho>rhoMax+1e-9) return null;
+    let c;
+    if(type==='orthographic') c=Math.asin(Math.min(1,rho));
+    else if(type==='stereographic') c=2*Math.atan(rho/2);
+    else if(type==='equidistant') c=rho;
+    else c=2*Math.asin(Math.min(1,rho/2));
+    const phi1=lat1*DEG, lam0=lon0*DEG;
+    if(rho<1e-9) return [lon0,lat1];
+    const sinC=Math.sin(c), cosC=Math.cos(c);
+    const latRad=Math.asin(Math.max(-1,Math.min(1, cosC*Math.sin(phi1)+(y*sinC*Math.cos(phi1))/rho)));
+    const lat=latRad/DEG;
+    const lonRad=lam0+Math.atan2(x*sinC, rho*cosC*Math.cos(phi1)-y*sinC*Math.sin(phi1));
+    let lon=(lonRad/DEG+180)%360; if(lon<0) lon+=360; lon-=180;
+    return [lon,lat];
+  }
+
+  function forwardProject(type,lon,lat,W,H,lat1,lon0){
+    if(type==='equirect') return [(lon+180)/360*W, (90-lat)/180*H];
+    if(type==='mercator'){
+      const latLimit=85, latC=Math.max(-latLimit,Math.min(latLimit,lat));
+      const yMax=Math.log(Math.tan(Math.PI/4+(latLimit*DEG)/2));
+      const y=Math.log(Math.tan(Math.PI/4+(latC*DEG)/2));
+      const v=y/yMax;
+      return [(lon+180)/360*W, (1-v)/2*H];
+    }
+    if(type==='sinusoidal'){
+      const u=lon*Math.cos(lat*DEG)/180, v=lat/90;
+      return [(u+1)/2*W, (1-v)/2*H];
+    }
+    if(type==='mollweide'){
+      let theta=lat*DEG;
+      const target=Math.PI*Math.sin(lat*DEG);
+      for(let i=0;i<8;i++){
+        const f=2*theta+Math.sin(2*theta)-target;
+        const fp=2+2*Math.cos(2*theta);
+        if(Math.abs(fp)<1e-9) break;
+        theta-=f/fp;
+      }
+      const X=(2*Math.SQRT2/Math.PI)*(lon*DEG)*Math.cos(theta);
+      const Y=Math.SQRT2*Math.sin(theta);
+      const u=X/(2*Math.SQRT2), v=Y/Math.SQRT2;
+      return [(u+1)/2*W, (1-v)/2*H];
+    }
+    // azimuthal
+    const cx=W/2, cy=H/2;
+    const halfSize=Math.min(W,H)/2*0.92;
+    let rhoMax;
+    if(type==='orthographic') rhoMax=1;
+    else if(type==='stereographic') rhoMax=2*Math.tan(80*DEG);
+    else if(type==='equidistant') rhoMax=Math.PI;
+    else rhoMax=2;
+    const S=halfSize/rhoMax;
+    const phi=lat*DEG, phi1=lat1*DEG, lam=lon*DEG, lam0=lon0*DEG;
+    const cosC=Math.sin(phi1)*Math.sin(phi)+Math.cos(phi1)*Math.cos(phi)*Math.cos(lam-lam0);
+    if(type==='orthographic' && cosC<0) return null;
+    const C=Math.acos(Math.max(-1,Math.min(1,cosC)));
+    let rho;
+    if(type==='orthographic') rho=Math.sin(C);
+    else if(type==='stereographic') rho=2*Math.tan(C/2);
+    else if(type==='equidistant') rho=C;
+    else rho=2*Math.sin(C/2);
+    if(rho>rhoMax) return null;
+    let x,y;
+    if(C<1e-9){ x=0;y=0; } else {
+      const k=rho/Math.sin(C);
+      x=k*Math.cos(phi)*Math.sin(lam-lam0);
+      y=k*(Math.cos(phi1)*Math.sin(phi)-Math.sin(phi1)*Math.cos(phi)*Math.cos(lam-lam0));
+    }
+    return [cx+x*S, cy-y*S];
+  }
+
+  function drawOverlay(type,W,H,lat1,lon0){
+    outCtx.strokeStyle='rgba(255,255,255,0.35)'; outCtx.lineWidth=1;
+    if(chkGrid.checked){
+      for(let lon=-180;lon<=180;lon+=30){
+        outCtx.beginPath(); let started=false;
+        for(let lat=-89;lat<=89;lat+=2){
+          const p=forwardProject(type,lon,lat,W,H,lat1,lon0);
+          if(!p){ started=false; continue; }
+          if(!started){ outCtx.moveTo(p[0],p[1]); started=true; } else outCtx.lineTo(p[0],p[1]);
+        }
+        outCtx.stroke();
+      }
+      for(let lat=-60;lat<=60;lat+=30){
+        outCtx.beginPath(); let started=false;
+        for(let lon=-180;lon<=180;lon+=2){
+          const p=forwardProject(type,lon,lat,W,H,lat1,lon0);
+          if(!p){ started=false; continue; }
+          if(!started){ outCtx.moveTo(p[0],p[1]); started=true; } else outCtx.lineTo(p[0],p[1]);
+        }
+        outCtx.stroke();
+      }
+    }
+    if(chkTissot.checked){
+      outCtx.strokeStyle='rgba(255,107,107,0.85)'; outCtx.lineWidth=1.3;
+      const r=5;
+      for(let lon=-150;lon<=150;lon+=30){
+        for(let lat=-60;lat<=60;lat+=30){
+          outCtx.beginPath(); let started=false;
+          for(let t=0;t<=360;t+=15){
+            const dLat=r*Math.cos(t*DEG);
+            const cosLat=Math.max(0.05,Math.cos(lat*DEG));
+            const dLon=r*Math.sin(t*DEG)/cosLat;
+            const p=forwardProject(type,lon+dLon,lat+dLat,W,H,lat1,lon0);
+            if(!p){ started=false; continue; }
+            if(!started){ outCtx.moveTo(p[0],p[1]); started=true; } else outCtx.lineTo(p[0],p[1]);
+          }
+          outCtx.stroke();
+        }
+      }
+    }
+  }
+
+  function project(){
+    const type=projSelect.value;
+    const lat1=parseFloat(lat1Slider.value), lon0=parseFloat(lon0Slider.value);
+    const isAzimuthal=['orthographic','stereographic','equidistant','lambert'].includes(type);
+    azHolder.style.display=isAzimuthal?'grid':'none';
+    const W=outCanvas.width, H = isAzimuthal? W : (type==='mollweide'? Math.round(W/2): Math.round(W*(9/16)));
+    outCanvas.height=H;
+    outLabel.textContent='HASIL PROYEKSI — '+projSelect.options[projSelect.selectedIndex].text.toUpperCase();
+
+    const srcData=srcCtx.getImageData(0,0,SW,SH).data;
+    const outImg=outCtx.createImageData(W,H);
+    const outData=outImg.data;
+
+    for(let py=0;py<H;py++){
+      for(let px=0;px<W;px++){
+        const res=inverseProject(type,px,py,W,H,lat1,lon0);
+        const idx=(py*W+px)*4;
+        if(!res){ outData[idx+3]=0; continue; }
+        let [lon,lat]=res;
+        lon=((lon+180)%360+360)%360-180;
+        lat=Math.max(-90,Math.min(90,lat));
+        const sx=Math.min(SW-1,Math.max(0,Math.floor((lon+180)/360*SW)));
+        const sy=Math.min(SH-1,Math.max(0,Math.floor((90-lat)/180*SH)));
+        const sIdx=(sy*SW+sx)*4;
+        outData[idx]=srcData[sIdx]; outData[idx+1]=srcData[sIdx+1]; outData[idx+2]=srcData[sIdx+2]; outData[idx+3]=255;
+      }
+    }
+    outCtx.putImageData(outImg,0,0);
+    drawOverlay(type,W,H,lat1,lon0);
+  }
+
+  projSelect.addEventListener('change', project);
+  lon0Slider.addEventListener('input', ()=>{ lon0Val.textContent=lon0Slider.value; project(); });
+  lat1Slider.addEventListener('input', ()=>{ lat1Val.textContent=lat1Slider.value; project(); });
+  chkGrid.addEventListener('change', project);
+  chkTissot.addEventListener('change', project);
+
+  drawSamplePattern();
+})();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

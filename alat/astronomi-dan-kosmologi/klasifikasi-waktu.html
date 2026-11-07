@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Klasifikasi Waktu — JAZMI</title>
+<style>
+  :root{
+    --bg:#0f1115;
+    --panel:#171a21;
+    --panel2:#1f232c;
+    --cyan:#5ac9c2;
+    --cyan-light:#8fe0da;
+    --violet:#8a7ac9;
+    --violet-light:#b3a6e0;
+    --amber:#d9a83e;
+    --amber-light:#eec878;
+    --green:#6b9e5a;
+    --green-light:#9ac988;
+    --text:#e4e8ee;
+    --text-soft:#8f96a8;
+    --line:#282d38;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;line-height:1.65;}
+  .wrap{max-width:940px;margin:0 auto;padding:36px 20px 70px;}
+  .eyebrow{color:var(--cyan-light);font-size:12px;letter-spacing:1.5px;text-transform:uppercase;margin:0 0 8px;}
+  h1{font-family:Georgia,"Iowan Old Style",serif;font-weight:normal;font-size:clamp(24px,4.5vw,34px);margin:0 0 10px;}
+  h2{font-family:Georgia,"Iowan Old Style",serif;font-weight:normal;font-size:21px;margin:46px 0 6px;padding-bottom:8px;border-bottom:1px solid var(--line);}
+  h2.astro{color:var(--cyan-light);}
+  h2.fisika{color:var(--violet-light);}
+  h2.bio{color:var(--green-light);}
+  h2.geo{color:var(--amber-light);}
+  h3{font-size:15px;color:var(--text);margin:18px 0 10px;}
+  p{color:var(--text-soft);font-size:15px;}
+  .lede{color:var(--text);font-size:16px;}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:22px 24px;}
+  .taxonomy{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-top:14px;}
+  .taxbox{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:12px 14px;font-size:13px;}
+  .taxbox b{display:block;font-size:13.5px;margin-bottom:4px;}
+  .field{margin:14px 0;}
+  .field label{display:block;font-size:13px;color:var(--text-soft);margin-bottom:8px;}
+  input[type=range],input[type=number]{width:100%;}
+  input[type=number]{background:var(--panel2);border:1px solid var(--line);border-radius:6px;color:var(--text);padding:8px 10px;font-size:14px;}
+  .tabrow{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+  .tabrow button{background:var(--panel2);border:1px solid var(--line);color:var(--text);padding:8px 14px;border-radius:6px;font-size:13px;cursor:pointer;}
+  .tabrow button.active{border-color:var(--cyan);background:#1a3330;color:var(--cyan-light);}
+  svg{display:block;width:100%;height:auto;}
+  .readout{border-radius:8px;padding:14px 18px;margin-top:14px;border:1px solid var(--line);display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;}
+  .readout .item .label{font-size:11px;color:var(--text-soft);text-transform:uppercase;letter-spacing:0.5px;}
+  .readout .item .value{font-size:17px;font-weight:600;}
+  ul{color:var(--text-soft);font-size:14.5px;padding-left:20px;}
+  li{margin-bottom:6px;}
+  .refs li{font-size:13px;}
+  footer{margin-top:44px;font-size:12px;color:var(--text-soft);border-top:1px solid var(--line);padding-top:16px;}
+  .correction{background:#241a0e;border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:12px 16px;margin-top:14px;font-size:13.5px;}
+  .subclass{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:14px 16px;margin-top:12px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">Laboratorium alat · JAZMI</p>
+    <h1>Klasifikasi waktu berdasarkan kelas objek</h1>
+    <p class="lede">"Waktu" bukan satu hal tunggal — sains punya beberapa definisi berbeda tentang apa yang dijadikan acuan untuk mengukurnya. Halaman ini menyusun taksonominya dan membangun simulator kecil untuk tiap kelas, supaya bisa benar-benar diotak-atik, bukan cuma dibaca.</p>
+  </header>
+
+  <h2>Belajar — Peta Taksonomi</h2>
+  <div class="panel">
+    <p>Klasifikasi Anda sudah tepat sebagian besar — saya luruskan dan lengkapi sedikit:</p>
+    <div class="taxonomy">
+      <div class="taxbox" style="border-left:3px solid var(--cyan);"><b style="color:var(--cyan-light);">1. Waktu Astronomis</b>Acuan: benda langit &amp; gerakannya. Solar (matahari), sideris (bintang tetap), efemeris (posisi orbital, kini historis).</div>
+      <div class="taxbox" style="border-left:3px solid var(--violet);"><b style="color:var(--violet-light);">2. Waktu Fisika</b>Acuan: proses fisis fundamental. <em>Bukan satu hal</em> — ada tiga sub-jenis berbeda: atom, konstanta alam semesta (Planck), dan waktu relativistik (bukan mutlak).</div>
+      <div class="taxbox" style="border-left:3px solid var(--green);"><b style="color:var(--green-light);">3. Waktu Biologis</b>Acuan: proses hayati berulang. Ritme sirkadian (~24 jam), bukan "waktu sel" tunggal — ada juga jam epigenetik (usia biologis).</div>
+      <div class="taxbox" style="border-left:3px solid var(--amber);"><b style="color:var(--amber-light);">4. Waktu Geologis</b>Acuan: peluruhan radioaktif skala sangat panjang. Kelas yang terlewat dari daftar Anda — dasarnya fisika, tapi dipakai untuk skala waktu berbeda total (jutaan-miliaran tahun).</div>
+      <div class="taxbox" style="border-left:3px solid var(--text-soft);"><b>+ Waktu Digital &amp; Psikologis</b>Dua kelas tambahan yang layak disebut, dibahas ringkas di bagian akhir.</div>
+    </div>
+    <div class="correction">
+      <strong>Koreksi kecil atas dugaan Anda:</strong> "waktu berdasarkan konstanta alam semesta" itu memang <em>bukan</em> sinonim Atomic Time — itu konsep terpisah (waktu Planck), sama-sama masuk kelas fisika tapi mekanismenya beda total: Atomic Time berbasis satu <em>proses</em> tertentu (transisi elektron atom Cesium), sementara waktu Planck berbasis <em>konstanta</em> murni (kecepatan cahaya, konstanta gravitasi, konstanta Planck) tanpa merujuk proses fisis spesifik apa pun. Keduanya saya buatkan bagian terpisah di bawah.
+    </div>
+  </div>
+
+  <h2 class="astro">Kelas 1 — Waktu Astronomis</h2>
+  <div class="panel">
+    <p>Ada dua "hari" yang berbeda tergantung acuannya: hari matahari (Bumi berputar sampai Matahari kembali ke posisi yang sama) dan hari sideris (Bumi berputar sampai bintang tetap kembali ke posisi yang sama). Karena Bumi juga bergerak mengelilingi Matahari, hari sideris sedikit lebih pendek.</p>
+    <div class="tabrow" id="astroTab">
+      <button data-t="solar" class="active">Waktu Matahari</button>
+      <button data-t="sidereal">Waktu Sideris</button>
+    </div>
+    <div id="astroSolar">
+      <p style="font-size:13.5px;">Jam yang kita pakai sehari-hari (waktu matahari <em>rata-rata</em>) berbeda dari posisi Matahari <em>sesungguhnya</em> di langit (waktu matahari <em>semu</em>) — selisihnya disebut "equation of time", berayun antara −14 dan +16 menit sepanjang tahun akibat kemiringan sumbu Bumi dan bentuk orbit yang elips.</p>
+      <div class="field">
+        <label>Hari ke- dalam setahun — <span id="doyLabel"></span></label>
+        <input type="range" id="doySlider" min="1" max="365" value="32">
+      </div>
+      <svg id="eotSvg" viewBox="0 0 700 200"></svg>
+      <div class="readout" style="border-color:var(--cyan);">
+        <div class="item"><div class="label">Equation of Time</div><div class="value" id="eotOut" style="color:var(--cyan-light);"></div></div>
+      </div>
+    </div>
+    <div id="astroSidereal" style="display:none;">
+      <p style="font-size:13.5px;">Hari sideris = 23j 56m 4,09d — lebih pendek 235,9 detik dari hari matahari (86.400 detik tepat, karena memang begitulah hari matahari didefinisikan).</p>
+      <div class="field">
+        <label>Jumlah hari matahari berlalu — <span id="ndaysLabel"></span></label>
+        <input type="range" id="ndaysSlider" min="1" max="730" value="365">
+      </div>
+      <div class="readout" style="border-color:var(--cyan);">
+        <div class="item"><div class="label">Jumlah hari sideris dalam rentang sama</div><div class="value" id="siderealCountOut" style="color:var(--cyan-light);"></div></div>
+        <div class="item"><div class="label">Selisih waktu terakumulasi</div><div class="value" id="siderealDiffOut" style="color:var(--cyan-light);"></div></div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--text-soft);margin-top:14px;"><strong>Waktu Efemeris</strong> (Ephemeris Time, ET) — standar historis 1952–1984, didefinisikan dari posisi orbital Bumi terhadap Matahari pada tahun acuan 1900, dipakai karena rotasi Bumi ternyata tidak cukup stabil untuk fisika presisi tinggi. Digantikan Waktu Terestrial (TT) tahun 1984 setelah jam atom terbukti jauh lebih stabil — jadi ET murni catatan sejarah standar waktu, tidak lagi dipakai aktif.</p>
+  </div>
+
+  <h2 class="fisika">Kelas 2 — Waktu Fisika</h2>
+  <div class="panel">
+    <div class="tabrow" id="fisikaTab">
+      <button data-t="atomic" class="active">Waktu Atom</button>
+      <button data-t="planck">Waktu Planck</button>
+      <button data-t="relativity">Waktu Relativistik</button>
+    </div>
+
+    <div id="fisikaAtomic">
+      <p style="font-size:13.5px;">Sejak 1967, satu detik SI didefinisikan bukan dari astronomi, tapi dari fisika kuantum murni: durasi 9.192.631.770 periode radiasi transisi hyperfine atom Cesium-133. Definisi ini sengaja dipilih supaya sangat stabil dan bisa direproduksi di laboratorium mana pun di dunia, tidak bergantung rotasi Bumi yang ternyata melambat tidak beraturan.</p>
+      <div class="subclass">
+        <p style="font-size:13px;color:var(--text-soft);margin:0;">1 detik = 9.192.631.770 × periode radiasi Cs-133 (definisi eksak, 1967, disempurnakan 2019)</p>
+      </div>
+    </div>
+
+    <div id="fisikaPlanck" style="display:none;">
+      <p style="font-size:13.5px;">Waktu Planck dibangun murni dari tiga konstanta fundamental alam semesta — kecepatan cahaya (c), konstanta gravitasi (G), dan konstanta Planck tereduksi (ħ) — tanpa merujuk pada satu proses fisis tertentu. Ini adalah "andaikan" yang paling murni: geser konstantanya, lihat sendiri bagaimana skala waktu terkecil yang bermakna secara fisis ikut berubah.</p>
+      <div class="field">
+        <label>Kecepatan cahaya, c (× nilai asli) — <span id="cLabel"></span></label>
+        <input type="range" id="cSlider" min="0.1" max="3" value="1" step="0.05">
+      </div>
+      <div class="field">
+        <label>Konstanta gravitasi, G (× nilai asli) — <span id="gLabel"></span></label>
+        <input type="range" id="gSlider" min="0.1" max="3" value="1" step="0.05">
+      </div>
+      <div class="field">
+        <label>Konstanta Planck, ħ (× nilai asli) — <span id="hLabel"></span></label>
+        <input type="range" id="hSlider" min="0.1" max="3" value="1" step="0.05">
+      </div>
+      <div class="readout" style="border-color:var(--violet);">
+        <div class="item"><div class="label">Waktu Planck</div><div class="value" id="planckTimeOut" style="color:var(--violet-light);"></div></div>
+        <div class="item"><div class="label">Panjang Planck</div><div class="value" id="planckLengthOut" style="color:var(--violet-light);"></div></div>
+        <div class="item"><div class="label">Massa Planck</div><div class="value" id="planckMassOut" style="color:var(--violet-light);"></div></div>
+      </div>
+    </div>
+
+    <div id="fisikaRelativity" style="display:none;">
+      <p style="font-size:13.5px;">Relativitas menunjukkan waktu <em>bukan</em> mutlak — jam yang bergerak cepat berjalan lebih lambat (Relativitas Khusus), dan jam di medan gravitasi lebih lemah berjalan lebih cepat (Relativitas Umum). Contoh nyata: satelit GPS mengalami keduanya sekaligus.</p>
+      <div class="field">
+        <label>Kecepatan satelit (m/s) — <span id="velLabel"></span></label>
+        <input type="range" id="velSlider" min="0" max="10000" value="3874" step="10">
+      </div>
+      <div class="field">
+        <label>Ketinggian orbit (km) — <span id="altLabel"></span></label>
+        <input type="range" id="altSlider" min="200" max="35000" value="20200" step="100">
+      </div>
+      <div class="readout" style="border-color:var(--violet);">
+        <div class="item"><div class="label">Efek kecepatan (jam melambat)</div><div class="value" id="velEffectOut" style="color:var(--violet-light);"></div></div>
+        <div class="item"><div class="label">Efek gravitasi (jam mempercepat)</div><div class="value" id="gravEffectOut" style="color:var(--violet-light);"></div></div>
+        <div class="item"><div class="label">Efek bersih per hari</div><div class="value" id="netEffectOut" style="color:var(--violet-light);"></div></div>
+      </div>
+      <p style="font-size:12px;color:var(--text-soft);margin-top:8px;">Nilai bawaan (kecepatan 3874 m/s, ketinggian 20.200 km) adalah parameter satelit GPS sungguhan — hasilnya (~38,5 mikrodetik/hari) sesuai angka yang dikenal luas dan memang harus dikoreksi software GPS supaya presisi lokasinya tidak melenceng.</p>
+    </div>
+  </div>
+
+  <h2 class="bio">Kelas 3 — Waktu Biologis</h2>
+  <div class="panel">
+    <p>Bukan "waktu sel" tunggal — yang paling terdokumentasi adalah <strong>ritme sirkadian</strong>: osilator biologis internal (dikendalikan gen jam seperti CLOCK, BMAL1, PER, CRY — risetnya meraih Nobel Fisiologi/Kedokteran 2017) yang secara alami punya periode "berjalan bebas" mendekati tapi tidak persis 24 jam, lalu disinkronkan ulang tiap hari oleh cahaya (zeitgeber).</p>
+    <div class="field">
+      <label>Periode berjalan-bebas ritme sirkadian (jam) — <span id="periodLabel"></span></label>
+      <input type="range" id="periodSlider" min="23.5" max="25.5" value="24.2" step="0.1">
+    </div>
+    <div class="tabrow" id="bioTab">
+      <button data-t="entrained" class="active">Tersinkron cahaya</button>
+      <button data-t="freerun">Berjalan bebas (isolasi)</button>
+    </div>
+    <svg id="circadianSvg" viewBox="0 0 700 220"></svg>
+    <p style="font-size:12.5px;color:var(--text-soft);margin-top:6px;" id="circadianNote"></p>
+  </div>
+
+  <h2 class="geo">Kelas 4 — Waktu Geologis (usulan tambahan)</h2>
+  <div class="panel">
+    <p>Ini kelas yang terlewat dari daftar Anda — dasarnya sama-sama fisika (peluruhan radioaktif), tapi dipakai di skala waktu yang jauh lebih panjang (ribuan sampai miliaran tahun), dan tujuannya berbeda: menanggalkan usia batuan, fosil, dan artefak, bukan mengukur detik.</p>
+    <div class="field">
+      <label>Isotop</label>
+      <div class="tabrow" id="isotopeTab">
+        <button data-t14="5730" class="active">Karbon-14 (arkeologi, t½=5.730 tahun)</button>
+        <button data-t14="1250000000">Kalium-40 (geologi, t½=1,25 miliar tahun)</button>
+        <button data-t14="4468000000">Uranium-238 (geologi dalam, t½=4,47 miliar tahun)</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Usia sampel (dalam kelipatan waktu-paruh) — <span id="halflifeMultLabel"></span></label>
+      <input type="range" id="halflifeMultSlider" min="0" max="6" value="1" step="0.1">
+    </div>
+    <div class="readout" style="border-color:var(--amber);">
+      <div class="item"><div class="label">Fraksi isotop tersisa</div><div class="value" id="remainOut" style="color:var(--amber-light);"></div></div>
+      <div class="item"><div class="label">Usia sampel</div><div class="value" id="ageOut" style="color:var(--amber-light);"></div></div>
+    </div>
+  </div>
+
+  <h2 style="color:var(--text-soft);">Dua kelas tambahan (ringkas)</h2>
+  <div class="panel">
+    <h3>Waktu Digital</h3>
+    <p style="font-size:13.5px;">Sistem komputer memakai "Unix time" — hitungan detik sejak 1 Januari 1970, 00:00 UTC — sebagai acuan universal yang diselaraskan lewat protokol jaringan (NTP) ke server atom. Ini bukan kelas fisis baru, tapi konvensi rekayasa yang dibangun di atas Waktu Atom (kelas 2).</p>
+    <h3>Waktu Psikologis / Subjektif</h3>
+    <p style="font-size:13.5px;">Persepsi waktu manusia nyata diteliti psikologi (dipengaruhi usia, perhatian, emosi, dosis dopamin, dsb.) — tapi sifatnya subjektif dan tidak bisa diukur dengan satu formula universal seperti kelas-kelas lain, jadi saya tidak buatkan kalkulator untuknya di sini agar tidak berpura-pura presisi yang tidak dimiliki bidang ini.</p>
+  </div>
+
+  <h2 style="color:var(--text-soft);">Metode</h2>
+  <div class="panel">
+    <ul>
+      <li>Equation of time: EoT (menit) = 9,87×sin(2B) − 7,53×cos(B) − 1,5×sin(B), B=360°/365×(hari−81) — pendekatan NOAA standar, diverifikasi menghasilkan −13,7 menit di 1 Feb dan +16,4 menit di 1 Nov, sesuai nilai yang dikenal luas.</li>
+      <li>Hari sideris = 86.164,0905 detik (tetap); hari matahari = 86.400 detik (definisi).</li>
+      <li>Waktu Planck: t_P=√(ħG/c⁵), l_P=√(ħG/c³), m_P=√(ħc/G).</li>
+      <li>Dilatasi waktu kecepatan: faktor Lorentz γ=1/√(1−v²/c²). Dilatasi gravitasi (pendekatan lemah): ΔΦ/c² dengan Φ=−GM/r.</li>
+      <li>Peluruhan radioaktif: N(t)/N₀=(1/2)^(t/t½).</li>
+      <li><strong>Semua rumus di atas sudah diverifikasi numerik</strong> sebelum ditanam ke kalkulator — termasuk kasus GPS yang menghasilkan ≈38,5 mikrodetik/hari, sangat dekat dengan angka ≈38 mikrodetik/hari yang dikenal luas dalam literatur GPS.</li>
+    </ul>
+  </div>
+
+  <h2 style="color:var(--text-soft);">Batasan</h2>
+  <div class="panel">
+    <ul>
+      <li>Equation of time memakai rumus pendekatan (bukan hasil integrasi orbital penuh) — akurat sampai sekitar puluhan detik, cukup untuk memahami prinsipnya, bukan untuk almanak navigasi presisi.</li>
+      <li>Model ritme sirkadian di sini adalah osilator sinusoidal sangat disederhanakan — biologi jam tubuh sesungguhnya jauh lebih kompleks (melibatkan banyak gen, jaringan berbeda, respons cahaya yang tidak linear).</li>
+      <li>Dilatasi gravitasi memakai pendekatan medan lemah (Newtonian potential/c²) — cukup akurat untuk kasus GPS, tapi bukan solusi penuh persamaan medan Einstein untuk medan gravitasi sangat kuat (dekat lubang hitam, misalnya).</li>
+      <li>Kalkulator peluruhan radioaktif murni menghitung fraksi tersisa dari waktu-paruh — penanggalan radiometrik sungguhan di lapangan jauh lebih rumit (kontaminasi sampel, rasio isotop awal, kalibrasi silang berbagai metode).</li>
+      <li>Kelas "Waktu Digital" dan "Waktu Psikologis" sengaja tidak diberi kalkulator numerik — yang pertama murni konvensi rekayasa di atas Waktu Atom, yang kedua secara inheren subjektif dan tidak punya rumus universal yang bisa dipertanggungjawabkan.</li>
+    </ul>
+  </div>
+
+  <h2 style="color:var(--text-soft);">Referensi</h2>
+  <div class="panel refs">
+    <ul>
+      <li>NOAA Global Monitoring Laboratory — "Equation of Time."</li>
+      <li>BIPM — "SI second" (definisi 1967 &amp; 2019).</li>
+      <li>NIST — "Ephemeris Time" &amp; "Terrestrial Time," sejarah standar waktu.</li>
+      <li>Ashby, N. — "Relativity in the Global Positioning System," <em>Living Reviews in Relativity</em>, 2003.</li>
+      <li>Hall, Rosbash, Young — riset gen jam sirkadian, Nobel Fisiologi/Kedokteran 2017.</li>
+      <li>Planck units — CODATA (nilai konstanta fisika fundamental).</li>
+      <li>USGS — prinsip penanggalan radiometrik (radiocarbon, K-Ar, U-Pb).</li>
+    </ul>
+  </div>
+
+  <footer>
+    Prototipe berdiri sendiri untuk proyek JAZMI, mengikuti metode Belajar → Model → Uji → Tool. Semua rumus fisika diverifikasi numerik terlebih dulu (equation of time, Planck units, dilatasi waktu GPS) sebelum ditanam ke kalkulator.
+  </footer>
+</div>
+
+<script>
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs){ const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); return e; }
+
+// ===== TAB SWITCHERS =====
+function setupTabs(rowId, panels){
+  document.getElementById(rowId).querySelectorAll('button').forEach(b=>{
+    b.addEventListener('click', ()=>{
+      document.getElementById(rowId).querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+      b.classList.add('active');
+      Object.keys(panels).forEach(k=>{
+        document.getElementById(panels[k]).style.display = (k===b.dataset.t) ? 'block' : 'none';
+      });
+      if(rowId==='bioTab') updateCircadian();
+    });
+  });
+}
+setupTabs('astroTab', {solar:'astroSolar', sidereal:'astroSidereal'});
+setupTabs('fisikaTab', {atomic:'fisikaAtomic', planck:'fisikaPlanck', relativity:'fisikaRelativity'});
+
+// ===== KELAS 1: ASTRONOMIS =====
+function eot(doy){
+  const B = (360/365)*(doy-81)*Math.PI/180;
+  return 9.87*Math.sin(2*B) - 7.53*Math.cos(B) - 1.5*Math.sin(B);
+}
+function updateEot(){
+  const doy = parseInt(document.getElementById('doySlider').value);
+  document.getElementById('doyLabel').textContent = 'hari ke-'+doy;
+  const val = eot(doy);
+  document.getElementById('eotOut').textContent = (val>=0?'+':'')+val.toFixed(2)+' menit';
+
+  const svg = document.getElementById('eotSvg');
+  svg.innerHTML='';
+  const w=700,h=200,padL=50,padR=20,padT=15,padB=25;
+  svg.appendChild(el('rect',{x:0,y:0,width:w,height:h,fill:'#171a21'}));
+  const yScale=(v)=> h/2 - v*6;
+  svg.appendChild(el('line',{x1:padL,y1:h/2,x2:w-padR,y2:h/2,stroke:'#282d38','stroke-width':1}));
+  let path='';
+  for(let d=1;d<=365;d++){
+    const x=padL+(d-1)/364*(w-padL-padR);
+    const y=yScale(eot(d));
+    path += (d===1?'M ':' L ')+x+' '+y;
+  }
+  svg.appendChild(el('path',{d:path,fill:'none',stroke:'#5ac9c2','stroke-width':2}));
+  const cx = padL+(doy-1)/364*(w-padL-padR);
+  svg.appendChild(el('circle',{cx:cx,cy:yScale(eot(doy)),r:5,fill:'#8fe0da'}));
+  svg.appendChild(el('line',{x1:cx,y1:0,x2:cx,y2:h,stroke:'#8fe0da55','stroke-width':1}));
+}
+document.getElementById('doySlider').addEventListener('input', updateEot);
+
+function updateSidereal(){
+  const nDays = parseInt(document.getElementById('ndaysSlider').value);
+  document.getElementById('ndaysLabel').textContent = nDays+' hari matahari';
+  const solarSeconds = nDays*86400;
+  const siderealDays = solarSeconds/86164.0905;
+  const diffSeconds = solarSeconds - nDays*86164.0905;
+  document.getElementById('siderealCountOut').textContent = siderealDays.toFixed(3)+' hari sideris';
+  document.getElementById('siderealDiffOut').textContent = (diffSeconds/60).toFixed(1)+' menit';
+}
+document.getElementById('ndaysSlider').addEventListener('input', updateSidereal);
+
+// ===== KELAS 2: FISIKA =====
+const HBAR0=1.0545718e-34, G0=6.674e-11, C0=299792458;
+function updatePlanck(){
+  const cMult=parseFloat(document.getElementById('cSlider').value);
+  const gMult=parseFloat(document.getElementById('gSlider').value);
+  const hMult=parseFloat(document.getElementById('hSlider').value);
+  document.getElementById('cLabel').textContent = cMult.toFixed(2)+'×';
+  document.getElementById('gLabel').textContent = gMult.toFixed(2)+'×';
+  document.getElementById('hLabel').textContent = hMult.toFixed(2)+'×';
+
+  const c=C0*cMult, Gv=G0*gMult, hbar=HBAR0*hMult;
+  const tP = Math.sqrt(hbar*Gv/Math.pow(c,5));
+  const lP = Math.sqrt(hbar*Gv/Math.pow(c,3));
+  const mP = Math.sqrt(hbar*c/Gv);
+  document.getElementById('planckTimeOut').textContent = tP.toExponential(3)+' s';
+  document.getElementById('planckLengthOut').textContent = lP.toExponential(3)+' m';
+  document.getElementById('planckMassOut').textContent = mP.toExponential(3)+' kg';
+}
+['cSlider','gSlider','hSlider'].forEach(id=>document.getElementById(id).addEventListener('input', updatePlanck));
+
+function updateRelativity(){
+  const v = parseFloat(document.getElementById('velSlider').value);
+  const altKm = parseFloat(document.getElementById('altSlider').value);
+  document.getElementById('velLabel').textContent = v.toFixed(0)+' m/s';
+  document.getElementById('altLabel').textContent = altKm.toFixed(0)+' km';
+
+  const c=299792458, Gv=6.674e-11, M=5.972e24, Rearth=6371000;
+  const r = Rearth + altKm*1000;
+  const gamma = 1/Math.sqrt(1-(v*v)/(c*c));
+  const velEffect = (1-1/gamma)*86400*1e6; // mikrodetik/hari, jam lebih lambat
+
+  const potSurface = -Gv*M/Rearth;
+  const potOrbit = -Gv*M/r;
+  const deltaPot = potOrbit - potSurface;
+  const gravEffect = (deltaPot/(c*c))*86400*1e6; // mikrodetik/hari, jam lebih cepat
+
+  const net = gravEffect - velEffect;
+
+  document.getElementById('velEffectOut').textContent = '−'+velEffect.toFixed(2)+' µs/hari';
+  document.getElementById('gravEffectOut').textContent = '+'+gravEffect.toFixed(2)+' µs/hari';
+  document.getElementById('netEffectOut').textContent = (net>=0?'+':'')+net.toFixed(2)+' µs/hari';
+}
+['velSlider','altSlider'].forEach(id=>document.getElementById(id).addEventListener('input', updateRelativity));
+
+// ===== KELAS 3: BIOLOGIS =====
+function updateCircadian(){
+  const period = parseFloat(document.getElementById('periodSlider').value);
+  document.getElementById('periodLabel').textContent = period.toFixed(1)+' jam';
+  const mode = document.getElementById('bioTab').querySelector('button.active').dataset.t;
+
+  const svg = document.getElementById('circadianSvg');
+  svg.innerHTML='';
+  const w=700,h=220,padL=50,padR=20,padT=20,padB=30;
+  svg.appendChild(el('rect',{x:0,y:0,width:w,height:h,fill:'#171a21'}));
+  const totalDays = 7;
+  const xScale=(t)=> padL + t/(totalDays*24)*(w-padL-padR);
+  const yScale=(v)=> h-padB - (v+1)/2*(h-padT-padB);
+
+  let path='';
+  for(let t=0; t<=totalDays*24; t+=0.5){
+    let phase;
+    if(mode==='entrained'){
+      phase = (t%24)/24;
+    } else {
+      phase = (t%period)/period;
+    }
+    const val = Math.sin(2*Math.PI*phase);
+    const x=xScale(t), y=yScale(val);
+    path += (t===0?'M ':' L ')+x+' '+y;
+  }
+  svg.appendChild(el('path',{d:path,fill:'none',stroke:'#6b9e5a','stroke-width':2}));
+  // garis referensi 24 jam (siang/malam)
+  for(let d=0;d<=totalDays;d++){
+    const x=xScale(d*24);
+    svg.appendChild(el('line',{x1:x,y1:padT,x2:x,y2:h-padB,stroke:'#282d38','stroke-width':1,'stroke-dasharray':'3,3'}));
+  }
+  svg.appendChild(el('line',{x1:padL,y1:yScale(0),x2:w-padR,y2:yScale(0),stroke:'#282d38','stroke-width':1}));
+
+  document.getElementById('circadianNote').textContent = mode==='entrained'
+    ? 'Tersinkron cahaya setiap hari — puncak ritme tetap di jam yang sama setiap harinya, garis putus-putus menandai tengah malam tiap hari.'
+    : 'Tanpa sinkronisasi cahaya (mis. di gua/isolasi total) — dengan periode '+period.toFixed(1)+' jam, puncak ritme perlahan bergeser '+((period-24)>=0?'maju':'mundur')+' sekitar '+Math.abs((period-24)*60).toFixed(0)+' menit setiap hari dibanding jam 24 jam biasa.';
+}
+setupTabs('bioTab', {entrained:'', freerun:''}); // handled via updateCircadian, no panel toggle needed
+document.getElementById('periodSlider').addEventListener('input', updateCircadian);
+
+// ===== KELAS 4: GEOLOGIS =====
+let currentHalfLife = 5730;
+document.getElementById('isotopeTab').querySelectorAll('button').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    document.getElementById('isotopeTab').querySelectorAll('button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    currentHalfLife = parseFloat(b.dataset.t14);
+    updateDecay();
+  });
+});
+function updateDecay(){
+  const mult = parseFloat(document.getElementById('halflifeMultSlider').value);
+  document.getElementById('halflifeMultLabel').textContent = mult.toFixed(1)+'× waktu-paruh';
+  const remain = Math.pow(0.5, mult);
+  const age = mult*currentHalfLife;
+  document.getElementById('remainOut').textContent = (remain*100).toFixed(2)+'%';
+  document.getElementById('ageOut').textContent = age.toLocaleString('id-ID',{maximumFractionDigits:0})+' tahun';
+}
+document.getElementById('halflifeMultSlider').addEventListener('input', updateDecay);
+
+// init
+updateEot();
+updateSidereal();
+updatePlanck();
+updateRelativity();
+updateCircadian();
+updateDecay();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

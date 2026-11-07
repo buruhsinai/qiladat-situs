@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Meja Kerja — Ekstraksi Plasmid DNA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F1E2B; --bench:#16283A; --panel:#1D3348; --ink:#E7EEF3; --ink-soft:#9BB0C0;
+    --blue:#2E7DB8; --blue-bright:#5CA8DA; --line:#2C4A63;
+    --good:#3FA66B; --warn:#D9A441; --bad:#D9564A; --steel:#7C8FA0;
+    --liquid-cloudy:#C9CFB8; --liquid-lysis:#DCE7B8; --liquid-clear:#CFE8F5; --pellet:#F2EFE4;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{padding:44px 20px 30px;border-bottom:1px solid var(--line);}
+  .eyebrow{color:var(--blue-bright);font-size:0.85rem;margin:0 0 6px;font-weight:600;letter-spacing:0.02em;}
+  h1{font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 10px;font-weight:700;}
+  .lede{max-width:600px;color:var(--ink-soft);font-size:1rem;margin:0;}
+
+  .progress{display:flex;gap:4px;margin:24px auto 0;max-width:820px;padding:0 20px;}
+  .progress .seg{flex:1;height:4px;background:var(--line);border-radius:2px;}
+  .progress .seg.done{background:var(--blue-bright);}
+  .progress .seg.current{background:var(--good);}
+
+  .stage{padding:36px 0;}
+  .bench-row{display:grid;grid-template-columns:1fr 260px;gap:22px;margin-top:18px;}
+  @media (max-width:680px){.bench-row{grid-template-columns:1fr;}}
+
+  .bench{background:var(--bench);border:1px solid var(--line);border-radius:10px;padding:20px;min-height:280px;display:flex;align-items:center;justify-content:center;}
+  svg{display:block;max-width:100%;}
+
+  .side{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;}
+  .side h3{font-size:0.95rem;margin:0 0 10px;color:var(--blue-bright);}
+  .side p{font-size:0.85rem;color:var(--ink-soft);margin:0 0 12px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:0.78rem;color:var(--ink-soft);margin-bottom:5px;}
+  .field input[type=range]{width:100%;accent-color:var(--blue-bright);}
+  .field .value{font-family:'JetBrains Mono',monospace;color:var(--blue-bright);font-weight:600;}
+
+  button{font-family:'Space Grotesk',sans-serif;background:var(--blue);color:#fff;border:none;padding:10px 18px;border-radius:6px;font-size:0.85rem;cursor:pointer;font-weight:600;}
+  button:hover:not(:disabled){background:var(--blue-bright);}
+  button:disabled{opacity:0.35;cursor:not-allowed;}
+  button.secondary{background:transparent;border:1px solid var(--blue);color:var(--blue-bright);}
+  .btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+
+  .protocol-title{font-size:1.15rem;font-weight:700;margin:0 0 4px;}
+  .protocol-note{color:var(--ink-soft);font-size:0.9rem;margin:0 0 4px;}
+
+  .timer-display{font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:var(--warn);text-align:center;margin-top:10px;}
+  .status-line{text-align:center;font-size:0.85rem;color:var(--ink-soft);margin-top:6px;}
+
+  .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+  .result-card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px;text-align:center;}
+  .result-card .n{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;color:var(--blue-bright);}
+  .result-card .label{font-size:0.72rem;color:var(--ink-soft);margin-top:4px;}
+  .verdict{margin-top:18px;padding:16px 18px;border-radius:8px;font-size:0.95rem;}
+  .verdict.good{background:rgba(63,166,107,0.15);border:1px solid var(--good);color:#B8E6C8;}
+  .verdict.warn{background:rgba(217,164,65,0.15);border:1px solid var(--warn);color:#F0D9A0;}
+  .verdict.bad{background:rgba(217,86,74,0.15);border:1px solid var(--bad);color:#F2B8B2;}
+
+  footer{padding:26px 20px;text-align:center;color:var(--ink-soft);font-size:0.8rem;border-top:1px solid var(--line);}
+  a{color:var(--blue-bright);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">WET LAB TOOLS · Alat 003 — Simulasi Pengalaman</p>
+    <h1>Meja Kerja: Ekstraksi Plasmid DNA</h1>
+    <p class="lede">Bukan kalkulator — ini simulasi pengalaman di meja kerja. Ikuti protokol miniprep langkah demi langkah, atur parameter yang sama seperti di lab sungguhan, dan lihat konsekuensinya pada hasil akhir.</p>
+  </div>
+</header>
+
+<div class="progress" id="progress"></div>
+
+<div class="wrap">
+  <div class="stage" id="stage">
+    <!-- filled dynamically -->
+  </div>
+</div>
+
+<footer>Wet Lab Tools · Simulasi konseptual untuk pembelajaran, bukan pengganti pelatihan laboratorium sungguhan</footer>
+
+<script>
+(function(){
+  const STAGE = document.getElementById('stage');
+  const PROGRESS = document.getElementById('progress');
+  const STEP_NAMES = ['Mulai','Resuspensi','Lisis Alkali','Netralisasi','Sentrifugasi 1','Transfer & Kolom','Cuci Kolom','Elusi','Hasil'];
+  let step = 0;
+  let quality = { lysis:0.5, spin1:0.5 };
+  let eluteVolume = 50;
+  let finalConc = 0, finalRatio = 0, finalYield = 0;
+
+  function renderProgress(){
+    PROGRESS.innerHTML='';
+    STEP_NAMES.forEach((_,i)=>{
+      const seg = document.createElement('div');
+      seg.className = 'seg' + (i<step?' done':(i===step?' current':''));
+      PROGRESS.appendChild(seg);
+    });
+  }
+
+  function tubeSVG(liquidColor, fillHeight, pelletVisible, flocculent, spinning){
+    const h = fillHeight;
+    return '<svg viewBox="0 0 200 260" width="180">'+
+      '<rect x="70" y="20" width="60" height="180" rx="10" fill="none" stroke="#7C8FA0" stroke-width="3"/>'+
+      '<clipPath id="tubeClip"><rect x="72" y="22" width="56" height="176" rx="8"/></clipPath>'+
+      '<g clip-path="url(#tubeClip)">'+
+        '<rect x="72" y="'+(198-h)+'" width="56" height="'+h+'" fill="'+liquidColor+'"/>'+
+        (pelletVisible? '<ellipse cx="100" cy="192" rx="26" ry="8" fill="var(--pellet)"/>':'')+
+        (flocculent? '<circle cx="90" cy="150" r="5" fill="#fff" opacity="0.8"/><circle cx="110" cy="130" r="6" fill="#fff" opacity="0.7"/><circle cx="95" cy="110" r="4" fill="#fff" opacity="0.8"/><circle cx="115" cy="165" r="5" fill="#fff" opacity="0.7"/>':'')+
+      '</g>'+
+      (spinning? '<g id="spin-mark" style="transform-origin:100px 110px;"><line x1="100" y1="20" x2="100" y2="0" stroke="var(--warn)" stroke-width="3"/></g>':'')+
+      '</svg>';
+  }
+
+  function renderStep(){
+    renderProgress();
+    let html = '';
+
+    if(step===0){
+      html += '<h2 class="protocol-title">Miniprep Plasmid DNA — Metode Alkaline Lysis + Kolom Silika</h2>';
+      html += '<p class="protocol-note">Anda akan menjalankan protokol standar ekstraksi plasmid dari kultur sel bakteri, tahap demi tahap — sama seperti di meja kerja sungguhan. Setiap keputusan (waktu inkubasi, kecepatan sentrifuga, volume elusi) memengaruhi hasil akhir.</p>';
+      html += '<div class="btn-row"><button id="btn-start">Mulai Protokol →</button></div>';
+    }
+
+    else if(step===1){
+      html += '<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 1 — Resuspensi Pelet Sel</h3>'+
+        '<p>Pelet sel bakteri diresuspensi dengan Buffer P1 (mengandung RNase). Ambil pipet, tambahkan buffer, lalu vortex hingga homogen.</p>'+
+        '<div class="btn-row"><button id="btn-action">🧪 Tambahkan Buffer P1 &amp; Vortex</button></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+
+    else if(step===2){
+      html += '<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 2 — Lisis Alkali</h3>'+
+        '<p>Buffer P2 (NaOH/SDS) memecah dinding sel. Terlalu singkat → lisis tidak sempurna. Terlalu lama → DNA genomik ikut terdegradasi dan mencemari plasmid.</p>'+
+        '<div class="field"><label>Waktu inkubasi — <span class="value" id="lysis-time-val">300</span> detik</label>'+
+        '<input type="range" id="lysis-time" min="30" max="600" step="10" value="300"></div>'+
+        '<div class="btn-row"><button id="btn-action">⏱ Mulai Inkubasi</button></div>'+
+        '<div class="timer-display" id="timer-display"></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+
+    else if(step===3){
+      html += '<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 3 — Netralisasi</h3>'+
+        '<p>Buffer P3 (kalium asetat) menetralkan larutan. Protein, DNA genomik, dan puing sel mengendap sebagai gumpalan putih (flokulen) — plasmid tetap terlarut.</p>'+
+        '<div class="btn-row"><button id="btn-action">🧊 Tambahkan Buffer P3 &amp; Bolak-balik Tabung</button></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+
+    else if(step===4){
+      html += '<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 4 — Sentrifugasi 1</h3>'+
+        '<p>Pisahkan gumpalan (pelet) dari supernatan berisi plasmid. RCF terlalu rendah → pelet tidak padat, kontaminasi ikut terbawa ke supernatan.</p>'+
+        '<div class="field"><label>Kecepatan — <span class="value" id="spin-rpm-val">13000</span> RPM (radius 8,5cm)</label>'+
+        '<input type="range" id="spin-rpm" min="3000" max="16000" step="500" value="13000"></div>'+
+        '<div class="field"><label>Waktu — <span class="value" id="spin-time-val">10</span> menit</label>'+
+        '<input type="range" id="spin-time" min="1" max="20" step="1" value="10"></div>'+
+        '<div class="status-line mono" id="rcf-preview"></div>'+
+        '<div class="btn-row"><button id="btn-action">🌀 Jalankan Sentrifuga</button></div>'+
+        '<div class="timer-display" id="timer-display"></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+
+    else if(step===5){
+      html += '<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 5 — Transfer Supernatan ke Kolom</h3>'+
+        '<p>Pindahkan cairan bening di atas pelet ke kolom silika tanpa mengganggu pelet di dasar tabung. Plasmid DNA akan menempel pada membran silika.</p>'+
+        '<div class="btn-row"><button id="btn-action">🧫 Pindahkan Supernatan ke Kolom</button></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+
+    else if(step===6){
+      html += '<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 6 — Cuci Kolom</h3>'+
+        '<p>Wash buffer (mengandung etanol) membilas garam dan kontaminan yang masih menempel, tanpa melepas DNA dari membran silika.</p>'+
+        '<div class="btn-row"><button id="btn-action">💧 Tambahkan Wash Buffer &amp; Sentrifugasi Singkat</button></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+
+    else if(step===7){
+      html += '<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 7 — Elusi</h3>'+
+        '<p>Buffer elusi melepas DNA dari membran. Volume kecil → DNA lebih pekat tapi total yield lebih rendah. Volume besar → yield lebih tinggi tapi lebih encer.</p>'+
+        '<div class="field"><label>Volume elusi — <span class="value" id="elute-vol-val">50</span> µL</label>'+
+        '<input type="range" id="elute-vol" min="15" max="150" step="5" value="50"></div>'+
+        '<div class="btn-row"><button id="btn-action">🧬 Elusi &amp; Sentrifugasi Final</button></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+
+    else if(step===8){
+      const qOverall = (quality.lysis*0.5 + quality.spin1*0.5);
+      const contamination = (1-quality.lysis)*0.3 + (1-quality.spin1)*0.3;
+      finalRatio = Math.max(1.2, Math.min(2.0, 1.85 - contamination));
+      const efficiency = eluteVolume/(eluteVolume+25);
+      const baseYieldNg = 4000 * qOverall;
+      finalYield = baseYieldNg * (0.6+0.4*efficiency);
+      finalConc = finalYield/eluteVolume;
+
+      let verdictClass='good', verdictText='DNA bersih dan siap dipakai untuk sequencing, transformasi, atau kloning lanjutan.';
+      if(finalRatio<1.7 || qOverall<0.6){ verdictClass='bad'; verdictText='Ada indikasi kontaminasi protein/fenol yang cukup signifikan — sebaiknya ulangi dengan waktu lisis dan sentrifugasi mendekati rentang ideal.'; }
+      else if(finalRatio<1.8 || qOverall<0.8){ verdictClass='warn'; verdictText='Hasil dapat dipakai, tapi kemurnian belum optimal — coba sesuaikan waktu lisis (idealnya sekitar 5 menit) dan kecepatan sentrifugasi (idealnya ≥12.000×g).'; }
+
+      html += '<h2 class="protocol-title">Hasil Akhir</h2>';
+      html += '<div class="result-grid">'+
+        '<div class="result-card"><div class="n">'+finalConc.toFixed(1)+' ng/µL</div><div class="label">KONSENTRASI</div></div>'+
+        '<div class="result-card"><div class="n">'+finalRatio.toFixed(2)+'</div><div class="label">A260/A280</div></div>'+
+        '<div class="result-card"><div class="n">'+finalYield.toFixed(0)+' ng</div><div class="label">TOTAL YIELD</div></div>'+
+        '<div class="result-card"><div class="n">'+eluteVolume+' µL</div><div class="label">VOLUME AKHIR</div></div>'+
+        '</div>';
+      html += '<div class="verdict '+verdictClass+'">'+verdictText+'</div>';
+      html += '<div class="btn-row"><button id="btn-restart">↺ Ulangi dari Awal</button></div>';
+    }
+
+    STAGE.innerHTML = html;
+    attachStepLogic();
+  }
+
+  function attachStepLogic(){
+    if(step===0){
+      document.getElementById('btn-start').addEventListener('click', ()=>{ step=1; renderStep(); });
+    }
+    if(step===1){
+      document.getElementById('bench-vis').innerHTML = tubeSVG('var(--liquid-cloudy)',10,false,false,false);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        document.getElementById('status-line').textContent = 'Mencampur…';
+        let t=0;
+        const iv = setInterval(()=>{
+          t+=1;
+          document.getElementById('bench-vis').innerHTML = tubeSVG('var(--liquid-cloudy)', 10+t*8, false,false,false);
+          if(t>=6){
+            clearInterval(iv);
+            document.getElementById('status-line').textContent = 'Suspensi homogen. Siap lanjut.';
+            const nb = document.createElement('button');
+            nb.textContent='Lanjut →'; nb.id='btn-next';
+            document.querySelector('#stage .btn-row').appendChild(nb);
+            nb.addEventListener('click', ()=>{ step=2; renderStep(); });
+          }
+        },120);
+      });
+    }
+    if(step===2){
+      document.getElementById('bench-vis').innerHTML = tubeSVG('var(--liquid-cloudy)',90,false,false,false);
+      const lysisTime = document.getElementById('lysis-time');
+      const lysisVal = document.getElementById('lysis-time-val');
+      lysisTime.addEventListener('input', ()=> lysisVal.textContent = lysisTime.value);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        const actualTime = parseInt(lysisTime.value,10);
+        const simDuration = 3000; // 3s simulated regardless, represents the wait
+        let elapsed=0;
+        const timerEl = document.getElementById('timer-display');
+        const iv = setInterval(()=>{
+          elapsed+=100;
+          const displaySec = Math.round((elapsed/simDuration)*actualTime);
+          timerEl.textContent = displaySec+' dtk';
+          document.getElementById('bench-vis').innerHTML = tubeSVG('var(--liquid-lysis)',90,false,false,false);
+          if(elapsed>=simDuration){
+            clearInterval(iv);
+            quality.lysis = Math.max(0, 1 - Math.abs(actualTime-300)/300);
+            let msg = 'Lisis selesai.';
+            if(actualTime<180) msg += ' Waktu cukup singkat — sebagian sel mungkin belum lisis sempurna.';
+            else if(actualTime>420) msg += ' Waktu cukup lama — risiko degradasi plasmid meningkat.';
+            else msg += ' Durasi mendekati ideal.';
+            document.getElementById('status-line').textContent = msg;
+            const nb = document.createElement('button');
+            nb.textContent='Lanjut →'; nb.id='btn-next';
+            document.querySelector('#stage .btn-row').appendChild(nb);
+            nb.addEventListener('click', ()=>{ step=3; renderStep(); });
+          }
+        },100);
+      });
+    }
+    if(step===3){
+      document.getElementById('bench-vis').innerHTML = tubeSVG('var(--liquid-lysis)',90,false,false,false);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        document.getElementById('bench-vis').innerHTML = tubeSVG('var(--liquid-clear)',120,false,true,false);
+        document.getElementById('status-line').textContent = 'Gumpalan putih (flokulen) terbentuk — protein dan DNA genomik mengendap.';
+        const nb = document.createElement('button');
+        nb.textContent='Lanjut →'; nb.id='btn-next';
+        document.querySelector('#stage .btn-row').appendChild(nb);
+        nb.addEventListener('click', ()=>{ step=4; renderStep(); });
+      });
+    }
+    if(step===4){
+      document.getElementById('bench-vis').innerHTML = tubeSVG('var(--liquid-clear)',120,false,true,false);
+      const rpmS = document.getElementById('spin-rpm');
+      const timeS = document.getElementById('spin-time');
+      const rpmVal = document.getElementById('spin-rpm-val');
+      const timeVal = document.getElementById('spin-time-val');
+      const rcfPreview = document.getElementById('rcf-preview');
+      function updateRcfPreview(){
+        const rpm = parseInt(rpmS.value,10);
+        const rcf = Math.round(1.118e-5*8.5*rpm*rpm);
+        rpmVal.textContent = rpm; timeVal.textContent = timeS.value;
+        rcfPreview.textContent = '≈ '+rcf.toLocaleString('id-ID')+' ×g';
+      }
+      rpmS.addEventListener('input', updateRcfPreview);
+      timeS.addEventListener('input', updateRcfPreview);
+      updateRcfPreview();
+
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        document.getElementById('status-line').textContent = 'Berputar…';
+        document.getElementById('bench-vis').innerHTML = tubeSVG('var(--liquid-clear)',120,false,true,true);
+        let elapsed=0;
+        const dur=2500;
+        const rpm = parseInt(rpmS.value,10), time = parseInt(timeS.value,10);
+        const rcf = 1.118e-5*8.5*rpm*rpm;
+        const iv = setInterval(()=>{
+          elapsed+=100;
+          document.getElementById('timer-display').textContent = Math.round((elapsed/dur)*time)+' menit';
+          if(elapsed>=dur){
+            clearInterval(iv);
+            quality.spin1 = Math.max(0, Math.min(1, (rcf/13000)*(time/10)));
+            quality.spin1 = Math.min(1, quality.spin1);
+            document.getElementById('bench-vis').innerHTML = tubeSVG('var(--liquid-clear)',120,true,false,false);
+            let msg='Pelet terbentuk, supernatan bening.';
+            if(rcf<8000) msg='Pelet kurang padat — RCF terlalu rendah, sebagian kontaminan mungkin masih tersuspensi.';
+            document.getElementById('status-line').textContent = msg;
+            const nb = document.createElement('button');
+            nb.textContent='Lanjut →'; nb.id='btn-next';
+            document.querySelector('#stage .btn-row').appendChild(nb);
+            nb.addEventListener('click', ()=>{ step=5; renderStep(); });
+          }
+        },100);
+      });
+    }
+    if(step===5){
+      document.getElementById('bench-vis').innerHTML = tubeSVG('var(--liquid-clear)',120,true,false,false);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        document.getElementById('bench-vis').innerHTML = '<svg viewBox="0 0 200 260" width="180"><rect x="70" y="60" width="60" height="90" rx="6" fill="none" stroke="#7C8FA0" stroke-width="3"/><rect x="76" y="66" width="48" height="30" fill="var(--liquid-clear)"/><text x="100" y="170" text-anchor="middle" fill="#9BB0C0" font-size="11" font-family=\'JetBrains Mono\'>KOLOM SILIKA</text></svg>';
+        document.getElementById('status-line').textContent = 'Supernatan dipindahkan; pelet (kontaminan) ditinggalkan di tabung lama sebagai limbah.';
+        const nb = document.createElement('button');
+        nb.textContent='Lanjut →'; nb.id='btn-next';
+        document.querySelector('#stage .btn-row').appendChild(nb);
+        nb.addEventListener('click', ()=>{ step=6; renderStep(); });
+      });
+    }
+    if(step===6){
+      document.getElementById('bench-vis').innerHTML = '<svg viewBox="0 0 200 260" width="180"><rect x="70" y="60" width="60" height="90" rx="6" fill="none" stroke="#7C8FA0" stroke-width="3"/><rect x="76" y="66" width="48" height="18" fill="var(--liquid-clear)"/><text x="100" y="170" text-anchor="middle" fill="#9BB0C0" font-size="11" font-family=\'JetBrains Mono\'>KOLOM SILIKA</text></svg>';
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        document.getElementById('status-line').textContent = 'Kolom dicuci dan dikeringkan dengan sentrifugasi singkat.';
+        const nb = document.createElement('button');
+        nb.textContent='Lanjut →'; nb.id='btn-next';
+        document.querySelector('#stage .btn-row').appendChild(nb);
+        nb.addEventListener('click', ()=>{ step=7; renderStep(); });
+      });
+    }
+    if(step===7){
+      document.getElementById('bench-vis').innerHTML = '<svg viewBox="0 0 200 260" width="180"><rect x="70" y="60" width="60" height="90" rx="6" fill="none" stroke="#7C8FA0" stroke-width="3"/><text x="100" y="170" text-anchor="middle" fill="#9BB0C0" font-size="11" font-family=\'JetBrains Mono\'>KOLOM (KERING)</text></svg>';
+      const eluteS = document.getElementById('elute-vol');
+      const eluteVal = document.getElementById('elute-vol-val');
+      eluteS.addEventListener('input', ()=> eluteVal.textContent = eluteS.value);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        eluteVolume = parseInt(eluteS.value,10);
+        document.getElementById('bench-vis').innerHTML = tubeSVG('var(--liquid-clear)', 30+eluteVolume*0.5, false,false,false);
+        document.getElementById('status-line').textContent = 'DNA terelusi ke dalam larutan akhir.';
+        const nb = document.createElement('button');
+        nb.textContent='Lihat Hasil →'; nb.id='btn-next';
+        document.querySelector('#stage .btn-row').appendChild(nb);
+        nb.addEventListener('click', ()=>{ step=8; renderStep(); });
+      });
+    }
+    if(step===8){
+      document.getElementById('btn-restart').addEventListener('click', ()=>{
+        step=0; quality={lysis:0.5,spin1:0.5}; eluteVolume=50; renderStep();
+      });
+    }
+  }
+
+  renderStep();
+})();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

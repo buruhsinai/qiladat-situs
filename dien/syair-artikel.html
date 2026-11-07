@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Artikel Syair — Dien — JAZMI | Jalinan Zamrud Islamiah</title>
+<meta name="description" id="pageDescription" content="Artikel Syair — arsip penjelasan harian bait syair JAZMI.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../css/style.css">
+<!-- Memakai ulang komponen detail artikel (.article-detail-inner,
+     .article-body-content, .back-link, dst.) dari Artikel Detail
+     supaya tampilan Artikel Syair konsisten dengan artikel lain,
+     tanpa menduplikasi CSS-nya di sini. -->
+<link rel="stylesheet" href="../artikel/css/detail.css">
+<link rel="stylesheet" href="syair.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (pola sama dengan syair.html) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../artikel/index.html">Artikel</a></li>
+        <li><a href="index.html" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <div class="section-inner detail-crumb-wrap">
+    <a href="syair.html" class="back-link" id="backLink">← Kembali ke Syair</a>
+  </div>
+
+  <!-- ================= KEADAAN: MEMUAT ================= -->
+  <section class="section" id="stateLoading">
+    <div class="section-inner">
+      <p class="data-empty-note">Memuat artikel…</p>
+    </div>
+  </section>
+
+  <!-- ================= KEADAAN: TIDAK DITEMUKAN ================= -->
+  <section class="section" id="stateNotFound" hidden>
+    <div class="section-inner article-fallback">
+      <p class="identity-eyebrow">404</p>
+      <h1 class="identity-title">Artikel Syair Tidak Ditemukan</h1>
+      <p class="identity-desc">Artikel untuk tanggal ini mungkin belum terbit, belum berlalu harinya, atau tautannya tidak tepat.</p>
+      <a href="syair.html" class="btn btn-outline">Lihat Syair</a>
+    </div>
+  </section>
+
+  <!-- ================= KEADAAN: GAGAL MEMUAT DATA ================= -->
+  <section class="section" id="stateError" hidden>
+    <div class="section-inner article-fallback">
+      <p class="identity-eyebrow">Gangguan</p>
+      <h1 class="identity-title">Artikel Belum Dapat Dimuat</h1>
+      <p class="identity-desc">Terjadi kendala saat memuat data. Coba muat ulang halaman ini beberapa saat lagi.</p>
+      <a href="syair.html" class="btn btn-outline">Kembali ke Syair</a>
+    </div>
+  </section>
+
+  <!-- ================= KEADAAN: ARTIKEL DITEMUKAN ================= -->
+  <article id="stateArticle" hidden>
+
+    <section class="identity article-identity">
+      <div class="identity-inner">
+        <p class="identity-eyebrow" id="articleCategory">Syair</p>
+        <h1 class="identity-title" id="articleTitle">&nbsp;</h1>
+        <p class="article-meta-row">
+          <span id="articleDate"></span>
+        </p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="articleTitle">
+      <div class="section-inner article-detail-inner">
+        <div class="article-body-content" id="articleBody">
+          <!-- diisi JavaScript -->
+        </div>
+      </div>
+    </section>
+
+    <div class="section-inner detail-bottom-nav">
+      <a href="syair.html" class="btn btn-outline">← Kembali ke Syair</a>
+    </div>
+
+  </article>
+
+</main>
+
+<!-- ================= FOOTER (pola sama dengan syair.html) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="../index.html">Home</a>
+      <a href="../artikel/index.html">Artikel</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah. Artikel Syair, versi produksi awal.</p>
+  </div>
+</footer>
+
+<script src="syair-artikel.js"></script>
+</body>
+</html>

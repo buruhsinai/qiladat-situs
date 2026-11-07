@@ -1,0 +1,1434 @@
+/* =========================================================
+   JAZMI — HOME
+   Token sistem desain
+   ========================================================= */
+:root {
+  /* Warna — "zamrud" (emerald) sebagai jangkar identitas */
+  --bg: #F6F1E4;
+  --bg-alt: #EEE6D2;
+  --surface: #FFFFFF;
+  --ink: #1E2A22;
+  --ink-soft: #4B5A50;
+  --ink-faint: #8A8672;
+
+  --emerald-deep: #0F3D2E;
+  --emerald: #1C5C42;
+  --emerald-soft: #2F7A57;
+
+  --brass: #A9812F;
+  --brass-soft: #D8C08A;
+  --brass-line: #D9CBA3;
+
+  --line: #DDD3B8;
+  --line-soft: #E9E1CC;
+
+  /* Tipografi */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-arabic: 'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
+
+  /* Skala & ritme */
+  --radius: 4px;
+  --shadow-soft: 0 1px 2px rgba(15, 61, 46, 0.06), 0 8px 24px -12px rgba(15, 61, 46, 0.18);
+  --max-width: 1180px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* =========================================================
+   Reset dasar
+   ========================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+ul, ol { margin: 0; padding: 0; list-style: none; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; background: none; border: none; cursor: pointer; }
+
+h1, h2, h3 { font-family: var(--font-display); margin: 0; color: var(--emerald-deep); }
+
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: var(--emerald-deep);
+  color: #fff;
+  padding: 0.75rem 1.25rem;
+  z-index: 1000;
+  border-radius: 0 0 var(--radius) 0;
+}
+.skip-link:focus {
+  left: 0;
+}
+
+/* =========================================================
+   Layout util
+   ========================================================= */
+.section-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+.section {
+  padding: clamp(2.75rem, 6vw, 5rem) 0;
+}
+.section-alt {
+  background: var(--bg-alt);
+}
+
+.section-head {
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+  max-width: 640px;
+}
+.section-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 0.5rem;
+}
+.section-title {
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+  font-weight: 600;
+  line-height: 1.25;
+}
+.section-desc {
+  color: var(--ink-soft);
+  margin: 0.6rem 0 0;
+  font-size: 0.98rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: clamp(1.5rem, 4vw, 2rem);
+  padding: 0.75rem 1.4rem;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.btn-outline {
+  border: 1px solid var(--emerald);
+  color: var(--emerald-deep);
+}
+.btn-outline:hover {
+  background: var(--emerald-deep);
+  border-color: var(--emerald-deep);
+  color: #fff;
+}
+
+/* =========================================================
+   Header / Navigasi
+   ========================================================= */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(246, 241, 228, 0.92);
+  backdrop-filter: saturate(140%) blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0.85rem var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.wordmark {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.wordmark-mark {
+  display: grid;
+  place-items: center;
+  width: 2.15rem;
+  height: 2.15rem;
+  border-radius: 50%;
+  background: var(--emerald-deep);
+  color: var(--brass-soft);
+  font-family: var(--font-arabic);
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+.wordmark-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.wordmark-main {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--emerald-deep);
+  letter-spacing: 0.02em;
+}
+.wordmark-sub {
+  font-size: 0.68rem;
+  color: var(--ink-soft);
+  letter-spacing: 0.02em;
+}
+
+.nav-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 2.25rem;
+  height: 2.25rem;
+  padding: 0.4rem;
+}
+.nav-toggle-bar {
+  display: block;
+  height: 2px;
+  background: var(--emerald-deep);
+  border-radius: 2px;
+  transition: transform 0.25s var(--ease), opacity 0.25s var(--ease);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+.nav-toggle[aria-expanded="true"] .nav-toggle-bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.primary-nav {
+  position: fixed;
+  inset: 4.1rem 0 0 0;
+  background: var(--bg);
+  padding: 1.5rem var(--gutter) 2rem;
+  transform: translateY(-8px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.22s var(--ease), transform 0.22s var(--ease), visibility 0.22s;
+  overflow-y: auto;
+}
+.primary-nav.is-open {
+  opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
+}
+.primary-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.primary-nav a {
+  display: block;
+  padding: 0.85rem 0.25rem;
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--emerald-deep);
+  border-bottom: 1px solid var(--line-soft);
+}
+.primary-nav a.is-active {
+  color: var(--brass);
+}
+
+@media (min-width: 860px) {
+  .nav-toggle { display: none; }
+  .primary-nav {
+    position: static;
+    inset: auto;
+    background: transparent;
+    padding: 0;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    overflow: visible;
+  }
+  .primary-nav ul {
+    flex-direction: row;
+    align-items: center;
+    gap: clamp(1rem, 2vw, 1.75rem);
+  }
+  .primary-nav a {
+    font-family: var(--font-body);
+    font-size: 0.92rem;
+    font-weight: 600;
+    padding: 0.3rem 0.1rem;
+    border-bottom: 2px solid transparent;
+  }
+  .primary-nav a:hover,
+  .primary-nav a.is-active {
+    color: var(--emerald-deep);
+    border-bottom-color: var(--brass);
+  }
+}
+
+/* =========================================================
+   Identitas
+   ========================================================= */
+.identity {
+  padding: clamp(2.75rem, 8vw, 5.5rem) 0 clamp(2rem, 5vw, 3rem);
+}
+.identity-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  max-width: 640px;
+}
+.identity-eyebrow {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 0.9rem;
+}
+.identity-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--emerald-deep);
+}
+.identity-desc {
+  margin: 1.1rem 0 0;
+  color: var(--ink-soft);
+  font-size: clamp(1rem, 1.6vw, 1.12rem);
+  max-width: 46ch;
+}
+
+/* =========================================================
+   Bait Syair Hari Ini — signature element
+   ========================================================= */
+.bait-harian {
+  padding: 0 0 clamp(2.75rem, 6vw, 4.5rem);
+}
+.bait-card {
+  position: relative;
+  background: var(--emerald-deep);
+  color: #F3ECD8;
+  border-radius: 10px;
+  padding: clamp(2rem, 5vw, 3.25rem) clamp(1.5rem, 5vw, 3.5rem);
+  box-shadow: var(--shadow-soft);
+  overflow: hidden;
+}
+.bait-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(216, 192, 138, 0.10), transparent 42%),
+    radial-gradient(circle at 88% 82%, rgba(216, 192, 138, 0.08), transparent 45%);
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------
+   Latar motif bergilir harian — "layak screenshot"
+   Tiga motif geometris Islami, dipilih otomatis per hari oleh
+   js/bait-panel.js (kelas .bait-bg-1/2/3), atau dipilih manual
+   lewat panel unduh (js/bait-export.js).
+   --------------------------------------------------------- */
+.bait-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  /* Dibuat sangat samar sengaja — motif hanya tekstur latar,
+     bukan elemen yang bersaing dengan bait/terjemahan di
+     atasnya. Jangan dinaikkan tanpa mengecek keterbacaan teks. */
+  opacity: 0.1;
+  background-repeat: repeat;
+}
+/* Semua konten asli kartu harus tampil di atas motif ::after
+   (yang, sebagai pseudo-elemen terakhir, secara default akan
+   dilukis paling atas). */
+.bait-card > * { z-index: 1; }
+.bait-bg-1::after { background-image: url("../assets/motif/bintang-delapan.svg"); background-size: 120px 120px; }
+.bait-bg-2::after { background-image: url("../assets/motif/bunga-arabesk.svg"); background-size: 140px 140px; }
+.bait-bg-3::after { background-image: url("../assets/motif/anyaman-geometri.svg"); background-size: 100px 100px; }
+
+/* ---------------------------------------------------------
+   Watermark identitas JAZMI — pojok footer kartu, untuk
+   kebutuhan share/screenshot ke medsos.
+   --------------------------------------------------------- */
+.bait-watermark {
+  position: relative;
+  display: block;
+  text-align: center;
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(216, 192, 138, 0.28);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(216, 192, 138, 0.75);
+}
+
+/* ---------------------------------------------------------
+   Panel unduh gambar (JPG) — pilih latar sebelum ekspor.
+   Disembunyikan secara default, dibuka lewat tombol "Unduh".
+   Tidak ikut ter-capture saat html2canvas mengambil kartu
+   (dikeluarkan dari #baitCard sebelum snapshot, lihat
+   js/bait-export.js).
+   --------------------------------------------------------- */
+.bait-export-bar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  margin: clamp(1.25rem, 3vw, 1.75rem) auto 0;
+}
+.bait-export-btn {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--emerald-deep);
+  background: var(--brass-soft);
+  border: none;
+  border-radius: 999px;
+  padding: 0.5rem 1.1rem;
+  cursor: pointer;
+  transition: transform 0.15s var(--ease), background 0.15s var(--ease);
+}
+.bait-export-btn:hover { background: #EAD9AC; }
+.bait-export-btn:active { transform: scale(0.97); }
+
+.bait-bg-picker {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.bait-bg-picker.terbuka { display: flex; }
+.bait-bg-picker-label {
+  font-size: 0.78rem;
+  color: var(--brass-soft);
+  margin-inline-end: 0.25rem;
+}
+.bait-bg-swatch {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  background: var(--emerald-deep) center / 60px 60px repeat;
+  padding: 0;
+}
+.bait-bg-swatch[data-bg="1"] { background-image: url("../assets/motif/bintang-delapan.svg"); }
+.bait-bg-swatch[data-bg="2"] { background-image: url("../assets/motif/bunga-arabesk.svg"); }
+.bait-bg-swatch[data-bg="3"] { background-image: url("../assets/motif/anyaman-geometri.svg"); }
+.bait-bg-swatch.aktif { border-color: var(--brass-soft); }
+
+.bait-ornament {
+  height: 10px;
+  margin: 0 auto clamp(1.25rem, 3vw, 1.75rem);
+  max-width: 260px;
+  background-image: repeating-linear-gradient(
+    135deg,
+    var(--brass-soft) 0 6px,
+    transparent 6px 12px
+  );
+  opacity: 0.55;
+}
+.bait-ornament-bottom {
+  margin: clamp(1.5rem, 4vw, 2rem) auto 0;
+}
+
+.bait-eyebrow {
+  position: relative;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-soft);
+  margin: 0 0 1.5rem;
+}
+
+.bait-arab {
+  position: relative;
+  margin: 0;
+  font-family: var(--font-arabic);
+  font-size: clamp(1.5rem, 4vw, 2.15rem);
+  line-height: 2.1;
+  text-align: center;
+  color: #FBF6E8;
+}
+
+.bait-terjemahan {
+  position: relative;
+  text-align: center;
+  max-width: 52ch;
+  margin: 1.5rem auto 0;
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  color: #E4DCC3;
+}
+
+.bait-meta {
+  position: relative;
+  text-align: center;
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+  color: var(--brass-soft);
+}
+.bait-meta-sep { margin: 0 0.5rem; opacity: 0.6; }
+
+.bait-link {
+  position: relative;
+  display: block;
+  text-align: center;
+  margin-top: 1.5rem;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: #FBF6E8;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: var(--brass-soft);
+}
+
+.bait-note {
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+  margin: 0.9rem 0 0;
+}
+
+/* =========================================================
+   Artikel Terbaru
+   ========================================================= */
+.article-list {
+  border-top: 1px solid var(--line);
+}
+.article-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 1.5rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.article-date {
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+  padding-top: 0.2rem;
+  white-space: nowrap;
+}
+.article-body { min-width: 0; }
+.article-title {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.05rem, 2vw, 1.28rem);
+  font-weight: 600;
+  color: var(--ink);
+  transition: color 0.2s var(--ease);
+}
+.article-item:hover .article-title { color: var(--emerald); }
+.article-category {
+  display: inline-block;
+  margin-top: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--emerald-soft);
+}
+
+@media (min-width: 640px) {
+  .article-item { grid-template-columns: 130px 1fr; align-items: baseline; }
+}
+
+/* =========================================================
+   Karya Visual — slider
+   ========================================================= */
+.visual-slider {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.75rem;
+  margin: 0 calc(var(--gutter) * -1);
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  -webkit-overflow-scrolling: touch;
+}
+.visual-slider::-webkit-scrollbar { height: 6px; }
+.visual-slider::-webkit-scrollbar-thumb { background: var(--brass-soft); border-radius: 3px; }
+
+.visual-card {
+  flex: 0 0 auto;
+  width: min(72vw, 280px);
+  scroll-snap-align: start;
+}
+.visual-thumb {
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius);
+  display: grid;
+  place-items: center;
+  color: rgba(255,255,255,0.85);
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-align: center;
+  padding: 1rem;
+}
+.visual-thumb-1 { background: linear-gradient(155deg, #0F3D2E, #2F7A57); }
+.visual-thumb-2 { background: linear-gradient(155deg, #1C5C42, #A9812F); }
+.visual-thumb-3 { background: linear-gradient(155deg, #4B5A50, #0F3D2E); }
+.visual-thumb-4 { background: linear-gradient(155deg, #A9812F, #6B5620); }
+
+.visual-caption {
+  margin-top: 0.6rem;
+  font-size: 0.88rem;
+  color: var(--ink-soft);
+}
+
+/* Gambar asli (arsip/gambar/data/gambar.json) menggantikan blok
+   warna placeholder — foto ditampilkan langsung, badge tipe
+   ditumpuk di pojok jika tersedia (Infografik/Sinematik). */
+.visual-thumb-img {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+.visual-thumb-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.visual-thumb-tipe {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--emerald-deep);
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
+}
+
+.visual-more {
+  margin-top: 1.25rem;
+  display: inline-block;
+}
+
+/* =========================================================
+   Bahan Terbaru
+   ========================================================= */
+.material-list {
+  display: grid;
+  gap: 0.75rem;
+}
+.material-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.material-tag {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--emerald-deep);
+  background: var(--bg-alt);
+  border: 1px solid var(--brass-line);
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+}
+.material-title {
+  flex: 1;
+  min-width: 0;
+  font-weight: 600;
+}
+.material-link {
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--emerald);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (min-width: 640px) {
+  .material-list { grid-template-columns: repeat(3, 1fr); }
+  .material-item { flex-direction: column; align-items: flex-start; height: 100%; }
+}
+
+/* =========================================================
+   Khutbah Jumat
+   ========================================================= */
+.khutbah-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--brass);
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  max-width: 640px;
+}
+.khutbah-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+  color: var(--emerald-deep);
+}
+.khutbah-date {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  margin: 0 0 1.25rem;
+}
+.khutbah-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+.chip-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid var(--emerald);
+  color: var(--emerald-deep);
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.chip-btn:hover { background: var(--emerald-deep); color: #fff; border-color: var(--emerald-deep); }
+.chip-btn-whatsapp {
+  border-color: var(--brass);
+  color: #6B5620;
+}
+.chip-btn-whatsapp:hover { background: var(--brass); color: #fff; }
+
+/* =========================================================
+   Kajian & Taklim
+   ========================================================= */
+.kajian-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  max-width: 680px;
+}
+.kajian-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+  color: var(--emerald-deep);
+}
+.kajian-date {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  margin: 0 0 0.75rem;
+}
+.kajian-desc {
+  color: var(--ink-soft);
+  margin: 0 0 1.25rem;
+}
+.kajian-outputs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 0;
+  margin: 0 0 1.5rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.kajian-outputs span {
+  padding: 0 0.65rem;
+  border-right: 1px solid var(--line);
+}
+.kajian-outputs span:first-child { padding-left: 0; }
+.kajian-outputs span:last-child { border-right: none; }
+.kajian-outputs span.is-off { color: var(--ink-faint); text-decoration: line-through; opacity: 0.6; }
+
+/* =========================================================
+   Video Pilihan — sorotan 1-2 video (tetap muncul juga di
+   Video Terbaru; lihat field "unggulan" pada data/media.json)
+   ========================================================= */
+.video-pilihan {
+  margin-bottom: clamp(1.75rem, 4vw, 2.5rem);
+  padding-bottom: clamp(1.75rem, 4vw, 2.5rem);
+  border-bottom: 1px solid var(--line);
+}
+.video-pilihan-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 1rem;
+}
+.video-pilihan-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 640px) {
+  .video-pilihan-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.video-card-pilihan {
+  display: block;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--brass);
+  border-radius: var(--radius);
+  padding: 0.85rem 0.85rem 1rem;
+}
+.video-card-pilihan .video-thumb {
+  background: linear-gradient(155deg, var(--emerald-deep), var(--brass));
+}
+.video-card-pilihan .video-title {
+  margin-top: 0.75rem;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+}
+
+/* =========================================================
+   Video
+   ========================================================= */
+.video-grid {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 0.75rem;
+  margin: 0 calc(var(--gutter) * -1);
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  -webkit-overflow-scrolling: touch;
+}
+.video-grid::-webkit-scrollbar { height: 6px; }
+.video-grid::-webkit-scrollbar-thumb { background: var(--brass-soft); border-radius: 3px; }
+.video-card {
+  display: block;
+  flex: 0 0 auto;
+  width: min(78vw, 320px);
+  scroll-snap-align: start;
+}
+/* Dari lebar tablet ke atas, "min(78vw, 320px)" pada mobile tidak lagi
+   relevan — di layar lebar itu bisa menampilkan 4-5 kartu sekaligus
+   (terlalu penuh). Di sini lebar kartu dihitung RELATIF terhadap lebar
+   panel (bukan px tetap), sehingga di resolusi berapa pun (tablet,
+   desktop, ultra-wide) yang terlihat konsisten kira-kira 3 kartu penuh
+   plus sedikit "intipan" kartu ke-4 sebagai isyarat visual bahwa masih
+   bisa digeser — tanpa berpindah halaman (lihat initPemutarVideoInline
+   di main.js).  */
+@media (min-width: 640px) {
+  .video-card {
+    width: calc((100% - 2 * 1.25rem) / 3.15);
+  }
+}
+.video-thumb {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius);
+  background: linear-gradient(155deg, #0F3D2E, #1C5C42);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+/* Thumbnail asli dari YouTube (diambil otomatis dari ID video). */
+.video-thumb-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Setelah tombol putar diklik, .video-thumb diisi <iframe> ini
+   lewat main.js — mengisi penuh kotak yang sama, tidak berpindah
+   halaman/layout. */
+.video-thumb iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.video-play {
+  position: relative;
+  z-index: 1;
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  padding: 0;
+  border-radius: 50%;
+  background: rgba(246, 241, 228, 0.92);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  font: inherit;
+  transition: transform 0.2s var(--ease);
+}
+.video-card:hover .video-play,
+.video-card-pilihan:hover .video-play,
+.video-play:focus-visible { transform: scale(1.08); }
+.video-play:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 2px;
+}
+.video-play svg { width: 1.1rem; height: 1.1rem; fill: var(--emerald-deep); margin-left: 2px; }
+.video-title {
+  margin-top: 0.65rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* =========================================================
+   Audio
+   ========================================================= */
+.audio-list { display: grid; gap: 0.75rem; }
+.audio-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.audio-play {
+  flex-shrink: 0;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  background: var(--emerald-deep);
+  display: grid;
+  place-items: center;
+}
+.audio-play svg { width: 0.85rem; height: 0.85rem; fill: #F3ECD8; margin-left: 1px; }
+.audio-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  height: 1.4rem;
+  flex-shrink: 0;
+}
+.audio-bars span {
+  width: 3px;
+  background: var(--brass-soft);
+  border-radius: 2px;
+}
+.audio-title { flex: 1; min-width: 0; font-weight: 600; font-size: 0.92rem; }
+
+/* =========================================================
+   Jelajahi JAZMI
+   ========================================================= */
+.explore {
+  background: var(--emerald-deep);
+  padding: clamp(2.75rem, 6vw, 4.5rem) 0;
+}
+.explore-title {
+  color: #F3ECD8;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 600;
+  margin-bottom: clamp(1.5rem, 4vw, 2rem);
+}
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: rgba(243, 236, 216, 0.14);
+  border: 1px solid rgba(243, 236, 216, 0.14);
+}
+@media (min-width: 640px) {
+  .explore-grid { grid-template-columns: repeat(4, 1fr); }
+}
+.explore-item {
+  background: var(--emerald-deep);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #F3ECD8;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.explore-item:hover { background: var(--brass); color: #1E2A22; }
+
+/* =========================================================
+   Footer
+   ========================================================= */
+.site-footer {
+  background: var(--bg-alt);
+  border-top: 1px solid var(--line);
+  padding: clamp(2rem, 5vw, 3rem) 0;
+}
+.footer-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.footer-identity {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.footer-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--emerald-deep);
+}
+.footer-sub {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--ink-soft);
+}
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+.footer-nav a { color: var(--ink-soft); }
+.footer-nav a:hover { color: var(--emerald-deep); }
+.footer-copy {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+@media (min-width: 640px) {
+  .footer-inner { flex-direction: row; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .footer-copy { width: 100%; order: 3; }
+}
+
+/* =========================================================
+   Reveal-on-scroll (halus, dihormati prefers-reduced-motion)
+   ========================================================= */
+.reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; }
+}
+
+
+/* C19 — Selected Option C mobile navigation, propagated to main menu pages */
+@media (max-width: 860px) {
+  .primary-nav {
+    min-height: calc(100vh - 4.1rem);
+    padding: 1.5rem var(--gutter) 3rem;
+    background: var(--surface);
+    border-top: 2px solid var(--brass-line);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .primary-nav ul {
+    gap: 0.35rem;
+  }
+
+  .primary-nav a {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 1rem 0.9rem;
+    font-size: 1.38rem;
+  }
+
+  .primary-nav a.is-active {
+    background: var(--bg-alt);
+    border-left: 3px solid var(--brass);
+    padding-left: calc(0.9rem - 3px);
+  }
+}
+
+
+/* C19 Modifikasi 3C — Refined identity / signature transition */
+.identity {
+  padding-top: clamp(3.25rem, 10vw, 6.25rem);
+  padding-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+.identity-inner {
+  position: relative;
+  max-width: 720px;
+}
+.identity-eyebrow {
+  display: inline-block;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--brass-line);
+}
+.identity-title {
+  max-width: 18ch;
+  margin-top: 0.15rem;
+}
+.identity-desc {
+  max-width: 50ch;
+  line-height: 1.75;
+}
+@media (max-width: 640px) {
+  .identity-title {
+    font-size: clamp(2rem, 9vw, 2.65rem);
+  }
+}
+
+
+/* C19 Modifikasi 5C — Artikel cards, refined */
+.articles-grid {
+  gap: clamp(1.1rem, 3vw, 2rem);
+}
+.article-card {
+  position: relative;
+  padding: 1.5rem;
+  border-top: 2px solid var(--brass-line);
+  box-shadow: var(--shadow-soft);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+.article-card h3 {
+  line-height: 1.28;
+  margin-bottom: 0.7rem;
+}
+.article-card p {
+  line-height: 1.75;
+}
+.article-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+@media (max-width: 640px) {
+  .article-card {
+    padding: 1.25rem;
+  }
+}
+
+/* C19 MOD6 */
+.visual-social{margin-top:2rem;padding:1.15rem 0 0;border-top:1px solid var(--line-soft)}.visual-social-primary{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}.visual-social-label{color:var(--brass);font-size:.78rem;font-weight:700;letter-spacing:.11em;text-transform:uppercase}.visual-social-primary .btn{margin-top:0}.visual-social-secondary{display:flex;flex-wrap:wrap;gap:.45rem .9rem;margin-top:.85rem;font-size:.86rem}.visual-social-secondary a{padding:.25rem .6rem;border:1px solid var(--line-soft);border-radius:999px}.visual-social-secondary a:hover,.visual-social-secondary a:focus-visible{border-color:var(--brass-line)}@media(max-width:640px){.visual-social-secondary{gap:.5rem}}
+
+/* C19 HOME MOD7 C — Bahan Terbaru */
+.home-bahan--c {
+  position: relative;
+  padding-top: 3.75rem;
+  padding-bottom: 3.75rem;
+}
+.home-bahan--c::before {
+  content: "";
+  display: block;
+  width: 2.75rem;
+  height: 2px;
+  margin-bottom: 1.05rem;
+  background: var(--brass, #b08d57);
+}
+.home-bahan--c .section-heading {
+  margin-bottom: .65rem;
+}
+.home-bahan--c article, .home-bahan--c .card {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.home-bahan--c article:hover, .home-bahan--c .card:hover {
+  transform: translateY(-2px);
+}
+@media (max-width: 860px) {
+  .home-bahan--c {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+
+
+/* C19 HOME MOD8 C — Khutbah Jumat + Kajian & Taklim */
+.home-khutbah-kajian-c {
+  position: relative;
+  padding-top: 3.55rem;
+  padding-bottom: 3.55rem;
+}
+.home-khutbah-kajian-c::before {
+  content: "";
+  display: block;
+  width: 2.75rem;
+  height: 2px;
+  margin-bottom: 1rem;
+  background: var(--brass, #b08d57);
+}
+.home-khutbah-kajian-c .section-heading { margin-bottom: .7rem; }
+.home-khutbah-kajian-c article,
+.home-khutbah-kajian-c .card {
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+.home-khutbah-kajian-c article:hover,
+.home-khutbah-kajian-c .card:hover { transform: translateY(-2px); }
+@media (max-width: 860px) {
+  .home-khutbah-kajian-c {
+    padding-top: 2.9rem;
+    padding-bottom: 2.9rem;
+  }
+}
+
+
+
+/* C19 FINAL FIX — MOD9/MOD10
+   External channel links are placed AFTER the content panel/list. */
+.home-video-channels {
+  margin-top: 1.75rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid rgba(176,141,87,.35);
+}
+.home-video-channels__intro {
+  margin: 0 0 .75rem;
+  font-size: .9rem;
+}
+.home-video-channels__secondary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .45rem .9rem;
+  margin-top: 1.1rem;
+  font-size: .86rem;
+}
+.home-video-channels__secondary a {
+  padding: .25rem .6rem;
+  border: 1px solid rgba(176,141,87,.35);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: .35rem;
+  text-decoration: none;
+}
+.home-video-channels__secondary a:hover,
+.home-video-channels__secondary a:focus-visible {
+  border-color: var(--brass-line);
+}
+.home-channel-name { font-weight: 700; }
+.home-channel-handle { font-size: .82rem; opacity: .78; }
+.home-audio-channel {
+  margin-top: 1.75rem;
+  padding: 1.15rem 1.2rem;
+  border-top: 1px solid rgba(176,141,87,.35);
+  background: var(--bg-alt, #f6f4ef);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-radius: .55rem;
+}
+.home-audio-channel p { margin: 0; }
+.home-audio-channel__intro { font-size: .88rem; margin-bottom: .2rem !important; }
+.home-audio-channel__title {
+  font-family: Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-bottom: .2rem !important;
+}
+.home-audio-channel__desc { font-size: .9rem; opacity: .82; }
+@media (max-width: 860px) {
+  .home-audio-channel { flex-direction: column; align-items: flex-start; }
+}
+
+
+/* C19 HOME MOD11 */
+.home-explore-mod11-c{position:relative;padding-top:3.55rem;padding-bottom:3.55rem}.home-explore-mod11-c::before{content:"";display:block;width:2.75rem;height:2px;margin-bottom:1rem;background:var(--brass,#b08d57)}.home-explore-mod11-c .section-heading{margin-bottom:.75rem}.home-explore-mod11-c a{transition:transform .2s ease,box-shadow .2s ease}.home-explore-mod11-c a:hover{transform:translateY(-2px)}@media(max-width:860px){.home-explore-mod11-c{padding-top:2.9rem;padding-bottom:2.9rem}}
+
+/* C19 HOME MOD12 C — Footer */
+.home-footer-mod12-c {
+  position: relative;
+  padding-top: 3.15rem;
+  padding-bottom: 3.15rem;
+  border-top: 1px solid rgba(176,141,87,.45);
+}
+.home-footer-mod12-c::before {
+  content: "";
+  display: block;
+  width: 2.75rem;
+  height: 2px;
+  margin-bottom: 1rem;
+  background: var(--brass, #b08d57);
+}
+.home-footer-mod12-c a {
+  text-underline-offset: 3px;
+  transition: opacity .2s ease;
+}
+.home-footer-mod12-c a:hover { opacity: .8; }
+@media (max-width:860px) {
+  .home-footer-mod12-c {
+    padding-top: 2.7rem;
+    padding-bottom: 2.7rem;
+  }
+}
+
+
+/* =========================================================
+   AKSEN 3 RANAH INTI — Dien · Kesehatan · Sains
+   Ditambahkan agar ketiga menu inti (dari 9 menu utama)
+   mudah dikenali dan tetap selaras dengan palet zamrud/brass.
+   ========================================================= */
+.primary-nav a[data-domain] { font-weight: 600; position: relative; }
+.primary-nav a[data-domain]::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 7px;
+  vertical-align: middle;
+  background: currentColor;
+}
+.primary-nav a[data-domain="dien"]        { color: #0F3D2E; }
+.primary-nav a[data-domain="kesehatan"]   { color: #1F5C5C; }
+.primary-nav a[data-domain="sains"]       { color: #2E4374; }
+.primary-nav a[data-domain].is-active { text-decoration: underline; text-underline-offset: 5px; }
+
+.footer-nav a[data-domain] { font-weight: 600; }
+.footer-nav a[data-domain="dien"]      { color: #0F3D2E; }
+.footer-nav a[data-domain="kesehatan"] { color: #1F5C5C; }
+.footer-nav a[data-domain="sains"]     { color: #2E4374; }
+
+
+/* =========================================================
+   UPGRADE KARTU BAIT & STUDIO GAMBAR (v2)
+   - Kartu di layar: garis bingkai emas tipis di dalam kartu +
+     ornamen pemisah bintang (menggantikan garis diagonal).
+   - Studio gambar (js/bait-export.js): panel pratinjau + pilihan.
+   Blok ini sengaja ditaruh di akhir file agar menimpa gaya lama
+   (.bait-ornament, .bait-bg-picker) tanpa mengubah blok aslinya.
+   ========================================================= */
+.bait-card {
+  box-shadow:
+    inset 0 0 0 11px var(--emerald-deep),
+    inset 0 0 0 12px rgba(216, 192, 138, 0.55),
+    var(--shadow-soft);
+}
+.bait-ornament {
+  height: 20px;
+  max-width: 300px;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 20'><g stroke='%23D8C08A' stroke-width='1' stroke-linecap='round' fill='none' opacity='.8'><path d='M8 10H124M176 10H292'/></g><g fill='%23D8C08A'><circle cx='6' cy='10' r='2.2'/><circle cx='294' cy='10' r='2.2'/><polygon points='150.0,1.0 152.0,5.2 156.4,3.6 154.8,8.0 159.0,10.0 154.8,12.0 156.4,16.4 152.0,14.8 150.0,19.0 148.0,14.8 143.6,16.4 145.2,12.0 141.0,10.0 145.2,8.0 143.6,3.6 148.0,5.2'/></g></svg>") center / contain no-repeat;
+  opacity: 1;
+}
+.bait-ornament-top { margin-top: 0.25rem; }
+
+.bait-bg-picker { display: none !important; } /* diganti studio */
+
+.bait-export-btn[aria-expanded="true"] { background: var(--emerald-deep); color: #F3ECD8; }
+
+.bait-studio {
+  margin: clamp(1rem, 3vw, 1.5rem) auto 0;
+  padding: clamp(1rem, 3vw, 1.5rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: var(--shadow-soft);
+  display: grid;
+  gap: clamp(1rem, 3vw, 1.75rem);
+  grid-template-columns: 1fr;
+}
+.bait-studio[hidden] { display: none; }
+@media (min-width: 820px) {
+  .bait-studio { grid-template-columns: minmax(260px, 380px) 1fr; align-items: start; }
+}
+.bait-studio-pratinjau {
+  background: var(--bg-alt);
+  border-radius: 8px;
+  padding: 0.75rem;
+  display: grid;
+  place-items: center;
+}
+.bait-studio-kanvas {
+  display: block;
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 6px 22px -10px rgba(15, 61, 46, 0.5);
+}
+.bait-studio-kontrol { display: grid; gap: 1rem; min-width: 0; }
+.bait-opsi { border: 0; margin: 0; padding: 0; min-width: 0; }
+.bait-opsi-judul {
+  padding: 0;
+  margin-bottom: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+.bait-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+.bait-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 40px;
+  padding: 0.4rem 0.95rem;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--emerald-deep);
+  background: transparent;
+  border: 1px solid var(--emerald);
+  border-radius: 999px;
+  transition: background-color 0.18s var(--ease), color 0.18s var(--ease);
+}
+.bait-chip:hover { background: var(--bg-alt); }
+.bait-chip.aktif { background: var(--emerald-deep); border-color: var(--emerald-deep); color: #F3ECD8; }
+.bait-chip:disabled { opacity: 0.4; cursor: not-allowed; }
+.bait-chip-swatch {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 1px solid var(--brass-line);
+}
+.bait-studio-aksi { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.25rem; }
+.bait-btn {
+  min-height: 46px;
+  padding: 0.7rem 1.4rem;
+  border-radius: var(--radius);
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+.bait-btn-utama { background: var(--emerald-deep); color: #F3ECD8; }
+.bait-btn-utama:hover { background: var(--emerald); }
+.bait-btn-kedua { border: 1px solid var(--emerald); color: var(--emerald-deep); }
+.bait-btn-kedua:hover { background: var(--bg-alt); }
+.bait-btn:disabled { opacity: 0.6; cursor: progress; }
+.bait-studio-catatan { margin: 0; font-size: 0.78rem; color: var(--ink-faint); }

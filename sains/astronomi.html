@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astronomi — Sains — JAZMI</title>
+<meta name="description" content="Astronomi JAZMI — rumah Lintasan Langit: cerita kosmologi, pengamatan langit malam ini, dan renungan hubungan manusia dengan langit, dalam bingkai ilmiah yang manusiawi.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="astronomi.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (disalin persis dari kontrak C01, 6.1) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" class="is-active" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= BREADCRUMB ================= -->
+  <nav class="breadcrumb" aria-label="Jejak navigasi">
+    <div class="section-inner breadcrumb-inner">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page">Astronomi</span>
+    </div>
+  </nav>
+
+  <!-- ================= HERO ASTRONOMI ================= -->
+  <section class="domain-hero">
+    <div class="section-inner domain-hero-inner">
+      <p class="domain-eyebrow">Sains — Astronomi</p>
+      <h1 class="domain-title">Astronomi</h1>
+      <p class="domain-desc">Rumah bagi <strong>Lintasan Langit</strong> — cerita kosmologi, pengamatan langit malam ini, dan renungan hubungan manusia dengan langit. Ilmiah, tetapi tetap manusiawi.</p>
+    </div>
+  </section>
+
+  <!-- ================= 01 — LINTASAN LANGIT (identitas editorial) ================= -->
+  <section class="section" aria-labelledby="lintasan-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">01 — Lintasan Langit</p>
+        <h2 class="section-title" id="lintasan-heading">Cerita, Pengamatan, Renungan</h2>
+        <p class="section-desc">Tiga babak yang membawa penjelajah dari rasa ingin tahu, ke apa yang dapat dilihat malam ini, hingga makna yang direnungkan.</p>
+      </div>
+
+      <div class="babak-grid">
+        <article class="babak-card">
+          <p class="babak-card-label">Babak I</p>
+          <h3 class="babak-card-title">Jejak Kosmologi</h3>
+          <p class="babak-card-desc">Cerita kosmologi modern tentang asal dan susunan alam semesta — pintu masuk rasa ingin tahu.</p>
+        </article>
+
+        <a class="babak-card" href="#langit-malam-ini">
+          <p class="babak-card-label">Babak II</p>
+          <h3 class="babak-card-title">Langit Malam Ini</h3>
+          <p class="babak-card-desc">Astronomi observasional: apa yang dapat diamati, kapan, dan bagaimana caranya.</p>
+          <span class="babak-card-link">Lihat Langit Malam Ini →</span>
+        </a>
+
+        <article class="babak-card">
+          <p class="babak-card-label">Babak III</p>
+          <h3 class="babak-card-title">Langit dan Manusia</h3>
+          <p class="babak-card-desc">Renungan tentang hubungan manusia dengan langit — dari melihat menuju memahami.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 02 — LANGIT MALAM INI (observasional, data demo via fetch) ================= -->
+  <section class="section section-alt" id="langit-malam-ini" aria-labelledby="langit-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">02 — Babak II</p>
+        <h2 class="section-title" id="langit-heading">Langit Malam Ini</h2>
+        <p class="section-desc">Jenis-jenis fenomena langit yang dapat dijelajahi, lengkap dengan cara sederhana untuk mengamatinya.</p>
+      </div>
+
+      <p class="demo-badge">Data Demo — waktu bersifat ilustratif, bukan prediksi astronomi resmi</p>
+
+      <p class="data-empty-note" id="stateLoading">Memuat data fenomena langit…</p>
+      <p class="data-empty-note" id="stateError" hidden>Data fenomena langit belum dapat dimuat. Coba muat ulang halaman ini beberapa saat lagi.</p>
+      <p class="data-empty-note" id="stateEmpty" hidden>Belum ada fenomena langit yang dapat ditampilkan saat ini.</p>
+
+      <div class="phenomena-grid" id="phenomenaGrid" hidden>
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 03 — LANGIT DAN MANUSIA (renungan) ================= -->
+  <section class="section" aria-labelledby="renungan-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">03 — Babak III</p>
+        <h2 class="section-title" id="renungan-heading">Langit dan Manusia</h2>
+      </div>
+
+      <div class="reflect-block">
+        <p>Sejak dahulu, manusia mendongak ke langit bukan hanya untuk mengukur waktu atau arah, tetapi juga untuk bertanya tentang tempatnya di antara ciptaan yang begitu luas. Bintang yang berpindah posisi sepanjang musim, Bulan yang berganti wajah setiap malam, semuanya berjalan menurut hitungan yang rapi.</p>
+        <p>Memandang langit dengan mata ilmiah tidak mengurangi rasa kagum — justru sebaliknya. Semakin dipahami keteraturannya, semakin terasa bahwa keteraturan itu bukan kebetulan. Di titik inilah pengamatan bertemu dengan perenungan.</p>
+        <a class="btn btn-outline" href="/artikel/">Baca Renungan Selengkapnya di Artikel →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER (disalin persis dari HOME, path disesuaikan) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/artikel/">Artikel</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah.</p>
+  </div>
+</footer>
+
+<script src="astronomi.js"></script>
+</body>
+</html>

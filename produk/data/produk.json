@@ -1,0 +1,50 @@
+{
+  "_catatan": "Data produk resmi JAZMI. Harga tidak dimuat di sini agar tidak ganda; harga ada di halaman masing-masing produk (variabel HARGA di bagian bawah halaman).",
+  "status": "resmi",
+  "produk": [
+    {
+      "id": "bekam-praktis",
+      "kategori": "Kesehatan",
+      "nama": "Bekam Praktis (E-book, Edisi 1)",
+      "pilihan": true,
+      "ringkasan": "Panduan keselamatan dan langkah dasar bekam kering untuk pemula, dimulai dari siapa yang tidak boleh dibekam.",
+      "deskripsi": "E-book PDF Trilogi JAZMI Buku I: 8 bab, 36 halaman, dan 5 lembar kerja siap cetak. Membahas penapisan, alat dan kebersihan, langkah bekam kering yang ringan, serta bekam basah hanya sebagai gerbang kesiapan bersama pembimbing.",
+      "informasiPenting": "Materi edukasi, bukan diagnosis, dan tidak menjanjikan kesembuhan. Teknik melukai kulit tidak diajarkan di buku ini.",
+      "tautan": "/produk/bekam-praktis/",
+      "labelTautan": "Buka halaman Bekam Praktis"
+    },
+    {
+      "id": "herbal-dapur",
+      "kategori": "Kesehatan",
+      "nama": "Herbal Dapur (E-book, Edisi 1)",
+      "pilihan": true,
+      "ringkasan": "Mengenal jahe, kunyit, serai, dan bahan dapur lain dengan bukti dan batasnya, tanpa dosis terapi.",
+      "deskripsi": "E-book PDF Trilogi JAZMI Buku II: 12 bab, 32 halaman, dan 3 lembar kerja siap cetak. Memuat sepuluh bahan dapur, cara mengolah dengan aman, cara membaca klaim dan bukti, serta siapa yang perlu lebih berhati-hati.",
+      "informasiPenting": "Bahan pangan bukan obat. Buku ini memakai takaran kuliner, tidak memberi resep pengobatan, dan bukan pengganti saran dokter.",
+      "tautan": "/produk/herbal-dapur/",
+      "labelTautan": "Buka halaman Herbal Dapur"
+    },
+    {
+      "id": "akupresur-praktis",
+      "kategori": "Kesehatan",
+      "nama": "Akupresur Praktis (E-book, Edisi 1)",
+      "pilihan": true,
+      "ringkasan": "Tekanan jari yang aman dan batas yang jelas, dimulai dari siapa yang tidak boleh ditekan.",
+      "deskripsi": "E-book PDF Trilogi JAZMI Buku III: 8 bab, 38 halaman, dan 4 lembar kerja siap cetak. Memuat penapisan, area latihan yang aman, dan satu titik bernama (P6) lengkap dengan bukti dan batasnya.",
+      "informasiPenting": "Materi edukasi, bukan diagnosis, dan tidak menjanjikan kesembuhan. Titik di leher, kepala, perut, dan dada tidak diajarkan.",
+      "tautan": "/produk/akupresur-praktis/",
+      "labelTautan": "Buka halaman Akupresur Praktis"
+    },
+    {
+      "id": "paket-trilogi-jazmi",
+      "kategori": "Kesehatan",
+      "nama": "Paket Trilogi JAZMI (3 E-book)",
+      "pilihan": false,
+      "ringkasan": "Bekam Praktis, Herbal Dapur, dan Akupresur Praktis dalam satu paket, dikirim sekaligus.",
+      "deskripsi": "Tiga e-book PDF dan 12 lembar kerja siap cetak dengan harga paket yang lebih hemat daripada membeli satuan.",
+      "informasiPenting": "Ketiganya materi edukasi dan tidak menjanjikan kesembuhan.",
+      "tautan": "/produk/bekam-praktis/#paket",
+      "labelTautan": "Lihat pilihan paket"
+    }
+  ]
+}

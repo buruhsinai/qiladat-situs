@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Label — Arsip JAZMI</title>
+<meta name="description" id="pageDescription" content="Label — taksonomi topik lintas seluruh artikel JAZMI, dicocokkan otomatis dari kata kunci pada judul dan isi artikel, tidak terikat ranah atau seri.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="label.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (disalin persis dari kontrak C01, 6.1) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/" class="is-active">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= BREADCRUMB ================= -->
+  <nav class="breadcrumb" aria-label="Jejak navigasi">
+    <div class="section-inner breadcrumb-inner">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <a href="/arsip/">Arsip</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page">Label</span>
+    </div>
+  </nav>
+
+  <!-- ================= HERO ================= -->
+  <section class="domain-hero">
+    <div class="section-inner domain-hero-inner">
+      <p class="domain-eyebrow">Arsip — Taksonomi Topik</p>
+      <h1 class="domain-title" id="heroTitle">Label</h1>
+      <p class="domain-desc" id="heroDesc">Lapisan taksonomi topik yang lebih umum daripada tag relasi di halaman artikel — tidak terikat ranah atau seri. Label membantu menemukan "pembicaraan" (topik) yang sama lintas seluruh artikel JAZMI, dicocokkan otomatis dari kata kunci.</p>
+    </div>
+  </section>
+
+  <!-- ================= KEADAAN: DAFTAR SEMUA LABEL ================= -->
+  <section class="section" id="labelGridSection" aria-labelledby="label-grid-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">01 — Jelajahi</p>
+        <h2 class="section-title" id="label-grid-heading">Semua Label</h2>
+        <p class="section-desc">Pilih satu label untuk melihat artikel-artikel yang cocok dengannya.</p>
+      </div>
+
+      <p class="demo-badge" id="draftBadge" hidden><!-- diisi JavaScript dari labels.json._catatan --></p>
+
+      <p class="data-empty-note" id="stateLoading">Memuat daftar label…</p>
+      <p class="data-empty-note" id="stateError" hidden>Data label belum dapat dimuat. Coba muat ulang halaman ini beberapa saat lagi.</p>
+      <p class="data-empty-note" id="stateEmpty" hidden>Belum ada label yang terdaftar di data/labels.json.</p>
+
+      <div class="label-grid" id="labelGrid" hidden>
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= KEADAAN: SATU LABEL (?slug=...) ================= -->
+  <section class="section" id="labelDetailSection" hidden aria-labelledby="label-detail-heading">
+    <div class="section-inner">
+      <a href="index.html" class="back-link" id="backToGrid">← Kembali ke Semua Label</a>
+
+      <div class="section-head label-detail-head">
+        <p class="section-eyebrow">Label</p>
+        <h2 class="section-title" id="label-detail-heading">&nbsp;</h2>
+        <p class="section-desc" id="labelDetailCount"></p>
+      </div>
+
+      <p class="data-empty-note" id="labelDetailEmpty" hidden>Belum ada artikel yang cocok dengan label ini.</p>
+      <p class="data-empty-note" id="labelDetailNotFound" hidden>Label ini tidak ditemukan. Mungkin sudah diganti atau dihapus dari data/labels.json.</p>
+
+      <ul class="article-list" id="labelArticleList">
+        <!-- diisi JavaScript -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= JELAJAHI BAHAN LAIN ================= -->
+  <section class="section section-alt" aria-labelledby="lain-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">02 — Jelajahi</p>
+        <h2 class="section-title" id="lain-heading">Jelajahi Lainnya</h2>
+      </div>
+
+      <nav class="hub-grid" aria-label="Tautan ke arsip lain">
+        <a class="hub-card" href="/artikel/">
+          <span class="hub-card-tag">Artikel</span>
+          <h3 class="hub-card-title">Seluruh Artikel</h3>
+          <p class="hub-card-desc">Jelajahi seluruh artikel JAZMI dari ketiga ranah, urut berdasarkan tanggal terbit.</p>
+          <span class="hub-card-link">Buka Artikel →</span>
+        </a>
+
+        <a class="hub-card" href="../">
+          <span class="hub-card-tag">Arsip</span>
+          <h3 class="hub-card-title">Kembali ke Arsip Global</h3>
+          <p class="hub-card-desc">Cari dan saring seluruh bahan Arsip JAZMI lintas ranah dari satu tempat.</p>
+          <span class="hub-card-link">Buka Arsip →</span>
+        </a>
+      </nav>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER (disalin persis dari kontrak C01, 6.1/4.2) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/artikel/">Artikel</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah. Arsip — Label, versi produksi awal.</p>
+  </div>
+</footer>
+
+<script src="../../js/label-utils.js"></script>
+<script src="label.js"></script>
+</body>
+</html>

@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anyaman &amp; Simpul — Laboratorium Interlacing JAZMI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0F1424;
+    --bg-deep: #0A0E1B;
+    --panel: #161C33;
+    --panel-2: #1D2440;
+    --line: rgba(232,227,211,0.10);
+    --line-strong: rgba(232,227,211,0.20);
+    --ink: #E7E2D2;
+    --ink-dim: #9AA0BE;
+    --ink-faint: #6A7092;
+    --gold: #D8B45C;
+    --gold-deep: #8A6A22;
+    --copper: #C97B4A;
+    --teal: #4FB3AA;
+    --danger: #C9634A;
+    --radius: 3px;
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "Karla", -apple-system, sans-serif;
+    --arabic: "Amiri", serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 1200px 600px at 50% -10%, rgba(216,180,92,0.06), transparent 60%),
+      var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--gold);}
+  ::selection{background:rgba(216,180,92,0.3);}
+
+  .wrap{max-width:1180px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    border-bottom:1px solid var(--line);
+    padding:16px 0;
+  }
+  .topbar .wrap{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .brand{font-family:var(--serif);font-weight:600;font-size:15px;letter-spacing:0.02em;color:var(--ink-dim);}
+  .brand b{color:var(--ink);font-weight:600;}
+  .breadcrumb{font-size:13px;color:var(--ink-faint);}
+
+  /* ---------- Hero ---------- */
+  .hero{padding:56px 0 28px;}
+  .hero-arabic{font-family:var(--arabic);font-size:22px;color:var(--copper);margin:0 0 6px;}
+  h1{
+    font-family:var(--serif);
+    font-weight:340;
+    font-size:clamp(38px,6vw,64px);
+    line-height:1.02;
+    margin:0 0 18px;
+    color:var(--ink);
+    max-width:14ch;
+  }
+  h1 em{font-style:italic;color:var(--gold);}
+  .lede{
+    font-size:17px;
+    color:var(--ink-dim);
+    max-width:62ch;
+    margin:0 0 6px;
+  }
+  .lede-source{font-size:13px;color:var(--ink-faint);max-width:62ch;}
+
+  /* ---------- Stage (tool) ---------- */
+  .stage{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    overflow:hidden;
+    margin:32px 0 12px;
+  }
+  @media (max-width:860px){
+    .stage{grid-template-columns:1fr;}
+  }
+
+  .controls{
+    background:var(--panel);
+    padding:22px 20px 26px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    max-height:none;
+  }
+  .ctrl-group{display:flex;flex-direction:column;gap:6px;}
+  .ctrl-label{
+    display:flex;justify-content:space-between;align-items:baseline;
+    font-size:12.5px; color:var(--ink-dim); letter-spacing:0.01em;
+  }
+  .ctrl-label span.val{font-family:var(--serif);color:var(--gold);font-size:14px;}
+
+  input[type=range]{
+    -webkit-appearance:none;
+    width:100%;height:3px;
+    background:linear-gradient(90deg, var(--gold), var(--gold-deep));
+    border-radius:2px;outline:none;margin:8px 0 2px;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:15px;height:15px;border-radius:50%;
+    background:var(--ink);border:2px solid var(--gold);
+    cursor:pointer;margin-top:-6px;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:13px;height:13px;border-radius:50%;
+    background:var(--ink);border:2px solid var(--gold);cursor:pointer;
+  }
+  input[type=range]::-moz-range-track{height:3px;background:var(--panel-2);border-radius:2px;}
+
+  select{
+    background:var(--panel-2);
+    border:1px solid var(--line-strong);
+    color:var(--ink);
+    font-family:var(--sans);font-size:13px;
+    padding:8px 10px;border-radius:var(--radius);
+    width:100%;
+  }
+
+  .toggle-row{
+    display:flex;align-items:center;justify-content:space-between;
+    font-size:13px;color:var(--ink-dim);cursor:pointer;user-select:none;
+    padding:2px 0;
+  }
+  .toggle-row input{display:none;}
+  .toggle-pill{
+    width:34px;height:19px;border-radius:10px;background:var(--panel-2);
+    border:1px solid var(--line-strong);position:relative;flex:none;transition:background .15s;
+  }
+  .toggle-pill::after{
+    content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;
+    background:var(--ink-faint);transition:transform .15s, background .15s;
+  }
+  .toggle-row input:checked + .toggle-pill{background:rgba(216,180,92,0.18);border-color:var(--gold-deep);}
+  .toggle-row input:checked + .toggle-pill::after{transform:translateX(15px);background:var(--gold);}
+
+  .divider{height:1px;background:var(--line);margin:2px 0;}
+
+  .presets{display:flex;flex-wrap:wrap;gap:6px;}
+  .preset-btn{
+    font-family:var(--sans);font-size:11.5px;color:var(--ink-dim);
+    background:var(--panel-2);border:1px solid var(--line-strong);
+    padding:6px 10px;border-radius:20px;cursor:pointer;transition:all .12s;
+  }
+  .preset-btn:hover{border-color:var(--gold);color:var(--gold);}
+
+  .btn-primary{
+    font-family:var(--sans);font-weight:600;font-size:13px;
+    background:transparent;border:1px solid var(--gold-deep);color:var(--gold);
+    padding:10px 14px;border-radius:var(--radius);cursor:pointer;
+    transition:all .12s;letter-spacing:0.01em;
+  }
+  .btn-primary:hover{background:rgba(216,180,92,0.08);border-color:var(--gold);}
+
+  .canvas-side{
+    background:var(--bg-deep);
+    display:flex;flex-direction:column;
+  }
+  .canvas-stage{
+    position:relative;
+    aspect-ratio:1/1;
+    width:100%;
+  }
+  canvas{width:100%;height:100%;display:block;cursor:crosshair;}
+
+  .stats-bar{
+    display:flex;flex-wrap:wrap;gap:18px;
+    padding:12px 18px;
+    border-top:1px solid var(--line);
+    font-size:12px;color:var(--ink-faint);
+  }
+  .stats-bar b{color:var(--ink-dim);font-weight:600;}
+
+  .inspector{
+    padding:14px 18px 18px;
+    border-top:1px solid var(--line);
+    font-size:13px;
+    color:var(--ink-dim);
+    display:none;
+  }
+  .inspector.active{display:block;}
+  .inspector-title{font-family:var(--serif);color:var(--ink);font-size:15px;margin:0 0 8px;}
+  .quad-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:3px;
+    width:76px;margin:8px 0;
+  }
+  .quad-cell{
+    aspect-ratio:1/1;border-radius:2px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:10px;color:rgba(0,0,0,0.55);font-weight:700;
+  }
+  .inspector-row{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start;}
+  .inspector-text{max-width:44ch;font-size:12.5px;line-height:1.55;}
+  .inspector-hint{font-size:12px;color:var(--ink-faint);padding:14px 18px;border-top:1px solid var(--line);}
+
+  /* ---------- Content sections ---------- */
+  section.text-section{padding:52px 0;border-top:1px solid var(--line);}
+  .section-kicker{
+    font-size:12.5px;color:var(--copper);letter-spacing:0.03em;margin:0 0 10px;
+    font-family:var(--sans);font-weight:600;
+  }
+  h2{
+    font-family:var(--serif);font-weight:340;font-size:clamp(26px,3.4vw,36px);
+    margin:0 0 20px;max-width:20ch;
+  }
+  .prose{max-width:68ch;font-size:16px;color:var(--ink-dim);}
+  .prose p{margin:0 0 16px;}
+  .prose strong{color:var(--ink);font-weight:600;}
+  .prose code{
+    font-family:ui-monospace,"SF Mono",Menlo,monospace;
+    background:var(--panel-2);color:var(--gold);
+    padding:1px 6px;border-radius:3px;font-size:0.88em;
+  }
+
+  .formula-block{
+    background:var(--panel);border:1px solid var(--line);border-left:2px solid var(--gold-deep);
+    border-radius:2px;padding:16px 20px;margin:18px 0;
+    font-family:ui-monospace,"SF Mono",Menlo,monospace;
+    font-size:14px;color:var(--gold);
+    max-width:68ch;overflow-x:auto;
+  }
+  .formula-block .label{
+    display:block;font-family:var(--sans);color:var(--ink-faint);font-size:11.5px;
+    margin-bottom:6px;letter-spacing:0.02em;
+  }
+
+  .step-list{
+    max-width:68ch;list-style:none;margin:24px 0;padding:0;
+    counter-reset:step;
+  }
+  .step-list li{
+    counter-increment:step;
+    padding:14px 0 14px 40px;
+    border-top:1px solid var(--line);
+    position:relative;font-size:15px;color:var(--ink-dim);
+  }
+  .step-list li:last-child{border-bottom:1px solid var(--line);}
+  .step-list li::before{
+    content:counter(step);
+    position:absolute;left:0;top:14px;
+    font-family:var(--serif);color:var(--gold);font-size:15px;
+  }
+  .step-list b{color:var(--ink);font-weight:600;}
+
+  .limits-grid{
+    display:grid;grid-template-columns:1fr 1fr;gap:1px;
+    background:var(--line);border:1px solid var(--line);
+    margin:24px 0;max-width:68ch;
+  }
+  @media (max-width:640px){.limits-grid{grid-template-columns:1fr;}}
+  .limit-card{background:var(--panel);padding:18px 20px;}
+  .limit-card .k{font-size:12px;color:var(--danger);margin:0 0 6px;font-weight:600;letter-spacing:0.01em;}
+  .limit-card p{margin:0;font-size:14px;color:var(--ink-dim);}
+
+  .ref-list{max-width:68ch;margin:20px 0;padding:0;list-style:none;}
+  .ref-list li{
+    padding:12px 0;border-top:1px solid var(--line);
+    font-size:14px;color:var(--ink-dim);display:flex;gap:14px;
+  }
+  .ref-list li:last-child{border-bottom:1px solid var(--line);}
+  .ref-tag{
+    flex:none;width:78px;font-size:11px;color:var(--ink-faint);
+    font-family:var(--sans);padding-top:2px;
+  }
+
+  footer{
+    border-top:1px solid var(--line);padding:28px 0 50px;
+    font-size:12.5px;color:var(--ink-faint);
+  }
+  footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;}
+
+  .visually-hidden{
+    position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);
+  }
+
+  input:focus-visible, select:focus-visible, button:focus-visible, canvas:focus-visible{
+    outline:2px solid var(--gold);outline-offset:2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><b>JAZMI</b> · Laboratorium Alat — Sains &amp; Geometri</div>
+    <div class="breadcrumb">Level 4 — Alat · Bank Ide: Anyaman/Knot</div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <p class="hero-arabic">التداخل</p>
+    <h1>Anyaman &amp; <em>Simpul.</em></h1>
+    <p class="lede">
+      Setiap motif anyaman geometris Islam adalah susunan garis lurus yang saling
+      bersilangan, diberi aturan atas-bawah yang konsisten di seluruh bidang — sehingga
+      hasilnya selalu bergantian rapi, tidak pernah kusut. Alat ini membangun pola
+      tersebut langsung dari susunan garis (bukan gambar jadi), lalu mewarnainya
+      memakai aturan papan-catur yang sama yang dipakai teori graf planar.
+    </p>
+    <p class="lede-source">Geser parameter di bawah — setiap perubahan menghitung ulang seluruh persilangan secara langsung.</p>
+  </div>
+
+  <!-- ================= INTERACTIVE STAGE ================= -->
+  <div class="stage">
+    <div class="controls">
+
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="ctrlK">Jumlah arah (K) <span class="val" id="valK">7</span></label>
+        <input type="range" id="ctrlK" min="3" max="16" step="1" value="7">
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="ctrlN">Garis per arah (N) <span class="val" id="valN">4</span></label>
+        <input type="range" id="ctrlN" min="1" max="10" step="1" value="4">
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="ctrlSpacing">Jarak antar garis <span class="val" id="valSpacing">30</span></label>
+        <input type="range" id="ctrlSpacing" min="10" max="70" step="1" value="30">
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="ctrlRotation">Rotasi kisi <span class="val" id="valRotation">0°</span></label>
+        <input type="range" id="ctrlRotation" min="0" max="180" step="1" value="0">
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="ctrlWidth">Lebar untai <span class="val" id="valWidth">9</span></label>
+        <input type="range" id="ctrlWidth" min="3" max="20" step="1" value="9">
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="ctrlGap">Celah persilangan <span class="val" id="valGap">8</span></label>
+        <input type="range" id="ctrlGap" min="0" max="24" step="1" value="8">
+      </div>
+
+      <div class="ctrl-group">
+        <label class="ctrl-label" for="ctrlColorMode">Skema warna</label>
+        <select id="ctrlColorMode">
+          <option value="mono">Emas tunggal</option>
+          <option value="duo" selected>Dua nada (emas · tosca)</option>
+          <option value="rainbow">Pelangi per arah</option>
+        </select>
+      </div>
+
+      <div class="divider"></div>
+
+      <label class="toggle-row" for="ctrlCheckerboard">
+        Pewarnaan papan-catur
+        <input type="checkbox" id="ctrlCheckerboard">
+        <span class="toggle-pill"></span>
+      </label>
+      <label class="toggle-row" for="ctrlConstruction">
+        Kerangka garis mentah
+        <input type="checkbox" id="ctrlConstruction">
+        <span class="toggle-pill"></span>
+      </label>
+      <label class="toggle-row" for="ctrlCrossings">
+        Tandai titik silang
+        <input type="checkbox" id="ctrlCrossings" checked>
+        <span class="toggle-pill"></span>
+      </label>
+
+      <div class="divider"></div>
+
+      <div class="ctrl-group">
+        <span class="ctrl-label">Preset simetri</span>
+        <div class="presets">
+          <button class="preset-btn" data-preset="5,3,34,0">Pentagon · 5</button>
+          <button class="preset-btn" data-preset="8,3,30,0">Oktagon · 8</button>
+          <button class="preset-btn" data-preset="10,4,26,0">Dekagon · 10</button>
+          <button class="preset-btn" data-preset="12,4,22,0">Dodekagon · 12</button>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btnDownload">Unduh sebagai PNG</button>
+    </div>
+
+    <div class="canvas-side">
+      <div class="canvas-stage">
+        <canvas id="canvas" tabindex="0" role="img" aria-label="Visualisasi anyaman geometris interaktif hasil susunan garis"></canvas>
+      </div>
+      <div class="stats-bar" id="statsBar"></div>
+      <div class="inspector" id="inspector">
+        <p class="inspector-title">Titik silang terpilih</p>
+        <div class="inspector-row">
+          <div class="quad-grid" id="quadGrid"></div>
+          <p class="inspector-text" id="inspectorText"></p>
+        </div>
+      </div>
+      <p class="inspector-hint">Klik sebuah titik silang pada pola untuk melihat cara aturan papan-catur menentukan untai mana yang berada di atas.</p>
+    </div>
+  </div>
+  <!-- ================= /STAGE ================= -->
+
+  <section class="text-section" id="belajar">
+    <p class="section-kicker">Belajar</p>
+    <h2>Apa yang sebenarnya sedang dianyam?</h2>
+    <div class="prose">
+      <p>
+        Motif anyaman pada ornamen Islam — di dinding masjid, di mimbar kayu, di ukiran
+        marmer — pada dasarnya bukan gambar bebas. Ia adalah <strong>susunan garis lurus
+        (line arrangement)</strong>: beberapa keluarga garis sejajar, masing-masing
+        keluarga mengarah ke sudut yang berbeda, ditumpuk saling silang membentuk
+        bidang berulang. Keindahannya muncul dari satu aturan sederhana yang dipatuhi
+        di <em>setiap</em> persilangan secara bersamaan: garis yang satu selalu berada
+        di atas, garis yang lain selalu di bawah — dan pola atas-bawah itu bergantian
+        rapi sepanjang tiap garis, tanpa ada satu titik pun yang "menyalahi aturan".
+      </p>
+      <p>
+        Itulah yang membuatnya berkerabat dengan dua cabang matematika sekaligus.
+        Dari sisi <strong>teori simpul (knot theory)</strong>, pola semacam ini disebut
+        <em>alternating link diagram</em> — diagram yang di sepanjang setiap untainya,
+        status atas dan bawah berselang-seling sempurna. Dari sisi <strong>teori graf
+        planar</strong>, aturan atas-bawah itu ternyata bisa diturunkan langsung dari
+        <em>pewarnaan papan-catur</em>: cara membagi bidang menjadi dua warna sedemikian
+        rupa sehingga dua daerah yang bertetangga (berbagi satu sisi) selalu berbeda
+        warna. Bagian "Metode" di bawah menunjukkan bagaimana kedua hal itu bertemu
+        menjadi satu rumus tunggal.
+      </p>
+      <p>
+        Alat di atas tidak menggambar motif yang sudah jadi. Ia membangun susunan
+        garis dari nol setiap kali parameter digeser, menghitung seluruh titik
+        silangnya, lalu menentukan sendiri untai mana yang di atas — persis proses
+        yang diuraikan dalam metode proyek ini: <strong>bukan langsung membuat tool,
+        melainkan memodelkan pengetahuannya lebih dulu.</strong>
+      </p>
+    </div>
+  </section>
+
+  <section class="text-section" id="metode">
+    <p class="section-kicker">Metode</p>
+    <h2>Aturan atas-bawah dari pewarnaan papan-catur</h2>
+    <div class="prose">
+      <p>
+        Setiap garis <code>L</code> dalam susunan direpresentasikan dengan bentuk normal
+        — sudut arah <code>θ</code> dan jarak bertanda <code>d</code> dari titik pusat —
+        bukan dengan gradien biasa, supaya garis vertikal maupun horizontal diperlakukan sama.
+      </p>
+      <div class="formula-block">
+        <span class="label">Sisi suatu titik terhadap garis</span>
+        s(L, P) = P·x·cos(θ) + P·y·sin(θ) − d
+      </div>
+      <p>
+        Warna suatu titik <code>P</code> di bidang ditentukan dengan menghitung berapa
+        banyak garis yang "positif" terhadap titik itu, lalu mengambil paritasnya —
+        genap atau ganjil:
+      </p>
+      <div class="formula-block">
+        <span class="label">Warna papan-catur</span>
+        warna(P) = ( jumlah garis dengan s(L,P) &gt; 0 ) mod 2
+      </div>
+      <p>
+        Ini adalah hasil klasik: garis-garis (atau kurva tertutup mana pun) yang membagi
+        bidang selalu bisa diwarnai dua-warna sedemikian rupa sehingga daerah yang
+        bertetangga berbeda warna — tidak perlu tiga warna atau lebih. Tinggal satu
+        langkah lagi untuk mengubahnya menjadi aturan tenun: <strong>di setiap
+        persilangan dua garis, lihat warna kuadran yang berada di sisi positif kedua
+        garis sekaligus.</strong>
+      </p>
+      <div class="formula-block">
+        <span class="label">Aturan atas-bawah lokal (diuji dan diverifikasi komputasional)</span>
+        pada persilangan garis i &amp; j (i &lt; j):<br>
+        q = P + ε·(normal(i) + normal(j))<br>
+        jika warna(q) = 1 → garis i di atas, garis j di bawah<br>
+        jika warna(q) = 0 → garis j di atas, garis i di bawah
+      </div>
+      <p>
+        Rumus ini tidak diambil begitu saja — ia lahir dari beberapa percobaan yang
+        gagal lebih dulu. Percobaan awal memakai arah "kiri" garis secara terpisah
+        untuk tiap sisi, dan ternyata tidak konsisten: garis <code>i</code> bisa
+        mengklaim dirinya di atas garis <code>j</code>, sementara garis <code>j</code>
+        pada saat bersamaan juga mengklaim dirinya di atas garis <code>i</code> —
+        sebuah kontradiksi. Rumus final di atas, yang mengevaluasi kuadran gabungan
+        dua garis sekaligus (bukan satu garis pada satu waktu), diuji pada susunan
+        delapan garis dengan dua puluh delapan persilangan dan menghasilkan nol
+        konflik, dengan setiap garis menunjukkan pola atas-bawah-atas-bawah yang
+        murni bergantian di sepanjang untainya.
+      </p>
+      <ol class="step-list">
+        <li><b>Bangun susunan garis.</b> K arah dikalikan N garis sejajar per arah, digeser setengah selang agar tidak ada tiga garis bertemu di satu titik.</li>
+        <li><b>Potong ke kotak pandang.</b> Setiap garis tak berhingga dipotong ke area kotak yang terlihat, memakai pemotongan setengah-bidang berurutan pada empat sisi.</li>
+        <li><b>Cari semua persilangan.</b> Setiap pasang garis yang tidak sejajar diuji titik potongnya, disaring hanya yang jatuh di dalam kedua ruas garis yang terlihat.</li>
+        <li><b>Tentukan atas-bawah.</b> Rumus kuadran di atas dijalankan pada tiap persilangan, memakai urutan indeks tetap supaya hasilnya konsisten dari sudut pandang mana pun.</li>
+        <li><b>Putus untai yang kalah.</b> Pada tiap titik di mana suatu garis berstatus "di bawah", untai itu diberi celah kecil — hasilnya adalah efek tenun, bukan sekadar garis yang saling menembus.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="text-section" id="batasan">
+    <p class="section-kicker">Batasan</p>
+    <h2>Kapan hasil alat ini tidak boleh disamakan dengan motif baku</h2>
+    <div class="limits-grid">
+      <div class="limit-card">
+        <p class="k">Bukan rekonstruksi girih klasik</p>
+        <p>Motif girih tradisional dibangun dari lima bentuk ubin baku (girih tiles) dengan aturan sambung-tepi tersendiri. Alat ini memakai pendekatan yang lebih sederhana dan umum — susunan garis lurus (line arrangement) — sehingga hasilnya berkerabat secara matematis, tetapi tidak menirukan motif kaligrafi atau ubin sejarah tertentu secara presisi.</p>
+      </div>
+      <div class="limit-card">
+        <p class="k">Kerumitan tumbuh cepat</p>
+        <p>Jumlah persilangan tumbuh kira-kira sebanding dengan kuadrat jumlah garis. Pada nilai K dan N yang besar sekaligus, perhitungan ulang saat parameter digeser bisa terasa lebih berat di perangkat yang lemah.</p>
+      </div>
+      <div class="limit-card">
+        <p class="k">Tepi kotak bisa terpotong asimetris</p>
+        <p>Karena setiap garis dipotong ke area pandang berbentuk kotak, garis yang jatuh dekat sudut kotak kadang terlihat lebih pendek dari yang lain — ini efek pemotongan tampilan, bukan kesalahan pada susunan garis itu sendiri.</p>
+      </div>
+      <div class="limit-card">
+        <p class="k">Alat eksplorasi, bukan mesin produksi</p>
+        <p>Alat ini dibuat untuk memahami dan menjelajahi prinsip pewarnaan papan-catur di balik anyaman geometris — bukan untuk menghasilkan berkas siap-potong bagi ukiran, ubin, atau kaligrafi presisi tinggi.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="text-section" id="referensi">
+    <p class="section-kicker">Referensi</p>
+    <h2>Sumber &amp; bacaan lanjutan</h2>
+    <ul class="ref-list">
+      <li>
+        <span class="ref-tag">Girih &amp; kuasi-kristal</span>
+        <span>Peter J. Lu &amp; Paul J. Steinhardt (2007), studi tentang kesesuaian sebagian pola girih pada arsitektur Islam abad pertengahan — termasuk di Darb-i Imam, Isfahan — dengan prinsip penyusunan ubin non-periodik, dipublikasikan di jurnal Science.</span>
+      </li>
+      <li>
+        <span class="ref-tag">Teori simpul</span>
+        <span>Konsep diagram simpul bergantian (alternating knot/link diagram) dan hubungannya dengan pewarnaan papan-catur adalah materi standar dalam pengantar teori simpul, berakar dari kerja klasik Peter Guthrie Tait pada abad ke-19.</span>
+      </li>
+      <li>
+        <span class="ref-tag">Graf planar</span>
+        <span>Pewarnaan dua-warna suatu susunan kurva tertutup di bidang sehingga daerah yang bertetangga selalu berbeda warna adalah sifat dasar graf planar, jauh lebih sederhana dari empat-warna dan berlaku umum untuk susunan garis.</span>
+      </li>
+      <li>
+        <span class="ref-tag">Metode proyek</span>
+        <span>Alat ini dibangun mengikuti alur "belajar → memodelkan → menguji → baru membuat tool" yang disepakati sebagai metode baku proyek JAZMI, dengan rumus atas-bawah diverifikasi lebih dulu secara komputasional sebelum diimplementasikan sebagai tampilan.</span>
+      </li>
+    </ul>
+  </section>
+
+</div>
+
+<footer>
+  <div class="wrap">
+    <span>JAZMI — Jalinan Zamrud Islamiah · Laboratorium Alat</span>
+    <span>Level 4 (Tool) dari Level 1–3: Studi, Model, Verifikasi</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  // ============================================================
+  // GEOMETRY ENGINE
+  // ============================================================
+  const BOX_H = 230; // half-width of the world-space viewing box
+
+  function normalVec(L){ return [Math.cos(L.theta), Math.sin(L.theta)]; }
+  function dirVec(L){ return [-Math.sin(L.theta), Math.cos(L.theta)]; }
+  function pointOnLine(L){ return [Math.cos(L.theta)*L.d, Math.sin(L.theta)*L.d]; }
+  function sideValue(L, P){ return P[0]*Math.cos(L.theta) + P[1]*Math.sin(L.theta) - L.d; }
+
+  function colorAt(P, lines){
+    let cnt = 0;
+    for(let k=0;k<lines.length;k++){
+      if(sideValue(lines[k], P) > 0) cnt++;
+    }
+    return cnt % 2;
+  }
+
+  function clipToBox(L, H){
+    const P = pointOnLine(L), D = dirVec(L);
+    let tMin = -Infinity, tMax = Infinity;
+    const axes = [[0,1],[0,-1],[1,1],[1,-1]];
+    for(const [axis, sign] of axes){
+      const Dc = D[axis]*sign, Pc = P[axis]*sign;
+      if(Math.abs(Dc) < 1e-12){
+        if(Pc > H) return null;
+        continue;
+      }
+      const tBound = (H - Pc)/Dc;
+      if(Dc > 0){ tMax = Math.min(tMax, tBound); } else { tMin = Math.max(tMin, tBound); }
+    }
+    if(tMin > tMax) return null;
+    return [tMin, tMax];
+  }
+
+  function intersectLines(Li, Lj){
+    const a1 = Math.cos(Li.theta), b1 = Math.sin(Li.theta), c1 = Li.d;
+    const a2 = Math.cos(Lj.theta), b2 = Math.sin(Lj.theta), c2 = Lj.d;
+    const det = a1*b2 - a2*b1;
+    if(Math.abs(det) < 1e-9) return null;
+    const x = (c1*b2 - c2*b1)/det;
+    const y = (a1*c2 - a2*c1)/det;
+    return [x, y];
+  }
+
+  // Deterministic pseudo-random jitter. Regular K-fold, centred spacing arrangements
+  // routinely send 3+ lines through the exact same coordinate (e.g. every direction
+  // passes through the origin whenever N is odd) — a degenerate case the local
+  // checkerboard rule below cannot resolve, since it assumes exactly two lines meet
+  // at any given point. A microscopic, well-distributed offset per line (far smaller
+  // than a pixel at any spacing this tool allows) breaks that degeneracy without
+  // visibly disturbing the pattern.
+  function hash2(a, b){
+    let x = Math.sin(a*12.9898 + b*78.233) * 43758.5453123; x -= Math.floor(x);
+    let y = Math.sin(a*93.989  + b*67.345) * 24634.6345;    y -= Math.floor(y);
+    return [x-0.5, y-0.5];
+  }
+
+  function buildPattern(state){
+    let raw = [];
+    for(let k=0;k<state.K;k++){
+      for(let i=0;i<state.N;i++){
+        const [jt, jd] = hash2(k, i*7+1);
+        const theta = (state.rotation*Math.PI/180) + k*Math.PI/state.K + jt*0.004;
+        const d = (i + 0.5 - state.N/2) * state.spacing + jd*Math.max(state.spacing*0.02, 0.3);
+        raw.push({theta, d, k});
+      }
+    }
+    // clip, drop lines that never enter the box
+    const lines = [];
+    for(const L of raw){
+      const clip = clipToBox(L, BOX_H);
+      if(clip){ L.clip = clip; lines.push(L); }
+    }
+
+    const crossings = [];
+    for(let i=0;i<lines.length;i++){
+      for(let j=i+1;j<lines.length;j++){
+        const Li = lines[i], Lj = lines[j];
+        const P = intersectLines(Li, Lj);
+        if(!P) continue;
+        const P0i = pointOnLine(Li), Di = dirVec(Li);
+        const P0j = pointOnLine(Lj), Dj = dirVec(Lj);
+        const tI = (P[0]-P0i[0])*Di[0] + (P[1]-P0i[1])*Di[1];
+        const tJ = (P[0]-P0j[0])*Dj[0] + (P[1]-P0j[1])*Dj[1];
+        if(tI < Li.clip[0]-1e-6 || tI > Li.clip[1]+1e-6) continue;
+        if(tJ < Lj.clip[0]-1e-6 || tJ > Lj.clip[1]+1e-6) continue;
+
+        const ni = normalVec(Li), nj = normalVec(Lj);
+        const eps = 0.02;
+        const q = [P[0] + (ni[0]+nj[0])*eps, P[1] + (ni[1]+nj[1])*eps];
+        const cPP = colorAt(q, lines);
+        const overIndex = (cPP === 1) ? i : j;
+
+        crossings.push({i, j, P, tI, tJ, overIndex});
+      }
+    }
+
+    // build drawable segments per line, breaking at "under" crossings
+    const gapHalf = state.gap/2;
+    const byLine = lines.map(()=>[]);
+    crossings.forEach(cr=>{
+      byLine[cr.i].push({t: cr.tI, over: cr.overIndex===cr.i});
+      byLine[cr.j].push({t: cr.tJ, over: cr.overIndex===cr.j});
+    });
+    const segments = lines.map((L, idx)=>{
+      const arr = byLine[idx].slice().sort((a,b)=>a.t-b.t);
+      const [tMin, tMax] = L.clip;
+      const segs = [];
+      let cur = tMin;
+      for(const c of arr){
+        if(!c.over){
+          const end = c.t - gapHalf;
+          if(end > cur) segs.push([cur, end]);
+          cur = c.t + gapHalf;
+        }
+      }
+      if(cur < tMax) segs.push([cur, tMax]);
+      return segs;
+    });
+
+    return {lines, crossings, segments};
+  }
+
+  // ============================================================
+  // COLOR HELPERS
+  // ============================================================
+  function strandColor(L, mode, K){
+    if(mode === 'mono') return '#D8B45C';
+    if(mode === 'duo') return (L.k % 2 === 0) ? '#D8B45C' : '#4FB3AA';
+    // rainbow
+    const hue = (L.k / K) * 300;
+    return `hsl(${hue.toFixed(0)}, 52%, 62%)`;
+  }
+
+  // ============================================================
+  // UI STATE
+  // ============================================================
+  const state = {
+    K: 7, N: 4, spacing: 30, rotation: 0,
+    strandWidth: 9, gap: 8,
+    colorMode: 'duo',
+    showCheckerboard: false,
+    showConstruction: false,
+    showCrossings: true
+  };
+
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  const statsBar = document.getElementById('statsBar');
+  const inspector = document.getElementById('inspector');
+  const quadGrid = document.getElementById('quadGrid');
+  const inspectorText = document.getElementById('inspectorText');
+
+  let currentPattern = null;
+  let selected = null;
+  let renderScheduled = false;
+  let scale = 1, cx = 0, cy = 0;
+
+  function resizeCanvas(){
+    const rect = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+    scale = canvas.width / (2*BOX_H);
+    cx = canvas.width/2; cy = canvas.height/2;
+    scheduleRender();
+  }
+
+  function worldToPx(P){
+    return [cx + P[0]*scale, cy - P[1]*scale];
+  }
+
+  function scheduleRender(){
+    if(renderScheduled) return;
+    renderScheduled = true;
+    requestAnimationFrame(()=>{
+      renderScheduled = false;
+      compute();
+      draw();
+    });
+  }
+
+  function compute(){
+    currentPattern = buildPattern(state);
+    const complexity = currentPattern.lines.length;
+    statsBar.innerHTML =
+      `<span><b>${currentPattern.lines.length}</b> garis aktif</span>` +
+      `<span><b>${currentPattern.crossings.length}</b> persilangan</span>` +
+      `<span>kerumitan ~ O(K&sup2;N&sup2;)</span>`;
+  }
+
+  function drawCheckerboard(){
+    const cell = currentPattern.lines.length > 60 ? 12 : 8;
+    for(let py=0; py<canvas.height; py+=cell){
+      for(let px=0; px<canvas.width; px+=cell){
+        const wx = (px + cell/2 - cx)/scale;
+        const wy = -((py + cell/2 - cy)/scale);
+        const c = colorAt([wx,wy], currentPattern.lines);
+        ctx.fillStyle = c === 1 ? 'rgba(79,179,170,0.075)' : 'rgba(216,180,92,0.05)';
+        ctx.fillRect(px, py, cell, cell);
+      }
+    }
+  }
+
+  function drawConstruction(){
+    ctx.save();
+    ctx.lineWidth = Math.max(1, scale*0.5);
+    ctx.strokeStyle = 'rgba(154,160,190,0.18)';
+    for(const L of currentPattern.lines){
+      const P0 = pointOnLine(L), D = dirVec(L);
+      const a = [P0[0]+D[0]*L.clip[0], P0[1]+D[1]*L.clip[0]];
+      const b = [P0[0]+D[0]*L.clip[1], P0[1]+D[1]*L.clip[1]];
+      const pa = worldToPx(a), pb = worldToPx(b);
+      ctx.beginPath(); ctx.moveTo(pa[0],pa[1]); ctx.lineTo(pb[0],pb[1]); ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  function drawStrands(){
+    const w = state.strandWidth * scale / 4.4; // scale factor tuned for visual weight
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    // pass 1: outline
+    currentPattern.lines.forEach((L, idx)=>{
+      const P0 = pointOnLine(L), D = dirVec(L);
+      const segs = currentPattern.segments[idx];
+      if(!segs.length) return;
+      ctx.beginPath();
+      segs.forEach(([t0,t1])=>{
+        const a = worldToPx([P0[0]+D[0]*t0, P0[1]+D[1]*t0]);
+        const b = worldToPx([P0[0]+D[0]*t1, P0[1]+D[1]*t1]);
+        ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]);
+      });
+      ctx.strokeStyle = 'rgba(6,9,20,0.6)';
+      ctx.lineWidth = w + Math.max(3, w*0.55);
+      ctx.stroke();
+    });
+
+    // pass 2: fill color
+    currentPattern.lines.forEach((L, idx)=>{
+      const P0 = pointOnLine(L), D = dirVec(L);
+      const segs = currentPattern.segments[idx];
+      if(!segs.length) return;
+      ctx.beginPath();
+      segs.forEach(([t0,t1])=>{
+        const a = worldToPx([P0[0]+D[0]*t0, P0[1]+D[1]*t0]);
+        const b = worldToPx([P0[0]+D[0]*t1, P0[1]+D[1]*t1]);
+        ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]);
+      });
+      ctx.strokeStyle = strandColor(L, state.colorMode, state.K);
+      ctx.lineWidth = w;
+      ctx.stroke();
+    });
+
+    // pass 3: sheen
+    currentPattern.lines.forEach((L, idx)=>{
+      const P0 = pointOnLine(L), D = dirVec(L);
+      const segs = currentPattern.segments[idx];
+      if(!segs.length) return;
+      ctx.beginPath();
+      segs.forEach(([t0,t1])=>{
+        const a = worldToPx([P0[0]+D[0]*t0, P0[1]+D[1]*t0]);
+        const b = worldToPx([P0[0]+D[0]*t1, P0[1]+D[1]*t1]);
+        ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]);
+      });
+      ctx.strokeStyle = 'rgba(255,255,255,0.16)';
+      ctx.lineWidth = Math.max(1, w*0.28);
+      ctx.stroke();
+    });
+  }
+
+  function drawCrossingMarkers(){
+    ctx.save();
+    currentPattern.crossings.forEach(cr=>{
+      const p = worldToPx(cr.P);
+      const isSel = selected === cr;
+      ctx.beginPath();
+      ctx.arc(p[0], p[1], isSel ? 6.5 : 2.6, 0, Math.PI*2);
+      ctx.fillStyle = isSel ? 'rgba(216,180,92,0.95)' : 'rgba(231,226,210,0.35)';
+      ctx.fill();
+      if(isSel){
+        ctx.beginPath();
+        ctx.arc(p[0], p[1], 12, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(216,180,92,0.6)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      }
+    });
+    ctx.restore();
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.fillStyle = '#0A0E1B';
+    ctx.fillRect(0,0,canvas.width,canvas.height);
+
+    if(state.showCheckerboard) drawCheckerboard();
+    if(state.showConstruction) drawConstruction();
+    drawStrands();
+    if(state.showCrossings) drawCrossingMarkers();
+  }
+
+  // ============================================================
+  // INSPECTOR
+  // ============================================================
+  function showInspector(cr){
+    selected = cr;
+    inspector.classList.add('active');
+    const Li = currentPattern.lines[cr.i], Lj = currentPattern.lines[cr.j];
+    const ni = normalVec(Li), nj = normalVec(Lj);
+    const eps = 0.02;
+    const P = cr.P;
+    const qPP = colorAt([P[0]+(ni[0]+nj[0])*eps, P[1]+(ni[1]+nj[1])*eps], currentPattern.lines);
+    const qMM = colorAt([P[0]-(ni[0]+nj[0])*eps, P[1]-(ni[1]+nj[1])*eps], currentPattern.lines);
+    const qPM = colorAt([P[0]+(ni[0]-nj[0])*eps, P[1]+(ni[1]-nj[1])*eps], currentPattern.lines);
+    const qMP = colorAt([P[0]-(ni[0]-nj[0])*eps, P[1]-(ni[1]-nj[1])*eps], currentPattern.lines);
+
+    const cellColor = c => c === 1 ? '#4FB3AA' : '#D8B45C';
+    quadGrid.innerHTML = `
+      <div class="quad-cell" style="background:${cellColor(qMP)}">−+</div>
+      <div class="quad-cell" style="background:${cellColor(qPP)}">++</div>
+      <div class="quad-cell" style="background:${cellColor(qMM)}">−−</div>
+      <div class="quad-cell" style="background:${cellColor(qPM)}">+−</div>
+    `;
+
+    const thetaI = Math.round(Li.theta*180/Math.PI);
+    const thetaJ = Math.round(Lj.theta*180/Math.PI);
+    const overIsI = cr.overIndex === cr.i;
+    inspectorText.innerHTML =
+      `Persilangan garis arah <b>${thetaI}°</b> dan <b>${thetaJ}°</b>. ` +
+      `Kuadran (+,+) berwarna <b>${qPP === 1 ? 'tosca' : 'emas'}</b>, sehingga garis ` +
+      `<b>${overIsI ? thetaI+'°' : thetaJ+'°'}</b> berada di atas pada titik ini — ` +
+      `dan otomatis di bawah pada persilangan berikutnya di sepanjang untainya sendiri.`;
+  }
+
+  function hideInspector(){
+    selected = null;
+    inspector.classList.remove('active');
+  }
+
+  canvas.addEventListener('click', (ev)=>{
+    if(!currentPattern) return;
+    const rect = canvas.getBoundingClientRect();
+    const px = (ev.clientX-rect.left) * (canvas.width/rect.width);
+    const py = (ev.clientY-rect.top) * (canvas.height/rect.height);
+    const wx = (px - cx)/scale;
+    const wy = -(py - cy)/scale;
+
+    let best = null, bestD = Infinity;
+    currentPattern.crossings.forEach(cr=>{
+      const dx = cr.P[0]-wx, dy = cr.P[1]-wy;
+      const d2 = dx*dx+dy*dy;
+      if(d2 < bestD){ bestD = d2; best = cr; }
+    });
+    const thresholdWorld = 16/scale;
+    if(best && bestD < thresholdWorld*thresholdWorld){
+      showInspector(best);
+    } else {
+      hideInspector();
+    }
+    draw();
+  });
+
+  // ============================================================
+  // CONTROL WIRING
+  // ============================================================
+  function bindRange(id, key, suffix, transform){
+    const el = document.getElementById(id);
+    const valEl = document.getElementById('val'+key.charAt(0).toUpperCase()+key.slice(1));
+    el.addEventListener('input', ()=>{
+      const v = transform ? transform(+el.value) : +el.value;
+      state[key] = v;
+      valEl.textContent = el.value + (suffix||'');
+      scheduleRender();
+    });
+  }
+  bindRange('ctrlK','K','');
+  bindRange('ctrlN','N','');
+  bindRange('ctrlSpacing','spacing','');
+  bindRange('ctrlRotation','rotation','°');
+  bindRange('ctrlWidth','strandWidth','');
+  bindRange('ctrlGap','gap','');
+
+  document.getElementById('ctrlColorMode').addEventListener('change', (e)=>{
+    state.colorMode = e.target.value;
+    scheduleRender();
+  });
+  document.getElementById('ctrlCheckerboard').addEventListener('change', (e)=>{
+    state.showCheckerboard = e.target.checked;
+    scheduleRender();
+  });
+  document.getElementById('ctrlConstruction').addEventListener('change', (e)=>{
+    state.showConstruction = e.target.checked;
+    scheduleRender();
+  });
+  document.getElementById('ctrlCrossings').addEventListener('change', (e)=>{
+    state.showCrossings = e.target.checked;
+    scheduleRender();
+  });
+
+  document.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const [K,N,spacing,rotation] = btn.dataset.preset.split(',').map(Number);
+      state.K = K; state.N = N; state.spacing = spacing; state.rotation = rotation;
+      document.getElementById('ctrlK').value = K; document.getElementById('valK').textContent = K;
+      document.getElementById('ctrlN').value = N; document.getElementById('valN').textContent = N;
+      document.getElementById('ctrlSpacing').value = spacing; document.getElementById('valSpacing').textContent = spacing;
+      document.getElementById('ctrlRotation').value = rotation; document.getElementById('valRotation').textContent = rotation+'°';
+      hideInspector();
+      scheduleRender();
+    });
+  });
+
+  document.getElementById('btnDownload').addEventListener('click', ()=>{
+    const a = document.createElement('a');
+    a.download = 'anyaman-jazmi.png';
+    a.href = canvas.toDataURL('image/png');
+    a.click();
+  });
+
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+})();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Warna yang Bersembunyi di Cahaya Putih</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,400&family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdf6e8; --card:#ffffff; --line:#f0e2c4;
+    --ink:#3a3226; --dim:#8a7c62;
+    --accent:#d9943f; --accent-soft:#faf0dd;
+    --display:'Fredoka',sans-serif; --sans:'Quicksand',sans-serif; --serif:'Spectral',Georgia,serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.7;}
+  .wrap{max-width:640px;margin:0 auto;padding:0 20px 80px;}
+
+  .hero{padding:40px 10px 22px;text-align:center;}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(24px,5.5vw,32px);margin:0 0 10px;color:#8a5a1f;}
+  .hero p{color:var(--dim);font-size:14.5px;max-width:480px;margin:0 auto;}
+  .hero .seri{font-family:var(--mono);font-size:11px;color:var(--accent);border:1px solid var(--accent);padding:3px 10px;border-radius:20px;display:inline-block;margin-bottom:12px;}
+
+  .tab-nav{display:flex;gap:8px;margin-bottom:22px;}
+  .tab-btn{flex:1;font-family:var(--display);font-weight:600;font-size:13.5px;background:#fff;border:2px solid var(--line);
+    color:var(--dim);padding:13px 6px;border-radius:14px;cursor:pointer;text-align:center;}
+  .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  .intro-card{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:20px;margin-bottom:20px;}
+  .intro-card p{font-size:14.5px;color:var(--dim);margin:0 0 10px;}
+  .intro-card p strong{color:var(--ink);}
+
+  .topik{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:22px 20px;margin-bottom:16px;}
+  .topik-num{font-family:var(--mono);font-size:11px;color:var(--accent);border:1px solid var(--accent);padding:3px 9px;
+    border-radius:20px;display:inline-block;margin-bottom:10px;}
+  .topik h2{font-family:var(--display);font-size:18px;margin:0 0 12px;color:#8a5a1f;}
+  .topik-illust{text-align:center;margin-bottom:14px;}
+  .topik-illust svg{width:80px;height:80px;}
+  .topik p{font-size:14px;color:var(--dim);margin:0 0 10px;}
+  .topik p strong{color:var(--ink);}
+  .renungan-box{background:var(--accent-soft);border-left:3px solid var(--accent);border-radius:0 10px 10px 0;
+    padding:14px 16px;margin-top:12px;}
+  .renungan-box .lbl{font-family:var(--mono);font-size:10.5px;color:var(--accent);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:6px;}
+  .renungan-box p{font-family:var(--serif);font-style:italic;font-size:14.5px;color:#8a5a1f;margin:0;}
+
+  .catatan-box{background:#e0f0e6;border-left:3px solid #4a9c7a;border-radius:0 10px 10px 0;padding:12px 16px;margin-top:10px;font-size:12.5px;color:#1f5a3a;}
+  .catatan-box strong{color:#0f3a20;}
+
+  .card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:20px;}
+  .kid-card{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:14px 10px;text-align:center;
+    cursor:pointer;transition:border-color .15s;}
+  .kid-card.active{border-color:var(--accent);background:var(--accent-soft);}
+  .kid-card svg{width:44px;height:44px;}
+  .kid-card .kid-title{font-family:var(--display);font-weight:600;font-size:12px;color:var(--ink);margin-top:6px;line-height:1.25;}
+
+  .reveal-card{display:none;background:var(--card);border:2px solid var(--accent);border-radius:18px;padding:22px;margin-bottom:20px;}
+  .reveal-card.show{display:block;}
+  .reveal-illust{text-align:center;margin-bottom:14px;}
+  .reveal-illust svg{width:90px;height:90px;}
+  .reveal-title{font-family:var(--display);font-weight:700;font-size:18px;text-align:center;color:#8a5a1f;margin-bottom:10px;}
+  .reveal-text{font-size:15px;color:var(--ink);text-align:center;margin-bottom:14px;}
+  .reveal-tanya{background:var(--accent-soft);border-radius:12px;padding:14px 16px;text-align:center;font-family:var(--display);
+    font-size:14px;color:#8a5a1f;}
+
+  footer{text-align:center;padding-top:28px;color:#b9ad94;font-size:11.5px;font-family:var(--mono);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="seri">Sains Alam Semesta — Seri 6</div><br>
+    <h1>🌈 Warna yang Bersembunyi di Cahaya Putih</h1>
+    <p>Tujuh renungan tentang cahaya dan warna — fenomena optik harian yang bisa langsung diamati, dari langit biru sampai pelangi ganda.</p>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="ortu">📖 Bacaan Orang Tua</button>
+    <button class="tab-btn" data-tab="anak">✨ Versi Anak</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-ortu">
+    <div class="intro-card">
+      <p>Semua topik di seri ini bisa langsung diamati anak hari ini juga: langit di atas kepala, matahari terbenam sore ini, daun di halaman, air di gelas dibandingkan laut di foto. Tidak perlu menunggu momen khusus.</p>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">01</span>
+      <h2>Cahaya Putih yang Sebenarnya Gabungan Semua Warna</h2>
+      <div class="topik-illust"><svg viewBox="0 0 90 70">
+        <rect x="10" y="30" width="12" height="10" fill="#e8e6d8"/>
+        <polygon points="30,20 30,50 45,35" fill="none" stroke="#d9943f" stroke-width="2"/>
+        <line x1="45" y1="30" x2="80" y2="15" stroke="#c1705a" stroke-width="1.5"/>
+        <line x1="45" y1="33" x2="80" y2="25" stroke="#e0a83f" stroke-width="1.5"/>
+        <line x1="45" y1="37" x2="80" y2="45" stroke="#5a9cc9" stroke-width="1.5"/>
+        <line x1="45" y1="40" x2="80" y2="55" stroke="#8a5a9c" stroke-width="1.5"/>
+      </svg></div>
+      <p>Cahaya Matahari yang tampak putih polos sebenarnya campuran semua warna sekaligus — merah, jingga, kuning, hijau, biru, hingga ungu — yang bergerak bersamaan sehingga mata kita melihatnya sebagai putih. Saat cahaya ini melewati prisma kaca, setiap warna dibelokkan dengan sudut sedikit berbeda (karena setiap warna punya panjang gelombang berbeda), sehingga terurai dan terlihat terpisah sebagai pelangi warna-warni.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Sesuatu yang tampak paling polos dan sederhana (cahaya putih) ternyata menyimpan keragaman penuh warna di dalamnya — hanya perlu alat yang tepat untuk mengungkapnya.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">02</span>
+      <h2>Kenapa Langit Berwarna Biru</h2>
+      <div class="topik-illust"><svg viewBox="0 0 90 70">
+        <rect x="10" y="10" width="70" height="40" fill="#bcdcf5" opacity="0.5"/>
+        <circle cx="65" cy="20" r="4" fill="#e0a83f"/>
+        <line x1="65" y1="20" x2="20" y2="45" stroke="#e0a83f" stroke-width="1" stroke-dasharray="2 2"/>
+        <circle cx="35" cy="35" r="1.5" fill="#5a9cc9"/><circle cx="45" cy="30" r="1.5" fill="#5a9cc9"/>
+        <circle cx="25" cy="25" r="1.5" fill="#5a9cc9"/>
+      </svg></div>
+      <p>Cahaya Matahari yang masuk ke atmosfer Bumi bertabrakan dengan molekul-molekul udara (terutama nitrogen dan oksigen), dan warna biru lebih mudah dibelokkan ke segala arah oleh molekul sekecil itu dibanding warna merah (fenomena ini disebut hamburan Rayleigh — biru terhambur sekitar 5 kali lebih banyak daripada merah). Karena biru terhambur ke segala arah langit, ke mana pun kita menengadah kita melihat biru itu datang dari seluruh penjuru langit.</p>
+      <div class="catatan-box"><strong>Catatan kejujuran ilmiah:</strong> sebenarnya ungu terhambur lebih banyak lagi daripada biru — tapi langit tidak terlihat ungu karena mata kita kurang peka terhadap ungu, dan sebagian cahaya ungu diserap lapisan atas atmosfer sebelum sampai ke kita.</div>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Warna langit yang kita anggap "sudah semestinya begitu" ternyata hasil dari cara cahaya bertabrakan dengan udara yang bahkan tidak bisa kita lihat satu per satu molekulnya.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">03</span>
+      <h2>Kenapa Matahari Terbenam Berwarna Jingga-Merah</h2>
+      <div class="topik-illust"><svg viewBox="0 0 90 70">
+        <rect x="10" y="10" width="70" height="45" fill="#e8926b" opacity="0.4"/>
+        <circle cx="45" cy="50" r="10" fill="#c1705a"/>
+        <line x1="45" y1="50" x2="10" y2="20" stroke="#e0a83f" stroke-width="1" stroke-dasharray="2 2"/>
+      </svg></div>
+      <p>Saat Matahari berada rendah di ufuk (terbit atau terbenam), cahayanya harus menembus lapisan atmosfer yang jauh lebih tebal dibanding saat siang hari tepat di atas kepala. Sepanjang perjalanan panjang itu, hampir semua cahaya biru sudah terhambur habis ke berbagai arah sebelum sempat mencapai mata kita, menyisakan warna jingga dan merah (yang paling sedikit terhambur) untuk terus melaju lurus ke mata kita.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Warna paling indah di ujung hari itu justru muncul karena cahaya harus menempuh perjalanan terpanjangnya sebelum sampai kepada kita — keindahan yang lahir dari jarak yang lebih jauh, bukan yang lebih dekat.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">04</span>
+      <h2>Pelangi: Kenapa Selalu Melengkung dan Kadang Muncul Dua Kali</h2>
+      <div class="topik-illust"><svg viewBox="0 0 90 70">
+        <path d="M10 55 A35 35 0 0 1 80 55" fill="none" stroke="#c1705a" stroke-width="2"/>
+        <path d="M14 55 A31 31 0 0 1 76 55" fill="none" stroke="#e0a83f" stroke-width="2"/>
+        <path d="M18 55 A27 27 0 0 1 72 55" fill="none" stroke="#5a9cc9" stroke-width="2"/>
+        <path d="M2 60 A44 44 0 0 1 88 60" fill="none" stroke="#8a5a9c" stroke-width="1.5" opacity="0.5"/>
+      </svg></div>
+      <p>Pelangi selalu berbentuk lengkungan karena cahaya yang keluar dari setiap tetes air hujan, setelah dibiaskan dan dipantulkan di dalamnya, selalu keluar pada sudut yang sama persis: sekitar 42° untuk warna merah, sedikit lebih kecil untuk warna ungu. Karena sudutnya tetap sama ke segala arah, titik-titik yang memenuhi sudut itu membentuk lingkaran (yang kita lihat sebagai busur, karena separuh lingkarannya tertutup cakrawala).</p>
+      <p>Pelangi ganda muncul ketika cahaya dipantulkan dua kali di dalam tetesan air (bukan satu kali) sebelum keluar lagi — menghasilkan busur kedua yang lebih redup di sudut sekitar 51°, dengan urutan warna yang terbalik dari pelangi utama.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Keteraturan sudut yang presisi hingga satu derajat itulah yang membuat pelangi selalu berbentuk lengkung sempurna, di mana pun dan kapan pun ia muncul di dunia ini.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">05</span>
+      <h2>Kenapa Daun Berwarna Hijau</h2>
+      <div class="topik-illust"><svg viewBox="0 0 90 70">
+        <path d="M45 60 C25 55 20 35 45 15 C70 35 65 55 45 60 Z" fill="#5cb87a" opacity="0.3" stroke="#3a7a4a" stroke-width="2"/>
+        <line x1="20" y1="20" x2="30" y2="28" stroke="#c1705a" stroke-width="1.5"/>
+        <line x1="70" y1="20" x2="60" y2="28" stroke="#5a9cc9" stroke-width="1.5"/>
+      </svg></div>
+      <p>Daun mengandung zat hijau bernama klorofil, yang menyerap sebagian besar cahaya merah dan biru dari sinar Matahari untuk digunakan sebagai energi fotosintesis (ingat topik fotosintesis di seri sebelumnya). Warna hijau adalah warna yang paling sedikit diserap klorofil — ia dipantulkan kembali ke mata kita, itulah sebabnya daun terlihat hijau. Menariknya, ini berarti warna hijau justru adalah warna yang "ditolak" atau paling kurang dibutuhkan daun, bukan warna favoritnya.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Warna yang kita kagumi sebagai keindahan alam (hijaunya dedaunan) sebenarnya adalah sisa dari apa yang daun "tidak butuhkan" — keindahan yang lahir dari hasil samping sebuah proses, bukan dari tujuan proses itu sendiri.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">06</span>
+      <h2>Kenapa Laut Terlihat Biru padahal Air di Gelas Bening</h2>
+      <div class="topik-illust"><svg viewBox="0 0 90 70">
+        <rect x="30" y="15" width="16" height="30" fill="none" stroke="#5a9cc9" stroke-width="1.5"/>
+        <rect x="55" y="10" width="30" height="50" fill="#2f8ab8" opacity="0.5" stroke="#2f8ab8" stroke-width="1.5"/>
+      </svg></div>
+      <p>Air sebenarnya sedikit menyerap warna merah lebih banyak dibanding warna biru — tapi dalam segelas air, jarak yang ditempuh cahaya terlalu pendek untuk perbedaan itu terlihat, sehingga air tampak bening. Namun dalam lautan yang dalamnya bisa mencapai ribuan meter, cahaya menempuh jarak yang jauh lebih panjang di dalam air — cukup panjang untuk sebagian besar warna merah terserap habis, menyisakan warna biru yang lebih dominan dipantulkan kembali ke mata kita.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Zat yang persis sama bisa terlihat sangat berbeda tergantung skalanya — segelas air dan sesamudra air, meski keduanya sama-sama H2O, menunjukkan wajah yang sama sekali berbeda kepada mata kita.</p>
+      </div>
+    </div>
+
+    <div class="topik">
+      <span class="topik-num">07</span>
+      <h2>Mata Kita Hanya Melihat Sedikit dari Semua Cahaya yang Ada</h2>
+      <div class="topik-illust"><svg viewBox="0 0 90 70">
+        <line x1="10" y1="40" x2="80" y2="40" stroke="#8a7c62" stroke-width="2"/>
+        <rect x="35" y="30" width="18" height="20" fill="#d9943f" opacity="0.5"/>
+        <text x="15" y="25" font-family="JetBrains Mono" font-size="7" fill="#8a7c62">radio</text>
+        <text x="65" y="25" font-family="JetBrains Mono" font-size="7" fill="#8a7c62">sinar-X</text>
+      </svg></div>
+      <p>Cahaya tampak yang bisa kita lihat (merah sampai ungu) hanyalah sepotong sangat kecil dari keseluruhan spektrum elektromagnetik yang jauh lebih luas — mulai dari gelombang radio dan microwave yang panjang gelombangnya sangat panjang, sampai sinar-X dan sinar gamma yang sangat pendek. Kamera inframerah, mesin röntgen di rumah sakit, dan radio semuanya memakai jenis cahaya yang tidak pernah bisa kita lihat langsung dengan mata telanjang.</p>
+      <div class="renungan-box">
+        <span class="lbl">Renungan</span>
+        <p>Sama seperti telinga yang cuma mendengar sepotong kecil dari semua suara yang ada, mata kita pun cuma melihat sepotong kecil dari semua cahaya yang sesungguhnya memenuhi dunia di sekitar kita setiap saat.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-anak">
+    <p style="text-align:center;color:var(--dim);font-size:13.5px;margin-bottom:16px;">Ketuk salah satu untuk lihat penjelasannya!</p>
+    <div class="card-grid" id="cardGrid"></div>
+    <div class="reveal-card" id="revealCard">
+      <div class="reveal-illust" id="revealIllust"></div>
+      <div class="reveal-title" id="revealTitle"></div>
+      <div class="reveal-text" id="revealText"></div>
+      <div class="reveal-tanya" id="revealTanya"></div>
+    </div>
+  </div>
+
+  <footer>Laboratorium Fiqih &amp; Alam — bagian dari Bank Alat JAZMI/Qiladat</footer>
+</div>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  const TOPIK_ANAK = [
+    {
+      judul: 'Cahaya Putih Penuh Warna',
+      icon: `<svg viewBox="0 0 90 70"><polygon points="30,20 30,50 45,35" fill="none" stroke="#d9943f" stroke-width="2"/><line x1="45" y1="30" x2="80" y2="15" stroke="#c1705a" stroke-width="1.5"/><line x1="45" y1="37" x2="80" y2="45" stroke="#5a9cc9" stroke-width="1.5"/></svg>`,
+      teks: 'Cahaya matahari yang kelihatannya putih polos ternyata gabungan semua warna pelangi sekaligus — cuma perlu prisma kaca untuk memisahkannya!',
+      tanya: '🤔 Pernahkah kamu melihat cahaya matahari lewat gelas kaca dan muncul warna-warni? Itulah buktinya!'
+    },
+    {
+      judul: 'Kenapa Langit Biru',
+      icon: `<svg viewBox="0 0 90 70"><rect x="10" y="10" width="70" height="40" fill="#bcdcf5" opacity="0.5"/><circle cx="65" cy="20" r="4" fill="#e0a83f"/></svg>`,
+      teks: 'Warna biru dari cahaya matahari lebih mudah "dipantulkan ke mana-mana" oleh udara dibanding warna lain — makanya langit terlihat biru dari segala arah!',
+      tanya: '🤔 Coba lihat langit sekarang — apakah selalu biru, atau berubah warna di waktu tertentu?'
+    },
+    {
+      judul: 'Matahari Terbenam yang Jingga',
+      icon: `<svg viewBox="0 0 90 70"><rect x="10" y="10" width="70" height="45" fill="#e8926b" opacity="0.4"/><circle cx="45" cy="50" r="10" fill="#c1705a"/></svg>`,
+      teks: 'Saat matahari mau terbenam, cahayanya harus menempuh perjalanan lebih jauh lewat udara — warna birunya habis di jalan, cuma jingga dan merah yang sampai ke matamu!',
+      tanya: '🤔 Coba amati matahari terbenam nanti sore — warna apa saja yang kamu lihat?'
+    },
+    {
+      judul: 'Pelangi yang Selalu Melengkung',
+      icon: `<svg viewBox="0 0 90 70"><path d="M10 55 A35 35 0 0 1 80 55" fill="none" stroke="#c1705a" stroke-width="2"/><path d="M18 55 A27 27 0 0 1 72 55" fill="none" stroke="#5a9cc9" stroke-width="2"/></svg>`,
+      teks: 'Pelangi selalu berbentuk lengkung karena cahaya selalu keluar dari tetesan air pada sudut yang sama persis — dan kadang bisa muncul dua pelangi sekaligus!',
+      tanya: '🤔 Pernahkah kamu lihat dua pelangi sekaligus? Coba cari fotonya kalau belum pernah!'
+    },
+    {
+      judul: 'Kenapa Daun Hijau',
+      icon: `<svg viewBox="0 0 90 70"><path d="M45 60 C25 55 20 35 45 15 C70 35 65 55 45 60 Z" fill="#5cb87a" opacity="0.3" stroke="#3a7a4a" stroke-width="2"/></svg>`,
+      teks: 'Daun sebenarnya "membuang" warna hijau karena tidak dibutuhkannya — ia menyerap warna merah dan biru untuk makanannya. Hijau yang kita lihat itu sisa yang dipantulkan!',
+      tanya: '🤔 Jadi warna hijau daun itu warna favoritnya atau warna yang "tidak dipakai"? Menarik ya!'
+    },
+    {
+      judul: 'Laut Biru, Air Gelas Bening',
+      icon: `<svg viewBox="0 0 90 70"><rect x="30" y="15" width="16" height="30" fill="none" stroke="#5a9cc9" stroke-width="1.5"/><rect x="55" y="10" width="30" height="50" fill="#2f8ab8" opacity="0.5" stroke="#2f8ab8" stroke-width="1.5"/></svg>`,
+      teks: 'Air di gelas terlihat bening, tapi air laut yang sangat dalam terlihat biru — padahal sama-sama air! Bedanya cuma jaraknya jauh lebih dalam.',
+      tanya: '🤔 Kalau kamu isi bak mandi besar dengan air, menurutmu apa airnya mulai terlihat kebiruan?'
+    },
+    {
+      judul: 'Cahaya yang Tak Bisa Kita Lihat',
+      icon: `<svg viewBox="0 0 90 70"><line x1="10" y1="40" x2="80" y2="40" stroke="#8a7c62" stroke-width="2"/><rect x="35" y="30" width="18" height="20" fill="#d9943f" opacity="0.5"/></svg>`,
+      teks: 'Ada banyak jenis cahaya yang tidak bisa kita lihat sama sekali — sinar radio, sinar-X di rumah sakit, bahkan cahaya yang dipakai remote TV-mu!',
+      tanya: '🤔 Kalau ada cahaya yang tidak bisa kita lihat, bagaimana ilmuwan tahu itu ada?'
+    }
+  ];
+
+  function buatCardGrid(){
+    const grid = document.getElementById('cardGrid');
+    grid.innerHTML = '';
+    TOPIK_ANAK.forEach((t, i) => {
+      const card = document.createElement('div');
+      card.className = 'kid-card';
+      card.innerHTML = `${t.icon}<div class="kid-title">${t.judul}</div>`;
+      card.addEventListener('click', () => tampilkan(i, card));
+      grid.appendChild(card);
+    });
+  }
+
+  function tampilkan(i, cardEl){
+    document.querySelectorAll('.kid-card').forEach(c => c.classList.remove('active'));
+    cardEl.classList.add('active');
+    const t = TOPIK_ANAK[i];
+    document.getElementById('revealIllust').innerHTML = t.icon;
+    document.getElementById('revealTitle').textContent = t.judul;
+    document.getElementById('revealText').textContent = t.teks;
+    document.getElementById('revealTanya').textContent = t.tanya;
+    document.getElementById('revealCard').classList.add('show');
+    document.getElementById('revealCard').scrollIntoView({behavior:'smooth', block:'nearest'});
+  }
+
+  buatCardGrid();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

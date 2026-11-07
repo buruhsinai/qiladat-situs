@@ -1,0 +1,23 @@
+{
+  "_catatan": "DATA CONTOH/DEMO. 'tipe' salah satu dari: rangkuman, modul, pdf.",
+  "bahan": [
+    {
+      "id": "bhn-001",
+      "judul": "[Contoh] Rangkuman Kajian Kitab X — Pertemuan 12",
+      "tipe": "rangkuman",
+      "tautan": "#"
+    },
+    {
+      "id": "bhn-002",
+      "judul": "[Contoh] Modul Bahasa Arab Dasar — Jilid 1",
+      "tipe": "modul",
+      "tautan": "#"
+    },
+    {
+      "id": "bhn-003",
+      "judul": "[Contoh] PDF Panduan Fikih Puasa Ringkas",
+      "tipe": "pdf",
+      "tautan": "#"
+    }
+  ]
+}

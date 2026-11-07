@@ -1,0 +1,78 @@
+{
+  "_catatan": "DATA DEMO — dibuat oleh C14 hanya untuk menguji struktur halaman Produk Global. Bukan daftar produk resmi JAZMI dan bukan katalog yang tersedia untuk dibeli. Tidak ada harga, stok, atau tautan pembelian karena sumbernya belum tersedia. Ganti dengan data nyata terverifikasi sebelum dipublikasikan.",
+  "status": "demo",
+  "produk": [
+    {
+      "id": "mushaf-saku-tajwid",
+      "kategori": "Dien",
+      "nama": "Mushaf Saku Berwarna Tajwid",
+      "pilihan": true,
+      "ringkasan": "Mushaf ukuran saku dengan penanda warna tajwid, ringkas untuk dibawa sehari-hari.",
+      "deskripsi": "Mushaf berukuran saku yang dirancang agar mudah dibawa bepergian, dilengkapi penanda warna tajwid untuk membantu bacaan. Cocok bagi yang ingin murajaah ringan di luar rumah.",
+      "informasiPenting": "Contoh ilustratif — cetakan, ukuran, dan penerbit belum final."
+    },
+    {
+      "id": "tasbih-digital-sederhana",
+      "kategori": "Dien",
+      "nama": "Tasbih Digital Sederhana",
+      "pilihan": false,
+      "ringkasan": "Alat hitung zikir digital ringkas dengan tombol tunggal, tanpa fitur berlebihan.",
+      "deskripsi": "Tasbih digital dengan satu tombol penghitung dan layar kecil, dirancang sederhana tanpa fitur tambahan yang mengganggu kekhusyukan zikir.",
+      "informasiPenting": "Contoh ilustratif — daya tahan baterai dan material belum final."
+    },
+    {
+      "id": "minyak-herbal-keluarga",
+      "kategori": "Kesehatan",
+      "nama": "Minyak Herbal Keluarga",
+      "pilihan": true,
+      "ringkasan": "Minyak oles herbal untuk kebutuhan umum keluarga, diracik dari bahan alami pilihan.",
+      "deskripsi": "Minyak oles berbahan dasar herbal yang biasa digunakan untuk kebutuhan umum sehari-hari. Bukan obat, dan bukan pengganti penanganan medis untuk keluhan serius.",
+      "informasiPenting": "Contoh ilustratif — komposisi dan klaim manfaat belum final dan belum diverifikasi."
+    },
+    {
+      "id": "madu-hutan-asli",
+      "kategori": "Kesehatan",
+      "nama": "Madu Hutan Asli",
+      "pilihan": false,
+      "ringkasan": "Madu hutan yang dihimpun dari peternak lebah pilihan sebagai bahan konsumsi harian.",
+      "deskripsi": "Madu hutan yang dapat dikonsumsi sebagai bagian dari pola hidup sehat sehari-hari. Kualitas dan sumber panen dapat bervariasi menurut musim.",
+      "informasiPenting": "Contoh ilustratif — sumber, kemurnian, dan sertifikasi belum final."
+    },
+    {
+      "id": "kompas-arah-kiblat",
+      "kategori": "Sains",
+      "nama": "Kompas Arah Kiblat",
+      "pilihan": true,
+      "ringkasan": "Kompas ringkas yang membantu menentukan arah kiblat berdasarkan prinsip navigasi dasar.",
+      "deskripsi": "Alat navigasi ringkas yang memanfaatkan prinsip kompas magnetik untuk membantu memperkirakan arah kiblat. Bukan pengganti verifikasi arah kiblat yang lebih presisi bila dibutuhkan.",
+      "informasiPenting": "Contoh ilustratif — akurasi dan spesifikasi belum final."
+    },
+    {
+      "id": "jam-waktu-salat-digital",
+      "kategori": "Sains",
+      "nama": "Jam Waktu Salat Digital",
+      "pilihan": false,
+      "ringkasan": "Jam dinding yang menampilkan jadwal waktu salat harian secara otomatis.",
+      "deskripsi": "Jam dinding digital yang menghitung dan menampilkan waktu salat berdasarkan lokasi yang diatur pengguna, membantu menjaga kedisiplinan waktu ibadah.",
+      "informasiPenting": "Contoh ilustratif — metode perhitungan dan akurasi lokasi belum final."
+    },
+    {
+      "id": "buku-catatan-harian-santri",
+      "kategori": "Umum",
+      "nama": "Buku Catatan Harian Santri",
+      "pilihan": false,
+      "ringkasan": "Buku catatan bergaris dengan sampul bertema JAZMI untuk mencatat kajian dan hafalan.",
+      "deskripsi": "Buku catatan sederhana yang dirancang untuk mencatat rangkuman kajian, target hafalan, atau catatan pribadi sehari-hari.",
+      "informasiPenting": "Contoh ilustratif — ukuran, jumlah halaman, dan harga belum final."
+    },
+    {
+      "id": "totebag-jazmi",
+      "kategori": "Umum",
+      "nama": "Totebag Kanvas JAZMI",
+      "pilihan": true,
+      "ringkasan": "Tas kanvas sederhana bermotif wordmark JAZMI untuk kebutuhan sehari-hari.",
+      "deskripsi": "Tas kanvas berbahan kuat dengan motif wordmark JAZMI yang minimalis, dapat digunakan untuk membawa buku, mushaf, atau kebutuhan harian lainnya.",
+      "informasiPenting": "Contoh ilustratif — bahan, ukuran, dan warna belum final."
+    }
+  ]
+}

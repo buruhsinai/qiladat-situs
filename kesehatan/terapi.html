@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Terapi — Kesehatan — JAZMI</title>
+<meta name="description" id="pageDescription" content="Terapi JAZMI — pendekatan penyembuhan dan perawatan yang dikaji dengan cermat, dari yang konvensional hingga tradisional dan komplementer.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="terapi.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (disalin persis dari kontrak C01, 6.1) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" class="is-active" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= BREADCRUMB (dinamis: Kesehatan / Terapi / [nama terapi]) ================= -->
+  <nav class="breadcrumb" aria-label="Jejak navigasi">
+    <div class="section-inner breadcrumb-inner" id="breadcrumbInner">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page" id="breadcrumbCurrent">Terapi</span>
+    </div>
+  </nav>
+
+  <!-- ================= STATE: MEMUAT ================= -->
+  <section class="section" id="stateLoading">
+    <div class="section-inner">
+      <p class="data-empty-note">Memuat data terapi…</p>
+    </div>
+  </section>
+
+  <!-- ================= STATE: GAGAL MEMUAT DATA ================= -->
+  <section class="section" id="stateError" hidden>
+    <div class="section-inner therapy-fallback">
+      <p class="domain-eyebrow">Gangguan</p>
+      <h1 class="domain-title">Data Terapi Belum Dapat Dimuat</h1>
+      <p class="domain-desc">Terjadi kendala saat memuat data terapi. Coba muat ulang halaman ini beberapa saat lagi.</p>
+      <a href="/kesehatan/" class="btn btn-outline">Kembali ke Kesehatan</a>
+    </div>
+  </section>
+
+  <!-- ================= STATE: DETAIL TIDAK DITEMUKAN ================= -->
+  <section class="section" id="stateNotFound" hidden>
+    <div class="section-inner therapy-fallback">
+      <p class="domain-eyebrow">404</p>
+      <h1 class="domain-title">Terapi Tidak Ditemukan</h1>
+      <p class="domain-desc">Terapi yang Anda cari mungkin sudah dipindahkan atau tautannya tidak tepat.</p>
+      <a href="terapi.html" class="btn btn-outline">Lihat Semua Terapi</a>
+    </div>
+  </section>
+
+  <!-- ================= STATE: DAFTAR TERAPI ================= -->
+  <div id="stateList" hidden>
+
+    <section class="domain-hero">
+      <div class="section-inner domain-hero-inner">
+        <p class="domain-eyebrow">Kesehatan — Ranah Terapi</p>
+        <h1 class="domain-title">Terapi</h1>
+        <p class="domain-desc">Pendekatan penyembuhan dan perawatan yang dikaji dengan cermat — dari yang konvensional, tradisional, hingga komplementer — dihimpun dalam bingkai adab dan hikmah JAZMI.</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="daftar-heading">
+      <div class="section-inner">
+        <div class="section-head">
+          <p class="section-eyebrow">Jelajahi</p>
+          <h2 class="section-title" id="daftar-heading">Daftar Terapi</h2>
+          <p class="section-desc">Saring berdasarkan kategori, atau cari nama terapi yang Anda inginkan.</p>
+        </div>
+
+        <div class="therapy-controls">
+          <div class="filter-bar" id="filterBar" role="group" aria-label="Saring terapi berdasarkan kategori">
+            <!-- diisi JavaScript -->
+          </div>
+          <label class="search-field" for="searchInput">
+            <span class="sr-only">Cari terapi</span>
+            <input type="search" id="searchInput" placeholder="Cari nama terapi…" autocomplete="off">
+          </label>
+        </div>
+
+        <p class="filter-status" id="filterStatus" aria-live="polite"><!-- diisi JavaScript --></p>
+
+        <div class="therapy-grid" id="therapyGrid">
+          <!-- diisi JavaScript -->
+        </div>
+
+        <p class="data-empty-note" id="emptyState" hidden>Tidak ada terapi yang cocok dengan pencarian atau filter Anda.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= STATE: DETAIL TERAPI ================= -->
+  <article id="stateDetail" hidden>
+
+    <div class="section-inner detail-back-wrap">
+      <a href="terapi.html" class="back-link">← Kembali ke Terapi</a>
+    </div>
+
+    <section class="identity therapy-identity">
+      <div class="identity-inner">
+        <p class="identity-eyebrow" id="therapyCategory">&nbsp;</p>
+        <h1 class="identity-title" id="therapyName">&nbsp;</h1>
+        <p class="therapy-demo-badge" id="therapyDemoBadge" hidden>Data Demo</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="therapyName">
+      <div class="section-inner therapy-detail-inner">
+
+        <div class="therapy-block">
+          <h2 class="therapy-block-title">Ringkasan</h2>
+          <p id="therapySummary"></p>
+        </div>
+
+        <div class="therapy-block">
+          <h2 class="therapy-block-title">Penjelasan</h2>
+          <div id="therapyBody"><!-- diisi JavaScript --></div>
+        </div>
+
+        <div class="therapy-block" id="therapyReferenceBlock" hidden>
+          <h2 class="therapy-block-title">Referensi</h2>
+          <ul id="therapyReferenceList"></ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= ARTIKEL TERKAIT (sistem global — hanya ditampilkan jika data relasi nyata tersedia) ================= -->
+    <section class="section section-alt" id="relatedArticlesSection" hidden>
+      <div class="section-inner">
+        <div class="section-head">
+          <p class="section-eyebrow">Baca Lebih Lanjut</p>
+          <h2 class="section-title">Artikel Terkait</h2>
+        </div>
+        <ol class="article-list" id="relatedArticlesList">
+          <!-- diisi JavaScript, mengarah ke sistem Artikel global -->
+        </ol>
+      </div>
+    </section>
+
+    <div class="section-inner detail-bottom-nav">
+      <a href="terapi.html" class="btn btn-outline">← Kembali ke Terapi</a>
+    </div>
+
+  </article>
+
+</main>
+
+<!-- ================= FOOTER (disalin persis dari HOME, path disesuaikan) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/artikel/">Artikel</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah.</p>
+  </div>
+</footer>
+
+<script src="terapi.js"></script>
+</body>
+</html>

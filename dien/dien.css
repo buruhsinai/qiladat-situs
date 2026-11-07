@@ -1,0 +1,239 @@
+/* =========================================================
+   JAZMI — Dien Core (C04)
+   dien.css
+   Hanya menambah komponen baru (Syair Pilihan, Navigasi Lanjutan).
+   Menggunakan token warna/tipografi/breakpoint yang sama dari
+   ../css/style.css (variabel :root) — tidak menduplikasi atau
+   mengubahnya, mengikuti pola yang sudah dipakai artikel/css/artikel.css.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Syair Pilihan — versi ringan dari .bait-card (tanpa ornamen
+   penuh), untuk ditampilkan berdampingan dengan Bacaan Terbaru.
+   --------------------------------------------------------- */
+.dien-syair-pick {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding: clamp(1.25rem, 4vw, 2rem);
+}
+
+.dien-syair-pick .syair-arab {
+  font-family: var(--font-arabic);
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  line-height: 2;
+  color: var(--emerald-deep);
+  margin: 0 0 1rem;
+  text-align: right;
+}
+
+.dien-syair-pick .syair-terjemahan {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--ink);
+  margin: 0 0 0.75rem;
+}
+
+.dien-syair-pick .syair-meta {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+}
+
+.dien-syair-note {
+  margin: 0.75rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------
+   Navigasi Lanjutan
+   --------------------------------------------------------- */
+.dien-more {
+  padding: clamp(2.5rem, 6vw, 4rem) 0;
+  border-top: 1px solid var(--line-soft);
+}
+
+.dien-more-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  color: var(--emerald-deep);
+  margin: 0 0 0.5rem;
+}
+
+.dien-more-desc {
+  margin: 0 0 1rem;
+  color: var(--ink-soft);
+  max-width: 60ch;
+}
+
+.dien-more-link {
+  display: inline-block;
+  font-weight: 600;
+  color: var(--emerald);
+}
+.dien-more-link:hover {
+  color: var(--emerald-deep);
+}
+
+
+/* C19 — Selected Option C mobile navigation, propagated to main menu pages */
+@media (max-width: 860px) {
+  .primary-nav {
+    min-height: calc(100vh - 4.1rem);
+    padding: 1.5rem var(--gutter) 3rem;
+    background: var(--surface);
+    border-top: 2px solid var(--brass-line);
+    box-shadow: var(--shadow-soft);
+  }
+
+  .primary-nav ul {
+    gap: 0.35rem;
+  }
+
+  .primary-nav a {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 1rem 0.9rem;
+    font-size: 1.38rem;
+  }
+
+  .primary-nav a.is-active {
+    background: var(--bg-alt);
+    border-left: 3px solid var(--brass);
+    padding-left: calc(0.9rem - 3px);
+  }
+}
+
+/* =========================================================
+   AKSEN 3 RANAH INTI — Dien · Kesehatan · Sains
+   Ditambahkan agar ketiga menu inti (dari 9 menu utama)
+   mudah dikenali dan tetap selaras dengan palet zamrud/brass.
+   ========================================================= */
+.primary-nav a[data-domain] { font-weight: 600; position: relative; }
+.primary-nav a[data-domain]::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 7px;
+  vertical-align: middle;
+  background: currentColor;
+}
+.primary-nav a[data-domain="dien"]        { color: #0F3D2E; }
+.primary-nav a[data-domain="kesehatan"]   { color: #1F5C5C; }
+.primary-nav a[data-domain="sains"]       { color: #2E4374; }
+.primary-nav a[data-domain].is-active { text-decoration: underline; text-underline-offset: 5px; }
+
+.footer-nav a[data-domain] { font-weight: 600; }
+.footer-nav a[data-domain="dien"]      { color: #0F3D2E; }
+.footer-nav a[data-domain="kesehatan"] { color: #1F5C5C; }
+.footer-nav a[data-domain="sains"]     { color: #2E4374; }
+
+
+/* =========================================================
+   SUBMENU RANAH — tombol kompak (C-redesign, permintaan user)
+   Menggantikan kartu besar; hemat tempat, tetap jelas ditekan.
+   ========================================================= */
+.domain-submenu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1.5rem 0 0;
+}
+.submenu-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--emerald);
+  color: var(--emerald-deep);
+  font-weight: 600;
+  font-size: 0.92rem;
+  background: var(--surface);
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.submenu-pill:hover,
+.submenu-pill:focus-visible {
+  background: var(--emerald);
+  color: #fff;
+  border-color: var(--emerald);
+}
+.submenu-pill-soon {
+  opacity: 0.55;
+  cursor: default;
+}
+.submenu-pill-soon:hover {
+  background: var(--surface);
+  color: var(--emerald-deep);
+}
+
+/* ---------------------------------------------------------
+   Demo badge (dipakai panel Sorotan) — sama seperti kesehatan.css
+   --------------------------------------------------------- */
+.demo-badge {
+  display: inline-block;
+  margin: 0 0 1.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--emerald-deep);
+  background: var(--surface);
+  border: 1px solid var(--brass-line);
+  border-radius: var(--radius);
+  padding: 0.35rem 0.75rem;
+}
+
+/* =========================================================
+   SOROTAN — kartu tautan lintas menu (pilihan cepat JAZMI)
+   ========================================================= */
+.sorotan-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+  margin-top: 1.25rem;
+}
+@media (min-width: 640px) {
+  .sorotan-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.sorotan-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 1.35rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--emerald);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.sorotan-card:hover {
+  transform: translateY(-3px);
+  border-left-color: var(--brass);
+}
+.sorotan-card-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--emerald-deep);
+}
+.sorotan-card-title { font-size: 1.05rem; font-weight: 600; margin: 0; color: var(--emerald-deep); }
+.sorotan-card-desc { font-size: 0.9rem; color: var(--ink-soft); margin: 0; flex-grow: 1; }
+.sorotan-card-link { font-size: 0.82rem; font-weight: 700; color: var(--emerald-deep); }
+.sorotan-card:hover .sorotan-card-link { color: var(--brass); }
+
+/* =========================================================
+   ARTIKEL DIEN INDEX FISIK (/dien/artikel/) — ADDITIVE
+   ========================================================= */
+.article-ringkasan {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}

@@ -1,0 +1,284 @@
+/* =========================================================
+   JAZMI — Dien: Syair (C06-B)
+   syair.css
+   Hanya menambah komponen baru (Bait Hari Ini, Syair Pilihan,
+   tab Jelajahi, kartu bait, kartu status/empty-state).
+   Menggunakan token warna/tipografi/breakpoint yang sama dari
+   ../css/style.css (variabel :root) — tidak menduplikasi atau
+   mengubahnya, mengikuti pola dien/dien.css, dien/pondok.css,
+   dan dien/rangkuman.css. Komponen .chip-btn sudah tersedia
+   dari ../css/style.css dan dipakai ulang di halaman ini.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Hero Syair
+   --------------------------------------------------------- */
+.syair-hero-desc {
+  max-width: 64ch;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+
+/* ---------------------------------------------------------
+   Kartu Bait — dipakai untuk Bait Hari Ini & Syair Pilihan.
+   Versi lebih penuh dari .dien-syair-pick di dien.css (halaman
+   ini adalah rumah utama Syair, bukan sekadar preview).
+   --------------------------------------------------------- */
+.bait-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+}
+
+.bait-card + .bait-card {
+  margin-top: 1rem;
+}
+
+.bait-card-arab {
+  font-family: var(--font-arabic);
+  font-size: clamp(1.35rem, 3.2vw, 1.85rem);
+  line-height: 2;
+  color: var(--emerald-deep);
+  margin: 0 0 1rem;
+  text-align: right;
+  direction: rtl;
+}
+
+.bait-card-terjemahan {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  color: var(--ink);
+  margin: 0 0 0.85rem;
+}
+.bait-card-terjemahan.is-kosong {
+  font-family: var(--font-body);
+  font-style: italic;
+  color: var(--ink-faint);
+  font-size: 0.92rem;
+}
+
+.bait-card-meta {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  margin: 0 0 0.75rem;
+}
+.bait-card-meta .sep { margin: 0 0.4em; }
+
+.bait-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 0.9rem;
+}
+.bait-card-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--emerald-deep);
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.2rem 0.65rem;
+}
+
+.bait-card-toggle {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--emerald);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.85rem;
+}
+.bait-card-toggle:hover {
+  border-color: var(--emerald);
+  color: var(--emerald-deep);
+}
+
+.bait-card-detail {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--line);
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.bait-card-detail[hidden] { display: none; }
+.bait-card-detail dt {
+  font-weight: 700;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+}
+.bait-card-detail dd { margin: 0 0 0.5rem; }
+
+/* Bait Hari Ini — sedikit lebih menonjol (border brass) */
+.bait-hari-ini .bait-card {
+  border-left: 4px solid var(--brass);
+}
+
+/* ---------------------------------------------------------
+   Kartu status jujur / empty-state (pola sama dengan
+   .rangkuman-status-card / .pondok-status-card)
+   --------------------------------------------------------- */
+.syair-status-card {
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  max-width: 680px;
+  color: var(--ink-soft);
+}
+.syair-status-card p { margin: 0; }
+.syair-status-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border: 1px solid var(--line);
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
+/* ---------------------------------------------------------
+   Tab Jelajahi Syair — chip toggle sederhana (sama pola
+   dengan .rangkuman-filter-btn), berperan sebagai tablist.
+   --------------------------------------------------------- */
+.jelajahi-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.25rem;
+}
+.jelajahi-tab {
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 0.45rem 0.95rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.jelajahi-tab:hover {
+  border-color: var(--emerald);
+  color: var(--emerald-deep);
+}
+.jelajahi-tab[aria-selected="true"] {
+  background: var(--emerald-deep);
+  color: #fff;
+  border-color: var(--emerald-deep);
+}
+
+.jelajahi-panel[hidden] { display: none; }
+
+.jelajahi-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+@media (min-width: 640px) {
+  .jelajahi-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 860px) {
+  .jelajahi-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.jelajahi-item {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 1.1rem;
+}
+.jelajahi-item-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--emerald-deep);
+  margin: 0 0 0.25rem;
+}
+.jelajahi-item-arab {
+  font-family: var(--font-arabic);
+  font-size: 1rem;
+  color: var(--ink-soft);
+  direction: rtl;
+  text-align: right;
+  margin: 0 0 0.35rem;
+}
+.jelajahi-item-count {
+  font-size: 0.78rem;
+  color: var(--ink-faint);
+}
+
+/* ---------------------------------------------------------
+   Catatan kecil (dependency/keterangan), pola sama dengan
+   .rangkuman-demo-note.
+   --------------------------------------------------------- */
+.syair-note {
+  margin: 1rem 0 0;
+  font-size: 0.8rem;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+.syair-note:empty { display: none; }
+
+/* ---------------------------------------------------------
+   Penjelasan Hari Ini — kartu penjelasan syair harian yang
+   ditautkan dari tombol "Baca penjelasan bait ini" di HOME.
+   Memakai .bait-card sebagai basis (border brass) supaya
+   terasa senada dengan kartu Bait Hari Ini di atasnya, tapi
+   khusus untuk teks penjelasan (bukan bait Arab).
+   --------------------------------------------------------- */
+.syair-penjelasan-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--brass);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+}
+.syair-penjelasan-tanggal {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin: 0 0 0.5rem;
+}
+.syair-penjelasan-judul {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.6vw, 1.4rem);
+  font-weight: 600;
+  color: var(--emerald-deep);
+  margin: 0 0 0.85rem;
+}
+.syair-penjelasan-isi p {
+  font-size: 1rem;
+  line-height: 1.75;
+  color: var(--ink);
+  margin: 0 0 1rem;
+}
+.syair-penjelasan-isi p:last-child { margin-bottom: 0; }
+
+/* ---------------------------------------------------------
+   Artikel Syair — daftar arsip penjelasan hari-hari
+   sebelumnya. Memakai ulang .article-item/.article-date/
+   .article-body/.article-title/.article-category dari
+   ../css/style.css (komponen daftar artikel HOME) supaya
+   tampilannya konsisten dengan daftar artikel di tempat lain.
+   --------------------------------------------------------- */
+.syair-artikel-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Ionosfer & Refleksi Sinyal Radio</title>
+<style>
+:root{
+  --bg:#080E1C;--panel:#0D1525;--panel2:#0A1020;
+  --border:#182240;--border2:#1E2D50;
+  --putih:#DDE5F5;--abu:#5A6A88;--abu2:#3A4A68;
+  --hf:#FF6B35;--mf:#FFD166;--lf:#44AAFF;
+  --ionos1:#7B2FBE;--ionos2:#4361EE;--ionos3:#4CC9F0;
+  --bumi:#1A5C2A;--bumi2:#0D3318;
+  --hijau:#2ECC71;--merah:#E74C3C;--kuning:#F39C12;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--putih);font-family:system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;font-size:13px}
+
+header{padding:.85rem 1.5rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.logo{font-family:'Courier New',monospace;font-size:.75rem;color:var(--ionos3);letter-spacing:.05em}
+.sub{font-size:.68rem;color:var(--abu)}
+
+.layout{display:grid;grid-template-columns:260px 1fr;flex:1;min-height:0}
+.sidebar{padding:1rem;border-right:1px solid var(--border);background:var(--panel2);overflow-y:auto;display:flex;flex-direction:column;gap:.85rem}
+
+.sg{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:7px;padding:.85rem}
+.st{font-size:.62rem;letter-spacing:.08em;font-weight:700;margin-bottom:.7rem}
+.sf{margin-bottom:.75rem}.sf:last-child{margin-bottom:0}
+.sl{font-size:.67rem;color:var(--abu);margin-bottom:.28rem;display:flex;justify-content:space-between}
+.sv{font-weight:700;font-family:'Courier New',monospace;font-size:.78rem}
+input[type=range]{width:100%;-webkit-appearance:none;height:3px;border-radius:2px;outline:none;background:var(--border2);display:block}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;cursor:pointer}
+.r-hf::-webkit-slider-thumb{background:var(--hf);box-shadow:0 0 6px rgba(255,107,53,.5)}
+.r-lf::-webkit-slider-thumb{background:var(--lf);box-shadow:0 0 6px rgba(68,170,255,.5)}
+.r-ion::-webkit-slider-thumb{background:var(--ionos3);box-shadow:0 0 6px rgba(76,201,240,.5)}
+.r-neu::-webkit-slider-thumb{background:var(--putih)}
+
+.freq-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:.35rem;margin-bottom:.75rem}
+.ftab{font-size:.65rem;padding:.3rem .4rem;border:1px solid var(--border2);border-radius:4px;background:transparent;color:var(--abu);cursor:pointer;font-family:inherit;text-align:center;transition:all .15s}
+.ftab:hover{border-color:var(--putih);color:var(--putih)}
+.ftab.ak.hf{border-color:var(--hf);color:var(--hf);background:rgba(255,107,53,.08)}
+.ftab.ak.mf{border-color:var(--mf);color:var(--mf);background:rgba(255,209,102,.08)}
+.ftab.ak.lf{border-color:var(--lf);color:var(--lf);background:rgba(68,170,255,.08)}
+
+.tog-row{display:flex;flex-direction:column;gap:.35rem}
+.tog{display:flex;align-items:center;gap:.45rem;font-size:.7rem;color:var(--abu);cursor:pointer;user-select:none;padding:.2rem 0}
+.tog input{display:none}
+.togb{width:12px;height:12px;border:1.5px solid var(--border2);border-radius:2px;flex-shrink:0;position:relative;transition:all .15s}
+.tog input:checked+.togb{background:currentColor;border-color:currentColor}
+.tog input:checked+.togb::after{content:'';position:absolute;left:2px;top:-1px;width:4px;height:7px;border:2px solid var(--bg);border-left:none;border-top:none;transform:rotate(45deg)}
+
+.canvas-area{position:relative;overflow:hidden;background:var(--bg)}
+canvas{display:block}
+.cv-info{position:absolute;top:.7rem;left:.85rem;pointer-events:none}
+.cv-tag{font-size:.62rem;color:rgba(76,201,240,.6);font-family:'Courier New',monospace;line-height:1.8}
+
+.readout{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--border)}
+.ri{padding:.72rem .95rem;border-right:1px solid var(--border)}
+.ri:last-child{border-right:none}
+.rl{font-size:.58rem;color:var(--abu);margin-bottom:.22rem;letter-spacing:.02em}
+.rv{font-size:.95rem;font-weight:700;font-family:'Courier New',monospace;line-height:1.2}
+.rsub{font-size:.6rem;color:var(--abu);margin-top:.12rem}
+
+.pen{padding:.7rem 1.25rem;border-top:1px solid var(--border);font-size:.7rem;color:var(--abu);line-height:1.7;background:rgba(0,0,0,.2)}
+.pen strong{color:var(--putih)}
+
+@media(max-width:680px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{border-right:none;border-bottom:1px solid var(--border);max-height:260px;overflow-y:auto}
+  .readout{grid-template-columns:repeat(2,1fr)}
+  .ri:nth-child(2){border-right:none}
+  .ri:nth-child(3){border-top:1px solid var(--border)}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Simulator Ionosfer & Refleksi Sinyal Radio</div>
+  <div class="sub">Fisika gelombang nyata · Seret pemancar dan penerima · Geser parameter ionosfer</div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+
+    <div class="sg">
+      <div class="st" style="color:var(--ionos3)">Band Frekuensi</div>
+      <div class="freq-tabs">
+        <button class="ftab lf ak lf" data-band="lf">LF/VLF<br><span style="font-size:.58rem">10–300kHz</span></button>
+        <button class="ftab mf ak" data-band="mf">MF/HF<br><span style="font-size:.58rem">300k–30MHz</span></button>
+        <button class="ftab hf" data-band="hf">VHF/UHF<br><span style="font-size:.58rem">30M–3GHz</span></button>
+      </div>
+      <div class="sf">
+        <div class="sl">Frekuensi <span class="sv" id="vFreq" style="color:var(--lf)">100</span> kHz</div>
+        <input type="range" class="r-lf" id="sFreq" min="10" max="3000000" value="100" step="10">
+      </div>
+    </div>
+
+    <div class="sg">
+      <div class="st" style="color:var(--ionos2)">Kondisi Ionosfer</div>
+      <div class="sf">
+        <div class="sl">Aktivitas matahari <span class="sv" id="vSol" style="color:var(--mf)">50</span> SFU</div>
+        <input type="range" class="r-ion" id="sSol" min="50" max="300" value="100" step="5">
+      </div>
+      <div class="sf">
+        <div class="sl">Waktu (siang/malam) <span class="sv" id="vTime" style="color:var(--ionos3)">Siang</span></div>
+        <input type="range" class="r-ion" id="sTime" min="0" max="23" value="12" step="1">
+      </div>
+      <div class="sf">
+        <div class="sl">Latitude <span class="sv" id="vLat" style="color:var(--ionos3)">0°</span></div>
+        <input type="range" class="r-ion" id="sLat" min="-90" max="90" value="0" step="5">
+      </div>
+      <div class="sf">
+        <div class="sl">Ketinggian lapisan F <span class="sv" id="vFH" style="color:var(--ionos1)">300</span> km</div>
+        <input type="range" class="r-ion" id="sFH" min="150" max="500" value="300" step="10">
+      </div>
+      <div class="sf">
+        <div class="sl">Kepadatan elektron (foF2) <span class="sv" id="vFoF2" style="color:var(--ionos1)">8</span> MHz</div>
+        <input type="range" class="r-ion" id="sFoF2" min="2" max="20" value="8" step="0.5">
+      </div>
+    </div>
+
+    <div class="sg">
+      <div class="st" style="color:var(--abu)">Tampilan</div>
+      <div class="tog-row">
+        <label class="tog" style="color:var(--ionos3)"><input type="checkbox" id="tLayer" checked><span class="togb"></span>Lapisan ionosfer (D/E/F)</label>
+        <label class="tog" style="color:var(--hf)"><input type="checkbox" id="tRay" checked><span class="togb"></span>Jalur ray tracing</label>
+        <label class="tog" style="color:var(--mf)"><input type="checkbox" id="tSkip"><span class="togb"></span>Zona skip (dead zone)</label>
+        <label class="tog" style="color:var(--putih)"><input type="checkbox" id="tGW" checked><span class="togb"></span>Gelombang tanah</label>
+        <label class="tog" style="color:var(--abu)"><input type="checkbox" id="tLabel" checked><span class="togb"></span>Label lapisan</label>
+        <label class="tog" style="color:var(--hijau)"><input type="checkbox" id="tMUF"><span class="togb"></span>Garis MUF</label>
+      </div>
+    </div>
+
+    <div class="sg" style="font-size:.68rem;color:var(--abu);line-height:1.75">
+      <div class="st" style="color:var(--abu)">Catatan Fisika</div>
+      <div id="noteBox">—</div>
+    </div>
+
+  </aside>
+
+  <div class="canvas-area" id="canvasArea">
+    <canvas id="cv"></canvas>
+    <div class="cv-info"><div class="cv-tag" id="cvTag"></div></div>
+  </div>
+</div>
+
+<div class="readout">
+  <div class="ri">
+    <div class="rl">Frekuensi Kritis (foF2)</div>
+    <div class="rv" id="r1v" style="color:var(--ionos1)">—</div>
+    <div class="rsub" id="r1s">—</div>
+  </div>
+  <div class="ri">
+    <div class="rl">MUF (Max Usable Freq)</div>
+    <div class="rv" id="r2v" style="color:var(--mf)">—</div>
+    <div class="rsub" id="r2s">—</div>
+  </div>
+  <div class="ri">
+    <div class="rl">Jangkauan Skip</div>
+    <div class="rv" id="r3v" style="color:var(--hf)">—</div>
+    <div class="rsub" id="r3s">—</div>
+  </div>
+  <div class="ri">
+    <div class="rl">Status Propagasi</div>
+    <div class="rv" id="r4v">—</div>
+    <div class="rsub" id="r4s">—</div>
+  </div>
+</div>
+
+<div class="pen" id="pen"></div>
+
+<script>
+const cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+const c=299792458;
+
+// State
+let freqKHz=100,solSFU=100,jam=12,lat=0,fH=300,foF2=8;
+let band='lf';
+let showLayer=true,showRay=true,showSkip=false,showGW=true,showLabel=true,showMUF=false;
+
+// Posisi pemancar (0-1)
+let tx={x:.15,y:null}; // y dihitung dari bumi
+
+function resize(){
+  const a=document.getElementById('canvasArea');
+  cv.width=a.clientWidth;cv.height=a.clientHeight;
+}
+
+// Fisika ionosfer
+function hitungIonos(){
+  const isDay=jam>=6&&jam<=18;
+  const isTwilight=(jam>=5&&jam<6)||(jam>18&&jam<=19);
+
+  // Indeks radiasi UV berdasarkan jam dan SFU
+  const sunFactor=isDay?Math.sin((jam-6)/12*Math.PI):0.02;
+  const sfuFactor=solSFU/100;
+
+  // foF2 aktual (MHz) — bergantung pada matahari dan waktu
+  const foF2Actual=foF2*(isDay?1:0.4+(Math.random()*.02))*Math.sqrt(sfuFactor);
+
+  // MUF = foF2 / cos(sudut datang kritis)
+  // Untuk sudut elevasi rendah: MUF ≈ foF2 × 3.6 (empiris ITU)
+  const muf=foF2Actual*3.6;
+
+  // Ketinggian lapisan
+  const dH=isDay?60:null; // Lapisan D hanya siang
+  const eH=isDay?110:90;
+  const fH_act=fH*(isDay?1:1.15); // F lebih tinggi malam
+
+  // Jangkauan skip untuk frekuensi tertentu
+  // skip_dist ≈ 2 * sqrt(fH² - (foF2/freq)² * ...) 
+  const freqMHz=freqKHz/1000;
+  let skipDist=0;
+  if(freqMHz>foF2Actual&&freqMHz<muf){
+    // Ada propagasi ionosfer, ada skip zone
+    const sinCrit=foF2Actual/freqMHz;
+    const cosCrit=Math.sqrt(1-sinCrit*sinCrit);
+    skipDist=2*fH_act/cosCrit*Math.tan(Math.asin(sinCrit));
+  } else if(freqMHz<=foF2Actual){
+    // Di bawah foF2: dipantulkan vertikal (tidak ada propagasi jauh)
+    skipDist=0;
+  } else {
+    // Di atas MUF: menembus ionosfer
+    skipDist=null;
+  }
+
+  // Redaman gelombang tanah bergantung frekuensi
+  const gwRange=freqKHz<=100?2000:freqKHz<=1000?500:freqKHz<=30000?50:5;
+
+  return{foF2:foF2Actual,muf,dH,eH,fH:fH_act,skipDist,gwRange,isDay,sunFactor,sfuFactor};
+}
+
+function freqLabel(kHz){
+  if(kHz>=1000000)return`${(kHz/1000000).toFixed(2)} GHz`;
+  if(kHz>=1000)return`${(kHz/1000).toFixed(2)} MHz`;
+  return`${kHz} kHz`;
+}
+
+function draw(){
+  const w=cv.width,h=cv.height;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='#080E1C';ctx.fillRect(0,0,w,h);
+
+  const ion=hitungIonos();
+  const freqMHz=freqKHz/1000;
+
+  // Skala: bumi di bawah, ruang angkasa di atas
+  // h=100% → 600km tinggi
+  const maxH=600; // km yang ditampilkan
+  const groundY=h*.88;
+  const scaleY=groundY/maxH; // px per km
+  const earthR=6371;
+
+  // Faktor skala horizontal: lebar canvas = ~5000km
+  const mapW=5000; // km
+  const scaleX=w/mapW;
+
+  function kmToY(km){return groundY-km*scaleY;}
+  function kmToX(km){return km*scaleX;}
+
+  // --- BINTANG ---
+  for(let i=0;i<60;i++){
+    const sx=(Math.sin(i*93.7)*0.5+0.5)*w;
+    const sy=(Math.cos(i*71.3)*0.5+0.5)*groundY*.7;
+    ctx.beginPath();ctx.arc(sx,sy,.6+i%3*.3,0,Math.PI*2);
+    ctx.fillStyle=`rgba(255,255,255,${.2+.2*(i%3)/3})`;ctx.fill();
+  }
+
+  // --- LAPISAN IONOSFER ---
+  if(showLayer){
+    // Lapisan D (siang saja, 60-90km)
+    if(ion.isDay&&ion.dH){
+      const y1=kmToY(60),y2=kmToY(90);
+      const gd=ctx.createLinearGradient(0,y1,0,y2);
+      gd.addColorStop(0,'rgba(100,80,200,.0)');gd.addColorStop(.5,'rgba(100,80,200,.07)');gd.addColorStop(1,'rgba(100,80,200,.0)');
+      ctx.fillStyle=gd;ctx.fillRect(0,y2,w,y1-y2);
+      if(showLabel){
+        ctx.fillStyle='rgba(150,120,255,.5)';ctx.font='10px Courier New';ctx.textAlign='right';
+        ctx.fillText('Lapisan D (siang)',w-10,y1-5);ctx.textAlign='left';
+      }
+    }
+
+    // Lapisan E (90-130km)
+    const yE1=kmToY(90),yE2=kmToY(130);
+    const ge=ctx.createLinearGradient(0,yE1,0,yE2);
+    ge.addColorStop(0,'rgba(67,97,238,.0)');ge.addColorStop(.5,`rgba(67,97,238,${ion.isDay?.12:.06})`);ge.addColorStop(1,'rgba(67,97,238,.0)');
+    ctx.fillStyle=ge;ctx.fillRect(0,yE2,w,yE1-yE2);
+    if(showLabel){
+      ctx.fillStyle='rgba(100,140,255,.55)';ctx.font='10px Courier New';ctx.textAlign='right';
+      ctx.fillText(`Lapisan E (${ion.isDay?'aktif':'lemah'})`,w-10,yE1-5);ctx.textAlign='left';
+    }
+
+    // Lapisan F (150-500km) — lebih tebal
+    const yF1=kmToY(ion.isDay?150:200),yF2=kmToY(Math.min(ion.fH+80,maxH-10));
+    const gf=ctx.createLinearGradient(0,yF1,0,yF2);
+    gf.addColorStop(0,'rgba(123,47,190,.0)');gf.addColorStop(.4,`rgba(123,47,190,${.18*ion.sfuFactor})`);gf.addColorStop(1,'rgba(123,47,190,.0)');
+    ctx.fillStyle=gf;ctx.fillRect(0,yF2,w,yF1-yF2);
+    if(showLabel){
+      const fLabel=ion.isDay?'Lapisan F1+F2':'Lapisan F (menyatu malam)';
+      ctx.fillStyle='rgba(180,100,255,.6)';ctx.font='10px Courier New';ctx.textAlign='right';
+      ctx.fillText(fLabel,w-10,kmToY(ion.fH)-5);ctx.textAlign='left';
+    }
+
+    // Garis plasma di puncak lapisan F
+    ctx.beginPath();ctx.moveTo(0,kmToY(ion.fH));ctx.lineTo(w,kmToY(ion.fH));
+    ctx.strokeStyle=`rgba(150,80,255,${.25+.15*ion.sfuFactor})`;ctx.lineWidth=1.5;ctx.setLineDash([4,6]);ctx.stroke();ctx.setLineDash([]);
+  }
+
+  // --- BUMI ---
+  const bumiBg=ctx.createLinearGradient(0,groundY,0,h);
+  bumiBg.addColorStop(0,'#1A5C2A');bumiBg.addColorStop(.3,'#0D3318');bumiBg.addColorStop(1,'#061508');
+  ctx.fillStyle=bumiBg;ctx.fillRect(0,groundY,w,h-groundY);
+  // Garis permukaan
+  ctx.beginPath();ctx.moveTo(0,groundY);ctx.lineTo(w,groundY);
+  ctx.strokeStyle='rgba(44,160,80,.4)';ctx.lineWidth=2;ctx.stroke();
+
+  // --- PEMANCAR ---
+  const txX=tx.x*w;const txY=groundY;
+  ctx.beginPath();
+  ctx.moveTo(txX,txY);ctx.lineTo(txX,txY-22);
+  ctx.strokeStyle='rgba(255,230,100,.8)';ctx.lineWidth=2;ctx.stroke();
+  // antena horisontal
+  ctx.beginPath();ctx.moveTo(txX-8,txY-22);ctx.lineTo(txX+8,txY-22);ctx.stroke();
+  ctx.beginPath();ctx.arc(txX,txY,5,0,Math.PI*2);ctx.fillStyle='#FFD166';ctx.fill();
+  ctx.fillStyle='rgba(255,209,102,.8)';ctx.font='8px system-ui';ctx.textAlign='center';
+  ctx.fillText('TX',txX,txY+14);ctx.textAlign='left';
+
+  // --- GELOMBANG TANAH ---
+  if(showGW){
+    const gwPx=ion.gwRange*scaleX;
+    const numWaves=5;
+    for(let i=1;i<=numWaves;i++){
+      const r=gwPx*i/numWaves;
+      ctx.beginPath();ctx.arc(txX,txY,r,Math.PI,0);
+      const alpha=.35*(1-i/numWaves);
+      const col=freqKHz<=300?`rgba(68,170,255,${alpha})`:`rgba(255,209,102,${alpha})`;
+      ctx.strokeStyle=col;ctx.lineWidth=1;ctx.setLineDash([3,5]);ctx.stroke();ctx.setLineDash([]);
+    }
+    if(showLabel){
+      ctx.fillStyle='rgba(68,170,255,.5)';ctx.font='9px system-ui';
+      ctx.fillText(`Gelombang tanah ~${ion.gwRange} km`,txX+gwPx*.3+5,groundY-8);
+    }
+  }
+
+  // --- RAY TRACING ---
+  if(showRay){
+    const angles=[15,25,35,45,55,70]; // sudut elevasi derajat
+    const freqMHz2=freqKHz/1000;
+
+    angles.forEach(elev=>{
+      const elevRad=elev*Math.PI/180;
+      const skipAngle=90-elev; // sudut datang
+      const cosSkip=Math.cos(skipAngle*Math.PI/180);
+
+      // Cek apakah frekuensi ini bisa dipantulkan
+      // Syarat: f < foF2 / sin(elevasi) = MUF untuk sudut ini
+      const mufSudut=ion.foF2/Math.sin(elevRad);
+      const bisaPantul=freqMHz2<mufSudut&&freqMHz2>ion.foF2*0.5;
+
+      // Warna berdasarkan kemampuan pantul
+      let rayColor;
+      if(bisaPantul){
+        const strength=1-(elev-15)/70;
+        rayColor=freqKHz<=300?`rgba(68,170,255,${.5*strength})`
+          :freqKHz<=30000?`rgba(255,107,53,${.5*strength})`
+          :`rgba(255,209,102,${.4*strength})`;
+      } else {
+        rayColor='rgba(255,80,80,.2)'; // tidak terpantul
+      }
+
+      // Titik pantul
+      const reflH=bisaPantul?ion.fH:ion.fH*(1.2); // kalau tembus, pergi lebih tinggi
+      const horizDist=reflH/Math.tan(elevRad); // km horizontal sampai refleksi
+      const reflX=txX+horizDist*scaleX;
+      const reflY=kmToY(reflH);
+      const landX=txX+horizDist*2*scaleX;
+
+      ctx.beginPath();
+      ctx.moveTo(txX,txY);
+
+      if(bisaPantul&&reflX<w){
+        // Naik ke lapisan F
+        ctx.quadraticCurveTo(txX+horizDist*scaleX*.5,kmToY(reflH*.7),reflX,reflY);
+        // Turun kembali ke bumi (kalau masih dalam layar)
+        if(landX<w){
+          ctx.quadraticCurveTo(reflX+(landX-reflX)*.5,kmToY(reflH*.7),landX,groundY);
+          // Simbol penerima
+          ctx.moveTo(landX,groundY);
+          ctx.strokeStyle=rayColor;ctx.lineWidth=1.2;ctx.stroke();
+          ctx.beginPath();ctx.arc(landX,groundY,4,0,Math.PI*2);ctx.fillStyle=rayColor;ctx.fill();
+          if(showLabel&&elev===25){
+            ctx.fillStyle=rayColor;ctx.font='8px system-ui';ctx.textAlign='center';
+            ctx.fillText(`RX ~${(horizDist*2).toFixed(0)}km`,landX,groundY+14);ctx.textAlign='left';
+          }
+        }
+      } else if(!bisaPantul){
+        // Menembus ionosfer — pergi ke luar angkasa
+        const exitX=txX+Math.cos(elevRad)*maxH/Math.tan(elevRad)*scaleX*.5;
+        const exitY=kmToY(Math.min(maxH*1.1,maxH));
+        ctx.lineTo(exitX,exitY);
+        ctx.strokeStyle=rayColor;ctx.lineWidth=1;ctx.setLineDash([2,6]);ctx.stroke();ctx.setLineDash([]);
+        return;
+      }
+
+      ctx.strokeStyle=rayColor;ctx.lineWidth=1.2;ctx.stroke();
+      ctx.beginPath();
+    });
+  }
+
+  // --- GARIS MUF ---
+  if(showMUF){
+    const mufText=ion.muf>=1000?`${(ion.muf/1000).toFixed(2)} GHz`:`${ion.muf.toFixed(1)} MHz`;
+    ctx.fillStyle='rgba(255,209,102,.5)';ctx.font='9px Courier New';ctx.textAlign='right';
+    ctx.fillText(`MUF = ${mufText}`,w-10,kmToY(ion.fH)+15);ctx.textAlign='left';
+  }
+
+  // --- SKIP ZONE ---
+  if(showSkip&&ion.skipDist!==null&&ion.skipDist>0){
+    const skipPx=ion.skipDist*scaleX;
+    ctx.fillStyle='rgba(255,80,80,.08)';
+    ctx.fillRect(txX,groundY-20,Math.min(skipPx,w-txX),20);
+    ctx.strokeStyle='rgba(255,80,80,.3)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(txX+skipPx,groundY-20);ctx.lineTo(txX+skipPx,groundY+5);ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='rgba(255,80,80,.6)';ctx.font='9px system-ui';
+    ctx.fillText(`Zona skip: ~${ion.skipDist.toFixed(0)}km`,txX+skipPx+4,groundY-8);
+  }
+
+  // --- LABEL KETINGGIAN ---
+  if(showLabel){
+    const heights=[100,200,300,400,500];
+    heights.forEach(km=>{
+      if(km<=maxH){
+        ctx.strokeStyle='rgba(255,255,255,.05)';ctx.lineWidth=1;
+        ctx.beginPath();ctx.moveTo(0,kmToY(km));ctx.lineTo(60,kmToY(km));ctx.stroke();
+        ctx.fillStyle='rgba(255,255,255,.2)';ctx.font='8px Courier New';
+        ctx.fillText(`${km}km`,3,kmToY(km)-2);
+      }
+    });
+  }
+
+  // --- MATAHARI INDIKATOR ---
+  const sunX=w*.85,sunY=kmToY(maxH*.8);
+  const sunAlpha=ion.isDay?0.6:.1;
+  const sunG=ctx.createRadialGradient(sunX,sunY,0,sunX,sunY,30);
+  sunG.addColorStop(0,`rgba(255,220,50,${sunAlpha})`);sunG.addColorStop(.5,`rgba(255,180,30,${sunAlpha*.5})`);sunG.addColorStop(1,'transparent');
+  ctx.beginPath();ctx.arc(sunX,sunY,30,0,Math.PI*2);ctx.fillStyle=sunG;ctx.fill();
+  if(showLabel){
+    ctx.fillStyle=`rgba(255,220,50,${sunAlpha*.8})`;ctx.font='9px system-ui';ctx.textAlign='center';
+    ctx.fillText(ion.isDay?'☀ Siang':'☽ Malam',sunX,sunY+45);ctx.textAlign='left';
+  }
+
+  // Update overlay
+  document.getElementById('cvTag').textContent=`f=${freqLabel(freqKHz)} | foF2=${ion.foF2.toFixed(1)}MHz | MUF=${ion.muf.toFixed(1)}MHz | jam ${jam}:00 | lat ${lat}°`;
+
+  // Update readout
+  const mufStr=ion.muf>=1000?`${(ion.muf/1000).toFixed(2)} GHz`:`${ion.muf.toFixed(1)} MHz`;
+  document.getElementById('r1v').textContent=`${ion.foF2.toFixed(1)} MHz`;
+  document.getElementById('r1s').textContent=`Frekuensi kritis vertikal lapisan F`;
+  document.getElementById('r2v').textContent=mufStr;
+  document.getElementById('r2s').textContent=`Batas atas propagasi ionosfer`;
+
+  let skipStr,skipKl;
+  if(ion.skipDist===null){skipStr='Menembus';skipKl='var(--merah)';}
+  else if(ion.skipDist===0){skipStr='0 km (vertikal)';skipKl='var(--kuning)';}
+  else{skipStr=`~${ion.skipDist.toFixed(0)} km`;skipKl='var(--hf)';}
+  document.getElementById('r3v').innerHTML=`<span style="color:${skipKl}">${skipStr}</span>`;
+  document.getElementById('r3s').textContent='Jarak minimum propagasi ionosfer';
+
+  const freqMHz3=freqKHz/1000;
+  let status,statusKl;
+  if(freqMHz3<1){status='Gelombang Tanah';statusKl='var(--lf)';}
+  else if(freqMHz3<ion.foF2*.8){status='Di bawah foF2';statusKl='var(--kuning)';}
+  else if(freqMHz3<ion.muf){status='Propagasi Ionosfer';statusKl='var(--hijau)';}
+  else{status='Menembus Ionosfer';statusKl='var(--merah)';}
+  document.getElementById('r4v').innerHTML=`<span style="color:${statusKl}">${status}</span>`;
+  document.getElementById('r4s').textContent=freqMHz3<ion.muf?`Dipantulkan lapisan F ${ion.fH.toFixed(0)}km`:'Sinyal lolos ke luar angkasa';
+
+  // Penjelasan kontekstual
+  let pen='';
+  const fL=freqLabel(freqKHz);
+  if(freqKHz<300){
+    pen=`<strong>LF/VLF (${fL}):</strong> Gelombang ini merambat sebagai <strong>gelombang tanah</strong> — mengikuti kelengkungan bumi tanpa perlu ionosfer. Jangkauan ~${ion.gwRange} km. LORAN-C menggunakan prinsip ini pada 100 kHz. Di frekuensi ini, sinyal juga bisa dipantulkan ionosfer pada malam hari (jangkauan lebih jauh karena lapisan D yang menyerap menghilang).`;
+  } else if(freqMHz3<=ion.foF2){
+    pen=`<strong>MF/HF di bawah foF2 (${fL}):</strong> Frekuensi ini <strong>di bawah frekuensi kritis (${ion.foF2.toFixed(1)} MHz)</strong> — sinyal dipantulkan hampir vertikal, tidak ada propagasi jarak jauh yang efisien. Ini zona "dead" untuk komunikasi HF jarak jauh.`;
+  } else if(freqMHz3<ion.muf){
+    pen=`<strong>HF dalam jendela propagasi (${fL}):</strong> Frekuensi ini berada antara foF2 (${ion.foF2.toFixed(1)} MHz) dan MUF (${ion.muf.toFixed(1)} MHz) — <strong>zona ideal untuk propagasi ionosfer jarak jauh</strong>. Sinyal dipantulkan lapisan F pada ~${ion.fH.toFixed(0)} km, jangkauan per lompatan ~${ion.skipDist?ion.skipDist.toFixed(0)+'km':'?'}. Dengan beberapa lompatan, komunikasi global tanpa satelit dimungkinkan.`;
+  } else {
+    pen=`<strong>VHF/UHF di atas MUF (${fL}):</strong> Frekuensi ini menembus ionosfer. <strong>Tidak ada pantulan</strong> — itulah mengapa GPS (1.2–1.5 GHz), Starlink, dan telepon satelit menggunakan frekuensi tinggi: mereka perlu sinyal sampai ke orbit. Sisi negatifnya: rentan gangguan dan tidak bisa menembus bangunan tebal.`;
+  }
+  if(ion.isDay&&freqKHz<1000){pen+=` | Siang hari: lapisan D menyerap sebagian energi HF/MF — propagasi lebih pendek dari malam.`;}
+  if(!ion.isDay&&freqKHz<1000){pen+=` | Malam hari: lapisan D menghilang — pantulan ionosfer jauh lebih kuat dan konsisten.`;}
+  document.getElementById('pen').innerHTML=pen;
+
+  // Catatan fisika sidebar
+  const note=freqMHz3<ion.muf?
+    `Indeks refraksi ionosfer: n² = 1 − (fN/f)² di mana fN = frekuensi plasma ≈ foF2. Ketika n=0, sinyal dipantulkan. Ini adalah fisika plasma, bukan mistik.`:
+    `Di atas MUF, n² > 0 di seluruh lapisan — sinyal melewati ionosfer tanpa dipantulkan. Inilah prinsip yang memungkinkan komunikasi satelit.`;
+  document.getElementById('noteBox').textContent=note;
+}
+
+// Drag pemancar
+let dragging=false;
+cv.addEventListener('mousedown',e=>{
+  const r=cv.getBoundingClientRect();
+  const mx=e.clientX-r.left,my=e.clientY-r.top;
+  const txX=tx.x*cv.width,txY=cv.height*.88;
+  if(Math.abs(mx-txX)<20&&Math.abs(my-txY)<30){dragging=true;}
+});
+cv.addEventListener('mousemove',e=>{
+  if(!dragging)return;
+  const r=cv.getBoundingClientRect();
+  tx.x=Math.max(.05,Math.min(.6,(e.clientX-r.left)/cv.width));
+  draw();
+});
+cv.addEventListener('mouseup',()=>{dragging=false;});
+cv.addEventListener('mouseleave',()=>{dragging=false;});
+cv.style.cursor='default';
+
+// Band tabs
+document.querySelectorAll('.ftab').forEach(t=>{
+  t.addEventListener('click',function(){
+    band=this.dataset.band;
+    document.querySelectorAll('.ftab').forEach(x=>x.classList.remove('ak'));
+    this.classList.add('ak');
+    // Preset frekuensi
+    const presets={lf:100,mf:7000,hf:1575420};
+    freqKHz=presets[band];
+    document.getElementById('sFreq').value=freqKHz;
+    document.getElementById('vFreq').textContent=freqLabel(freqKHz);
+    draw();
+  });
+});
+
+// Sliders
+function bindS(id,setter,elId,fmt){
+  document.getElementById(id).addEventListener('input',function(){
+    const v=parseFloat(this.value);setter(v);
+    document.getElementById(elId).textContent=fmt(v);draw();
+  });
+}
+bindS('sFreq',v=>{freqKHz=v;},'vFreq',v=>freqLabel(v));
+bindS('sSol',v=>{solSFU=v;},'vSol',v=>v);
+bindS('sTime',v=>{jam=v;},'vTime',v=>{
+  const label=v>=6&&v<=18?'Siang':v>=19||v<=5?'Malam':'Senja/Fajar';
+  return`${v}:00 (${label})`;
+});
+bindS('sLat',v=>{lat=v;},'vLat',v=>`${v}°`);
+bindS('sFH',v=>{fH=v;},'vFH',v=>v);
+bindS('sFoF2',v=>{foF2=v;},'vFoF2',v=>v);
+
+// Toggles
+[['tLayer',v=>{showLayer=v;}],['tRay',v=>{showRay=v;}],['tSkip',v=>{showSkip=v;}],
+ ['tGW',v=>{showGW=v;}],['tLabel',v=>{showLabel=v;}],['tMUF',v=>{showMUF=v;}]].forEach(([id,fn])=>{
+  document.getElementById(id).addEventListener('change',function(){fn(this.checked);draw();});
+});
+
+window.addEventListener('resize',()=>{resize();draw();});
+resize();draw();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

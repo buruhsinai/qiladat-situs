@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JAZMI — Jalinan Zamrud Islamiah</title>
+<meta name="description" content="JAZMI (Jalinan Zamrud Islamiah) — rumah digital bagi karya, kajian, syair Arab, dan pengetahuan DIEN, KESEHATAN, dan SAINS.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/" class="is-active">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= IDENTITAS ================= -->
+  <section class="home-bahan home-bahan--c" class="identity">
+    <div class="identity-inner">
+      <p class="identity-eyebrow">Rumah digital karya &amp; pengetahuan</p>
+      <h1 class="identity-title">Jalinan Zamrud Islamiah</h1>
+      <p class="identity-desc">DIEN, Kesehatan, dan Sains — dihimpun, diarsipkan, dan dihubungkan kembali menjadi satu perpustakaan yang terus tumbuh.</p>
+    </div>
+  </section>
+
+  <!-- ================= BAIT SYAIR HARI INI ================= -->
+  <section class="bait-harian" aria-labelledby="bait-heading">
+    <div class="section-inner">
+      <div class="bait-card" id="baitCard">
+        <div class="bait-ornament bait-ornament-top" aria-hidden="true"></div>
+
+        <p class="bait-eyebrow" id="bait-heading">Bait Syair Hari Ini</p>
+
+        <blockquote class="bait-arab" dir="rtl" lang="ar" id="baitArab">
+          <!-- diisi JavaScript -->
+        </blockquote>
+
+        <p class="bait-terjemahan" id="baitTerjemahan"><!-- diisi JavaScript --></p>
+
+        <div class="bait-meta">
+          <span id="baitPenyair"><!-- diisi JavaScript --></span>
+          <span class="bait-meta-sep" aria-hidden="true">·</span>
+          <span id="baitSumber"><!-- diisi JavaScript --></span>
+        </div>
+
+        <a href="dien/syair.html#penjelasan-hari-ini" class="bait-link" id="baitTautan">Baca penjelasan bait ini →</a>
+
+        <div class="bait-ornament bait-ornament-bottom" aria-hidden="true"></div>
+
+        <p class="bait-watermark">JAZMI · qiladat.com</p>
+      </div>
+
+      <div class="bait-export-bar">
+        <button type="button" class="bait-export-btn" id="baitUnduhBtn" aria-expanded="false" aria-controls="baitStudio">Simpan sebagai gambar</button>
+      </div>
+      <div class="bait-studio" id="baitStudio" hidden>
+        <!-- diisi JavaScript (js/bait-export.js): pratinjau + pilihan ukuran/tema/motif/hiasan -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ARTIKEL TERBARU ================= -->
+  <section class="section" aria-labelledby="artikel-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">01 — Bacaan</p>
+        <h2 class="section-title" id="artikel-heading">Artikel Terbaru</h2>
+      </div>
+
+      <ol class="article-list" id="articleList">
+        <!-- diisi JavaScript -->
+      </ol>
+
+      <a href="/artikel/" class="btn btn-outline">Lihat Semua Artikel</a>
+    </div>
+  </section>
+
+  <!-- ================= KARYA VISUAL TERBARU ================= -->
+  <section class="section section-alt" aria-labelledby="visual-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">02 — Karya</p>
+        <h2 class="section-title" id="visual-heading">Karya Visual Terbaru</h2>
+      </div>
+
+      <div class="visual-slider" id="visualSlider" tabindex="0" aria-label="Galeri karya visual, geser untuk melihat lebih banyak">
+        <!-- diisi JavaScript -->
+      </div>
+
+      <a href="/arsip/gambar/" class="btn btn-outline visual-more">Lihat Gambar Lainnya</a>
+
+      <div class="visual-social" aria-label="Jaringan visual dan media JAZMI">
+        <div class="visual-social-primary">
+          <span class="visual-social-label">Ikuti JAZMI</span>
+          <a href="https://instagram.com/jalinanzamrud" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Instagram Jalinan Zamrud</a>
+        </div>
+        <div class="visual-social-secondary">
+          <a href="https://instagram.com/buruhsinai" target="_blank" rel="noopener noreferrer">Sains &amp; Astronomi</a>
+          <a href="https://instagram.com/nikmatinsehat" target="_blank" rel="noopener noreferrer">Terapi &amp; Kedai</a>
+          <a href="https://instagram.com/saatalambercerita" target="_blank" rel="noopener noreferrer">Fotografi</a>
+          <a href="https://www.pexels.com/@qiladat-com-3848165/" target="_blank" rel="noopener noreferrer">Pexels JAZMI</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= BAHAN TERBARU ================= -->
+  <section class="home-khutbah-kajian-c" class="section" aria-labelledby="bahan-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">03 — Bahan</p>
+        <h2 class="section-title" id="bahan-heading">Bahan Terbaru</h2>
+        <p class="section-desc">Rangkuman, modul, dan dokumen yang dapat dipelajari atau dirujuk kembali.</p>
+      </div>
+
+      <ul class="material-list" id="materialList">
+        <!-- diisi JavaScript -->
+      </ul>
+
+      <a href="/dien/rangkuman.html" class="btn btn-outline">Lihat Semua Bahan</a>
+    </div>
+  </section>
+
+  <!-- ================= KHUTBAH JUMAT TERBARU ================= -->
+  <section class="section section-alt" aria-labelledby="khutbah-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">04 — Khutbah</p>
+        <h2 class="section-title" id="khutbah-heading">Khutbah Jumat Terbaru</h2>
+      </div>
+
+      <div class="khutbah-card" id="khutbahCard">
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section></div>
+    </div>
+  </section>
+
+  <!-- ================= KAJIAN & TAKLIM ================= -->
+  <section class="section" aria-labelledby="kajian-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">05 — Kajian</p>
+        <h2 class="section-title" id="kajian-heading">Kajian &amp; Taklim</h2>
+      </div>
+
+      <div class="kajian-card" id="kajianCard">
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= VIDEO TERBARU ================= -->
+  <section class="section section-alt" aria-labelledby="video-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">06 — Tonton</p>
+        <h2 class="section-title" id="video-heading">Video Terbaru</h2>
+      </div>
+
+      <div class="video-pilihan" id="videoPilihan" hidden>
+        <!-- diisi JavaScript -->
+      </div>
+
+      <div class="video-grid" id="videoGrid">
+        <!-- diisi JavaScript -->
+      </div>
+
+      <div class="home-video-channels">
+        <p class="home-video-channels__intro">Ikuti JAZMI di platform video:</p>
+        <a href="https://youtube.com/@Qiladat" target="_blank" rel="noopener noreferrer" class="btn btn-outline">
+          YouTube <span class="home-channel-handle">@Qiladat</span>
+        </a>
+        <div class="home-video-channels__secondary">
+          <a href="https://tiktok.com/@jalinanzamrud" target="_blank" rel="noopener noreferrer">
+            <span class="home-channel-name">TikTok Utama</span>
+            <span class="home-channel-handle">@jalinanzamrud</span>
+          </a>
+          <a href="https://tiktok.com/@tubuhbelajarsehat" target="_blank" rel="noopener noreferrer">
+            <span class="home-channel-name">TikTok Kesehatan</span>
+            <span class="home-channel-handle">@tubuhbelajarsehat</span>
+          </a>
+          <a href="https://tiktok.com/@buruhsinai" target="_blank" rel="noopener noreferrer">
+            <span class="home-channel-name">TikTok Sains</span>
+            <span class="home-channel-handle">@buruhsinai</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AUDIO TERBARU ================= -->
+  <section class="home-explore-mod11-c" class="section" aria-labelledby="audio-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">07 — Dengar</p>
+        <h2 class="section-title" id="audio-heading">Audio Terbaru</h2>
+      </div>
+
+      <ul class="audio-list" id="audioList">
+        <!-- diisi JavaScript -->
+      </ul>
+
+      <a href="/dien/media.html#media-audio" class="btn btn-outline">Dengarkan Semua</a>
+
+      <div class="home-audio-channel">
+        <div>
+          <p class="home-audio-channel__intro">Dengarkan lebih banyak di SoundCloud</p>
+          <p class="home-audio-channel__title">SoundCloud JAZMI</p>
+          <p class="home-audio-channel__desc">Rekaman kajian, pembacaan, dan konten audio lainnya.</p>
+        </div>
+        <a class="btn btn-outline" href="https://on.soundcloud.com/w9en0OoOsrdK8RMfVt" target="_blank" rel="noopener noreferrer">
+          Buka SoundCloud
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= JELAJAHI JAZMI ================= -->
+  <section class="explore" aria-labelledby="explore-heading">
+    <div class="section-inner">
+      <h2 class="explore-title" id="explore-heading">Jelajahi JAZMI</h2>
+      <nav class="explore-grid" aria-label="Peta ringkas JAZMI">
+        <a href="/dien/" class="explore-item"><span>Dien</span></a>
+        <a href="/kesehatan/" class="explore-item"><span>Kesehatan</span></a>
+        <a href="/sains/" class="explore-item"><span>Sains</span></a>
+        <a href="/artikel/" class="explore-item"><span>Artikel</span></a>
+        <a href="#" class="explore-item"><span>Syair</span></a>
+        <a href="/alat/" class="explore-item"><span>Alat</span></a>
+        <a href="/arsip/" class="explore-item"><span>Arsip</span></a>
+        <a href="/produk/" class="explore-item"><span>Produk</span></a>
+      </nav>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="home-footer-mod12-c" class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/artikel/">Artikel</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah. Fondasi HOME, versi produksi awal.</p>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/bait-panel.js"></script>
+<script src="js/bait-export.js"></script>
+</body>
+</html>

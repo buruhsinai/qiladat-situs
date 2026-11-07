@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Pengenceran Universal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1614; --surface:#132420; --surface-2:#1A322B; --line:#274038;
+    --ink:#EAF2EF; --muted:#8FAFA3; --teal:#3FBF95; --blue:#5B9BD9;
+    --amber:#E5A439; --red:#E1614E;
+    --font-display:'Space Grotesk',sans-serif; --font-body:'IBM Plex Sans',sans-serif; --font-mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); line-height:1.55; padding-bottom:80px;}
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px;}
+  h1,h2,h3{font-family:var(--font-display); font-weight:600; margin:0 0 12px;}
+  p{margin:0 0 14px; max-width:70ch;}
+  .muted{color:var(--muted);}
+  .mono{font-family:var(--font-mono);}
+  section{padding:52px 0; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+
+  .hero{padding-top:44px;}
+  .hero-tag{font-family:var(--font-mono); font-size:13px; color:var(--teal); margin-bottom:10px;}
+  .hero h1{font-size:clamp(26px,4vw,38px); max-width:22ch; line-height:1.18;}
+  .hero p.lead{font-size:17px; color:var(--muted); max-width:60ch;}
+
+  .formula-hero{background:var(--surface); border:1px solid var(--line); padding:20px 22px; margin-top:24px; text-align:center;}
+  .formula-hero .eq{font-family:var(--font-mono); font-size:28px; color:var(--teal); letter-spacing:1px;}
+  .formula-hero p{margin:10px auto 0; font-size:13px; color:var(--muted); max-width:50ch;}
+
+  .sec-head{display:flex; align-items:baseline; gap:10px; margin-bottom:22px;}
+  .sec-num{font-family:var(--font-mono); font-size:13px; color:var(--teal);}
+
+  .panel{background:var(--surface); border:1px solid var(--line); padding:24px;}
+  .grid-ctl{display:grid; grid-template-columns:1fr; gap:18px;}
+  @media(min-width:640px){ .grid-ctl{grid-template-columns:1fr 1fr;} }
+  .field{display:flex; flex-direction:column; gap:6px;}
+  .field label{font-size:13px; color:var(--muted);}
+  .field .hint{font-size:11px; color:var(--muted); font-family:var(--font-mono);}
+  input[type=number], input[type=text], select{background:var(--bg); border:1px solid var(--line); color:var(--ink); padding:9px 10px; font-family:var(--font-mono); font-size:14px; width:100%;}
+  input:focus, select:focus{outline:2px solid var(--teal); outline-offset:1px;}
+  .inline-two{display:grid; grid-template-columns:2fr 1fr; gap:8px;}
+
+  .kpis{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:20px; border:1px solid var(--line);}
+  @media(min-width:640px){ .kpis{grid-template-columns:repeat(4,1fr);} }
+  .kpi{background:var(--surface); padding:14px;}
+  .kpi .val{font-family:var(--font-mono); font-size:18px;}
+  .kpi .lbl{font-size:11.5px; color:var(--muted); margin-top:2px;}
+  .kpi.warn .val{color:var(--red);}
+
+  .bar-visual{margin-top:20px; background:var(--surface); border:1px solid var(--line); padding:18px;}
+  .bar-track{height:36px; display:flex; overflow:hidden; border:1px solid var(--line);}
+  .bar-stok{background:var(--teal);}
+  .bar-pelarut{background:var(--surface-2);}
+  .bar-labels{display:flex; justify-content:space-between; margin-top:8px; font-size:12px; font-family:var(--font-mono); color:var(--muted);}
+
+  .warning-box{background:rgba(225,97,74,0.1); border:1px solid var(--red); padding:14px 16px; margin-top:16px; font-size:13.5px; color:var(--red);}
+
+  .table-wrap{overflow-x:auto; margin-top:20px; border:1px solid var(--line);}
+  table{border-collapse:collapse; width:100%; font-size:13px;}
+  th, td{padding:8px 10px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap; font-family:var(--font-mono);}
+  th{background:var(--surface-2); color:var(--muted); font-weight:500;}
+
+  .chart-wrap{background:var(--surface); border:1px solid var(--line); padding:20px; margin-top:20px;}
+  svg text{font-family:var(--font-mono); fill:var(--muted);}
+
+  .btn{background:var(--teal); color:#052018; border:none; padding:11px 20px; font-family:var(--font-display); font-weight:600; font-size:14.5px; cursor:pointer; margin-top:18px;}
+  .btn:hover{background:#5fd4ac;}
+
+  .takeaway{background:var(--surface-2); border-left:3px solid var(--teal); padding:16px 18px; margin-top:18px; font-size:14px;}
+  .takeaway strong{color:var(--teal);}
+
+  .skenario-grid{display:grid; grid-template-columns:1fr; gap:16px;}
+  .skenario-card{background:var(--surface); border:1px solid var(--line); padding:20px;}
+  .skenario-card h4{font-size:15px; margin:0 0 8px;}
+  .skenario-card .stake{font-family:var(--font-mono); font-size:10px; padding:2px 7px; border:1px solid var(--line); color:var(--muted); display:inline-block; margin-bottom:10px;}
+  .skenario-card .stake.tinggi{color:var(--red); border-color:var(--red);}
+  .skenario-card p{font-size:13.5px; margin-bottom:10px;}
+  .skenario-card .contoh{background:var(--bg); border:1px solid var(--line); padding:12px 14px; font-family:var(--font-mono); font-size:12.5px; color:var(--teal); margin:10px 0;}
+  .skenario-card .peringatan{font-size:12.5px; color:var(--red);}
+
+  ul.limits{padding-left:20px;}
+  ul.limits li{margin-bottom:10px; font-size:14px;}
+  .ref-list{list-style:none; padding:0; margin:0;}
+  .ref-list li{padding:12px 0; border-bottom:1px solid var(--line);}
+  .ref-list li:last-child{border-bottom:none;}
+  .ref-list .src{font-family:var(--font-mono); font-size:12px; color:var(--muted);}
+
+  footer{padding:40px 0 20px; text-align:center;}
+  footer p{margin:0; font-size:12px; color:var(--muted); max-width:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="hero-tag">DARI ARSIP "MATAN WET LAB CAPABILITY" — POLA YANG MUNCUL BERULANG DI HAMPIR SEMUA MODUL</div>
+    <h1>Satu rumus yang dipakai di lab, dapur, dan kamar bayi tanpa Anda sadari itu rumus yang sama</h1>
+    <p class="lead">Peneliti membuat kurva standar ELISA dan qPCR dengan pengenceran berseri. Anda mengencerkan pemutih, pupuk cair, atau obat tetes dengan rumus yang persis sama — cuma tidak pernah ada yang menyebutnya dengan nama itu.</p>
+    <div class="formula-hero">
+      <div class="eq">C₁V₁ = C₂V₂</div>
+      <p>Konsentrasi awal × volume awal = konsentrasi akhir × volume akhir. Empat angka, tiga di antaranya Anda tahu, satu yang dicari — itu saja intinya.</p>
+    </div>
+  </section>
+
+  <!-- 01 KALKULATOR TUNGGAL -->
+  <section id="modul1">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Kalkulator pengenceran tunggal</h2></div>
+    <p>Isi tiga angka yang Anda tahu — biarkan yang keempat dihitung. Satuan bebas (%, mg/ml, ppm, ×) asal konsisten antara konsentrasi stok dan target.</p>
+
+    <div class="panel">
+      <div class="grid-ctl">
+        <div class="field">
+          <label for="satuanKonsentrasi">Label satuan konsentrasi (bebas)</label>
+          <input type="text" id="satuanKonsentrasi" value="%">
+        </div>
+        <div class="field">
+          <label for="satuanVolume">Label satuan volume (bebas)</label>
+          <input type="text" id="satuanVolume" value="ml">
+        </div>
+        <div class="field">
+          <label for="c1">Konsentrasi larutan pekat/stok (C₁)</label>
+          <input type="number" id="c1" value="20" step="0.1" min="0">
+        </div>
+        <div class="field">
+          <label for="c2">Konsentrasi larutan target yang diinginkan (C₂)</label>
+          <input type="number" id="c2" value="2" step="0.1" min="0">
+        </div>
+        <div class="field">
+          <label for="v2">Total volume larutan target yang ingin dibuat (V₂)</label>
+          <input type="number" id="v2" value="500" step="1" min="0">
+        </div>
+      </div>
+      <button class="btn" onclick="hitungTunggal()">Hitung</button>
+    </div>
+
+    <div class="kpis" id="kpisTunggal"></div>
+    <div id="warningTunggal"></div>
+    <div class="bar-visual" id="barVisual" style="display:none;">
+      <div class="bar-track" id="barTrack"></div>
+      <div class="bar-labels" id="barLabels"></div>
+    </div>
+  </section>
+
+  <!-- 02 PENGENCERAN BERSERI -->
+  <section id="modul2">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Pengenceran berseri — cara kurva standar lab dibuat</h2></div>
+    <p>Ini yang dipakai untuk membangun kurva standar ELISA/qPCR (kapabilitas nomor 2 dan 15 di arsip Anda): tiap tabung diambil sebagian dari tabung sebelumnya, lalu diencerkan lagi dengan faktor yang sama, berulang.</p>
+
+    <div class="panel">
+      <div class="grid-ctl">
+        <div class="field">
+          <label for="c0">Konsentrasi awal (C₀)</label>
+          <input type="number" id="c0" value="1000" step="1" min="0">
+        </div>
+        <div class="field">
+          <label for="faktor">Faktor pengenceran tiap langkah</label>
+          <input type="number" id="faktor" value="10" step="0.5" min="1.1">
+          <span class="hint">2 = pengenceran dua kali lipat, 10 = sepuluh kali lipat</span>
+        </div>
+        <div class="field">
+          <label for="langkah">Jumlah langkah pengenceran</label>
+          <input type="number" id="langkah" value="6" step="1" min="2" max="14">
+        </div>
+        <div class="field">
+          <label for="vtube">Volume tetap tiap tabung/wadah</label>
+          <input type="number" id="vtube" value="1" step="0.1" min="0.1">
+        </div>
+      </div>
+      <button class="btn" onclick="hitungBerseri()">Hitung</button>
+    </div>
+
+    <div class="kpis" id="kpisBerseri"></div>
+    <div class="chart-wrap">
+      <svg id="chartBerseri" viewBox="0 0 900 260" style="width:100%; height:auto;"></svg>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Langkah</th><th>Konsentrasi</th><th>Vol. dipindah dari sebelumnya</th><th>Vol. pengencer ditambahkan</th></tr></thead>
+        <tbody id="tabelBerseri"></tbody>
+      </table>
+    </div>
+    <div class="takeaway">
+      <strong>Kenapa ini penting di lab:</strong> dengan mengetahui konsentrasi tiap tabung secara pasti, hasil pengukuran sampel yang tidak diketahui bisa dibandingkan terhadap "garis lurus" dari titik-titik ini (kurva standar) untuk menemukan konsentrasi sebenarnya — prinsip yang sama dipakai baik di ELISA, qPCR, maupun uji protein Bradford/BCA.
+    </div>
+  </section>
+
+  <!-- 03 SKENARIO -->
+  <section id="skenario">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Rumus yang sama, empat konteks berbeda</h2></div>
+    <p>Angka pada tiap contoh di bawah ini murni ilustratif untuk mengajarkan cara pakai rumusnya — <strong>bukan takaran nyata untuk produk apa pun</strong>. Tingkat risiko kalau salah hitung berbeda-beda, jadi saya beri tanda.</p>
+    <div class="skenario-grid">
+
+      <div class="skenario-card">
+        <span class="stake">risiko rendah</span>
+        <h4>Pemutih pembersih permukaan</h4>
+        <p>Misalkan label kemasan menyebut konsentrasi pekat 5%, dan Anda ingin membuat 1000 ml larutan siap pakai 0,5% untuk mengelap permukaan.</p>
+        <div class="contoh">C₁=5%, C₂=0,5%, V₂=1000 ml → V₁ (pemutih pekat dibutuhkan) = 100 ml, sisanya 900 ml air.</div>
+        <p class="muted" style="font-size:12px;">Selalu ikuti instruksi resmi di label produk Anda — tiap merek beda konsentrasi dan cara pakainya.</p>
+      </div>
+
+      <div class="skenario-card">
+        <span class="stake">risiko rendah</span>
+        <h4>Pupuk cair untuk tanaman</h4>
+        <p>Misalkan pupuk cair pekat berlabel 1000 ppm, dan Anda ingin 2 liter larutan siram 100 ppm.</p>
+        <div class="contoh">C₁=1000 ppm, C₂=100 ppm, V₂=2000 ml → V₁ = 200 ml pupuk pekat + 1800 ml air.</div>
+        <p class="muted" style="font-size:12px;">Konsentrasi ideal berbeda tiap jenis tanaman — cek rekomendasi di kemasan atau sumber pertanian terpercaya.</p>
+      </div>
+
+      <div class="skenario-card">
+        <span class="stake tinggi">risiko tinggi — jangan pakai angka sendiri</span>
+        <h4>Obat tetes/cairan encer</h4>
+        <p>Rumus matematisnya sama persis dengan dua contoh di atas — tapi di sini saya sengaja tidak memberi angka contoh sama sekali.</p>
+        <p class="peringatan">Jangan pernah menghitung dosis obat sendiri hanya dari kalkulator umum seperti ini. Konsentrasi obat, cara pemberian, dan dosis aman ditentukan oleh apoteker/dokter berdasarkan kondisi spesifik — kesalahan kecil dalam pengenceran obat bisa berakibat serius.</p>
+      </div>
+
+      <div class="skenario-card">
+        <span class="stake tinggi">risiko tinggi — jangan pakai angka sendiri</span>
+        <h4>Susu formula bayi</h4>
+        <p>Sama seperti obat, secara matematis ini juga kasus C₁V₁=C₂V₂ — tapi lagi-lagi saya sengaja tidak memberi angka contoh.</p>
+        <p class="peringatan">Takaran susu formula (perbandingan bubuk dan air) sudah ditentukan presisi oleh produsen dan tenaga kesehatan berdasarkan kebutuhan gizi bayi. Baik terlalu encer maupun terlalu pekat sama-sama berisiko bagi bayi. Selalu ikuti takaran resmi di kemasan, jangan gunakan kalkulator umum ini untuk menghitungnya.</p>
+      </div>
+
+      <div class="skenario-card">
+        <span class="stake">risiko rendah (konteks lab)</span>
+        <h4>Reagen laboratorium &amp; kurva standar</h4>
+        <p>Ini konteks asal rumusnya dari arsip Anda: menyiapkan larutan kerja dari stok pekat (mis. antibodi ELISA, primer qPCR) dan membangun rangkaian pengenceran untuk kurva standar di Modul 02 di atas.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="batasan">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Batasan</h2></div>
+    <ul class="limits">
+      <li><strong>Tidak ada konversi satuan otomatis.</strong> Label satuan di Modul 01 murni teks bebas — pastikan sendiri konsentrasi stok dan target memakai satuan yang sama (jangan campur % dengan mg/ml tanpa dikonversi dulu).</li>
+      <li><strong>Mengasumsikan volume bersifat aditif</strong> (V₁ + V_pelarut = V₂ tepat) — pada kenyataannya sebagian campuran kimia (misalnya alkohol dengan air) mengalami sedikit penyusutan volume saat dicampur, sehingga hasil sungguhan bisa sedikit meleset dari perhitungan ideal ini.</li>
+      <li><strong>Bukan sumber takaran resmi untuk produk apa pun</strong> — terutama untuk apa pun yang dikonsumsi atau berkaitan dengan kesehatan (obat, susu formula), selalu rujuk instruksi resmi dan tenaga profesional, bukan kalkulator umum ini.</li>
+    </ul>
+  </section>
+
+  <section id="referensi">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Referensi</h2></div>
+    <ul class="ref-list">
+      <li>Persamaan pengenceran C₁V₁=C₂V₂ sebagai standar dasar kimia analitik dan farmasi.
+        <div class="src">Rujukan umum kimia/farmasi</div>
+      </li>
+      <li>Teknik pengenceran berseri sebagai dasar pembuatan kurva standar dalam ELISA, qPCR, dan kuantifikasi protein (Bradford/BCA).
+        <div class="src">Rujukan umum biologi molekuler &amp; biokimia</div>
+      </li>
+      <li>Kapabilitas wet-lab nomor 2 (qPCR), 13 (kuantifikasi protein), dan 15 (ELISA) yang seluruhnya bergantung pada pengenceran berseri untuk kurva standarnya.
+        <div class="src">Arsip "MATAN Wet Lab Capability (1–100)" milik pengguna</div>
+      </li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Alat bantu hitung untuk memahami konsep pengenceran — bukan sumber takaran resmi untuk produk konsumsi, obat, atau kebutuhan medis.</p>
+  </footer>
+
+</div>
+
+<script>
+function hitungTunggal(){
+  const satC = document.getElementById('satuanKonsentrasi').value || '';
+  const satV = document.getElementById('satuanVolume').value || '';
+  const c1 = parseFloat(document.getElementById('c1').value)||0;
+  const c2 = parseFloat(document.getElementById('c2').value)||0;
+  const v2 = parseFloat(document.getElementById('v2').value)||0;
+
+  const kpis = document.getElementById('kpisTunggal');
+  const warnBox = document.getElementById('warningTunggal');
+  const barVisual = document.getElementById('barVisual');
+
+  if(c1<=0 || c2<=0 || v2<=0){
+    kpis.innerHTML = '';
+    warnBox.innerHTML = `<div class="warning-box">Isi semua angka dengan nilai lebih besar dari nol.</div>`;
+    barVisual.style.display='none';
+    return;
+  }
+  if(c2 > c1){
+    kpis.innerHTML = '';
+    warnBox.innerHTML = `<div class="warning-box">Konsentrasi target (C₂) tidak boleh lebih besar dari konsentrasi stok (C₁) — pengenceran hanya bisa membuat larutan lebih encer, tidak lebih pekat.</div>`;
+    barVisual.style.display='none';
+    return;
+  }
+  warnBox.innerHTML = '';
+
+  const v1 = c2*v2/c1;
+  const vPelarut = v2-v1;
+  const faktor = c1/c2;
+
+  kpis.innerHTML = `
+    <div class="kpi"><div class="val">${v1.toFixed(2)} ${satV}</div><div class="lbl">volume stok/pekat dibutuhkan (V₁)</div></div>
+    <div class="kpi"><div class="val">${vPelarut.toFixed(2)} ${satV}</div><div class="lbl">volume pelarut ditambahkan</div></div>
+    <div class="kpi"><div class="val">1 : ${faktor.toFixed(1)}</div><div class="lbl">faktor pengenceran</div></div>
+    <div class="kpi"><div class="val">${(v1/v2*100).toFixed(1)}%</div><div class="lbl">proporsi stok dalam campuran akhir</div></div>
+  `;
+
+  const pctStok = v1/v2*100;
+  document.getElementById('barTrack').innerHTML = `
+    <div class="bar-stok" style="width:${pctStok}%"></div>
+    <div class="bar-pelarut" style="width:${100-pctStok}%"></div>
+  `;
+  document.getElementById('barLabels').innerHTML = `<span>${v1.toFixed(1)} ${satV} stok (${satC} ${c1})</span><span>${vPelarut.toFixed(1)} ${satV} pelarut</span>`;
+  barVisual.style.display='block';
+}
+
+function hitungBerseri(){
+  const c0 = parseFloat(document.getElementById('c0').value)||0;
+  const faktor = parseFloat(document.getElementById('faktor').value)||10;
+  const langkah = parseInt(document.getElementById('langkah').value)||6;
+  const vtube = parseFloat(document.getElementById('vtube').value)||1;
+
+  const rows = [];
+  let cPrev = c0;
+  for(let i=1;i<=langkah;i++){
+    const cNow = cPrev/faktor;
+    const volPindah = vtube/faktor;
+    const volPengencer = vtube - volPindah;
+    rows.push({langkah:i, konsentrasi:cNow, volPindah, volPengencer});
+    cPrev = cNow;
+  }
+  window._serial = rows;
+
+  const totalPengenceran = c0/rows[rows.length-1].konsentrasi;
+  const kpis = document.getElementById('kpisBerseri');
+  kpis.innerHTML = `
+    <div class="kpi"><div class="val">${rows[rows.length-1].konsentrasi.toPrecision(3)}</div><div class="lbl">konsentrasi di langkah terakhir</div></div>
+    <div class="kpi"><div class="val">1 : ${totalPengenceran.toFixed(0)}</div><div class="lbl">total pengenceran dari awal ke akhir</div></div>
+    <div class="kpi"><div class="val">${langkah}</div><div class="lbl">jumlah langkah</div></div>
+    <div class="kpi"><div class="val">1 : ${faktor}</div><div class="lbl">faktor per langkah</div></div>
+  `;
+
+  const body = document.getElementById('tabelBerseri');
+  body.innerHTML = `<tr><td>0 (awal)</td><td>${c0}</td><td>—</td><td>—</td></tr>` + rows.map(r=>`
+    <tr><td>${r.langkah}</td><td>${r.konsentrasi.toPrecision(4)}</td><td>${r.volPindah.toFixed(3)}</td><td>${r.volPengencer.toFixed(3)}</td></tr>
+  `).join('');
+
+  renderChartBerseri(c0, rows);
+}
+
+function renderChartBerseri(c0, rows){
+  const svg = document.getElementById('chartBerseri');
+  const W=900,H=260,padL=60,padR=20,padT=16,padB=30;
+  const innerW=W-padL-padR, innerH=H-padT-padB;
+  const semua = [{langkah:0, konsentrasi:c0}, ...rows];
+  const logVals = semua.map(r=>Math.log10(Math.max(r.konsentrasi,1e-6)));
+  const logMax = Math.max(...logVals), logMin = Math.min(...logVals);
+
+  const x = i => padL + innerW*(i/(semua.length-1));
+  const y = c => padT + innerH - ((Math.log10(Math.max(c,1e-6))-logMin)/((logMax-logMin)||1))*innerH;
+
+  let parts=[];
+  const steps=5;
+  for(let s=0;s<=steps;s++){
+    const logV = logMin + (logMax-logMin)*s/steps;
+    const yy = y(Math.pow(10,logV));
+    parts.push(`<line x1="${padL}" y1="${yy}" x2="${W-padR}" y2="${yy}" stroke="#274038" stroke-width="1"/>`);
+    parts.push(`<text x="${padL-8}" y="${yy+4}" font-size="9" text-anchor="end">${Math.pow(10,logV).toPrecision(2)}</text>`);
+  }
+
+  let d = semua.map((r,i)=>(i===0?'M':'L')+x(i).toFixed(1)+' '+y(r.konsentrasi).toFixed(1)).join(' ');
+  parts.push(`<path d="${d}" fill="none" stroke="#3FBF95" stroke-width="2.5"/>`);
+  semua.forEach((r,i)=>{
+    parts.push(`<circle cx="${x(i).toFixed(1)}" cy="${y(r.konsentrasi).toFixed(1)}" r="4" fill="#3FBF95"/>`);
+    parts.push(`<text x="${x(i).toFixed(1)}" y="${H-10}" font-size="9" text-anchor="middle">${i}</text>`);
+  });
+
+  svg.innerHTML = parts.join('');
+}
+
+hitungTunggal();
+hitungBerseri();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

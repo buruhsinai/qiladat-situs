@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pisah &amp; Gabung PDF | Tools Qiladat JAZMI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#11161C;
+  --panel:#171E26;
+  --panel-2:#1D252E;
+  --line:rgba(214,228,238,0.12);
+  --line-strong:rgba(214,228,238,0.26);
+  --text:#DCE6EE;
+  --muted:#87A0AC;
+  --blue:#4C8DD9;
+  --blue-dim:rgba(76,141,217,0.16);
+  --amber:#D6A93B;
+  --amber-dim:rgba(214,169,59,0.16);
+  --danger:#C1554A;
+  --danger-dim:rgba(193,85,74,0.16);
+  --radius:2px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:var(--ink);color:var(--text);font-family:'Karla',sans-serif;font-size:16px;line-height:1.55;}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}}
+.wrap{max-width:880px;margin:0 auto;padding:0 18px 80px;}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;margin:0 0 6px;}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--blue);display:inline-block;}
+
+.hero{background:linear-gradient(160deg,#182028 0%, #141A20 60%, #11161C 100%);margin:0 -18px 22px;padding:34px 18px 26px;border-bottom:1px solid var(--line-strong);}
+.hero-inner{max-width:880px;margin:0 auto;}
+.hero h1{font-size:clamp(24px,5vw,34px);line-height:1.1;}
+.hero p.sub{color:var(--muted);font-size:15px;max-width:60ch;margin:10px 0 18px;}
+
+.mode-toggle{display:flex;gap:8px;flex-wrap:wrap;}
+.mode-btn{font-family:'Karla',sans-serif;font-weight:700;font-size:13.5px;background:rgba(23,30,38,0.7);color:var(--text);border:1px solid var(--line-strong);padding:9px 16px;border-radius:20px;cursor:pointer;}
+.mode-btn.active{background:var(--blue);color:#0d1826;border-color:var(--blue);}
+
+.sheet{position:relative;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius);padding:20px;margin-bottom:18px;}
+.sheet::before,.sheet::after{content:"";position:absolute;width:9px;height:9px;top:-1px;left:-1px;border-top:1.5px solid var(--blue);border-left:1.5px solid var(--blue);}
+.sheet::after{top:auto;left:auto;bottom:-1px;right:-1px;border-top:none;border-left:none;border-bottom:1.5px solid var(--blue);border-right:1.5px solid var(--blue);}
+.sheet h2{font-size:19px;}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;display:block;}
+
+.warn{background:var(--amber-dim);border:1px solid rgba(214,169,59,0.5);border-left:4px solid var(--amber);padding:14px 16px;border-radius:var(--radius);margin-bottom:20px;}
+.warn .tag{color:#EBCB7C;}
+.warn p{margin:6px 0 0;font-size:14.5px;}
+.warn ul{margin:8px 0 0;padding-left:18px;font-size:14px;}
+.warn ul li{margin-bottom:4px;}
+
+.dropzone{border:2px dashed var(--line-strong);border-radius:var(--radius);padding:30px 18px;text-align:center;cursor:pointer;transition:border-color 0.2s ease, background 0.2s ease;}
+.dropzone:hover, .dropzone.drag{border-color:var(--blue);background:var(--blue-dim);}
+.dropzone p{margin:6px 0 0;color:var(--muted);font-size:13.5px;}
+.dropzone .dzicon{font-size:32px;}
+input[type=file]{display:none;}
+
+.fileinfo{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-top:14px;font-size:13.5px;}
+.fileinfo .name{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--text);word-break:break-all;}
+.fileinfo .meta{color:var(--muted);font-size:12px;white-space:nowrap;}
+button.small-x{background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:16px;padding:2px 6px;}
+button.small-x:hover{color:var(--danger);}
+
+.grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:14px;}
+@media(min-width:640px){.grid.cols-2{grid-template-columns:1fr 1fr;}}
+label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;letter-spacing:0.02em;}
+input[type=text],input[type=number],select{width:100%;background:var(--ink);border:1px solid var(--line-strong);color:var(--text);padding:9px 10px;border-radius:var(--radius);font-family:'JetBrains Mono',monospace;font-size:14.5px;}
+input:focus,select:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue);}
+.field-note{font-size:12px;color:var(--muted);margin-top:4px;}
+
+.submode{display:flex;flex-direction:column;gap:8px;margin-top:6px;}
+.submode label.radio{display:flex;align-items:flex-start;gap:10px;font-family:'Karla',sans-serif;font-size:13.5px;color:var(--text);cursor:pointer;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;}
+.submode label.radio input{margin-top:3px;accent-color:var(--blue);}
+.submode label.radio .desc{color:var(--muted);font-size:12px;display:block;margin-top:2px;}
+.submode-extra{margin-top:8px;padding-left:26px;display:none;}
+.submode-extra.show{display:block;}
+
+button.primary{font-family:'Karla',sans-serif;font-weight:700;font-size:14.5px;background:var(--blue);color:#0d1826;border:1px solid var(--blue);padding:11px 20px;border-radius:var(--radius);cursor:pointer;width:100%;margin-top:16px;}
+button.primary:hover{opacity:0.9;}
+button.primary:disabled{opacity:0.4;cursor:not-allowed;}
+
+.progress-outer{background:var(--ink);border:1px solid var(--line-strong);border-radius:20px;height:10px;overflow:hidden;margin-top:14px;display:none;}
+.progress-outer.show{display:block;}
+.progress-inner{height:100%;background:var(--blue);width:0%;transition:width 0.2s ease;}
+.status-text{font-family:'JetBrains Mono',monospace;font-size:12.5px;color:var(--muted);margin-top:8px;min-height:16px;}
+
+.result{display:none;margin-top:18px;}
+.result.show{display:block;}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+.stat{background:var(--ink);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;}
+.stat .label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);}
+.stat .value{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--blue);margin-top:2px;}
+a.download-btn{display:block;text-align:center;font-family:'Karla',sans-serif;font-weight:700;text-decoration:none;background:var(--blue);color:#0d1826;padding:11px 20px;border-radius:var(--radius);margin-top:14px;}
+a.download-btn:hover{opacity:0.9;}
+
+.filelist{list-style:none;margin:14px 0 0;padding:0;display:flex;flex-direction:column;gap:8px;}
+.filelist li{display:flex;align-items:center;gap:10px;background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;}
+.filelist .idx{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);width:20px;flex-shrink:0;}
+.filelist .info{flex:1;min-width:0;}
+.filelist .fname{font-family:'JetBrains Mono',monospace;font-size:12.5px;word-break:break-all;}
+.filelist .fmeta{font-size:11.5px;color:var(--muted);margin-top:2px;}
+.filelist .actions{display:flex;gap:4px;flex-shrink:0;}
+.filelist button{background:transparent;border:1px solid var(--line-strong);color:var(--text);border-radius:var(--radius);padding:4px 8px;cursor:pointer;font-size:12px;}
+.filelist button:hover{border-color:var(--blue);color:var(--blue);}
+.filelist button.rm:hover{border-color:var(--danger);color:var(--danger);}
+
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;padding:3px 9px;border-radius:20px;border:1px solid var(--line-strong);}
+.badge.safe{border-color:rgba(76,141,217,0.5);color:var(--blue);background:var(--blue-dim);}
+.badge.warnb{border-color:rgba(193,85,74,0.5);color:#E0A79A;background:var(--danger-dim);}
+
+.refs{font-size:13px;color:var(--muted);}
+.refs li{margin-bottom:6px;}
+.consult{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:linear-gradient(135deg,var(--panel-2),var(--panel));border:1px solid var(--blue);border-radius:var(--radius);padding:16px 18px;}
+.consult p{margin:0;font-size:14px;max-width:52ch;}
+.consult a.wa{font-family:'Karla',sans-serif;font-weight:700;text-decoration:none;background:var(--blue);color:#0d1826;padding:10px 18px;border-radius:var(--radius);white-space:nowrap;font-size:14px;}
+.consult a.wa:hover{opacity:0.9;}
+footer.foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center;}
+.small{font-size:12px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Tools Qiladat · JAZMI · Utilitas Dokumen</div>
+    <h1>Pisah &amp; Gabung PDF</h1>
+    <p class="sub">Ekstrak halaman tertentu, pecah jadi banyak file, atau satukan beberapa PDF jadi satu — semua diproses lokal di browser Anda, tanpa upload.</p>
+    <div class="mode-toggle" id="modeToggle"></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="warn">
+    <span class="tag">⚠ Baca dulu sebelum memakai</span>
+    <p><strong>Alat ini memuat pustaka pdf-lib &amp; JSZip dari CDN saat dibuka</strong> — butuh internet sekali di awal. File PDF Anda sendiri tetap 100% diproses di perangkat Anda, tidak pernah diunggah ke server mana pun.</p>
+    <ul>
+      <li>Halaman disalin apa adanya (vektor/teks/gambar tetap utuh, tidak dirender ulang) — kualitas hasil identik dengan file asli, tidak ada kompresi/kehilangan kualitas.</li>
+      <li>PDF terenkripsi/berkata-sandi mungkin gagal diproses — buka proteksinya dulu sebelum diunggah ke alat ini.</li>
+    </ul>
+  </div>
+
+  <!-- ===================== MODE: SPLIT ===================== -->
+  <div id="splitSection">
+    <section class="sheet">
+      <span class="tag">1 — Unggah PDF</span>
+      <h2>Pilih File untuk Dipisah</h2>
+      <div class="dropzone" id="splitDropzone">
+        <div class="dzicon">📄</div>
+        <p><strong>Ketuk untuk pilih file</strong>, atau seret PDF ke sini</p>
+      </div>
+      <input type="file" id="splitFileInput" accept="application/pdf">
+      <div class="fileinfo" id="splitFileInfo" style="display:none;">
+        <div>
+          <div class="name" id="splitFileName"></div>
+          <div class="meta" id="splitFileMeta"></div>
+        </div>
+        <button class="small-x" id="splitClearFile">✕</button>
+      </div>
+    </section>
+
+    <section class="sheet">
+      <span class="tag">2 — Cara Memisah</span>
+      <h2>Metode</h2>
+      <div class="submode" id="splitSubmode"></div>
+
+      <button class="primary" id="splitBtn" disabled>Pisahkan PDF</button>
+      <div class="progress-outer" id="splitProgressOuter"><div class="progress-inner" id="splitProgressInner"></div></div>
+      <div class="status-text" id="splitStatus"></div>
+      <div class="result" id="splitResult">
+        <div class="stat-row">
+          <div class="stat"><div class="label">File dihasilkan</div><div class="value" id="splitOutCount" style="font-size:16px;">–</div></div>
+          <div class="stat"><div class="label">Ukuran total</div><div class="value" id="splitOutSize" style="font-size:16px;">–</div></div>
+        </div>
+        <a class="download-btn" id="splitDownload" download>Unduh Hasil</a>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===================== MODE: MERGE ===================== -->
+  <div id="mergeSection" style="display:none;">
+    <section class="sheet">
+      <span class="tag">1 — Unggah PDF (bisa lebih dari satu)</span>
+      <h2>Pilih File untuk Digabung</h2>
+      <div class="dropzone" id="mergeDropzone">
+        <div class="dzicon">📚</div>
+        <p><strong>Ketuk untuk pilih file</strong>, atau seret beberapa PDF ke sini</p>
+      </div>
+      <input type="file" id="mergeFileInput" accept="application/pdf" multiple>
+      <ul class="filelist" id="mergeFileList"></ul>
+      <p class="field-note" id="mergeCountNote"></p>
+    </section>
+
+    <section class="sheet">
+      <span class="tag">2 — Gabungkan</span>
+      <h2>Urutan di atas = urutan halaman di file hasil</h2>
+      <p class="small">Gunakan tombol ↑↓ pada tiap file untuk mengatur urutan sebelum digabung.</p>
+      <button class="primary" id="mergeBtn" disabled>Gabungkan PDF</button>
+      <div class="progress-outer" id="mergeProgressOuter"><div class="progress-inner" id="mergeProgressInner"></div></div>
+      <div class="status-text" id="mergeStatus"></div>
+      <div class="result" id="mergeResult">
+        <div class="stat-row">
+          <div class="stat"><div class="label">Total halaman</div><div class="value" id="mergeOutPages" style="font-size:16px;">–</div></div>
+          <div class="stat"><div class="label">Ukuran hasil</div><div class="value" id="mergeOutSize" style="font-size:16px;">–</div></div>
+        </div>
+        <a class="download-btn" id="mergeDownload" download>Unduh PDF Gabungan</a>
+      </div>
+    </section>
+  </div>
+
+  <section class="sheet">
+    <span class="tag">Batasan</span>
+    <h2>Kapan Alat Ini Tidak Cocok</h2>
+    <ul style="font-size:14px;padding-left:20px;">
+      <li>PDF dengan kata sandi/enkripsi harus dibuka proteksinya lebih dulu di alat lain — alat ini tidak menangani dekripsi.</li>
+      <li>Form isian interaktif atau tanda tangan digital pada PDF sumber berisiko tidak terbawa sempurna ke hasil akhir.</li>
+      <li>Untuk file yang sangat besar/berhalaman sangat banyak, proses berjalan di memori browser Anda — bisa terasa berat tergantung spesifikasi perangkat.</li>
+      <li>Butuh koneksi internet saat pertama membuka halaman (memuat pdf-lib &amp; JSZip) — pemrosesan filenya sendiri setelah itu tidak butuh internet.</li>
+    </ul>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">Referensi</span>
+    <ul class="refs">
+      <li>pdf-lib — pustaka JavaScript untuk membuat &amp; memodifikasi PDF, termasuk menyalin halaman antar dokumen (lisensi MIT).</li>
+      <li>JSZip — pustaka JavaScript untuk membuat arsip .zip langsung di browser (lisensi MIT/GPL dual).</li>
+    </ul>
+  </section>
+
+  <div class="consult">
+    <p><strong>Simpan salinan file asli sebelum memproses dokumen penting.</strong> Ada pertanyaan atau file yang gagal diproses? Hubungi kami.</p>
+    <a class="wa" href="https://wa.me/6281356572588?text=Halo%2C%20saya%20ingin%20konsultasi%20soal%20Pisah%20%26%20Gabung%20PDF%20JAZMI." target="_blank" rel="noopener">Konsultasi via WhatsApp →</a>
+  </div>
+
+  <footer class="foot">Tools Qiladat / JAZMI — laboratorium alat &amp; keilmuan. Dibangun mengikuti metode Belajar → Model → Uji → Tool.</footer>
+</div>
+
+<script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+<script src="https://unpkg.com/jszip@3.10.1/dist/jszip.min.js"></script>
+<script>
+let libsReady = !!(window.PDFLib && window.JSZip);
+
+function bytesToSize(bytes){
+  if(!bytes || bytes===0) return '0 B';
+  const units=['B','KB','MB','GB'];
+  const i = Math.floor(Math.log(bytes)/Math.log(1024));
+  return (bytes/Math.pow(1024,i)).toFixed(i===0?0:2)+' '+units[i];
+}
+
+/* ===================== MODE TOGGLE ===================== */
+let mode='split';
+function renderModeToggle(){
+  const el = document.getElementById('modeToggle');
+  el.innerHTML = `
+    <button class="mode-btn ${mode==='split'?'active':''}" data-m="split">Pisahkan PDF</button>
+    <button class="mode-btn ${mode==='merge'?'active':''}" data-m="merge">Gabungkan PDF</button>
+  `;
+  el.querySelectorAll('.mode-btn').forEach(b=>b.addEventListener('click', ()=>{
+    mode = b.dataset.m;
+    renderModeToggle();
+    document.getElementById('splitSection').style.display = mode==='split'?'':'none';
+    document.getElementById('mergeSection').style.display = mode==='merge'?'':'none';
+  }));
+}
+renderModeToggle();
+
+/* ===================== SPLIT: PAGE RANGE PARSER ===================== */
+function parsePageRanges(str, totalPages){
+  const parts = str.split(',').map(s=>s.trim()).filter(Boolean);
+  if(parts.length===0) throw new Error('Isi dulu halaman yang ingin diekstrak.');
+  const indices = [];
+  for(const part of parts){
+    if(part.includes('-')){
+      let bits = part.split('-').map(s=>parseInt(s.trim()));
+      let a=bits[0], b=bits[1];
+      if(isNaN(a)||isNaN(b)) throw new Error(`Rentang tidak valid: "${part}"`);
+      if(a>b){ const t=a; a=b; b=t; }
+      for(let i=a;i<=b;i++){
+        if(i<1||i>totalPages) throw new Error(`Halaman ${i} di luar jangkauan (1-${totalPages})`);
+        indices.push(i-1);
+      }
+    } else {
+      const n = parseInt(part);
+      if(isNaN(n)) throw new Error(`Nomor halaman tidak valid: "${part}"`);
+      if(n<1||n>totalPages) throw new Error(`Halaman ${n} di luar jangkauan (1-${totalPages})`);
+      indices.push(n-1);
+    }
+  }
+  return indices;
+}
+function chunkPages(totalPages, chunkSize){
+  const chunks = [];
+  for(let start=0; start<totalPages; start+=chunkSize){
+    const end = Math.min(start+chunkSize, totalPages);
+    const indices = [];
+    for(let i=start;i<end;i++) indices.push(i);
+    chunks.push(indices);
+  }
+  return chunks;
+}
+
+/* ===================== SPLIT: UI WIRING ===================== */
+let splitFile=null, splitTotalPages=0, splitBytes=null;
+const splitDropzone = document.getElementById('splitDropzone');
+const splitFileInput = document.getElementById('splitFileInput');
+splitDropzone.addEventListener('click', ()=>splitFileInput.click());
+splitDropzone.addEventListener('dragover', e=>{e.preventDefault(); splitDropzone.classList.add('drag');});
+splitDropzone.addEventListener('dragleave', ()=>splitDropzone.classList.remove('drag'));
+splitDropzone.addEventListener('drop', e=>{
+  e.preventDefault(); splitDropzone.classList.remove('drag');
+  if(e.dataTransfer.files.length) handleSplitFile(e.dataTransfer.files[0]);
+});
+splitFileInput.addEventListener('change', e=>{ if(e.target.files.length) handleSplitFile(e.target.files[0]); });
+document.getElementById('splitClearFile').addEventListener('click', ()=>{
+  splitFile=null; splitBytes=null; splitTotalPages=0;
+  document.getElementById('splitFileInfo').style.display='none';
+  document.getElementById('splitDropzone').style.display='';
+  document.getElementById('splitBtn').disabled=true;
+  document.getElementById('splitResult').classList.remove('show');
+  splitFileInput.value='';
+});
+
+async function handleSplitFile(file){
+  if(!file.name.toLowerCase().endsWith('.pdf') && file.type!=='application/pdf'){
+    alert('Mohon pilih file PDF.'); return;
+  }
+  splitFile = file;
+  document.getElementById('splitFileName').textContent = file.name;
+  document.getElementById('splitFileMeta').textContent = bytesToSize(file.size) + ' · membaca…';
+  document.getElementById('splitFileInfo').style.display='flex';
+  document.getElementById('splitDropzone').style.display='none';
+  document.getElementById('splitResult').classList.remove('show');
+
+  try{
+    splitBytes = new Uint8Array(await file.arrayBuffer());
+    const { PDFDocument } = PDFLib;
+    const doc = await PDFDocument.load(splitBytes);
+    splitTotalPages = doc.getPageCount();
+    document.getElementById('splitFileMeta').textContent = `${bytesToSize(file.size)} · ${splitTotalPages} halaman`;
+    document.getElementById('splitBtn').disabled = !libsReady;
+    renderSplitSubmode();
+  }catch(err){
+    console.error(err);
+    document.getElementById('splitFileMeta').textContent = 'Gagal membaca PDF: '+err.message;
+  }
+}
+
+function renderSplitSubmode(){
+  const el = document.getElementById('splitSubmode');
+  el.innerHTML = `
+    <label class="radio"><input type="radio" name="splitMode" value="range" checked>
+      <span><strong>Ekstrak halaman tertentu</strong> (jadi 1 file)<span class="desc">Contoh: 1-3,7,10-12</span></span>
+    </label>
+    <div class="submode-extra show" id="extraRange">
+      <input type="text" id="rangeInput" placeholder="mis. 1-3,7,10-12">
+      <p class="field-note">Total ${splitTotalPages} halaman di file ini. Urutan &amp; pengulangan sesuai yang Anda ketik.</p>
+    </div>
+    <label class="radio"><input type="radio" name="splitMode" value="perpage">
+      <span><strong>Pisah per halaman</strong> — tiap halaman jadi file sendiri<span class="desc">Menghasilkan ${splitTotalPages} file dalam 1 arsip .zip</span></span>
+    </label>
+    <label class="radio"><input type="radio" name="splitMode" value="chunk">
+      <span><strong>Pisah per kelompok N halaman</strong><span class="desc">Mis. tiap 5 halaman jadi 1 file, dibundel .zip</span></span>
+    </label>
+    <div class="submode-extra" id="extraChunk">
+      <label for="chunkSize">N halaman per file</label>
+      <input type="number" id="chunkSize" value="5" min="1" max="${splitTotalPages}">
+    </div>
+  `;
+  el.querySelectorAll('input[name=splitMode]').forEach(r=>r.addEventListener('change', ()=>{
+    document.getElementById('extraRange').classList.toggle('show', r.value==='range' && r.checked);
+    document.getElementById('extraChunk').classList.toggle('show', r.value==='chunk' && r.checked);
+  }));
+}
+
+document.getElementById('splitBtn').addEventListener('click', async ()=>{
+  if(!splitBytes) return;
+  const btn = document.getElementById('splitBtn');
+  btn.disabled = true;
+  document.getElementById('splitResult').classList.remove('show');
+  document.getElementById('splitProgressOuter').classList.add('show');
+  document.getElementById('splitProgressInner').style.width='0%';
+  const setStatus = m=>document.getElementById('splitStatus').textContent = m;
+
+  try{
+    const { PDFDocument } = PDFLib;
+    const splitModeVal = document.querySelector('input[name=splitMode]:checked').value;
+
+    if(splitModeVal==='range'){
+      setStatus('Mengekstrak halaman…');
+      const rangeStr = document.getElementById('rangeInput').value;
+      const indices = parsePageRanges(rangeStr, splitTotalPages);
+      const src = await PDFDocument.load(splitBytes);
+      const out = await PDFDocument.create();
+      const copied = await out.copyPages(src, indices);
+      copied.forEach(p=>out.addPage(p));
+      const outBytes = await out.save();
+      document.getElementById('splitProgressInner').style.width='100%';
+
+      const blob = new Blob([outBytes], {type:'application/pdf'});
+      const url = URL.createObjectURL(blob);
+      document.getElementById('splitDownload').href = url;
+      document.getElementById('splitDownload').download = splitFile.name.replace(/\.pdf$/i,'')+'-ekstrak.pdf';
+      document.getElementById('splitOutCount').textContent = '1 file';
+      document.getElementById('splitOutSize').textContent = bytesToSize(blob.size);
+      document.getElementById('splitResult').classList.add('show');
+      setStatus('Selesai.');
+    } else {
+      const chunkSize = splitModeVal==='perpage' ? 1 : Math.max(1, parseInt(document.getElementById('chunkSize').value)||1);
+      const chunks = chunkPages(splitTotalPages, chunkSize);
+      const zip = new JSZip();
+      const baseName = splitFile.name.replace(/\.pdf$/i,'');
+
+      for(let i=0;i<chunks.length;i++){
+        setStatus(`Memproses bagian ${i+1} dari ${chunks.length}…`);
+        document.getElementById('splitProgressInner').style.width = Math.round((i/chunks.length)*100)+'%';
+        const src = await PDFDocument.load(splitBytes);
+        const out = await PDFDocument.create();
+        const copied = await out.copyPages(src, chunks[i]);
+        copied.forEach(p=>out.addPage(p));
+        const outBytes = await out.save();
+        const fname = chunkSize===1
+          ? `${baseName}-hal-${chunks[i][0]+1}.pdf`
+          : `${baseName}-bag-${i+1}_hal-${chunks[i][0]+1}-${chunks[i][chunks[i].length-1]+1}.pdf`;
+        zip.file(fname, outBytes);
+      }
+
+      setStatus('Menyusun arsip .zip…');
+      const zipBlob = await zip.generateAsync({type:'blob'});
+      document.getElementById('splitProgressInner').style.width='100%';
+
+      const url = URL.createObjectURL(zipBlob);
+      document.getElementById('splitDownload').href = url;
+      document.getElementById('splitDownload').download = baseName+'-terpisah.zip';
+      document.getElementById('splitOutCount').textContent = chunks.length+' file (.zip)';
+      document.getElementById('splitOutSize').textContent = bytesToSize(zipBlob.size);
+      document.getElementById('splitResult').classList.add('show');
+      setStatus('Selesai.');
+    }
+  }catch(err){
+    console.error(err);
+    document.getElementById('splitStatus').textContent = '⚠ '+err.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* ===================== MERGE: UI WIRING ===================== */
+let mergeFiles = []; // {file, bytes, pages, id}
+let mergeIdCounter = 0;
+const mergeDropzone = document.getElementById('mergeDropzone');
+const mergeFileInput = document.getElementById('mergeFileInput');
+mergeDropzone.addEventListener('click', ()=>mergeFileInput.click());
+mergeDropzone.addEventListener('dragover', e=>{e.preventDefault(); mergeDropzone.classList.add('drag');});
+mergeDropzone.addEventListener('dragleave', ()=>mergeDropzone.classList.remove('drag'));
+mergeDropzone.addEventListener('drop', e=>{
+  e.preventDefault(); mergeDropzone.classList.remove('drag');
+  if(e.dataTransfer.files.length) addMergeFiles(Array.from(e.dataTransfer.files));
+});
+mergeFileInput.addEventListener('change', e=>{
+  if(e.target.files.length) addMergeFiles(Array.from(e.target.files));
+  mergeFileInput.value='';
+});
+
+async function addMergeFiles(files){
+  for(const file of files){
+    if(!file.name.toLowerCase().endsWith('.pdf') && file.type!=='application/pdf') continue;
+    const entry = {file, bytes:null, pages:null, id: mergeIdCounter++};
+    mergeFiles.push(entry);
+    renderMergeList();
+    try{
+      entry.bytes = new Uint8Array(await file.arrayBuffer());
+      const { PDFDocument } = PDFLib;
+      const doc = await PDFDocument.load(entry.bytes);
+      entry.pages = doc.getPageCount();
+    }catch(err){
+      entry.pages = 'gagal dibaca';
+    }
+    renderMergeList();
+  }
+}
+
+function renderMergeList(){
+  const ul = document.getElementById('mergeFileList');
+  ul.innerHTML = mergeFiles.map((f,i)=>`
+    <li>
+      <span class="idx">${i+1}</span>
+      <span class="info">
+        <span class="fname">${f.file.name}</span>
+        <span class="fmeta">${bytesToSize(f.file.size)} · ${f.pages===null?'membaca…':(f.pages+(typeof f.pages==='number'?' halaman':''))}</span>
+      </span>
+      <span class="actions">
+        <button data-act="up" data-id="${f.id}" ${i===0?'disabled':''}>↑</button>
+        <button data-act="down" data-id="${f.id}" ${i===mergeFiles.length-1?'disabled':''}>↓</button>
+        <button class="rm" data-act="rm" data-id="${f.id}">✕</button>
+      </span>
+    </li>
+  `).join('');
+  ul.querySelectorAll('button').forEach(b=>b.addEventListener('click', ()=>{
+    const id = parseInt(b.dataset.id);
+    const idx = mergeFiles.findIndex(f=>f.id===id);
+    if(idx<0) return;
+    if(b.dataset.act==='up' && idx>0){ [mergeFiles[idx-1],mergeFiles[idx]]=[mergeFiles[idx],mergeFiles[idx-1]]; }
+    else if(b.dataset.act==='down' && idx<mergeFiles.length-1){ [mergeFiles[idx+1],mergeFiles[idx]]=[mergeFiles[idx],mergeFiles[idx+1]]; }
+    else if(b.dataset.act==='rm'){ mergeFiles.splice(idx,1); }
+    renderMergeList();
+    updateMergeButton();
+  }));
+  updateMergeButton();
+}
+function updateMergeButton(){
+  document.getElementById('mergeCountNote').textContent = mergeFiles.length>0 ? `${mergeFiles.length} file dipilih.` : '';
+  document.getElementById('mergeBtn').disabled = !(libsReady && mergeFiles.length>=2 && mergeFiles.every(f=>typeof f.pages==='number'));
+}
+
+document.getElementById('mergeBtn').addEventListener('click', async ()=>{
+  const btn = document.getElementById('mergeBtn');
+  btn.disabled = true;
+  document.getElementById('mergeResult').classList.remove('show');
+  document.getElementById('mergeProgressOuter').classList.add('show');
+  document.getElementById('mergeProgressInner').style.width='0%';
+  const setStatus = m=>document.getElementById('mergeStatus').textContent = m;
+
+  try{
+    const { PDFDocument } = PDFLib;
+    const out = await PDFDocument.create();
+    let totalPages = 0;
+    for(let i=0;i<mergeFiles.length;i++){
+      setStatus(`Menggabungkan file ${i+1} dari ${mergeFiles.length}…`);
+      document.getElementById('mergeProgressInner').style.width = Math.round((i/mergeFiles.length)*100)+'%';
+      const src = await PDFDocument.load(mergeFiles[i].bytes);
+      const indices = src.getPageIndices();
+      const copied = await out.copyPages(src, indices);
+      copied.forEach(p=>out.addPage(p));
+      totalPages += indices.length;
+    }
+    setStatus('Menyusun file akhir…');
+    const outBytes = await out.save();
+    document.getElementById('mergeProgressInner').style.width='100%';
+
+    const blob = new Blob([outBytes], {type:'application/pdf'});
+    const url = URL.createObjectURL(blob);
+    document.getElementById('mergeDownload').href = url;
+    document.getElementById('mergeDownload').download = 'gabungan.pdf';
+    document.getElementById('mergeOutPages').textContent = totalPages+' halaman';
+    document.getElementById('mergeOutSize').textContent = bytesToSize(blob.size);
+    document.getElementById('mergeResult').classList.add('show');
+    setStatus('Selesai.');
+  }catch(err){
+    console.error(err);
+    document.getElementById('mergeStatus').textContent = '⚠ '+err.message;
+  } finally {
+    btn.disabled = false;
+  }
+});
+
+/* ===================== INIT ===================== */
+if(!libsReady){
+  document.getElementById('splitStatus').textContent = '⚠ Gagal memuat pdf-lib/JSZip dari CDN — periksa koneksi internet Anda lalu muat ulang halaman.';
+  document.getElementById('mergeStatus').textContent = '⚠ Gagal memuat pdf-lib/JSZip dari CDN — periksa koneksi internet Anda lalu muat ulang halaman.';
+}
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

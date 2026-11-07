@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Overlap Zona Waktu — Laboratorium Qiladat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#14122A;
+    --surface:#1C1A38;
+    --surface-2:#242049;
+    --line:#332E5C;
+    --ink:#EDEBF7;
+    --muted:#9691B8;
+    --amber:#E5A439;
+    --violet:#8C7CF0;
+    --red:#E1614E;
+    --font-display:'Space Grotesk',sans-serif;
+    --font-body:'IBM Plex Sans',sans-serif;
+    --font-mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); line-height:1.55; padding-bottom:80px;}
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px;}
+  h1,h2,h3{font-family:var(--font-display); font-weight:600; margin:0 0 12px;}
+  p{margin:0 0 14px; max-width:68ch;}
+  .muted{color:var(--muted);}
+  .mono{font-family:var(--font-mono);}
+  section{padding:56px 0; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+
+  .hero{padding-top:44px;}
+  .hero-tag{font-family:var(--font-mono); font-size:13px; color:var(--violet); margin-bottom:10px;}
+  .hero h1{font-size:clamp(26px,4vw,40px); max-width:20ch; line-height:1.16;}
+  .hero p.lead{font-size:17px; color:var(--muted); max-width:58ch;}
+
+  .globe-strip{display:flex; gap:2px; margin-top:30px; height:34px;}
+  .globe-strip div{flex:1; background:var(--surface-2); border:1px solid var(--line); display:flex; align-items:center; justify-content:center; font-family:var(--font-mono); font-size:10px; color:var(--muted);}
+  .globe-strip div.day{background:rgba(140,124,240,0.22); color:var(--violet); border-color:var(--violet);}
+
+  .sec-head{display:flex; align-items:baseline; gap:10px; margin-bottom:22px;}
+  .sec-num{font-family:var(--font-mono); font-size:13px; color:var(--amber);}
+
+  .split3{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:820px){ .split3{grid-template-columns:1fr 1fr 1fr;} }
+  .domain-card{background:var(--surface); border:1px solid var(--line); padding:18px;}
+  .domain-card .pct{font-family:var(--font-mono); font-size:24px; color:var(--violet);}
+  .domain-card.dim .pct{color:var(--muted);}
+  .domain-card p{font-size:13px;}
+
+  .panel{background:var(--surface); border:1px solid var(--line); padding:24px;}
+  .member-row{display:grid; grid-template-columns:24px 1.4fr 0.8fr 0.8fr 0.8fr; gap:10px; align-items:center; padding:10px 0; border-bottom:1px solid var(--line);}
+  .member-row:last-child{border-bottom:none;}
+  .member-row.head{color:var(--muted); font-size:11px; font-family:var(--font-mono); padding-bottom:8px;}
+  input[type=text], input[type=number]{
+    background:var(--bg); border:1px solid var(--line); color:var(--ink);
+    padding:8px 9px; font-family:var(--font-mono); font-size:13px; width:100%;
+  }
+  input[type=checkbox]{width:16px; height:16px; accent-color:var(--violet);}
+  input:focus{outline:2px solid var(--violet); outline-offset:1px;}
+  .field-sm label{display:block; font-size:11px; color:var(--muted); margin-bottom:4px; font-family:var(--font-mono);}
+  .comfort-row{display:flex; gap:16px; align-items:center; margin-top:20px; flex-wrap:wrap;}
+  .comfort-row .field-sm{width:170px;}
+
+  .btn{background:var(--violet); color:#100C24; border:none; padding:12px 22px; font-family:var(--font-display); font-weight:600; font-size:15px; cursor:pointer; margin-top:22px;}
+  .btn:hover{background:#a496f5;}
+  .btn.secondary{background:transparent; color:var(--ink); border:1px solid var(--line); margin-left:10px;}
+  .btn.secondary:hover{border-color:var(--violet); color:var(--violet);}
+
+  .chart-wrap{background:var(--surface); border:1px solid var(--line); padding:20px; margin-top:24px;}
+  svg text{font-family:var(--font-mono); fill:var(--muted);}
+  .legend{display:flex; gap:18px; flex-wrap:wrap; margin-top:14px; font-size:12px; color:var(--muted);}
+  .legend span{display:inline-flex; align-items:center; gap:6px;}
+  .ln{width:14px; height:8px; display:inline-block;}
+
+  .kpis{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:20px; border:1px solid var(--line);}
+  @media(min-width:640px){ .kpis{grid-template-columns:repeat(4,1fr);} }
+  .kpi{background:var(--surface); padding:16px;}
+  .kpi .val{font-family:var(--font-mono); font-size:20px;}
+  .kpi .lbl{font-size:12px; color:var(--muted); margin-top:2px;}
+  .kpi.warn .val{color:var(--red);}
+
+  .table-wrap{overflow-x:auto; margin-top:24px; border:1px solid var(--line);}
+  table{border-collapse:collapse; width:100%; font-size:13px;}
+  th, td{padding:8px 10px; text-align:left; border-bottom:1px solid var(--line); white-space:nowrap; font-family:var(--font-mono);}
+  th{background:var(--surface-2); color:var(--muted); font-weight:500;}
+  .badge{font-family:var(--font-mono); font-size:10px; padding:2px 6px; border:1px solid var(--violet); color:var(--violet); margin-right:4px; display:inline-block; margin-bottom:2px;}
+  .badge.warn{border-color:var(--red); color:var(--red);}
+
+  .formula{background:var(--surface); border:1px solid var(--line); padding:18px 20px; font-family:var(--font-mono); font-size:13px; color:var(--violet); margin:16px 0; overflow-x:auto;}
+  ol.steps{padding-left:20px;}
+  ol.steps li{margin-bottom:8px;}
+  ul.limits{padding-left:20px;}
+  ul.limits li{margin-bottom:10px;}
+
+  .ref-list{list-style:none; padding:0; margin:0;}
+  .ref-list li{padding:12px 0; border-bottom:1px solid var(--line);}
+  .ref-list li:last-child{border-bottom:none;}
+  .ref-list .src{font-family:var(--font-mono); font-size:12px; color:var(--muted);}
+
+  footer{padding:40px 0 20px; text-align:center;}
+  footer p{margin:0; font-size:12px; color:var(--muted); max-width:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <section class="hero">
+    <div class="hero-tag">LABORATORIUM QILADAT — MANAJEMEN PROYEK GLOBAL</div>
+    <h1>Bumi berputar 24 jam sekali, tapi rapat tim tidak pernah adil untuk semua orang</h1>
+    <p class="lead">Rotasi Bumi itu astronomi murni — 24 jam per putaran, tidak bisa dinego. Tapi garis-garis zona waktu yang membagi 24 jam itu ke 195 negara? Itu keputusan politik (Tiongkok memaksa satu zona waktu untuk seluruh negeri, Nepal memilih +5:45 karena alasan kedaulatan, bukan garis bujur). Dan begitu tim lintas negara harus rapat, yang menang bukan lagi astronomi atau politik — tapi siapa yang bersedia bangun jam 6 pagi.</p>
+    <div class="globe-strip" id="globeStrip"></div>
+  </section>
+
+  <section id="konteks">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Ini termasuk ilmu apa?</h2></div>
+    <p>Kasus ini berlapis tiga — beda dengan dua kasus sebelumnya yang cuma dua lapis.</p>
+    <div class="split3">
+      <div class="domain-card">
+        <div class="pct">Lapis 1</div>
+        <h3 style="font-size:15px;">Astronomi</h3>
+        <p>Definisi "1 hari" datang murni dari rotasi Bumi terhadap Matahari (hari matahari ≈24 jam). Ini fakta langit, sama seperti pasang surut kemarin.</p>
+      </div>
+      <div class="domain-card dim">
+        <div class="pct">Lapis 2</div>
+        <h3 style="font-size:15px;">Politik &amp; Administrasi</h3>
+        <p>Garis zona waktu <em>seharusnya</em> mengikuti garis bujur (15° = 1 jam), tapi kenyataannya digambar ulang oleh batas negara — itu sebabnya ada offset aneh seperti +5:45 (Nepal) atau +9:30 (sebagian Australia).</p>
+      </div>
+      <div class="domain-card">
+        <div class="pct">Lapis 3</div>
+        <h3 style="font-size:15px;">Manajemen Proyek Global</h3>
+        <p>Setelah astronomi dan politik selesai bicara, yang tersisa adalah masalah manusia murni: jam berapa yang adil untuk rapat, siapa yang harus berkorban bangun pagi/begadang — dan inilah yang disimulasikan tool ini.</p>
+      </div>
+    </div>
+    <p style="margin-top:18px;">Jadi persilangannya bukan cuma dua arah seperti kasus sebelumnya, tapi tiga lapis yang saling menumpuk — dan lapis paling luar (manajemen tim) itulah yang paling terasa oleh siapa pun yang pernah ikut rapat jam 11 malam demi rekan kerja di benua lain.</p>
+  </section>
+
+  <section id="eksplorasi">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Eksplorasi: susun timmu</h2></div>
+    <p>Aktifkan anggota tim, atur offset UTC dan jam kerja lokal masing-masing. Simulasi mengabaikan perbedaan hari libur nasional dan DST (dijelaskan di bagian Batasan).</p>
+
+    <div class="panel">
+      <div class="member-row head">
+        <div></div><div>Nama / Kota</div><div>Offset UTC (jam)</div><div>Mulai kerja (lokal)</div><div>Selesai kerja (lokal)</div>
+      </div>
+      <div class="member-row" data-idx="0">
+        <input type="checkbox" checked class="mAktif">
+        <input type="text" class="mNama" value="Jakarta">
+        <input type="number" class="mOffset" value="7" step="0.25">
+        <input type="number" class="mMulai" value="9" min="0" max="23">
+        <input type="number" class="mSelesai" value="17" min="1" max="24">
+      </div>
+      <div class="member-row" data-idx="1">
+        <input type="checkbox" checked class="mAktif">
+        <input type="text" class="mNama" value="London">
+        <input type="number" class="mOffset" value="0" step="0.25">
+        <input type="number" class="mMulai" value="9" min="0" max="23">
+        <input type="number" class="mSelesai" value="17" min="1" max="24">
+      </div>
+      <div class="member-row" data-idx="2">
+        <input type="checkbox" checked class="mAktif">
+        <input type="text" class="mNama" value="New York">
+        <input type="number" class="mOffset" value="-5" step="0.25">
+        <input type="number" class="mMulai" value="9" min="0" max="23">
+        <input type="number" class="mSelesai" value="17" min="1" max="24">
+      </div>
+      <div class="member-row" data-idx="3">
+        <input type="checkbox" class="mAktif">
+        <input type="text" class="mNama" value="Tokyo">
+        <input type="number" class="mOffset" value="9" step="0.25">
+        <input type="number" class="mMulai" value="9" min="0" max="23">
+        <input type="number" class="mSelesai" value="18" min="1" max="24">
+      </div>
+      <div class="member-row" data-idx="4">
+        <input type="checkbox" class="mAktif">
+        <input type="text" class="mNama" value="Los Angeles">
+        <input type="number" class="mOffset" value="-8" step="0.25">
+        <input type="number" class="mMulai" value="8" min="0" max="23">
+        <input type="number" class="mSelesai" value="16" min="1" max="24">
+      </div>
+
+      <div class="comfort-row">
+        <div class="field-sm">
+          <label for="nyamanMulai">Jam nyaman mulai (lokal)</label>
+          <input type="number" id="nyamanMulai" value="7" min="0" max="23">
+        </div>
+        <div class="field-sm">
+          <label for="nyamanSelesai">Jam nyaman selesai (lokal)</label>
+          <input type="number" id="nyamanSelesai" value="21" min="1" max="24">
+        </div>
+        <div class="field-sm">
+          <label for="resolusi">Resolusi simulasi (menit)</label>
+          <input type="number" id="resolusi" value="15" min="5" max="60" step="5">
+        </div>
+      </div>
+
+      <button class="btn" onclick="jalankanSimulasi()">Jalankan simulasi</button>
+      <button class="btn secondary" onclick="unduhCSV()">Unduh jendela overlap (CSV)</button>
+    </div>
+  </section>
+
+  <section id="perhitungan">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Perhitungan</h2></div>
+
+    <div class="kpis" id="kpis"></div>
+
+    <div class="chart-wrap">
+      <svg id="chart" viewBox="0 0 900 300" style="width:100%; height:auto;"></svg>
+      <div class="legend">
+        <span><span class="ln" style="background:var(--violet); opacity:0.4;"></span>Jam kerja anggota</span>
+        <span><span class="ln" style="background:var(--violet);"></span>Overlap penuh (semua aktif bekerja)</span>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Mulai (UTC)</th><th>Selesai (UTC)</th><th>Durasi</th><th>Waktu lokal tiap anggota</th></tr></thead>
+        <tbody id="tabelBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="metode">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Metode</h2></div>
+    <p>Untuk setiap anggota m dan jam UTC t, tentukan apakah ia sedang bekerja dengan mengonversi t ke jam lokalnya:</p>
+    <div class="formula">jam_lokal(m, t) = ((t + offset_m) mod 24 + 24) mod 24
+bekerja(m, t)  = mulai_m ≤ jam_lokal(m, t) &lt; selesai_m</div>
+    <p>Overlap terjadi ketika semua anggota aktif bekerja pada t yang sama. Untuk menghindari kesalahan di batas tengah malam UTC, simulasi dijalankan sepanjang 48 jam berturut-turut (bukan cuma 0–24) lalu jendela yang dimulai sebelum jam ke-24 diambil sebagai representasi satu siklus harian penuh — trik sederhana supaya jendela yang "menyeberangi" tengah malam UTC tetap terhitung utuh, bukan terpotong dua.</p>
+    <ol class="steps">
+      <li>Pindai setiap slot waktu (resolusi bisa diatur) sepanjang 48 jam UTC.</li>
+      <li>Tandai slot sebagai "overlap" bila seluruh anggota aktif sedang bekerja pada slot itu.</li>
+      <li>Kelompokkan slot overlap yang berurutan menjadi satu jendela rapat.</li>
+      <li>Untuk tiap jendela, konversi kembali waktu mulai/selesainya ke jam lokal setiap anggota, lalu tandai apakah jam tersebut "nyaman" (dalam rentang yang diatur) atau tidak.</li>
+    </ol>
+  </section>
+
+  <section id="batasan">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Batasan</h2></div>
+    <ul class="limits">
+      <li><strong>Daylight Saving Time (DST) tidak dimodelkan.</strong> Offset UTC dianggap tetap sepanjang tahun — pada kenyataannya London/New York bergeser 1 jam dua kali setahun, yang bisa mengubah jendela overlap.</li>
+      <li><strong>Hari kerja dianggap seragam (Senin–Jumat)</strong> untuk semua anggota — tidak memodelkan negara dengan akhir pekan berbeda (mis. Jumat–Sabtu di sebagian negara Timur Tengah).</li>
+      <li><strong>Jam kerja dianggap blok tunggal tanpa jeda</strong> — tidak memodelkan istirahat makan siang atau jam fleksibel.</li>
+      <li><strong>"Nyaman" adalah ambang tunggal (mis. 07:00–21:00)</strong> — kenyataannya toleransi tiap orang berbeda, dan rapat sesekali di luar jam itu belum tentu masalah besar dibanding rutin setiap minggu.</li>
+      <li>Alat ini untuk membantu <em>melihat pola</em> overlap tim, bukan pengganti kesepakatan langsung dengan anggota tim tentang jam yang benar-benar bisa mereka terima.</li>
+    </ul>
+  </section>
+
+  <section id="referensi">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Referensi</h2></div>
+    <ul class="ref-list">
+      <li>Konsep zona waktu sebagai konvensi administratif di atas dasar rotasi Bumi (hari matahari ≈24 jam), termasuk kasus offset non-standar seperti Nepal (UTC+5:45) dan sebagian Australia (UTC+9:30).
+        <div class="src">Rujukan umum geografi &amp; standar zona waktu internasional</div>
+      </li>
+      <li>Praktik "meeting window" dan kebijakan async-first dalam manajemen tim terdistribusi lintas zona waktu.
+        <div class="src">Rujukan umum manajemen proyek global/remote</div>
+      </li>
+      <li>Lanjutan seri "laboratorium" proyek Qiladat/JAZMI — kasus ketiga, kali ini berlapis tiga (astronomi → politik → manajemen).
+        <div class="src">Dokumen kerja internal, 31 Agustus 2026</div>
+      </li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Simulator ini alat bantu eksplorasi pola jadwal, bukan pengganti kesepakatan langsung dengan tim.</p>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  const strip = document.getElementById('globeStrip');
+  for(let h=0; h<24; h++){
+    const d = document.createElement('div');
+    d.textContent = String(h).padStart(2,'0');
+    if(h>=6 && h<18) d.classList.add('day');
+    strip.appendChild(d);
+  }
+})();
+
+function bacaAnggota(){
+  const rows = document.querySelectorAll('.member-row[data-idx]');
+  const list = [];
+  rows.forEach(r=>{
+    const aktif = r.querySelector('.mAktif').checked;
+    if(!aktif) return;
+    list.push({
+      nama: r.querySelector('.mNama').value || 'Anggota',
+      offset: parseFloat(r.querySelector('.mOffset').value)||0,
+      mulai: parseFloat(r.querySelector('.mMulai').value)||0,
+      selesai: parseFloat(r.querySelector('.mSelesai').value)||24
+    });
+  });
+  return list;
+}
+
+function mod24(x){ return ((x%24)+24)%24; }
+
+function bekerja(m, utcHour){
+  const lokal = mod24(utcHour + m.offset);
+  if(m.mulai <= m.selesai) return lokal >= m.mulai && lokal < m.selesai;
+  return lokal >= m.mulai || lokal < m.selesai;
+}
+
+function jalankanSimulasi(){
+  const anggota = bacaAnggota();
+  const nyamanMulai = parseFloat(document.getElementById('nyamanMulai').value)||7;
+  const nyamanSelesai = parseFloat(document.getElementById('nyamanSelesai').value)||21;
+  const resolusiMenit = parseFloat(document.getElementById('resolusi').value)||15;
+  const step = resolusiMenit/60;
+
+  if(anggota.length===0){
+    document.getElementById('kpis').innerHTML = '<div class="kpi warn"><div class="val">0</div><div class="lbl">tidak ada anggota aktif</div></div>';
+    document.getElementById('tabelBody').innerHTML = '<tr><td>Aktifkan minimal satu anggota tim.</td></tr>';
+    document.getElementById('chart').innerHTML = '';
+    return;
+  }
+
+  const N = Math.round(48/step);
+  const overlapArr = [];
+  for(let i=0;i<N;i++){
+    const t = i*step;
+    overlapArr.push(anggota.every(m=>bekerja(m,t)));
+  }
+
+  // deteksi jendela dalam rentang 0-48, ambil yang mulai sebelum jam-24
+  const windows = [];
+  let cur = null;
+  for(let i=0;i<=N;i++){
+    const on = i<N ? overlapArr[i] : false;
+    if(on && cur===null) cur = i;
+    if(!on && cur!==null){ windows.push({startIdx:cur, endIdx:i}); cur=null; }
+  }
+  const jendela = windows
+    .map(w=>({start:w.startIdx*step, end:w.endIdx*step}))
+    .filter(w=>w.start < 24);
+
+  window._jendela = jendela;
+  window._anggota = anggota;
+  window._nyaman = {mulai:nyamanMulai, selesai:nyamanSelesai};
+
+  renderKPI(jendela, anggota, nyamanMulai, nyamanSelesai);
+  renderTabel(jendela, anggota, nyamanMulai, nyamanSelesai);
+  renderChart(anggota, overlapArr, step);
+}
+
+function isNyaman(lokal, nMulai, nSelesai){
+  if(nMulai<=nSelesai) return lokal>=nMulai && lokal<nSelesai;
+  return lokal>=nMulai || lokal<nSelesai;
+}
+
+function fmtHour(h){
+  const hh = mod24(h);
+  const jam = Math.floor(hh);
+  const menit = Math.round((hh-jam)*60);
+  const label = String(jam).padStart(2,'0')+':'+String(menit).padStart(2,'0');
+  return h>=24 ? label+' (+1 hari)' : label;
+}
+
+function renderKPI(jendela, anggota, nMulai, nSelesai){
+  const totalJam = jendela.reduce((a,w)=>a+(w.end-w.start),0);
+  const kpis = document.getElementById('kpis');
+  if(jendela.length===0){
+    kpis.innerHTML = `<div class="kpi warn"><div class="val">0 jam</div><div class="lbl">tidak ada overlap sama sekali — jam kerja tim ini tidak pernah bertemu</div></div>`;
+    return;
+  }
+  // jendela terbaik: durasi terpanjang, tie-break jumlah anggota nyaman
+  let terbaik = jendela[0];
+  let terbaikSkor = -1;
+  jendela.forEach(w=>{
+    const skor = anggota.filter(m=>isNyaman(mod24(w.start+m.offset), nMulai, nSelesai)).length;
+    const durasi = w.end-w.start;
+    if(durasi > (terbaik.end-terbaik.start) || (durasi===(terbaik.end-terbaik.start) && skor>terbaikSkor)){
+      terbaik = w; terbaikSkor = skor;
+    }
+  });
+  const skorTerbaik = anggota.filter(m=>isNyaman(mod24(terbaik.start+m.offset), nMulai, nSelesai)).length;
+
+  kpis.innerHTML = `
+    <div class="kpi"><div class="val">${totalJam.toFixed(1)} jam</div><div class="lbl">total overlap per hari</div></div>
+    <div class="kpi"><div class="val">${jendela.length}</div><div class="lbl">jendela terpisah</div></div>
+    <div class="kpi"><div class="val">${fmtHour(terbaik.start)}–${fmtHour(terbaik.end)}</div><div class="lbl">jendela terbaik (UTC)</div></div>
+    <div class="kpi ${skorTerbaik<anggota.length?'warn':''}"><div class="val">${skorTerbaik}/${anggota.length}</div><div class="lbl">anggota nyaman di jendela terbaik</div></div>
+  `;
+}
+
+function renderTabel(jendela, anggota, nMulai, nSelesai){
+  const body = document.getElementById('tabelBody');
+  if(jendela.length===0){
+    body.innerHTML = `<tr><td colspan="5">Tidak ada jendela overlap ditemukan.</td></tr>`;
+    return;
+  }
+  body.innerHTML = jendela.map((w,i)=>{
+    const lokalBadges = anggota.map(m=>{
+      const lokalStart = mod24(w.start+m.offset);
+      const nyaman = isNyaman(lokalStart, nMulai, nSelesai);
+      return `<span class="badge ${nyaman?'':'warn'}">${m.nama}: ${fmtHour(w.start+m.offset >= 24 || w.start+m.offset<0 ? mod24(w.start+m.offset) : (w.start+m.offset))}</span>`;
+    }).join('');
+    return `<tr>
+      <td>${i+1}</td>
+      <td>${fmtHour(w.start)}</td>
+      <td>${fmtHour(w.end)}</td>
+      <td>${(w.end-w.start).toFixed(2)} jam</td>
+      <td>${lokalBadges}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderChart(anggota, overlapArr, step){
+  const svg = document.getElementById('chart');
+  const W=900, rowH=32, padL=90, padR=20, padT=16, padB=26;
+  const rows = anggota.length + 1; // + overlap row
+  const H = padT + rows*rowH + padB;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const innerW = W-padL-padR;
+  const x = h => padL + innerW*(h/24);
+
+  let parts = [];
+
+  // grid vertikal tiap 3 jam
+  for(let h=0; h<=24; h+=3){
+    const xx = x(h);
+    parts.push(`<line x1="${xx}" y1="${padT}" x2="${xx}" y2="${H-padB}" stroke="#332E5C" stroke-width="1"/>`);
+    parts.push(`<text x="${xx}" y="${H-padB+16}" font-size="9" text-anchor="middle">${String(h).padStart(2,'0')}h</text>`);
+  }
+
+  function drawSegments(rowIdx, segs, color, opacity){
+    const y = padT + rowIdx*rowH + rowH*0.18;
+    const h = rowH*0.64;
+    segs.forEach(([s,e])=>{
+      parts.push(`<rect x="${x(s).toFixed(1)}" y="${y}" width="${(x(e)-x(s)).toFixed(1)}" height="${h}" fill="${color}" opacity="${opacity}"/>`);
+    });
+  }
+
+  anggota.forEach((m,i)=>{
+    const rawStart = mod24(m.mulai - m.offset);
+    const rawEnd = mod24(m.selesai - m.offset);
+    const segs = rawStart <= rawEnd ? [[rawStart,rawEnd]] : [[rawStart,24],[0,rawEnd]];
+    drawSegments(i, segs, '#8C7CF0', 0.35);
+    parts.push(`<text x="${padL-10}" y="${padT+i*rowH+rowH*0.6}" font-size="11" text-anchor="end">${m.nama}</text>`);
+  });
+
+  // overlap row: bangun segmen dari overlapArr (step 0-48) dipotong ke 0-24 + wrap
+  let segs=[]; let curStart=null;
+  for(let i=0;i<overlapArr.length;i++){
+    const t = i*step;
+    if(t>24) break;
+    if(overlapArr[i] && curStart===null) curStart=t;
+    if((!overlapArr[i] || t>=24) && curStart!==null){ segs.push([curStart, Math.min(t,24)]); curStart=null; }
+  }
+  if(curStart!==null) segs.push([curStart,24]);
+  drawSegments(anggota.length, segs, '#8C7CF0', 0.95);
+  parts.push(`<text x="${padL-10}" y="${padT+anggota.length*rowH+rowH*0.6}" font-size="11" text-anchor="end" fill="#EDEBF7">OVERLAP</text>`);
+
+  svg.innerHTML = parts.join('');
+}
+
+function unduhCSV(){
+  if(!window._jendela) jalankanSimulasi();
+  const jendela = window._jendela;
+  const anggota = window._anggota;
+  const {mulai:nMulai, selesai:nSelesai} = window._nyaman;
+  let csv = 'No,MulaiUTC,SelesaiUTC,DurasiJam,' + anggota.map(m=>m.nama+'(lokal)').join(',') + '\n';
+  jendela.forEach((w,i)=>{
+    const lokalCols = anggota.map(m=>fmtHour(mod24(w.start+m.offset)));
+    csv += [i+1, fmtHour(w.start), fmtHour(w.end), (w.end-w.start).toFixed(2), ...lokalCols].join(',') + '\n';
+  });
+  const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href=url; a.download='overlap-zona-waktu.csv';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+jalankanSimulasi();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

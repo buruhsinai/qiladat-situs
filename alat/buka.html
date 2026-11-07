@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alat Terkunci — JAZMI</title>
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+
+<style>
+  html, body { height: 100%; }
+  body { display: flex; flex-direction: column; overflow-x: hidden; }
+  .buka-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.55rem var(--gutter); background: var(--bg-alt); border-bottom: 1px solid var(--line); font-size: 0.88rem; }
+  .buka-bar a, .buka-bar button { font-weight: 600; color: var(--emerald); text-decoration: underline; text-underline-offset: 3px; background: none; border: none; padding: 0; cursor: pointer; font-size: inherit; }
+  .buka-judul { margin: 0; font-weight: 700; color: var(--emerald-deep); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .buka-status { max-width: 520px; margin: 0 auto; padding: clamp(2.5rem, 8vw, 4rem) var(--gutter); }
+  .buka-status h1 { font-size: clamp(1.4rem, 4vw, 1.8rem); margin-bottom: 0.6rem; }
+  .buka-status p { color: var(--ink-soft); margin: 0 0 1rem; }
+  .buka-status .btn { margin-top: 0.25rem; background: var(--emerald-deep); color: #fff; border: 1px solid var(--emerald-deep); }
+  .buka-status .btn:hover { background: var(--emerald); }
+  #bingkai { flex: 1; width: 100%; min-height: 0; border: 0; background: #fff; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+    </button>
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/" class="is-active">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="buka-bar" id="bar" hidden>
+  <p class="buka-judul" id="judulAlat"></p>
+  <span><a href="/alat/">Semua alat</a> · <button type="button" id="keluar">Keluar</button></span>
+</div>
+
+<main id="konten-utama" style="flex:1;display:flex;flex-direction:column;min-height:0">
+  <div class="buka-status" id="status">
+    <h1 id="statusJudul">Memuat alat…</h1>
+    <p id="statusIsi">Memeriksa akses Anda.</p>
+    <a class="btn" id="statusAksi" href="#" hidden></a>
+  </div>
+  <!-- Alat dimuat sebagai halaman yang sama-origin dengan situs, persis seperti saat masih
+       berupa file publik, sehingga localStorage/sessionStorage alat tetap bekerja dan data
+       yang sudah tersimpan di browser pengguna tidak hilang. Konsekuensinya: kode alat
+       (milik JAZMI sendiri) secara teknis dapat membaca sesi login. Karena itu hanya muat
+       HTML buatan sendiri di sini, dan hati-hati menambah skrip pihak ketiga ke dalam alat. -->
+  <iframe id="bingkai" title="Alat interaktif" hidden
+          allow="fullscreen; clipboard-write"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox allow-downloads"></iframe>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/js/auth-config.js"></script>
+<script>
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+
+  // Menu mobile
+  var toggle = $('navToggle'), nav = $('primaryNav');
+  toggle.addEventListener('click', function () {
+    var open = nav.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  function status(judul, isi, aksiTeks, aksiHref) {
+    $('bingkai').hidden = true;
+    $('bar').hidden = true;
+    $('status').hidden = false;
+    $('statusJudul').textContent = judul;
+    $('statusIsi').textContent = isi;
+    var a = $('statusAksi');
+    if (aksiTeks) { a.textContent = aksiTeks; a.setAttribute('href', aksiHref); a.hidden = false; }
+    else { a.hidden = true; }
+  }
+
+  // id alat: hanya huruf kecil, angka, tanda hubung (cegah path liar)
+  var id = new URLSearchParams(window.location.search).get('id') || '';
+  if (!/^[a-z0-9][a-z0-9\-]{0,80}$/.test(id)) {
+    status('Alat tidak ditemukan', 'Alamat alat tidak valid. Kembali ke daftar alat untuk memilih.', 'Ke daftar alat', '/alat/');
+    return;
+  }
+
+  var cfg = window.JAZMI_AUTH || {};
+  if (!window.supabase || !cfg.url || cfg.url.indexOf('GANTI-') !== -1) {
+    status('Sistem belum siap', 'Konfigurasi masuk belum diisi (js/auth-config.js).');
+    return;
+  }
+  var sb = window.supabase.createClient(cfg.url, cfg.anonKey);
+
+  $('keluar').addEventListener('click', async function () {
+    await sb.auth.signOut();
+    window.location.href = '/alat/';
+  });
+
+  async function muat() {
+    var s = await sb.auth.getSession();
+    var sesi = s.data && s.data.session;
+    if (!sesi) {
+      status('Alat ini khusus anggota', 'Masuk dengan akun yang diundang untuk membuka alat ini.',
+             'Masuk', '/masuk/?next=' + encodeURIComponent('/alat/buka.html?id=' + id));
+      return;
+    }
+
+    // Pemeriksaan ramah (penjagaan sebenarnya ada di aturan RLS server)
+    var p = await sb.from('profiles').select('status, berlaku_sampai').eq('id', sesi.user.id).maybeSingle();
+    var prof = p.data;
+    var hariIni = new Date().toISOString().slice(0, 10);
+    if (!prof || prof.status !== 'aktif') {
+      status('Akun belum aktif', 'Akun Anda belum memiliki akses ke alat terkunci. Hubungi pengelola JAZMI.');
+      return;
+    }
+    if (prof.berlaku_sampai && prof.berlaku_sampai < hariIni) {
+      status('Masa akses berakhir', 'Akses akun Anda berakhir pada ' + prof.berlaku_sampai + '. Hubungi pengelola JAZMI untuk memperpanjang.');
+      return;
+    }
+
+    var d = await sb.storage.from(cfg.bucket || 'alat-privat').download(id + '.html');
+    if (d.error || !d.data) {
+      status('Alat tidak dapat dibuka', 'File alat tidak ditemukan atau akses ditolak. Coba muat ulang; jika berlanjut, hubungi pengelola JAZMI.', 'Ke daftar alat', '/alat/');
+      return;
+    }
+
+    var html = await d.data.text();
+    // Tombol kembali melayang bawaan alat membaca alamat halaman dan tidak cocok di dalam
+    // iframe; bilah "Semua alat" di atas sudah menggantikannya.
+    html = html.replace(/<script[^>]*alat-nav-kembali\.js[^>]*>\s*<\/script>/gi, '');
+    var m = html.match(/<title>([^<]*)<\/title>/i);
+    var judul = m ? m[1].trim() : id;
+    document.title = judul + ' — JAZMI';
+    $('judulAlat').textContent = judul;
+
+    $('status').hidden = true;
+    $('bar').hidden = false;
+    var f = $('bingkai');
+    f.addEventListener('load', function () {
+      try {
+        var doc = f.contentDocument;
+        if (!doc) return;
+        // Tautan relatif ke alat lain (mis. href="jam-gajah-aljazari.html") dialihkan ke pemuat ini.
+        doc.addEventListener('click', function (e) {
+          var a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+          if (!a) return;
+          var h = a.getAttribute('href') || '';
+          var m = h.match(/^(?:\.\/)?([^\/#?:]+)\.html?(?:[#?].*)?$/i);
+          if (!m) return;
+          e.preventDefault();
+          var nama;
+          try { nama = decodeURIComponent(m[1]); } catch (_) { nama = m[1]; }
+          var tujuan = nama.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+          if (tujuan) window.location.href = '/alat/buka.html?id=' + encodeURIComponent(tujuan);
+        });
+      } catch (_) { /* abaikan: alat tetap berjalan tanpa pengalihan tautan */ }
+    });
+    f.srcdoc = html;
+    f.hidden = false;
+  }
+
+  muat();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andai Pegunungan Australia Berpindah — JAZMI</title>
+<style>
+  :root{
+    --bg:#0b0d10; --panel:#14171c; --panel2:#1b1f26; --line:#2a2f38;
+    --text:#e8e6df; --muted:#9aa1ab; --accent:#c9a24d; --accent2:#6fae8c;
+    --warn:#d98c5f; --danger:#c1595a; --blue:#7f9fe8; --font-d:'Georgia',serif; --font-b:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-b);margin:0;padding:0;line-height:1.6}
+  .wrap{max-width:840px;margin:0 auto;padding:28px 18px 80px}
+  header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:28px}
+  h1{font-family:var(--font-d);font-size:1.5rem;margin:0 0 8px;color:var(--accent)}
+  .tagline{color:var(--muted);font-size:.95rem}
+  h2{font-family:var(--font-d);font-size:1.2rem;color:var(--accent2);border-left:3px solid var(--accent2);padding-left:10px;margin-top:40px}
+  h3{color:var(--text);font-size:1rem;margin-top:0}
+  section{margin-bottom:10px}
+  p{color:#d7d5cd}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0}
+  .grid{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:640px){.grid-2{grid-template-columns:1fr 1fr}}
+  @media(min-width:640px){.grid-3{grid-template-columns:1fr 1fr 1fr}}
+  .slider-field label{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+  .slider-field label b{color:var(--accent);font-weight:600}
+  .slider-field input[type=range]{width:100%;accent-color:var(--accent2)}
+  .slider-hint{font-size:.78rem;color:#767c85;margin-top:3px}
+  .result{background:var(--panel2);border:1px solid var(--accent);border-radius:8px;padding:14px;margin-top:14px;font-size:1.02rem}
+  .result b{color:var(--accent)}
+  .verdict{border-radius:8px;padding:14px;margin-top:10px;font-size:.95rem}
+  .v-ok{background:#152a1f;border:1px solid var(--accent2);color:#bfe6cf}
+  .v-warn{background:#2a2416;border:1px solid var(--warn);color:#f0dcc4}
+  .v-bad{background:#2a1616;border:1px solid var(--danger);color:#f0c4c4}
+  .note{font-size:.82rem;color:var(--muted);margin-top:6px}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.86rem}
+  th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}
+  th{color:var(--accent2)}
+  .wa{display:inline-block;margin-top:14px;background:#25D366;color:#04250f;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:600}
+  .limitbox{background:#241a14;border:1px solid var(--warn);border-radius:8px;padding:14px;color:#e8d3c1}
+  .histbox{background:#161a20;border:1px dashed var(--line);border-radius:8px;padding:14px;color:#c7c4bb;font-size:.92rem}
+  ul{color:#d7d5cd}
+  svg{width:100%;height:auto;background:var(--panel2);border-radius:8px;border:1px solid var(--line)}
+  .chartbox{margin-top:10px}
+  .preset-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .preset{font-size:.78rem;background:var(--bg);border:1px solid var(--line);color:var(--muted);padding:8px 12px;border-radius:20px;cursor:pointer}
+  .preset:hover{border-color:var(--accent2);color:var(--accent2)}
+  footer{margin-top:50px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Andai Pegunungan Australia Berpindah</h1>
+  <div class="tagline">Kenapa pesisir timur Australia hijau sementara sebagian besar benuanya gurun — dan apa yang berubah kalau tembok pegunungannya digeser.</div>
+</header>
+
+<section>
+  <h2>1. Belajar — Kenapa Australia adalah Benua Berpenghuni Terkering</h2>
+  <p>Sepanjang pantai timur Australia — dari Cape York di utara sampai Victoria di selatan, sekitar 3.500 km — membentang <b>Great Dividing Range</b>, deretan pegunungan yang relatif tidak terlalu tinggi (rata-rata ratusan meter, puncak tertinggi Gunung Kosciuszko hanya 2.228 m — jauh lebih rendah dari Andes atau Himalaya) tapi cukup untuk mengubah total wajah iklim benua ini.</p>
+  <div class="card">
+    <p><b>Mekanismenya:</b> angin pasat tenggara yang bertiup dari Laut Coral/Tasman membawa uap air lembap menuju pantai timur. Saat udara ini dipaksa naik melewati pegunungan, ia mendingin secara adiabatik, uap airnya mengembun, dan turun sebagai hujan lebat di lereng timur (sisi datang angin/<i>windward</i>) — beberapa wilayah pesisir tropis Queensland menerima &gt;2.000 mm hujan per tahun. Begitu udara melewati puncak dan turun ke sisi barat (<i>leeward</i>), ia sudah kehilangan sebagian besar uap airnya, dan pemanasan adiabatik saat turun membuatnya makin kering — inilah <b>efek bayangan hujan (rain shadow)</b>. Wilayah pedalaman seperti Gurun Simpson menerima kurang dari 150-200 mm per tahun.</p>
+    <p style="margin-bottom:0">Tapi bayangan hujan bukan satu-satunya sebab. Sebagian besar Australia — termasuk area yang jauh dari pengaruh pegunungan sekalipun — berada di bawah <b>sabuk tekanan tinggi subtropis</b> (bagian dari sirkulasi sel Hadley yang turun/subsiden di lintang ~25-35°), yang secara independen menekan pembentukan awan dan hujan di sebagian besar benua sepanjang tahun. Inilah kenapa Australia disebut "benua berpenghuni terkering" — rata-rata curah hujan tahunannya hanya sekitar 470 mm, jauh di bawah rata-rata daratan dunia.</p>
+  </div>
+  <div class="histbox">
+    <p style="margin:0">Catatan geografis tambahan: pola ini tidak berlaku seragam di seluruh benua. Australia utara punya monsun tropis musiman sendiri (musim hujan Desember-Maret), dan sudut barat daya (sekitar Perth) punya iklim Mediterania dengan hujan musim dingin dari sistem angin barat lintang menengah — dua pola terpisah yang tidak dijelaskan oleh mekanisme pegunungan timur ini. Simulator di bawah berfokus khusus pada mekanisme bayangan hujan timur-barat, bukan gambaran iklim Australia secara penuh.</p>
+  </div>
+</section>
+
+<section>
+  <h2>2. Eksplorasi — Simulator: Pindahkan Pegunungannya</h2>
+  <p>Bayangkan penampang lintas benua dari pantai timur ke pantai barat (~3.900 km). Angin lembap masuk dari timur. Geser posisi, tinggi pegunungan, dan kekuatan tekanan tinggi subtropis — lihat bagaimana profil curah hujan sepanjang benua berubah total.</p>
+  <div class="card">
+    <div class="preset-row">
+      <button class="preset" onclick="setPreset('asli')">🏔️ Kondisi asli (timur)</button>
+      <button class="preset" onclick="setPreset('hilang')">🚫 Pegunungan dihilangkan</button>
+      <button class="preset" onclick="setPreset('barat')">↔️ Dipindah ke barat</button>
+      <button class="preset" onclick="setPreset('tengah')">🎯 Dipindah ke tengah</button>
+    </div>
+    <div class="grid grid-3">
+      <div class="slider-field">
+        <label>Tinggi pegunungan <b id="valTinggi">1200</b> m</label>
+        <input type="range" id="tinggi" min="0" max="3000" step="50" value="1200">
+        <div class="slider-hint">0 = tidak ada pegunungan sama sekali</div>
+      </div>
+      <div class="slider-field">
+        <label>Posisi dari pantai timur <b id="valPosisi">12</b> %</label>
+        <input type="range" id="posisi" min="0" max="100" step="1" value="12">
+        <div class="slider-hint">0% = tepat di pantai timur (asli) · 100% = pantai barat</div>
+      </div>
+      <div class="slider-field">
+        <label>Kekuatan tekanan tinggi subtropis <b id="valSubtropis">55</b> %</label>
+        <input type="range" id="subtropis" min="0" max="90" step="5" value="55">
+        <div class="slider-hint">Makin tinggi, makin kering latar belakang benua</div>
+      </div>
+    </div>
+    <div class="chartbox">
+      <svg id="chart" viewBox="0 0 600 240"></svg>
+    </div>
+    <div class="result" id="hasilSimulasi"></div>
+    <div class="verdict" id="verdictSimulasi"></div>
+  </div>
+</section>
+
+<section>
+  <h2>3. Metode / Rumus</h2>
+  <div class="card">
+    <p><b>Model kaskade fluks kelembapan sepanjang transek (disederhanakan):</b></p>
+    <p>Di tiap segmen non-pegunungan: hujan(i) = p_dasar × F(i), F(i+1) = F(i) − hujan(i)</p>
+    <p>Di segmen pegunungan: hujan(i) = k_orografis × F(i), dengan k_orografis = min(0,75, tinggi/3000 × 0,75) — makin tinggi pegunungan, makin besar fraksi uap air yang dipaksa turun sebagai hujan sekaligus</p>
+    <p>p_dasar = p_maks × (1 − kekuatan_subtropis/100 × 0,9) — sabuk tekanan tinggi menekan curah hujan latar belakang di seluruh transek, bukan cuma di sisi bayangan hujan</p>
+  </div>
+</section>
+
+<section>
+  <h2>4. Batasan</h2>
+  <div class="limitbox">
+    <ul>
+      <li><b>Ini model satu dimensi (garis lurus timur-barat)</b> — Australia nyata punya variasi utara-selatan yang besar (monsun tropis di utara, iklim Mediterania di barat daya) yang sama sekali tidak ditangkap model garis lurus ini.</li>
+      <li><b>Angka curah hujan hasil simulasi bersifat ilustratif/relatif</b>, dikalibrasi supaya polanya masuk akal dibanding data nyata (Queensland tropis ~2.000+ mm, Gurun Simpson ~150-200 mm) — bukan hasil pemodelan meteorologi presisi.</li>
+      <li>Skenario "memindahkan pegunungan ke barat" murni pengandaian fisika-geografi untuk memahami mekanisme — bukan prediksi apa yang benar-benar akan terjadi jika geologi Australia berbeda (bentuk garis pantai, arus laut, dan banyak faktor lain juga akan ikut berbeda dalam skenario semacam itu, di luar cakupan model ini).</li>
+      <li>Kekuatan tekanan tinggi subtropis di dunia nyata bervariasi musiman dan tidak konstan sepanjang tahun seperti diasumsikan model sederhana ini.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>5. Referensi</h2>
+  <ul>
+    <li>Bureau of Meteorology (Australia) — klasifikasi iklim dan data curah hujan regional</li>
+    <li>Teori presipitasi orografis (orographic precipitation) — dasar meteorologi fisis standar</li>
+    <li>Sirkulasi sel Hadley &amp; sabuk tekanan tinggi subtropis — dinamika atmosfer skala global</li>
+  </ul>
+</section>
+
+<div class="card" style="text-align:center">
+  <p style="margin:0 0 8px">Ingin diskusi lebih lanjut soal topik ini?</p>
+  <a class="wa" id="waLink" href="#" target="_blank">Konsultasi via WhatsApp</a>
+</div>
+
+<footer>
+  Bagian dari Bank Alat JAZMI — Level 1–5 (Belajar → Eksplorasi → Metode → Batasan → Referensi).<br>
+  Alat ini edukasi konsep geografi iklim, bukan model iklim regional presisi.
+</footer>
+</div>
+
+<script>
+function fmt(x, d=0){
+  if(!isFinite(x)) return "-";
+  return parseFloat(x.toFixed(d)).toString();
+}
+
+const tinggiEl = document.getElementById('tinggi');
+const posisiEl = document.getElementById('posisi');
+const subtropisEl = document.getElementById('subtropis');
+
+const presets = {
+  asli:   {tinggi:1200, posisi:12, subtropis:55},
+  hilang: {tinggi:0,    posisi:12, subtropis:55},
+  barat:  {tinggi:1200, posisi:88, subtropis:55},
+  tengah: {tinggi:1200, posisi:50, subtropis:55}
+};
+function setPreset(nama){
+  const p = presets[nama];
+  tinggiEl.value = p.tinggi; posisiEl.value = p.posisi; subtropisEl.value = p.subtropis;
+  hitungSimulasi();
+}
+
+const N_SEGMEN = 40;
+const F0 = 2200;
+const P_MAKS = 0.045;
+
+function hitungSimulasi(){
+  const tinggi = parseFloat(tinggiEl.value);
+  const posisiPct = parseFloat(posisiEl.value);
+  const subtropis = parseFloat(subtropisEl.value);
+
+  document.getElementById('valTinggi').textContent = tinggi;
+  document.getElementById('valPosisi').textContent = posisiPct;
+  document.getElementById('valSubtropis').textContent = subtropis;
+
+  const segmenGunung = Math.round((posisiPct/100)*N_SEGMEN);
+  const kOro = Math.min(0.75, (tinggi/3000)*0.75);
+  const pDasar = P_MAKS*(1-(subtropis/100)*0.9);
+
+  let F = F0;
+  let seri = [];
+  for(let i=0;i<N_SEGMEN;i++){
+    let hujan;
+    if(i===segmenGunung && tinggi>0){
+      hujan = kOro*F;
+    } else {
+      hujan = pDasar*F;
+    }
+    F = Math.max(0, F-hujan);
+    seri.push(hujan);
+  }
+
+  const maxHujan = Math.max(...seri);
+  const minHujanSetelahGunung = seri.slice(segmenGunung+1).length ? Math.min(...seri.slice(segmenGunung+1)) : seri[seri.length-1];
+  const rataInterior = seri.slice(Math.min(segmenGunung+3, N_SEGMEN-1)).reduce((a,b)=>a+b,0)/Math.max(1,seri.slice(Math.min(segmenGunung+3, N_SEGMEN-1)).length);
+
+  document.getElementById('hasilSimulasi').innerHTML = `
+    Curah hujan puncak (lereng datang angin): <b>${fmt(maxHujan*1.4,0)} mm/tahun (skala relatif)</b><br>
+    Rata-rata wilayah jauh di belakang pegunungan: <b>${fmt(rataInterior*1.4,0)} mm/tahun (skala relatif)</b>
+  `;
+
+  const verdict = document.getElementById('verdictSimulasi');
+  if(tinggi < 100){
+    verdict.className='verdict v-warn';
+    
+    verdict.innerHTML = `Tanpa pegunungan sama sekali, tidak ada lagi lonjakan hujan tajam di satu titik — profil curah hujan melandai bertahap dari timur ke barat. Tapi perhatikan: pedalaman tetap tidak benar-benar basah, karena tekanan tinggi subtropis masih menekan curah hujan latar belakang di seluruh benua. Menghilangkan pegunungan meratakan kontrasnya, bukan membuat semuanya hijau.`;
+  } else if(posisiPct < 25){
+    verdict.className='verdict v-ok';
+    
+    verdict.innerHTML = `Ini pola paling mendekati Australia nyata: pegunungan dekat pantai timur menangkap sebagian besar kelembapan di dekat pantai, meninggalkan pedalaman luas dalam bayangan hujan — persis kontras hijau-tropis Queensland vs Gurun Simpson yang kering.`;
+  } else if(posisiPct > 70){
+    verdict.className='verdict v-bad';
+    
+    verdict.innerHTML = `Kalau pegunungan dipindah mendekati pantai barat, kelembapan dari timur nyaris tidak terhalangi sepanjang sebagian besar benua — mayoritas wilayah yang sekarang jadi outback justru bisa menerima hujan latar belakang lebih lama, dan bayangan hujan yang tajam malah berpindah ke dekat pantai barat. Gurun terparah berpindah tempat, bukan hilang.`;
+  } else {
+    verdict.className='verdict v-warn';
+    
+    verdict.innerHTML = `Pegunungan di posisi tengah membelah benua jadi dua: separuh timur relatif basah, separuh barat jatuh dalam bayangan hujan sejak titik tengah — pola yang cukup berbeda dari kontras "sempit vs luas" yang terjadi pada kondisi Australia sebenarnya.`;
+  }
+
+  gambarChart(seri, segmenGunung, tinggi);
+}
+
+function gambarChart(seri, segmenGunung, tinggi){
+  const svg = document.getElementById('chart');
+  const W=600,H=240,padL=48,padR=14,padT=16,padB=32;
+  const n = seri.length;
+  const maxV = Math.max(...seri, 10);
+
+  function px(i){ return padL + (i/n)*(W-padL-padR); }
+  function py(v){ return (H-padB) - (v/maxV)*(H-padT-padB); }
+
+  let path = seri.map((v,i)=>(i===0?'M':'L')+px(i).toFixed(1)+','+py(v).toFixed(1)).join(' ');
+
+  let gunungMark = '';
+  if(tinggi>0){
+    const x = px(segmenGunung);
+    const hTinggi = Math.min(H-padT-padB, (tinggi/3000)*(H-padT-padB)*0.5);
+    gunungMark = `<polygon points="${x-14},${H-padB} ${x},${H-padB-hTinggi} ${x+14},${H-padB}" fill="#6b6656" opacity="0.6"/>`;
+  }
+
+  
+  svg.innerHTML = `
+    <line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#2a2f38"/>
+    <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H-padB}" stroke="#2a2f38"/>
+    ${gunungMark}
+    <path d="${path}" fill="none" stroke="#7f9fe8" stroke-width="2.5"/>
+    <text x="${padL}" y="${H-padB+18}" fill="#9aa1ab" font-size="10">pantai timur</text>
+    <text x="${W-padR}" y="${H-padB+18}" fill="#9aa1ab" font-size="10" text-anchor="end">pantai barat</text>
+    <text x="${W/2}" y="${H-4}" fill="#9aa1ab" font-size="11" text-anchor="middle">penampang benua (timur → barat)</text>
+  `;
+}
+
+[tinggiEl,posisiEl,subtropisEl].forEach(el=>el.addEventListener('input', hitungSimulasi));
+
+const waMsg = encodeURIComponent("Assalamu'alaikum, saya ingin diskusi terkait Andai Pegunungan Australia Berpindah JAZMI.");
+document.getElementById('waLink').href = `https://wa.me/6281356572588?text=${waMsg}`;
+
+hitungSimulasi();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

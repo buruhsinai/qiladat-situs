@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Mol & Molaritas — JAZMI</title>
+<style>
+  :root{
+    --bg:#0b0d10; --panel:#14171c; --panel2:#1b1f26; --line:#2a2f38;
+    --text:#e8e6df; --muted:#9aa1ab; --accent:#c9a24d; --accent2:#6fae8c;
+    --warn:#d98c5f; --font-d:'Georgia','Amiri',serif; --font-b:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-b);margin:0;padding:0;line-height:1.6}
+  .wrap{max-width:820px;margin:0 auto;padding:28px 18px 80px}
+  header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:28px}
+  h1{font-family:var(--font-d);font-size:1.7rem;margin:0 0 8px;color:var(--accent)}
+  .tagline{color:var(--muted);font-size:.95rem}
+  h2{font-family:var(--font-d);font-size:1.25rem;color:var(--accent2);border-left:3px solid var(--accent2);padding-left:10px;margin-top:40px}
+  section{margin-bottom:10px}
+  p{color:#d7d5cd}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0}
+  .grid{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:640px){.grid-2{grid-template-columns:1fr 1fr}}
+  label{display:block;font-size:.85rem;color:var(--muted);margin-bottom:4px}
+  input, select{width:100%;padding:9px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:1rem}
+  .field{margin-bottom:12px}
+  .result{background:var(--panel2);border:1px solid var(--accent);border-radius:8px;padding:14px;margin-top:10px;font-size:1.05rem}
+  .result b{color:var(--accent)}
+  .note{font-size:.85rem;color:var(--muted);margin-top:6px}
+  .btn{background:var(--accent2);color:#0b0d10;border:none;padding:10px 16px;border-radius:6px;font-weight:600;cursor:pointer;font-size:.95rem}
+  .btn:hover{opacity:.9}
+  .badge{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:3px 10px;font-size:.75rem;color:var(--muted);margin-right:6px}
+  .scalebar{height:14px;border-radius:7px;background:linear-gradient(90deg,var(--accent2),var(--accent));margin:10px 0}
+  ul{color:#d7d5cd}
+  .wa{display:inline-block;margin-top:14px;background:#25D366;color:#04250f;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:600}
+  .limitbox{background:#241a14;border:1px solid var(--warn);border-radius:8px;padding:14px;color:#e8d3c1}
+  footer{margin-top:50px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:.8rem}
+  .imgmol{width:100%;max-width:100%;height:auto;display:block;margin:14px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Kalkulator Mol & Molaritas</h1>
+  <div class="tagline">Satuan SI ketujuh yang paling abstrak — padahal ia menghitung sesuatu yang benar-benar fisik: partikel.</div>
+</header>
+
+<section>
+  <h2>1. Belajar — Kenapa "Mol" Terasa Abstrak?</h2>
+  <p>Mol sering terasa seperti angka matematis semata, padahal ia adalah satuan <b>jumlah</b> — persis seperti "lusin" atau "gross", hanya saja jumlahnya sangat besar sehingga otak kita tidak punya intuisi untuk membayangkannya.</p>
+  <div class="card">
+    <p><b>Definisi resmi (SI, sejak revisi 2019):</b> 1 mol adalah jumlah zat yang mengandung tepat <b>6,02214076 × 10²³</b> entitas dasar (atom, molekul, ion, atau partikel lain). Angka ini disebut <b>bilangan Avogadro (N<sub>A</sub>)</b>.</p>
+    <p>Sebelum 2019, definisi mol diikat ke massa 12 gram karbon-12. Setelah 2019, definisi dibalik: bilangan Avogadro ditetapkan sebagai angka pasti (bukan hasil ukur), dan gram karbon-12 yang mengikutinya. Ini penting: mol bukan konsep yang "diciptakan" untuk mempermudah kimia — ia definisi jumlah partikel yang sekarang sudah pasti, sama seperti detik dan meter.</p>
+  </div>
+  <p><b>Kenapa terasa tidak terbayangkan?</b> Karena 6×10²³ jauh melampaui apapun yang pernah kita hitung langsung. Coba bayangkan skala ini:</p>
+  <div class="card">
+    <ul>
+      <li>Kalau Anda menghitung 1 partikel per detik tanpa henti sejak <b>Big Bang</b> (~13,8 miliar tahun lalu) hingga sekarang, Anda baru menghitung sekitar 4×10¹⁷ — masih kurang <b>1,5 juta kali</b> dari 1 mol.</li>
+      <li>1 mol butiran pasir akan menutupi seluruh permukaan Bumi (daratan + laut) setinggi puluhan meter.</li>
+      <li>1 mol air (18 gram — hanya sekitar 1 sendok makan) mengandung lebih banyak molekul daripada jumlah gelas air di seluruh lautan Bumi.</li>
+    </ul>
+  </div>
+  <p>Jadi mol menjembatani dua dunia: dunia partikel (terlalu kecil untuk ditimbang satu-satu) dan dunia laboratorium (yang bisa ditimbang dengan neraca biasa). Itulah sebabnya satuan ini <i>fisik nyata</i> tapi <i>tidak terbayangkan</i> secara intuitif.</p>
+</section>
+
+<section>
+  <h2>2. Eksplorasi & Perhitungan</h2>
+
+  <div class="card">
+    <h3 style="margin-top:0;color:var(--text)">A. Konversi Massa ↔ Mol ↔ Jumlah Partikel</h3>
+    <div class="grid grid-2">
+      <div class="field">
+        <label for="mr">Massa molar zat, Mr (g/mol)</label>
+        <input type="number" id="mr" placeholder="mis. NaCl = 58,44" value="58.44">
+      </div>
+      <div class="field">
+        <label for="massa">Massa zat (gram)</label>
+        <input type="number" id="massa" placeholder="mis. 10" value="10">
+      </div>
+    </div>
+    <button class="btn" onclick="hitungMol()">Hitung</button>
+    <div class="result" id="hasilMol"></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0;color:var(--text)">B. Kalkulator Molaritas (M = n / V)</h3>
+    <p class="note">Isi dua dari tiga kolom, kosongkan satu yang ingin dihitung.</p>
+    <div class="grid grid-2">
+      <div class="field">
+        <label for="nMol">Jumlah zat terlarut, n (mol)</label>
+        <input type="number" id="nMol" placeholder="kosongkan jika ingin dihitung">
+      </div>
+      <div class="field">
+        <label for="volL">Volume larutan, V (liter)</label>
+        <input type="number" id="volL" placeholder="mis. 0.5" value="0.5">
+      </div>
+    </div>
+    <div class="field">
+      <label for="molar">Molaritas, M (mol/L)</label>
+      <input type="number" id="molar" placeholder="kosongkan jika ingin dihitung" value="2">
+    </div>
+    <button class="btn" onclick="hitungMolaritas()">Hitung</button>
+    <div class="result" id="hasilMolaritas"></div>
+  </div>
+
+  <div class="card">
+    <h3 style="margin-top:0;color:var(--text)">C. Pengenceran (M₁V₁ = M₂V₂)</h3>
+    <div class="grid grid-2">
+      <div class="field"><label for="m1">M₁ — molaritas awal (mol/L)</label><input type="number" id="m1" value="12"></div>
+      <div class="field"><label for="v1">V₁ — volume awal (mL)</label><input type="number" id="v1" placeholder="dihitung"></div>
+      <div class="field"><label for="m2">M₂ — molaritas target (mol/L)</label><input type="number" id="m2" value="1"></div>
+      <div class="field"><label for="v2">V₂ — volume target (mL)</label><input type="number" id="v2" value="500"></div>
+    </div>
+    <button class="btn" onclick="hitungPengenceran()">Hitung</button>
+    <div class="result" id="hasilPengenceran"></div>
+  </div>
+</section>
+
+<section>
+  <h2>3. Metode / Rumus</h2>
+  <div class="card">
+    <p><b>Jumlah mol dari massa:</b> n = massa (g) / Mr (g/mol)</p>
+    <p><b>Jumlah partikel:</b> N = n × N<sub>A</sub>, dengan N<sub>A</sub> = 6,02214076 × 10²³ /mol</p>
+    <p><b>Molaritas:</b> M = n / V, dengan V dalam liter</p>
+    <p><b>Pengenceran:</b> M₁V₁ = M₂V₂ — berlaku karena jumlah mol zat terlarut (n) tidak berubah saat diencerkan, hanya volume pelarutnya yang bertambah</p>
+  </div>
+</section>
+
+<section>
+  <h2>4. Batasan</h2>
+  <div class="limitbox">
+    <ul>
+      <li><b>Molaritas bergantung suhu.</b> M = n/V, dan volume larutan memuai/menyusut mengikuti suhu — jadi molaritas larutan yang sama bisa sedikit berbeda di siang hari terik vs malam dingin. Untuk pengukuran yang tidak boleh terpengaruh suhu, kimiawan memakai <b>molalitas</b> (mol per kg pelarut) sebagai gantinya.</li>
+      <li><b>Rumus pengenceran M₁V₁=M₂V₂ mengasumsikan volume aditif</b> — berlaku sangat baik untuk larutan encer berbasis air, tapi meleset untuk larutan pekat/kompleks di mana volume total setelah pencampuran tidak selalu sama dengan jumlah volume komponennya.</li>
+      <li>Kalkulator ini murni alat hitung berdasarkan rumus definisi SI — bukan pengganti neraca analitik atau alat ukur laboratorium sungguhan. Ketelitian hasil sepenuhnya bergantung ketelitian angka yang Anda masukkan.</li>
+      <li>Massa molar (Mr) harus dihitung benar dari rumus kimia zatnya — kalkulator ini tidak memvalidasi apakah Mr yang Anda masukkan sudah tepat untuk zat yang dimaksud.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>5. Referensi</h2>
+  <ul>
+    <li>BIPM — SI Brochure (edisi ke-9, 2019), definisi resmi mol dan bilangan Avogadro</li>
+    <li>IUPAC — Compendium of Chemical Terminology ("Gold Book"), entri "amount of substance"</li>
+    <li>NIST — CODATA nilai bilangan Avogadro terkini</li>
+  </ul>
+</section>
+
+<div class="card" style="text-align:center">
+  <p style="margin:0 0 8px">Butuh bantuan menghitung kasus spesifik (larutan buffer, titrasi, dsb)?</p>
+  <a class="wa" id="waLink" href="#" target="_blank">Konsultasi via WhatsApp</a>
+</div>
+
+<footer>
+  Bagian dari Bank Alat JAZMI — Level 1–5 (Belajar → Eksplorasi → Metode → Batasan → Referensi).<br>
+  Alat ini bantu-hitung berbasis definisi SI, bukan pengganti alat ukur atau prosedur laboratorium resmi.
+</footer>
+</div>
+
+<script>
+const NA = 6.02214076e23;
+
+function fmt(x, d=6){
+  if(!isFinite(x)) return "-";
+  if(Math.abs(x) >= 1e5 || (Math.abs(x)<1e-4 && x!==0)) return x.toExponential(4);
+  return parseFloat(x.toFixed(d)).toString();
+}
+
+function hitungMol(){
+  const mr = parseFloat(document.getElementById('mr').value);
+  const massa = parseFloat(document.getElementById('massa').value);
+  const out = document.getElementById('hasilMol');
+  if(!mr || !massa || mr<=0 || massa<=0){
+    out.innerHTML = "Isi massa molar dan massa zat dengan angka positif.";
+    return;
+  }
+  const n = massa / mr;
+  const partikel = n * NA;
+  out.innerHTML = `Jumlah zat: <b>${fmt(n,5)} mol</b><br>
+    Jumlah partikel: <b>${partikel.toExponential(4)} partikel</b><br>
+    <span class="note">(setara ${fmt(n,5)} × 6,022×10²³)</span>`;
+}
+
+function hitungMolaritas(){
+  const nEl = document.getElementById('nMol');
+  const vEl = document.getElementById('volL');
+  const mEl = document.getElementById('molar');
+  let n = parseFloat(nEl.value), v = parseFloat(vEl.value), m = parseFloat(mEl.value);
+  const out = document.getElementById('hasilMolaritas');
+  const kosong = [isNaN(n), isNaN(v), isNaN(m)].filter(Boolean).length;
+  if(kosong !== 1){
+    out.innerHTML = "Isi tepat dua dari tiga kolom (n, V, M) — kosongkan satu yang ingin dihitung.";
+    return;
+  }
+  if(isNaN(n)){
+    n = m*v;
+    out.innerHTML = `n = M × V = <b>${fmt(n,5)} mol</b>`;
+  } else if(isNaN(v)){
+    if(m<=0){ out.innerHTML = "Molaritas harus lebih besar dari nol."; return; }
+    v = n/m;
+    out.innerHTML = `V = n / M = <b>${fmt(v,5)} liter</b> (${fmt(v*1000,2)} mL)`;
+  } else {
+    if(v<=0){ out.innerHTML = "Volume harus lebih besar dari nol."; return; }
+    m = n/v;
+    out.innerHTML = `M = n / V = <b>${fmt(m,5)} mol/L</b>`;
+  }
+}
+
+function hitungPengenceran(){
+  let m1 = parseFloat(document.getElementById('m1').value);
+  let v1 = parseFloat(document.getElementById('v1').value);
+  let m2 = parseFloat(document.getElementById('m2').value);
+  let v2 = parseFloat(document.getElementById('v2').value);
+  const out = document.getElementById('hasilPengenceran');
+  const vals = {m1,v1,m2,v2};
+  const kosong = Object.values(vals).filter(x=>isNaN(x)).length;
+  if(kosong !== 1){
+    out.innerHTML = "Isi tepat tiga dari empat kolom (M₁, V₁, M₂, V₂) — kosongkan satu yang ingin dihitung.";
+    return;
+  }
+  if(isNaN(v1)){
+    v1 = (m2*v2)/m1;
+    out.innerHTML = `V₁ = (M₂×V₂)/M₁ = <b>${fmt(v1,3)} mL</b> larutan pekat, lalu tambahkan pelarut hingga total ${fmt(v2,2)} mL.`;
+  } else if(isNaN(m1)){
+    m1 = (m2*v2)/v1;
+    out.innerHTML = `M₁ = (M₂×V₂)/V₁ = <b>${fmt(m1,4)} mol/L</b>`;
+  } else if(isNaN(m2)){
+    m2 = (m1*v1)/v2;
+    out.innerHTML = `M₂ = (M₁×V₁)/V₂ = <b>${fmt(m2,4)} mol/L</b>`;
+  } else {
+    v2 = (m1*v1)/m2;
+    out.innerHTML = `V₂ = (M₁×V₁)/M₂ = <b>${fmt(v2,3)} mL</b> — encerkan hingga total volume ini.`;
+  }
+}
+
+// isi tombol WhatsApp
+const waMsg = encodeURIComponent("Assalamu'alaikum, saya ingin konsultasi terkait hasil Kalkulator Mol & Molaritas JAZMI.");
+document.getElementById('waLink').href = `https://wa.me/6281356572588?text=${waMsg}`;
+
+hitungMol();
+hitungMolaritas();
+hitungPengenceran();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+{
+  "_catatan": "DATA CONTOH/DEMO untuk Media DIEN (C07). Bukan konten resmi/final — akan diganti data nyata pada tahap produksi berikutnya. 'thumbTone' mengatur warna blok placeholder visual (1-4), sama seperti pola data/media.json HOME.",
+  "buku": [
+    {
+      "id": "buk-001",
+      "judul": "[Contoh] Ringkasan Adab Menuntut Ilmu",
+      "tipe": "pdf",
+      "tautan": "#",
+      "kontenIndukId": "materi-001",
+      "kontenIndukJudul": "[Contoh] Adab Menuntut Ilmu"
+    },
+    {
+      "id": "buk-002",
+      "judul": "[Contoh] Catatan Kajian Riyadhus Shalihin",
+      "tipe": "bacaOnline",
+      "tautan": "#"
+    },
+    {
+      "id": "buk-003",
+      "judul": "[Contoh] Modul Pengantar Fiqih Ibadah",
+      "tipe": "pdf",
+      "tautan": ""
+    }
+  ],
+  "video": [
+    {
+      "id": "vid-001",
+      "judul": "[Contoh] Penjelasan Bait Mu'allaqat Imru' al-Qais",
+      "tautanYoutube": "#",
+      "kontenIndukId": "materi-002",
+      "kontenIndukJudul": "[Contoh] Jejak Syair Santri"
+    },
+    {
+      "id": "vid-002",
+      "judul": "[Contoh] Kajian Singkat: Adab Menuntut Ilmu",
+      "tautanYoutube": "#",
+      "kontenIndukId": "materi-001",
+      "kontenIndukJudul": "[Contoh] Adab Menuntut Ilmu"
+    }
+  ],
+  "audio": [
+    {
+      "id": "aud-001",
+      "judul": "[Contoh] Pembacaan Bait — Jejak Syair Santri Eps. 7",
+      "tautanSoundcloud": "#",
+      "kontenIndukId": "materi-002",
+      "kontenIndukJudul": "[Contoh] Jejak Syair Santri"
+    },
+    {
+      "id": "aud-002",
+      "judul": "[Contoh] Audio Kajian Riyadhus Shalihin",
+      "tautanSoundcloud": "#"
+    }
+  ],
+  "gambar": [
+    {
+      "id": "gam-001",
+      "judul": "[Contoh] Poster Bait — Jejak Syair Santri",
+      "thumbTone": 1,
+      "tautan": "#",
+      "kontenIndukId": "materi-002",
+      "kontenIndukJudul": "[Contoh] Jejak Syair Santri"
+    },
+    {
+      "id": "gam-002",
+      "judul": "[Contoh] Ilustrasi Lintasan Langit",
+      "thumbTone": 2,
+      "tautan": "#"
+    },
+    {
+      "id": "gam-003",
+      "judul": "[Contoh] Dokumentasi Kajian Pondok",
+      "thumbTone": 3,
+      "tautan": "#"
+    },
+    {
+      "id": "gam-004",
+      "judul": "[Contoh] Kartu Kutipan Adab Menuntut Ilmu",
+      "thumbTone": 4,
+      "tautan": "",
+      "kontenIndukId": "materi-001",
+      "kontenIndukJudul": "[Contoh] Adab Menuntut Ilmu"
+    }
+  ]
+}

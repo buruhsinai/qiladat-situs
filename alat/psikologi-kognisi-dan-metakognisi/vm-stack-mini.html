@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mesin Virtual Stack — Bahasa Rakitan Mini</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,500&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10141A; --panel:#171D25; --panel-2:#1D2530;
+    --border:rgba(232,236,244,0.09); --border-strong:rgba(232,236,244,0.17);
+    --text:#ECEFF3; --muted:#8C97A6;
+    --gold:#E0A94D;
+    --true:#4FBF8A; --true-dim: 79,191,138;
+    --ident:#C792EA;
+    --lose:#D9677A; --lose-dim: 217,103,122;
+    --amber:#FFB454; --amber-dim: 255,180,84;
+    --radius:4px;
+  }
+  *{box-sizing:border-box;}
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:'Karla',sans-serif; font-size:16px; line-height:1.62;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{ font-family:'Fraunces',serif; font-weight:500; letter-spacing:-0.01em; margin:0; }
+  .mono{ font-family:'JetBrains Mono', monospace; }
+  .wrap{ max-width:960px; margin:0 auto; padding:0 22px 80px; }
+  .rule{ height:1px; background:var(--border); margin:48px 0; }
+
+  header.top{ padding:56px 0 8px; }
+  header.top .kicker{ font-size:13px; color:var(--muted); margin:0 0 14px; }
+  header.top h1{ font-size:clamp(30px,5vw,42px); margin-bottom:10px; }
+  header.top p.lede{ color:var(--muted); max-width:64ch; font-size:16px; margin:0; }
+
+  section h2{ font-size:clamp(22px,3.4vw,28px); }
+  section > p.desc{ color:var(--muted); max-width:66ch; margin:8px 0 20px; font-size:15px; }
+  .eyebrow-num{ font-family:'Fraunces',serif; font-style:italic; color:var(--gold); font-size:15px; margin:0 0 10px; }
+
+  /* contrast table (shared pattern) */
+  .contrast{ display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin:22px 0; }
+  @media (max-width:620px){ .contrast{ grid-template-columns:1fr; } }
+  .contrast > div{ padding:20px 22px; }
+  .contrast .a{ background:rgba(124,135,152,0.06); border-right:1px solid var(--border); }
+  @media (max-width:620px){ .contrast .a{ border-right:none; border-bottom:1px solid var(--border); } }
+  .contrast .b{ background:rgba(255,180,84,0.06); }
+  .contrast h4{ font-family:'Karla',sans-serif; font-size:12.5px; font-weight:700; margin:0 0 10px; color:var(--muted); }
+  .contrast .b h4{ color:var(--amber); }
+  .contrast .flowline{ font-family:'JetBrains Mono',monospace; font-size:13.5px; color:var(--text); margin:0 0 12px; }
+  .contrast p{ font-size:14.5px; color:var(--text); margin:0; }
+
+  .pseudo{
+    font-family:'JetBrains Mono',monospace; font-size:14px; line-height:1.9;
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    padding:18px 20px; margin:18px 0; color:#D7DEE8; white-space:pre-wrap;
+  }
+  .pseudo .kw{ color:var(--amber); }
+  .pseudo .lbl{ color:var(--ident); font-style:italic; }
+  .pseudo .cm{ color:var(--muted); font-style:italic; }
+
+  .flow{ display:flex; flex-wrap:wrap; align-items:center; gap:6px; margin:20px 0; }
+  .flow .step{ font-size:13px; font-weight:600; padding:8px 13px; background:var(--panel-2); border:1px solid var(--border); border-radius:3px; }
+  .flow .arrow{ color:var(--muted); font-size:14px; }
+
+  dl.term{ margin:0; }
+  dl.term > div{ margin:18px 0; padding-left:16px; border-left:2px solid var(--border-strong); }
+  dl.term dt{ font-family:'Fraunces',serif; font-size:16.5px; color:var(--text); margin-bottom:4px; }
+  dl.term dd{ margin:0; color:var(--muted); font-size:14.5px; }
+  .concept-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 32px; }
+  @media (max-width:680px){ .concept-grid{ grid-template-columns:1fr; } }
+
+  /* ---- editor card ---- */
+  .editor-card{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:20px 22px; margin-bottom:18px; }
+  .editor-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:14px; }
+  .editor-head h3{ font-size:16px; }
+  .source-input{
+    width:100%; min-height:170px; background:var(--panel-2); border:1px solid var(--border-strong);
+    border-radius:3px; color:var(--text); font-family:'JetBrains Mono',monospace; font-size:14px;
+    line-height:1.7; padding:14px 16px; resize:vertical;
+  }
+  .source-input:focus-visible{ outline:2px solid var(--amber); outline-offset:2px; }
+  .preset-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin:14px 0; }
+  @media (max-width:600px){ .preset-grid{ grid-template-columns:1fr; } }
+  .preset-btn{ text-align:left; padding:11px 14px; background:var(--panel-2); border:1px solid var(--border); border-radius:3px; cursor:pointer; font-size:13.5px; color:var(--text); }
+  .preset-btn:hover{ border-color:var(--amber); }
+  .preset-btn.active{ border-color:var(--amber); }
+  .preset-btn span{ display:block; font-size:12px; color:var(--muted); margin-top:2px; }
+
+  button.reset{
+    font-family:'Karla',sans-serif; font-size:13.5px; font-weight:600; color:var(--text);
+    background:transparent; border:1px solid var(--border-strong); border-radius:3px;
+    padding:8px 14px; cursor:pointer;
+  }
+  button.reset:hover{ border-color:var(--amber); }
+
+  .assemble-btn{
+    font-family:'Karla',sans-serif; font-size:14px; font-weight:700; color:#10141A;
+    background:var(--amber); border:none; border-radius:3px; padding:10px 20px; cursor:pointer;
+  }
+  .assemble-btn:hover{ filter:brightness(1.08); }
+
+  /* ---- debugger ---- */
+  .debugger{ background:#05070A; border:1px solid rgba(var(--amber-dim),0.35); border-radius:var(--radius); padding:20px 22px; }
+  .debugger-status{ font-family:'JetBrains Mono',monospace; font-size:13px; color:#C9D1DB; margin-bottom:16px; display:flex; flex-wrap:wrap; gap:14px 20px; align-items:center; }
+  .debugger-status .badge-status{ padding:3px 11px; border-radius:100px; font-size:12px; font-weight:600; border:1px solid currentColor; }
+  .badge-status.idle{ color:var(--muted); }
+  .badge-status.run{ color:var(--amber); }
+  .badge-status.done{ color:var(--true); }
+  .badge-status.err{ color:var(--lose); }
+
+  .debugger-controls{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
+  .debugger-controls button{
+    font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:600; color:var(--amber);
+    background:rgba(var(--amber-dim),0.08); border:1px solid rgba(var(--amber-dim),0.4); border-radius:3px;
+    padding:9px 16px; cursor:pointer;
+  }
+  .debugger-controls button:hover:not(:disabled){ background:rgba(var(--amber-dim),0.18); }
+  .debugger-controls button:disabled{ opacity:.35; cursor:not-allowed; }
+  .debugger-controls button.active{ background:rgba(var(--amber-dim),0.3); }
+
+  .debugger-grid{ display:grid; grid-template-columns:1.3fr 1fr; gap:18px; margin-bottom:18px; }
+  @media (max-width:720px){ .debugger-grid{ grid-template-columns:1fr; } }
+  .panel h4{ font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.07em; color:rgba(var(--amber-dim),0.75); margin:0 0 10px; text-transform:uppercase; }
+
+  .program-view{ font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.85; max-height:360px; overflow:auto; }
+  .prog-line{ display:flex; gap:10px; padding:1px 8px; border-radius:3px; color:#8A93A0; white-space:pre-wrap; word-break:break-word; }
+  .prog-line .ln{ color:#4B5563; min-width:26px; text-align:right; user-select:none; flex-shrink:0; }
+  .prog-line .ln::before{ content:'  '; }
+  .prog-line.current .ln::before{ content:'▶ '; color:var(--amber); }
+  .prog-line.is-label{ color:var(--ident); font-style:italic; }
+  .prog-line.is-comment{ color:#4B5563; font-style:italic; }
+  .prog-line .op{ color:var(--amber); font-weight:600; }
+  .prog-line .arg{ color:#D7DEE8; }
+  .prog-line .cm{ color:#4B5563; font-style:italic; }
+  .prog-line.current{ background:rgba(var(--amber-dim),0.14); }
+  .prog-line.current .arg{ color:#FFE3B8; }
+  .prog-line.err-line{ background:rgba(var(--lose-dim),0.14); }
+
+  .stack-view{ display:flex; flex-direction:column-reverse; gap:5px; min-height:36px; }
+  .stack-cell{ font-family:'JetBrains Mono',monospace; font-size:13px; padding:7px 12px; border:1px solid rgba(var(--amber-dim),0.28); border-radius:3px; color:#D7DEE8; background:rgba(255,255,255,0.02); }
+  .stack-cell.top{ border-color:var(--amber); color:var(--amber); background:rgba(var(--amber-dim),0.1); }
+  .stack-empty, .memory-empty, .output-empty{ font-size:12.5px; color:#5B6472; font-style:italic; }
+
+  .memory-view{ display:flex; flex-wrap:wrap; gap:8px; }
+  .mem-cell{ font-family:'JetBrains Mono',monospace; font-size:12.5px; padding:5px 10px; border-radius:100px; border:1px solid rgba(var(--amber-dim),0.28); color:#D7DEE8; }
+  .mem-cell b{ color:var(--amber); font-weight:600; }
+
+  .output-panel{ margin-bottom:0; }
+  .out-line{ font-family:'JetBrains Mono',monospace; font-size:14px; color:#8FE3B0; line-height:1.7; }
+  .out-line::before{ content:'> '; color:#4B5563; }
+
+  .debug-error{ border:1px solid rgba(var(--lose-dim),0.5); background:rgba(var(--lose-dim),0.1); border-radius:3px; padding:12px 14px; margin-top:6px; font-family:'JetBrains Mono',monospace; font-size:13px; color:#FFD0D8; }
+  .debug-error b{ color:var(--lose); }
+
+  ol.steps{ padding-left:20px; }
+  ol.steps li{ margin-bottom:10px; max-width:64ch; }
+  ol.steps li::marker{ color:var(--amber); font-family:'Fraunces',serif; }
+
+  .misconception{ display:grid; grid-template-columns:1fr 1fr; gap:0; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; margin:20px 0; }
+  @media (max-width:620px){ .misconception{ grid-template-columns:1fr; } }
+  .misconception > div{ padding:18px 20px; }
+  .misconception .lim{ background:rgba(var(--lose-dim),0.07); border-right:1px solid var(--border); }
+  @media (max-width:620px){ .misconception .lim{ border-right:none; border-bottom:1px solid var(--border); } }
+  .misconception h4{ font-size:12.5px; font-weight:700; color:var(--muted); margin:0 0 8px; }
+  .misconception p{ font-size:14.5px; margin:0; color:var(--text); }
+
+  .ref-list{ list-style:none; padding:0; margin:16px 0; }
+  .ref-list li{ padding:14px 0; border-top:1px solid var(--border); font-size:15px; color:var(--muted); }
+  .ref-list li:last-child{ border-bottom:1px solid var(--border); }
+  .ref-list .who{ color:var(--text); }
+
+  footer{ padding-top:46px; font-size:13px; color:var(--muted); max-width:66ch; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <p class="kicker">Laboratorium Qiladat / JAZMI — Mesin Virtual &amp; Eksekusi Bertingkat Rendah</p>
+    <h1>Mesin Virtual Stack (Bahasa Rakitan Mini)</h1>
+    <p class="lede">Interpreter sebelumnya menjalankan kode dengan menjelajahi pohon (AST). Kali ini tidak ada pohon sama sekali — hanya daftar instruksi datar, satu stack, dan satu penunjuk baris yang bisa melompat maju atau mundur.</p>
+  </header>
+
+  <div class="rule"></div>
+
+  <!-- ============ 1. KONSEP ============ -->
+  <section id="konsep">
+    <p class="eyebrow-num">1 — Konsep</p>
+    <h2>Menjelajahi pohon vs. menjalankan daftar</h2>
+    <p class="desc">Dua cara berbeda untuk mengeksekusi bahasa yang sudah diuraikan — dan cara kedua ini jauh lebih dekat dengan cara prosesor sungguhan bekerja.</p>
+
+    <div class="contrast">
+      <div class="a">
+        <h4>TREE-WALKING INTERPRETER</h4>
+        <p class="flowline">AST → dijelajahi rekursif → nilai</p>
+        <p>Struktur kode disimpan sebagai pohon bersarang; mengevaluasi satu ekspresi berarti memanggil fungsi yang sama berulang ke anak-anaknya. Alami untuk dibaca manusia, tapi tidak langsung menyerupai cara prosesor bekerja.</p>
+      </div>
+      <div class="b">
+        <h4>STACK-BASED VM</h4>
+        <p class="flowline">instruksi datar → stack → penunjuk baris (PC) bergerak</p>
+        <p>Kode disusun jadi daftar instruksi sederhana yang dijalankan satu per satu, dengan sebuah stack sebagai satu-satunya tempat menyimpan nilai sementara, dan sebuah penunjuk (program counter) yang bisa melompat ke instruksi lain — begini, secara kasar, cara JVM, bytecode Python, dan WebAssembly benar-benar bekerja.</p>
+      </div>
+    </div>
+
+    <p>Bahasa rakitan mini yang akan dijalankan mesinnya di bagian eksplorasi:</p>
+    <div class="pseudo"><span class="kw">PUSH</span> 3
+<span class="kw">STORE</span> N
+<span class="lbl">ulang:</span>
+<span class="kw">LOAD</span> N
+<span class="kw">JZ</span> selesai
+<span class="kw">LOAD</span> N
+<span class="kw">PRINT</span>
+<span class="kw">LOAD</span> N
+<span class="kw">PUSH</span> 1
+<span class="kw">SUB</span>
+<span class="kw">STORE</span> N
+<span class="kw">JMP</span> ulang
+<span class="lbl">selesai:</span>
+<span class="kw">PUSH</span> "SELESAI"
+<span class="kw">PRINT</span></div>
+
+    <p>Alur eksekusinya jauh lebih pendek dari pipeline interpreter sebelumnya:</p>
+    <div class="flow">
+      <span class="step">PROGRAM</span><span class="arrow">→</span>
+      <span class="step">RAKIT (assembly)</span><span class="arrow">→</span>
+      <span class="step">STACK MACHINE</span><span class="arrow">→</span>
+      <span class="step">OUTPUT</span>
+    </div>
+
+    <p style="margin-top:26px;">Delapan istilah baru yang dipakai untuk memahami mesin ini:</p>
+    <div class="concept-grid">
+      <dl class="term">
+        <div><dt>Stack</dt><dd>Struktur data LIFO (Last In, First Out) — nilai terakhir yang dimasukkan (PUSH) adalah nilai pertama yang diambil kembali. Satu-satunya "ingatan sementara" yang dipakai mesin ini untuk menghitung.</dd></div>
+        <div><dt>Program Counter (PC)</dt><dd>Penunjuk yang menyimpan instruksi mana yang sedang dijalankan. Biasanya maju satu langkah setelah tiap instruksi — tapi instruksi lompat (JMP/JZ) bisa memindahkannya ke tempat lain.</dd></div>
+        <div><dt>Instruksi (opcode)</dt><dd>Satu perintah tunggal yang dipahami mesin — PUSH, ADD, STORE, dan seterusnya. Satu instruksi hanya melakukan satu hal yang sangat kecil.</dd></div>
+        <div><dt>Operand</dt><dd>Nilai yang menyertai sebuah instruksi — misalnya angka 10 pada PUSH 10, atau nama variabel N pada STORE N.</dd></div>
+      </dl>
+      <dl class="term">
+        <div><dt>Label</dt><dd>Nama yang menandai posisi tertentu dalam program, supaya instruksi lompat (JMP/JZ) punya tujuan yang jelas tanpa perlu tahu nomor baris pastinya.</dd></div>
+        <div><dt>Lompatan (jump)</dt><dd>Cara PC berpindah selain maju satu-satu — JMP selalu melompat, JZ hanya melompat kalau nilai teratas stack adalah nol. Gabungan keduanya adalah cara loop dan percabangan sungguh-sungguh diwujudkan di tingkat mesin.</dd></div>
+        <div><dt>Memori (variabel)</dt><dd>Tempat penyimpanan bernama yang terpisah dari stack — diisi lewat STORE, dibaca lewat LOAD. Nilainya bertahan meski stack sudah dikosongkan operasi lain.</dd></div>
+        <div><dt>Batas langkah</dt><dd>Penjaga keamanan yang menghentikan eksekusi paksa kalau jumlah langkah sudah kelewat banyak — pertahanan sederhana terhadap program yang tidak sengaja melompat selamanya (infinite loop).</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ============ 2. EKSPLORASI ============ -->
+  <section id="eksplorasi">
+    <p class="eyebrow-num">2 — Eksplorasi Interaktif</p>
+    <h2>Debugger mesin stack</h2>
+    <p class="desc">Susun instruksi di kotak kode, rakit, lalu jalankan langkah demi langkah atau biarkan berjalan otomatis. Perhatikan stack di sebelah kanan — setiap PUSH menambah dari atas, setiap operasi aritmetika mengambil dua nilai teratas dan menaruh kembali satu hasil.</p>
+
+    <div class="editor-card">
+      <div class="editor-head">
+        <h3>Program (bahasa rakitan mini)</h3>
+        <button class="reset" id="btnReset">Atur ulang</button>
+      </div>
+      <textarea id="sourceInput" class="source-input" spellcheck="false" aria-label="Kode program rakitan mini">PUSH 10
+PUSH 20
+ADD
+PRINT</textarea>
+      <div class="preset-grid">
+        <button class="preset-btn active" data-p="dasar">Jumlah dua angka<span>PUSH, ADD, PRINT dasar</span></button>
+        <button class="preset-btn" data-p="variabel">Simpan &amp; ambil<span>STORE dan LOAD variabel</span></button>
+        <button class="preset-btn" data-p="hitung_mundur">Hitung mundur 3→1<span>Loop sungguhan lewat JMP/JZ</span></button>
+        <button class="preset-btn" data-p="perbandingan">Bandingkan nilai<span>EQ dan LT menghasilkan 1/0</span></button>
+        <button class="preset-btn" data-p="teks">Gabung teks<span>ADD pada dua nilai teks</span></button>
+        <button class="preset-btn" data-p="galat_rakit">Instruksi salah ketik<span>Galat ditangkap saat RAKIT</span></button>
+        <button class="preset-btn" data-p="galat_stack">Stack kehabisan nilai<span>Galat runtime: stack underflow</span></button>
+        <button class="preset-btn" data-p="galat_lompat">Lompat tanpa henti<span>Memicu batas langkah pengaman</span></button>
+      </div>
+      <button class="assemble-btn" id="btnAssemble">Rakit &amp; Muat ▸</button>
+    </div>
+
+    <div class="debugger">
+      <div class="debugger-status" id="statusBar"></div>
+      <div class="debugger-controls">
+        <button id="btnStep">Step ▸|</button>
+        <button id="btnRunAll">Jalankan semua ▸▸</button>
+        <button id="btnAuto">Otomatis ⟳</button>
+      </div>
+      <div class="debugger-grid">
+        <div class="panel">
+          <h4>Program</h4>
+          <div id="programView" class="program-view"></div>
+        </div>
+        <div class="panel">
+          <h4>Stack</h4>
+          <div id="stackView" class="stack-view"></div>
+          <h4 style="margin-top:20px;">Memori</h4>
+          <div id="memoryView" class="memory-view"></div>
+        </div>
+      </div>
+      <div class="panel output-panel">
+        <h4>Output</h4>
+        <div id="outputView"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ============ 3. METODE ============ -->
+  <section id="metode">
+    <p class="eyebrow-num">3 — Metode</p>
+    <h2>Bagaimana mesin ini sungguh-sungguh berjalan</h2>
+    <ol class="steps">
+      <li><b>Pass pertama — pengumpulan label.</b> Sebelum satu instruksi pun dijalankan, seluruh baris program dipindai sekali untuk mencatat posisi setiap label (mis. ulang:, selesai:) ke sebuah tabel simbol. Ini sebabnya JMP boleh menunjuk ke label yang letaknya lebih dulu atau lebih belakangan dari baris JMP itu sendiri — semua posisi sudah diketahui sebelum eksekusi dimulai.</li>
+      <li><b>Pass kedua — memvalidasi tiap instruksi.</b> Setiap baris diperiksa: apakah nama instruksinya dikenal, apakah jumlah operand-nya sesuai, dan khusus untuk JMP/JZ — apakah label tujuannya benar-benar ada di tabel simbol. Kesalahan pada tahap ini disebut galat rakit (assembly error) — program bahkan belum sempat dijalankan sama sekali.</li>
+      <li><b>Siklus fetch–execute.</b> Begitu eksekusi dimulai, mesin mengulang tiga hal terus-menerus: ambil instruksi di posisi PC, jalankan instruksi itu (mengubah stack dan/atau memori), lalu pindahkan PC — biasanya maju satu langkah, kecuali instruksi itu sendiri adalah lompatan yang memindahkan PC ke tempat lain.</li>
+      <li><b>Kenapa lompatan bisa menjadi loop.</b> JMP ulang yang menunjuk ke baris sebelum dirinya sendiri berarti PC kembali mundur — itulah, secara harfiah, definisi pengulangan pada level mesin. JZ menambahkan syarat: lompat hanya terjadi jika nilai teratas stack nol, sehingga sebuah loop bisa berhenti dengan sendirinya ketika kondisinya terpenuhi.</li>
+      <li><b>Batas langkah sebagai jaring pengaman.</b> Karena PC bisa diperintah melompat ke belakang tanpa batas, program yang salah menulis syarat berhentinya bisa melompat selamanya. Mesin ini menghentikan paksa eksekusi setelah 500 langkah dan melaporkannya sebagai galat tersendiri — bukan galat rakit maupun galat stack, tapi kegagalan miliknya sendiri, yang di dunia nyata dikenal sebagai gejala paling ringan dari <i>the halting problem</i>: komputer, secara umum, tidak selalu bisa memastikan lebih dulu apakah suatu program akan pernah berhenti.</li>
+    </ol>
+    <div class="pseudo">selama PC &lt; panjang(program) dan belum berhenti:
+  instruksi = program[PC]
+  jalankan(instruksi)          <span class="cm">// mengubah stack / memori / PC</span>
+  jika instruksi bukan lompatan:
+    PC = PC + 1
+  jika langkah &gt; BATAS_LANGKAH:
+    berhenti_paksa()</div>
+    <p class="desc" style="margin-top:14px;">Satu keputusan desain yang sengaja dibuat berbeda dari interpreter PRINT/LET sebelumnya: instruksi ADD di sini mengizinkan angka digabung otomatis menjadi teks kalau salah satu operand berupa teks (mis. 5 digabung "HALO" menjadi "5HALO"), sedangkan interpreter sebelumnya justru melarang campuran itu sama sekali. Bukan berarti salah satu "lebih benar" — keduanya menunjukkan bahwa aturan pencampuran tipe data adalah pilihan desain bahasa yang harus diputuskan secara eksplisit, sejalan dengan prinsip "METODE A vs METODE B" untuk hal yang diperdebatkan yang sudah dipakai di proyek ini.</p>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ============ 4. BATASAN ============ -->
+  <section id="batasan">
+    <p class="eyebrow-num">4 — Batasan</p>
+    <h2>Apa yang belum dilakukan mesin ini</h2>
+    <div class="misconception">
+      <div class="lim">
+        <h4>BELUM ADA DI SINI</h4>
+        <p>Pemanggilan fungsi/prosedur dengan call stack sendiri (CALL/RET), array atau struktur data selain stack dan tabel variabel datar, tipe boolean terpisah (kebenaran memakai angka 1/0), serta interupsi atau input dari luar saat program berjalan.</p>
+      </div>
+      <div>
+        <h4>KENAPA ITU PENTING DIKETAHUI</h4>
+        <p>Mesin virtual sungguhan (JVM, CPython bytecode, WebAssembly) menambah semua ini secara bertahap — call stack terpisah untuk fungsi, tipe data yang lebih kaya, cara aman menangani interupsi — tapi fondasinya tetap sama seperti yang dibangun di sini: instruksi datar, stack, dan PC yang bisa melompat.</p>
+      </div>
+    </div>
+    <p>Batas 500 langkah dipilih supaya galat lompat-tanpa-henti terlihat cepat saat dicoba di halaman ini — bukan angka yang berarti apa pun secara teori. Mesin virtual produksi sungguhan tidak punya batas semacam ini sama sekali; menghentikan program yang salah biasanya jadi tanggung jawab sistem operasi atau pengawas proses di luar mesin virtual itu sendiri, bukan mesin virtual-nya.</p>
+  </section>
+
+  <div class="rule"></div>
+
+  <!-- ============ 5. REFERENSI ============ -->
+  <section id="referensi">
+    <p class="eyebrow-num">5 — Referensi</p>
+    <h2>Sumber &amp; bacaan lanjutan</h2>
+    <ul class="ref-list">
+      <li><span class="who">Forth (Charles Moore, sekitar 1970).</span> Bahasa pemrograman stack-based klasik — contoh nyata paling murni dari gaya PUSH/operasi/PRINT yang dipakai di alat ini, dan masih dipakai sampai sekarang di firmware serta sistem tertanam.</li>
+      <li><span class="who">Nystrom, R.</span> <i>Crafting Interpreters</i>, bagian kedua ("A Bytecode Virtual Machine"). — kelanjutan langsung dari buku yang sama dirujuk di alat interpreter sebelumnya, kali ini membahas VM berbasis bytecode dan stack dari nol.</li>
+      <li><span class="who">Spesifikasi WebAssembly (WASM).</span> — contoh bytecode berbasis stack yang benar-benar dipakai di browser modern hari ini; prinsip PUSH/POP dan tabel variabel lokal di WASM sangat mirip dengan yang dibangun di alat mini ini, hanya jauh lebih lengkap.</li>
+    </ul>
+    <p class="desc" style="margin-top:6px;">Halaman ini mengikuti struktur "Belajar → Eksplorasi → Metode → Batasan → Referensi" yang sama dengan alat-alat sebelumnya di laboratorium Qiladat/JAZMI — kali ini untuk arsitektur eksekusi yang sengaja dibuat berbeda: bukan pohon yang dijelajahi, tapi daftar instruksi yang dijalankan.</p>
+  </section>
+
+  <footer>
+    Alat edukasi — dibangun untuk memperlihatkan cara kerja mesin virtual stack sederhana, bukan format bytecode produksi sungguhan.
+  </footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var MAX_STEPS = 500;
+
+  function AssembleError(message, line){ this.message = message; this.line = line; this.kind = 'ASSEMBLY'; }
+  AssembleError.prototype = Object.create(Error.prototype);
+
+  // ---------- assembler ----------
+  var OPCODES_NO_ARG = ['ADD','SUB','MUL','DIV','NEG','POP','DUP','PRINT','EQ','LT','GT','HALT'];
+  var OPCODES_WITH_ARG = ['PUSH','STORE','LOAD','JMP','JZ'];
+
+  function assemble(source){
+    var rawLines = source.split('\n');
+    var labels = {};
+    var instrLines = [];
+
+    for(var i = 0; i < rawLines.length; i++){
+      var lineNo = i + 1;
+      var line = rawLines[i];
+      var hashIdx = line.indexOf('#');
+      var codeOnly = hashIdx !== -1 ? line.slice(0, hashIdx) : line;
+      var trimmed = codeOnly.trim();
+      if(!trimmed) continue;
+
+      var labelMatch = /^([A-Za-z_][A-Za-z0-9_]*):$/.exec(trimmed);
+      if(labelMatch){
+        var name = labelMatch[1];
+        if(Object.prototype.hasOwnProperty.call(labels, name)){
+          throw new AssembleError('Label "' + name + '" didefinisikan lebih dari sekali', lineNo);
+        }
+        labels[name] = instrLines.length;
+        continue;
+      }
+      instrLines.push({ text: trimmed, sourceLine: lineNo });
+    }
+
+    var program = instrLines.map(function(entry){
+      var parts = entry.text.split(/\s+/);
+      var op = parts[0].toUpperCase();
+      var argRaw = entry.text.slice(parts[0].length).trim();
+
+      if(OPCODES_NO_ARG.indexOf(op) !== -1){
+        if(argRaw){ throw new AssembleError('Instruksi ' + op + ' tidak membutuhkan operand, tapi menemukan "' + argRaw + '"', entry.sourceLine); }
+        return { op: op, arg: null, sourceLine: entry.sourceLine };
+      }
+      if(OPCODES_WITH_ARG.indexOf(op) !== -1){
+        if(!argRaw){ throw new AssembleError('Instruksi ' + op + ' membutuhkan satu operand, tapi tidak ada', entry.sourceLine); }
+        return { op: op, arg: argRaw, sourceLine: entry.sourceLine };
+      }
+      throw new AssembleError('Instruksi tidak dikenal: "' + op + '"', entry.sourceLine);
+    });
+
+    program.forEach(function(instr){
+      if(instr.op === 'PUSH'){
+        var a = instr.arg;
+        if(/^".*"$/.test(a)){ instr.value = a.slice(1, -1); }
+        else if(/^-?[0-9]+(\.[0-9]+)?$/.test(a)){ instr.value = parseFloat(a); }
+        else{ throw new AssembleError('PUSH butuh angka atau teks berkutip ("..."), tapi menemukan "' + a + '"', instr.sourceLine); }
+      }
+      if(instr.op === 'STORE' || instr.op === 'LOAD'){
+        if(!/^[A-Za-z_][A-Za-z0-9_]*$/.test(instr.arg)){
+          throw new AssembleError('Nama variabel tidak sah: "' + instr.arg + '"', instr.sourceLine);
+        }
+      }
+      if(instr.op === 'JMP' || instr.op === 'JZ'){
+        if(!Object.prototype.hasOwnProperty.call(labels, instr.arg)){
+          throw new AssembleError('Label "' + instr.arg + '" tidak ditemukan untuk instruksi ' + instr.op, instr.sourceLine);
+        }
+      }
+    });
+
+    return { program: program, labels: labels };
+  }
+
+  // ---------- virtual machine ----------
+  function createVM(assembled, source){
+    return {
+      program: assembled.program,
+      labels: assembled.labels,
+      source: source,
+      pc: 0,
+      stack: [],
+      memory: {},
+      output: [],
+      steps: 0,
+      status: 'READY',
+      error: null
+    };
+  }
+
+  function vmFinished(vm){
+    return vm.status === 'ERROR' || vm.status === 'LIMIT' || vm.status === 'HALTED' || vm.pc >= vm.program.length;
+  }
+
+  function executeInstruction(vm, instr){
+    function pop(){
+      if(vm.stack.length === 0){ throw new Error('Stack kosong — tidak ada nilai untuk diambil (stack underflow)'); }
+      return vm.stack.pop();
+    }
+    function needNumber(v, ctx){
+      if(typeof v !== 'number'){ throw new Error(ctx + ' butuh angka, tapi nilai di stack berupa teks'); }
+      return v;
+    }
+    var a, b, v;
+    switch(instr.op){
+      case 'PUSH': vm.stack.push(instr.value); vm.pc++; break;
+      case 'POP': pop(); vm.pc++; break;
+      case 'DUP':
+        if(vm.stack.length === 0){ throw new Error('Stack kosong — tidak ada nilai untuk diduplikasi'); }
+        vm.stack.push(vm.stack[vm.stack.length - 1]);
+        vm.pc++; break;
+      case 'ADD':
+        b = pop(); a = pop();
+        if(typeof a === 'string' || typeof b === 'string'){ vm.stack.push(String(a) + String(b)); }
+        else { vm.stack.push(a + b); }
+        vm.pc++; break;
+      case 'SUB': b = pop(); a = pop(); needNumber(a,'SUB'); needNumber(b,'SUB'); vm.stack.push(a - b); vm.pc++; break;
+      case 'MUL': b = pop(); a = pop(); needNumber(a,'MUL'); needNumber(b,'MUL'); vm.stack.push(a * b); vm.pc++; break;
+      case 'DIV':
+        b = pop(); a = pop(); needNumber(a,'DIV'); needNumber(b,'DIV');
+        if(b === 0){ throw new Error('Pembagian dengan nol (0) tidak diperbolehkan'); }
+        vm.stack.push(a / b); vm.pc++; break;
+      case 'NEG': a = pop(); needNumber(a,'NEG'); vm.stack.push(-a); vm.pc++; break;
+      case 'EQ': b = pop(); a = pop(); vm.stack.push(a === b ? 1 : 0); vm.pc++; break;
+      case 'LT': b = pop(); a = pop(); needNumber(a,'LT'); needNumber(b,'LT'); vm.stack.push(a < b ? 1 : 0); vm.pc++; break;
+      case 'GT': b = pop(); a = pop(); needNumber(a,'GT'); needNumber(b,'GT'); vm.stack.push(a > b ? 1 : 0); vm.pc++; break;
+      case 'STORE': v = pop(); vm.memory[instr.arg] = v; vm.pc++; break;
+      case 'LOAD':
+        if(!(instr.arg in vm.memory)){ throw new Error('Variabel "' + instr.arg + '" belum pernah diisi (STORE) sebelum dipakai'); }
+        vm.stack.push(vm.memory[instr.arg]); vm.pc++; break;
+      case 'PRINT': v = pop(); vm.output.push(v); vm.pc++; break;
+      case 'JMP': vm.pc = vm.labels[instr.arg]; break;
+      case 'JZ':
+        v = pop(); needNumber(v,'JZ');
+        if(v === 0){ vm.pc = vm.labels[instr.arg]; } else { vm.pc++; }
+        break;
+      case 'HALT': vm.status = 'HALTED'; break;
+      default: throw new Error('Instruksi tidak dikenal saat eksekusi: ' + instr.op);
+    }
+  }
+
+  function vmStep(vm){
+    if(!vm || vmFinished(vm)) return;
+    if(vm.steps >= MAX_STEPS){
+      vm.status = 'LIMIT';
+      vm.error = { message: 'Dihentikan paksa setelah ' + MAX_STEPS + ' langkah — kemungkinan program melompat tanpa henti (infinite loop).', sourceLine: vm.program[vm.pc] ? vm.program[vm.pc].sourceLine : null };
+      return;
+    }
+    var instr = vm.program[vm.pc];
+    vm.steps++;
+    try{
+      executeInstruction(vm, instr);
+      if(vm.status !== 'HALTED'){ vm.status = 'RUNNING'; }
+    } catch(e){
+      vm.status = 'ERROR';
+      vm.error = { message: e.message, sourceLine: instr.sourceLine };
+    }
+  }
+
+  // ---------- rendering ----------
+  function escapeHtml(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function formatValue(v){
+    if(typeof v === 'string') return '"' + v + '"';
+    if(typeof v === 'number') return String(Math.round(v * 1e10) / 1e10);
+    return String(v);
+  }
+  function formatOutput(v){
+    if(typeof v === 'number') return String(Math.round(v * 1e10) / 1e10);
+    return String(v);
+  }
+
+  function statusInfo(vm){
+    if(!vm) return { label:'BELUM DIRAKIT', cls:'idle' };
+    if(vm.status === 'ERROR') return { label:'GAGAL', cls:'err' };
+    if(vm.status === 'LIMIT') return { label:'DIHENTIKAN (batas langkah)', cls:'err' };
+    if(vm.status === 'HALTED' || vm.pc >= vm.program.length) return { label:'SELESAI', cls:'done' };
+    if(vm.steps === 0) return { label:'SIAP', cls:'idle' };
+    return { label:'BERJALAN', cls:'run' };
+  }
+
+  function classifyDisplayLine(line){
+    var hashIdx = line.indexOf('#');
+    var codePart = hashIdx !== -1 ? line.slice(0, hashIdx) : line;
+    var commentPart = hashIdx !== -1 ? line.slice(hashIdx) : '';
+    var trimmedCode = codePart.trim();
+
+    if(!trimmedCode){
+      return { type:'comment', html: commentPart ? '<span class="cm">' + escapeHtml(commentPart) + '</span>' : '&nbsp;' };
+    }
+    var labelMatch = /^([A-Za-z_][A-Za-z0-9_]*):$/.exec(trimmedCode);
+    if(labelMatch){
+      return { type:'label', html: escapeHtml(codePart) + (commentPart ? '<span class="cm">' + escapeHtml(commentPart) + '</span>' : '') };
+    }
+    var parts = trimmedCode.split(/\s+/);
+    var op = parts[0];
+    var opIdx = codePart.indexOf(op);
+    var rest = codePart.slice(opIdx + op.length);
+    var html = '<span class="op">' + escapeHtml(op) + '</span><span class="arg">' + escapeHtml(rest) + '</span>' + (commentPart ? '<span class="cm">' + escapeHtml(commentPart) + '</span>' : '');
+    return { type:'instr', html: html };
+  }
+
+  function renderProgram(vm, assembleErr){
+    var view = document.getElementById('programView');
+    if(!vm && !assembleErr){ view.innerHTML = ''; return; }
+    var sourceText = vm ? vm.source : (assembleErr ? assembleErr.__source : '');
+    var lines = sourceText.split('\n');
+    var currentSourceLine = null;
+    if(vm){
+      if(vm.status === 'ERROR' || vm.status === 'LIMIT'){ currentSourceLine = vm.error.sourceLine; }
+      else if(vm.pc < vm.program.length){ currentSourceLine = vm.program[vm.pc].sourceLine; }
+    }
+    var errSourceLine = assembleErr ? assembleErr.line : (vm && vm.error && (vm.status === 'ERROR' || vm.status === 'LIMIT') ? vm.error.sourceLine : null);
+
+    var html = lines.map(function(line, idx){
+      var lineNo = idx + 1;
+      var info = classifyDisplayLine(line);
+      var cls = ['prog-line'];
+      if(info.type === 'label') cls.push('is-label');
+      if(info.type === 'comment') cls.push('is-comment');
+      if(currentSourceLine === lineNo) cls.push('current');
+      if(errSourceLine === lineNo) cls.push('err-line');
+      return '<div class="' + cls.join(' ') + '"><span class="ln">' + lineNo + '</span><span>' + info.html + '</span></div>';
+    }).join('');
+    view.innerHTML = html;
+  }
+
+  function renderStack(vm){
+    var view = document.getElementById('stackView');
+    if(!vm || vm.stack.length === 0){ view.innerHTML = '<div class="stack-empty">stack kosong</div>'; return; }
+    view.innerHTML = vm.stack.map(function(v, i){
+      var top = i === vm.stack.length - 1;
+      return '<div class="stack-cell' + (top ? ' top' : '') + '">' + escapeHtml(formatValue(v)) + '</div>';
+    }).join('');
+  }
+
+  function renderMemory(vm){
+    var view = document.getElementById('memoryView');
+    if(!vm){ view.innerHTML = '<div class="memory-empty">belum ada variabel</div>'; return; }
+    var keys = Object.keys(vm.memory);
+    if(!keys.length){ view.innerHTML = '<div class="memory-empty">belum ada variabel tersimpan</div>'; return; }
+    view.innerHTML = keys.map(function(k){
+      return '<div class="mem-cell"><b>' + escapeHtml(k) + '</b> = ' + escapeHtml(formatValue(vm.memory[k])) + '</div>';
+    }).join('');
+  }
+
+  function renderOutput(vm){
+    var view = document.getElementById('outputView');
+    if(!vm || vm.output.length === 0){ view.innerHTML = '<div class="output-empty">belum ada output</div>'; return; }
+    view.innerHTML = vm.output.map(function(v){
+      return '<div class="out-line">' + escapeHtml(formatOutput(v)) + '</div>';
+    }).join('');
+  }
+
+  function renderStatus(vm, assembleErr){
+    var bar = document.getElementById('statusBar');
+    var info = statusInfo(vm);
+    var stepPart = vm ? ('Langkah ke-' + vm.steps) : '';
+    var pcPart = vm ? ('PC ' + Math.min(vm.pc, vm.program.length) + ' dari ' + vm.program.length + ' instruksi') : '';
+    var badge = '<span class="badge-status ' + info.cls + '">' + info.label + '</span>';
+    var pieces = [badge];
+    if(pcPart) pieces.push(pcPart);
+    if(stepPart) pieces.push(stepPart);
+    bar.innerHTML = pieces.join('<span style="opacity:.4">·</span>');
+
+    var errBox = document.getElementById('errorBox');
+    if(errBox) errBox.remove();
+    var msg = assembleErr ? ('Gagal saat RAKIT — baris ' + assembleErr.line + ': ' + assembleErr.message)
+      : (vm && (vm.status === 'ERROR' || vm.status === 'LIMIT')) ? ('Gagal saat EKSEKUSI — baris ' + (vm.error.sourceLine || '?') + ': ' + vm.error.message)
+      : null;
+    if(msg){
+      var div = document.createElement('div');
+      div.id = 'errorBox';
+      div.className = 'debug-error';
+      div.innerHTML = '<b>Galat:</b> ' + escapeHtml(msg);
+      bar.parentNode.insertBefore(div, bar.nextSibling);
+    }
+  }
+
+  function updateControls(vm){
+    var finished = !vm || vmFinished(vm);
+    document.getElementById('btnStep').disabled = finished;
+    document.getElementById('btnRunAll').disabled = finished;
+    document.getElementById('btnAuto').disabled = finished;
+    if(finished && autoTimer){ stopAuto(); }
+  }
+
+  function renderAll(vm, assembleErr){
+    renderProgram(vm, assembleErr);
+    renderStack(vm);
+    renderMemory(vm);
+    renderOutput(vm);
+    renderStatus(vm, assembleErr);
+    updateControls(vm);
+  }
+
+  // ---------- state & controls ----------
+  var currentVM = null;
+  var autoTimer = null;
+  var sourceInput = document.getElementById('sourceInput');
+
+  function stopAuto(){
+    if(autoTimer){ clearInterval(autoTimer); autoTimer = null; }
+    document.getElementById('btnAuto').classList.remove('active');
+    document.getElementById('btnAuto').textContent = 'Otomatis ⟳';
+  }
+
+  function assembleAndLoad(){
+    stopAuto();
+    var source = sourceInput.value;
+    try{
+      var assembled = assemble(source);
+      currentVM = createVM(assembled, source);
+      renderAll(currentVM, null);
+    } catch(e){
+      currentVM = null;
+      e.__source = source;
+      renderAll(null, e);
+    }
+  }
+
+  document.getElementById('btnAssemble').addEventListener('click', assembleAndLoad);
+  document.getElementById('btnReset').addEventListener('click', function(){
+    sourceInput.value = PRESETS.dasar;
+    clearPresetActive();
+    document.querySelector('.preset-btn[data-p="dasar"]').classList.add('active');
+    assembleAndLoad();
+  });
+  document.getElementById('btnStep').addEventListener('click', function(){
+    stopAuto();
+    vmStep(currentVM);
+    renderAll(currentVM, null);
+  });
+  document.getElementById('btnRunAll').addEventListener('click', function(){
+    stopAuto();
+    if(!currentVM) return;
+    while(!vmFinished(currentVM)){ vmStep(currentVM); }
+    renderAll(currentVM, null);
+  });
+  document.getElementById('btnAuto').addEventListener('click', function(){
+    if(autoTimer){ stopAuto(); return; }
+    if(!currentVM || vmFinished(currentVM)) return;
+    document.getElementById('btnAuto').classList.add('active');
+    document.getElementById('btnAuto').textContent = 'Jeda ⏸';
+    autoTimer = setInterval(function(){
+      if(!currentVM || vmFinished(currentVM)){ stopAuto(); renderAll(currentVM, null); return; }
+      vmStep(currentVM);
+      renderAll(currentVM, null);
+    }, 450);
+  });
+
+  // ---------- presets ----------
+  var PRESETS = {
+    dasar: 'PUSH 10\nPUSH 20\nADD\nPRINT',
+    variabel: 'PUSH 10\nSTORE A\nPUSH 20\nSTORE B\nLOAD A\nLOAD B\nADD\nPRINT',
+    hitung_mundur: 'PUSH 3\nSTORE N\nulang:\nLOAD N\nJZ selesai\nLOAD N\nPRINT\nLOAD N\nPUSH 1\nSUB\nSTORE N\nJMP ulang\nselesai:\nPUSH "SELESAI"\nPRINT',
+    perbandingan: 'PUSH 5\nPUSH 5\nEQ\nPRINT\nPUSH 3\nPUSH 7\nLT\nPRINT',
+    teks: 'PUSH "HALO, "\nPUSH "DUNIA"\nADD\nPRINT',
+    galat_rakit: 'PUSH 10\nGANDAKAN\nPRINT',
+    galat_stack: 'PUSH 10\nADD\nPRINT',
+    galat_lompat: 'mulai:\nPUSH 1\nJMP mulai'
+  };
+
+  function clearPresetActive(){
+    document.querySelectorAll('.preset-btn').forEach(function(b){ b.classList.remove('active'); });
+  }
+  document.querySelectorAll('.preset-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var key = btn.getAttribute('data-p');
+      sourceInput.value = PRESETS[key];
+      clearPresetActive();
+      btn.classList.add('active');
+      assembleAndLoad();
+    });
+  });
+
+  // init
+  assembleAndLoad();
+
+})();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

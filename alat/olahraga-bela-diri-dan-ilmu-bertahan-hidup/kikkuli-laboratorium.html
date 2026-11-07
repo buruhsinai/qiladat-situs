@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kikkuli — Laboratorium Latihan Kuda Kuno & Sains Modern</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+  :root{
+    --parchment:#E9DFC6;
+    --parchment-deep:#DED0AC;
+    --ink:#2B2116;
+    --ochre:#9C6B2A;
+    --oxide:#7A3B2E;
+    --graphite:#1B2027;
+    --graphite-2:#242B34;
+    --offwhite:#E7EBEF;
+    --teal:#3E9A93;
+    --amber:#C98A3A;
+    --line:rgba(43,33,22,0.18);
+    --line-dark:rgba(231,235,239,0.14);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family:'IBM Plex Sans', sans-serif;
+    color:var(--ink);
+    background:var(--parchment);
+    line-height:1.6;
+  }
+  h1,h2,h3{font-family:'Spectral', serif; margin:0 0 .4em 0; font-weight:600;}
+  p{margin:0 0 1em 0; max-width:66ch;}
+  .wrap{max-width:920px; margin:0 auto; padding:0 24px;}
+  .tag{
+    display:inline-block; font-family:'IBM Plex Mono', monospace; font-size:.72rem;
+    padding:.2em .6em; border-radius:3px; margin:.15em .3em .15em 0; letter-spacing:.02em;
+  }
+  .tag-status{background:rgba(201,138,58,0.18); color:#7a4f14; border:1px solid rgba(201,138,58,0.5);}
+  .tag-status.dark{background:rgba(201,138,58,0.16); color:#e3b979; border:1px solid rgba(201,138,58,0.45);}
+
+  /* ---- HERO ---- */
+  .hero{
+    padding:64px 0 48px 0;
+    border-bottom:2px solid var(--ink);
+    background:
+      radial-gradient(ellipse at 15% 20%, rgba(122,59,46,0.10), transparent 55%),
+      var(--parchment);
+  }
+  .hero .eyebrow{font-family:'IBM Plex Mono',monospace; font-size:.8rem; color:var(--oxide);}
+  .hero h1{font-size:2.5rem; font-style:italic; max-width:14ch; line-height:1.08;}
+  .hero .lede{font-size:1.05rem; max-width:56ch;}
+  .hero .cuneiform-rule{width:64px; height:3px; background:var(--ochre); margin:18px 0 22px 0;}
+
+  /* ---- SECTION SHELLS ---- */
+  section{padding:56px 0;}
+  section.ancient{background:var(--parchment); border-bottom:1px solid var(--line);}
+  section.ancient.alt{background:var(--parchment-deep);}
+  .bridge{
+    position:relative;
+    background:var(--graphite);
+    padding:64px 0 70px;
+    text-align:center;
+    overflow:hidden;
+  }
+  .bridge::before{
+    content:"";
+    position:absolute; top:0; left:0; right:0; height:14px;
+    background:linear-gradient(180deg, var(--parchment-deep) 0%, var(--graphite) 100%);
+  }
+  .bridge .wrap{max-width:640px;}
+  .bridge h2{color:var(--offwhite); font-style:italic; font-size:1.6rem;}
+  .bridge p{color:#cfd6dc; margin:0 auto;}
+  section.modern{background:var(--graphite); color:var(--offwhite); border-bottom:1px solid var(--line-dark);}
+  section.modern.alt{background:var(--graphite-2);}
+  section.modern h2, section.modern h3{color:var(--offwhite); font-family:'IBM Plex Sans',sans-serif; font-style:normal;}
+  section.modern p{color:#c7cfd6;}
+  section.modern a{color:var(--teal);}
+
+  .kicker{font-family:'IBM Plex Mono',monospace; font-size:.78rem; color:var(--oxide); margin-bottom:.5em;}
+  section.modern .kicker{color:var(--teal);}
+
+  /* ---- CARDS / PANELS ---- */
+  .panel{
+    border:1px solid var(--line); border-radius:2px; padding:22px 24px; margin:18px 0;
+    background:rgba(255,255,255,0.35);
+  }
+  section.modern .panel{background:rgba(255,255,255,0.03); border:1px solid var(--line-dark);}
+
+  .grid2{display:grid; grid-template-columns:1fr; gap:18px;}
+  @media(min-width:720px){ .grid2{grid-template-columns:1fr 1fr;} }
+
+  /* ---- SLIDER WIDGET ---- */
+  .slider-box label{display:block; font-family:'IBM Plex Mono',monospace; font-size:.78rem; margin-bottom:.5em;}
+  input[type=range]{width:100%; accent-color:var(--ochre);}
+  section.modern input[type=range]{accent-color:var(--teal);}
+  .day-readout{display:flex; justify-content:space-between; font-family:'IBM Plex Mono',monospace; font-size:.85rem; margin-top:.4em;}
+  .phase-name{font-family:'Spectral',serif; font-style:italic; font-size:1.35rem; margin:.5em 0 .2em 0;}
+  section.modern .phase-name{font-family:'IBM Plex Sans',sans-serif; font-style:normal;}
+
+  /* ---- FORM CONTROLS (modern calc) ---- */
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-size:.85rem; color:#b7c0c8; margin-bottom:4px;}
+  .field input{
+    width:100%; padding:9px 10px; border-radius:3px; border:1px solid var(--line-dark);
+    background:#10151b; color:var(--offwhite); font-family:'IBM Plex Mono',monospace; font-size:.9rem;
+  }
+  .results{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:18px;}
+  .result-cell{border:1px solid var(--line-dark); padding:12px 14px; border-radius:3px;}
+  .result-cell .num{font-family:'IBM Plex Mono',monospace; font-size:1.3rem; color:var(--teal);}
+  .result-cell .lbl{font-size:.78rem; color:#9aa4ac;}
+
+  /* ---- CONVERTER ---- */
+  .conv-row{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin:10px 0;}
+  .conv-row input{width:90px; padding:6px 8px; font-family:'IBM Plex Mono',monospace; border:1px solid var(--line); border-radius:3px;}
+  .conv-out{font-family:'IBM Plex Mono',monospace; font-weight:600;}
+
+  table{width:100%; border-collapse:collapse; margin:14px 0; font-size:.92rem;}
+  th,td{text-align:left; padding:8px 10px; border-bottom:1px solid var(--line);}
+  section.modern th, section.modern td{border-bottom:1px solid var(--line-dark);}
+  th{font-family:'IBM Plex Mono',monospace; font-size:.75rem; text-transform:none; color:var(--oxide);}
+  section.modern th{color:var(--teal);}
+
+  footer{padding:40px 0 60px 0; background:var(--graphite); color:#8b939b; font-size:.85rem;}
+  footer a{color:var(--teal);}
+  .refs li{margin-bottom:.5em;}
+  ul{padding-left:1.2em;}
+  .small{font-size:.85rem; color:#6b6050;}
+  section.modern .small{color:#8b939b;}
+
+  /* ---- VISUALISASI GAIT (2D + 3D) ---- */
+  .seg{display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 4px;}
+  .seg button{
+    font-family:'IBM Plex Mono',monospace; font-size:.8rem; font-weight:600;
+    padding:7px 13px; border-radius:16px; border:1px solid var(--line-dark);
+    background:transparent; color:#c7cfd6; cursor:pointer;
+  }
+  .seg button.active{background:var(--teal); border-color:var(--teal); color:#0c1216;}
+  .anim-stage{display:grid; grid-template-columns:1fr; gap:14px; margin-top:14px;}
+  @media(min-width:720px){ .anim-stage{grid-template-columns:1fr 1fr;} }
+  .anim-panel{background:#10151b; border:1px solid var(--line-dark); border-radius:3px; overflow:hidden;}
+  .anim-panel-label{font-family:'IBM Plex Mono',monospace; font-size:.72rem; color:#8b939b; padding:7px 11px; border-bottom:1px solid var(--line-dark); display:flex; justify-content:space-between; gap:8px;}
+  .anim-hint{font-style:italic; opacity:.8;}
+  #fig2dGait{width:100%; aspect-ratio:3/2; display:block; background:#161d24;}
+  #fig3dGait{width:100%; aspect-ratio:3/2; background:#161d24; cursor:grab; touch-action:none; -webkit-user-select:none; user-select:none;}
+  #fig3dGait.grabbing{cursor:grabbing;}
+  .anim-controls{display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-top:14px;}
+  .anim-playbtn{font-family:'IBM Plex Mono',monospace; font-weight:600; font-size:.8rem; padding:7px 14px; border-radius:16px; border:1px solid var(--teal); background:var(--teal); color:#0c1216; cursor:pointer; flex:0 0 auto;}
+  .anim-controls input[type=range]{flex:1 1 110px; min-width:80px;}
+  .anim-speed-label{font-family:'IBM Plex Mono',monospace; font-size:.75rem; color:#8b939b; flex:0 0 auto;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Laboratorium Qiladat / JAZMI — Studi Kuno &amp; Model Komputasional</div>
+    <h1>Kikkuli: Yang Pertama Menuliskan Cara Melatih Kuda</h1>
+    <div class="cuneiform-rule"></div>
+    <p class="lede">Sekitar 1400 SM, seorang <em>assussanni</em> — pelatih kuda ahli — dari negeri Mitanni bernama Kikkuli mendiktekan sebuah program kondisioning fisik untuk kuda kereta perang kepada juru tulis istana Het di Ḫattuša. Naskahnya, terukir di atas empat tablet tanah liat, adalah manual pelatihan kuda tertua yang pernah ditemukan manusia. Halaman ini membangun tool untuk menjelajahi naskah itu — dan meletakkannya berdampingan dengan ilmu fisiologi latihan modern.</p>
+  </div>
+</div>
+
+<!-- ================= BELAJAR ================= -->
+<section class="ancient">
+  <div class="wrap">
+    <div class="kicker">01 · Belajar — Konteks &amp; Fakta Naskah</div>
+    <h2>Apa yang sebenarnya kita ketahui?</h2>
+    <div class="grid2">
+      <div class="panel">
+        <h3>Naskah &amp; Penemuannya</h3>
+        <p>Empat tablet kuneiform ditemukan dalam ekskavasi Boğazköy/Ḫattuša (Anatolia tengah) tahun 1906–1907 oleh arkeolog Hugo Winckler. Teks ini ditulis terutama dalam bahasa Het, tetapi memuat banyak istilah pinjaman dari bahasa Hurrian dan bahasa Indo-Arya kuno — terutama untuk angka dan istilah teknis kepelatihan, jejak dari asal Kikkuli sendiri sebagai orang Mitanni.</p>
+      </div>
+      <div class="panel">
+        <h3>Isi &amp; Cakupan</h3>
+        <p>Teks memuat instruksi kondisioning (latihan fisik dan pemberian pakan) kuda kereta perang selama <strong>214 hari</strong> — sekitar tujuh bulan. Naskah ini murni soal kondisioning fisik, bukan soal mendidik perilaku kuda. Setiap entri harian umumnya mencatat jenis gerakan (jalan, trot, lari cepat, menarik kereta) beserta takaran pakan (jelai, gandum, jerami).</p>
+      </div>
+    </div>
+    <div class="panel">
+      <h3>Tiga Tahap Kondisioning</h3>
+      <p>Sumber sekunder (mis. ringkasan Raulwing 2009 dan penerapan ulang oleh Ann Nyland) sepakat naskah ini membangun kebugaran kuda lewat tiga tahap: <strong>(1) penguatan kaki</strong>, <strong>(2) penguatan sistem kardio-muskular</strong> lewat latihan interval berjenjang (trot–canter–lari cepat, dituntun sebelum dibebani kereta), dan <strong>(3) kondisioning neuromuskular</strong> — koordinasi halus saat menarik beban sesungguhnya. Naskah juga mencatat rutinitas perawatan: kuda diikat, kadang diberi tali kekang penutup mulut, dimandikan/disiram air, diselimuti, dan dihangatkan sampai berkeringat sebagai bagian pemulihan.</p>
+      <span class="tag tag-status">status: pembagian tiga tahap didukung banyak sumber sekunder — batas hari pastinya belum kami verifikasi dari edisi primer</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= EKSPLORASI ANCIENT ================= -->
+<section class="ancient alt">
+  <div class="wrap">
+    <div class="kicker">02 · Eksplorasi — Penjelajah 214 Hari</div>
+    <h2>Geser untuk menjelajahi hari-hari program Kikkuli</h2>
+    <p class="small">Catatan metodologis: pembagian tiga-per-tiga di bawah adalah pendekatan ilustratif kami untuk menggambarkan proporsi program secara kasar — <em>bukan</em> batas hari yang secara eksplisit tertulis di tablet. Ini titik yang perlu diverifikasi lebih jauh terhadap edisi primer (lihat Batasan &amp; Referensi).</p>
+    <div class="panel slider-box">
+      <label for="daySlider">HARI KE- <span id="dayVal">1</span> DARI 214</label>
+      <input type="range" id="daySlider" min="1" max="214" value="1">
+      <div class="day-readout">
+        <span id="weekVal">Pekan 1</span>
+        <span id="pctVal">0% program</span>
+      </div>
+      <div class="phase-name" id="phaseName">Tahap Fondasi — Penguatan Kaki</div>
+      <p id="phaseDesc" style="margin-top:.3em;">Fokus pada gerakan berulang intensitas rendah–sedang (jalan cepat dan trot pendek) untuk membangun kekuatan tendon, ligamen, dan tulang sebelum beban kardiovaskular ditingkatkan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= KONVERTER UNIT ================= -->
+<section class="ancient">
+  <div class="wrap">
+    <div class="kicker">02b · Eksplorasi — Satuan Jarak Kuno</div>
+    <h2>Berapa jauh sebenarnya "satu liga, dua furlong"?</h2>
+    <p>Terjemahan populer naskah Kikkuli (mis. oleh Anthony Dent) merender satuan jarak Het/Hurrian ke dalam istilah Inggris seperti <em>league</em> (liga) dan <em>furlong</em> sebagai padanan perkiraan. Nilai metrik asli satuan Het seperti <em>IKU</em> dan <em>DANNA</em> masih diperdebatkan filolog (lih. Melchert 1980). Konverter di bawah memakai definisi standar liga/furlong modern — bukan nilai asli Het yang divalidasi.</p>
+    <div class="panel">
+      <div class="conv-row">
+        <label>Liga (league): <input type="number" id="leagueIn" value="1" min="0" step="0.5"></label>
+        <label>Furlong: <input type="number" id="furlongIn" value="2" min="0" step="0.5"></label>
+      </div>
+      <p>≈ <span class="conv-out" id="convOut">5.23</span> km <span class="small">(1 liga ≈ 4.828 km, 1 furlong ≈ 0.201 km — definisi Inggris tradisional)</span></p>
+      <span class="tag tag-status">status: padanan penerjemah, bukan nilai IKU/DANNA asli — PERLU RUJUKAN PRIMER</span>
+    </div>
+  </div>
+</section>
+
+<div class="bridge">
+  <div class="wrap">
+    <h2>Dari tablet tanah liat ke fisiologi olahraga</h2>
+    <p>Latihan interval, tahap membangun-lalu-membebani, dan masa pemulihan yang dicatat Kikkuli 3.400 tahun lalu berbicara dalam kosakata yang sama dengan ilmu latihan modern. Bagian di bawah murni membahas sisi modern: bagaimana sains olahraga membaca ulang prinsip yang sama.</p>
+  </div>
+</div>
+
+<!-- ================= MODERN: ILMU ================= -->
+<section class="modern">
+  <div class="wrap">
+    <div class="kicker">03 · Belajar (Modern) — Fisiologi Latihan Interval</div>
+    <h2>Mengapa pola "kerja–istirahat berulang" itu berhasil</h2>
+    <div class="grid2">
+      <div class="panel">
+        <h3>Tiga sistem yang beradaptasi</h3>
+        <p>Ilmu olahraga modern membedakan tiga sistem tubuh yang beradaptasi terhadap latihan bertahap: sistem <strong>muskuloskeletal</strong> (tendon, ligamen, tulang — beradaptasi paling lambat), sistem <strong>kardiovaskular</strong> (jantung, volume darah, kapasitas oksigen), dan sistem <strong>neuromuskular</strong> (koordinasi, efisiensi gerak). Urutan ini — kuat dulu secara struktural, baru dibebani secara kardiovaskular, baru dihaluskan secara koordinasi — cocok dengan urutan tiga tahap yang dicatat pada naskah Kikkuli.</p>
+      </div>
+      <div class="panel">
+        <h3>Latihan interval &amp; periodisasi</h3>
+        <p>Prinsip modern <em>interval training</em>: ulangi periode kerja intensitas tinggi diselingi periode pemulihan, agar tubuh menerima beban tinggi tanpa kelelahan berlebih dalam satu sesi. Prinsip <em>periodisasi</em>: beban dinaikkan bertahap dari minggu ke minggu, dengan siklus pemulihan terjadwal — bukan linear terus meningkat. Keduanya adalah bahasa modern untuk pola yang sama dengan yang dipraktikkan Kikkuli lewat hari istirahat terjadwal di antara sesi latihan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MODERN: KALKULATOR ================= -->
+<section class="modern alt">
+  <div class="wrap">
+    <div class="kicker">04 · Perhitungan — Perancang Sesi Interval</div>
+    <h2>Rancang satu sesi latihan interval</h2>
+    <p>Alat ilustratif murni modern: masukkan struktur satu sesi interval untuk melihat total jarak, total waktu, dan rasio kerja:istirahat yang dihasilkan.</p>
+    <div class="panel">
+      <div class="grid2">
+        <div class="field"><label>Jumlah repetisi</label><input type="number" id="reps" value="6" min="1"></div>
+        <div class="field"><label>Durasi kerja per repetisi (detik)</label><input type="number" id="workSec" value="90" min="1"></div>
+        <div class="field"><label>Durasi istirahat antar repetisi (detik)</label><input type="number" id="restSec" value="60" min="0"></div>
+        <div class="field"><label>Kecepatan target saat kerja (km/jam)</label><input type="number" id="paceKmh" value="18" min="0" step="0.5"></div>
+      </div>
+      <div class="results">
+        <div class="result-cell"><div class="num" id="outTime">—</div><div class="lbl">total waktu sesi</div></div>
+        <div class="result-cell"><div class="num" id="outDist">—</div><div class="lbl">total jarak tempuh (kerja saja)</div></div>
+        <div class="result-cell"><div class="num" id="outRatio">—</div><div class="lbl">rasio kerja : istirahat</div></div>
+        <div class="result-cell"><div class="num" id="outZone">—</div><div class="lbl">kategori beban (ilustratif)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= VISUALISASI GAIT (2D + 3D) ================= -->
+<section class="modern" id="biomekanika-gerak">
+  <div class="wrap">
+    <div class="kicker">04b · Visualisasi — Biomekanika Gerak</div>
+    <h2>Jalan, trot, dan lari cepat — dilihat lewat sudut sendi</h2>
+    <p>Naskah Kikkuli menyebut tiga jenis gerakan berulang: jalan, trot, dan lari cepat (kemungkinan setara canter/gallop modern). Panel di bawah memodelkan pola langkah (<em>gait</em>) ketiganya secara kualitatif dari sudut sendi bahu/pinggul &amp; lutut yang sama di kedua panel — bukan rekonstruksi anatomi kuda kereta perang Zaman Perunggu yang presisi, sekadar mengilustrasikan pola kaki yang membedakan gait satu sama lain, sesuai ide "modul biomekanika gerak trot/canter/gallop" pada bagian Referensi.</p>
+
+    <div class="panel">
+      <div class="seg" id="segGait">
+        <button class="active" data-gait="jalan">Jalan (Walk)</button>
+        <button data-gait="trot">Trot</button>
+        <button data-gait="canter">Lari Cepat (Canter/Gallop)</button>
+      </div>
+
+      <div class="anim-stage">
+        <div class="anim-panel">
+          <div class="anim-panel-label"><span>2D — pandangan samping</span></div>
+          <svg id="fig2dGait" viewBox="0 0 240 150" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
+        <div class="anim-panel">
+          <div class="anim-panel-label"><span>3D — keempat kaki</span><span class="anim-hint">seret = putar</span></div>
+          <div id="fig3dGait"></div>
+        </div>
+      </div>
+
+      <div class="anim-controls">
+        <button class="anim-playbtn" id="gaitPlayBtn">▶ Putar</button>
+        <input type="range" id="gaitScrub" min="0" max="1000" value="0" aria-label="Posisi dalam siklus langkah">
+        <span class="anim-speed-label">Kecepatan <span id="valGaitSpeed">1.0×</span></span>
+        <input type="range" id="gaitSpeed" min="25" max="200" value="100" step="25" aria-label="Kecepatan animasi">
+      </div>
+      <p class="small">Panel 2D hanya menggambar satu pasang kaki (depan &amp; belakang di sisi yang terlihat) karena pandangan samping tak bisa menunjukkan sisi seberang. Panel 3D menampilkan keempat kaki sekaligus dengan pola waktu sentuh-tanah yang sama, mengungkap ciri tiap gait: jalan berketuk empat (satu kaki turun bergiliran, selalu ≥2 kaki menapak), trot berpasangan diagonal (dua kaki berseberangan bergerak bersamaan), dan lari cepat yang asimetris dengan fase melayang singkat di udara. Sudut &amp; waktu tiap fase disederhanakan untuk ilustrasi, bukan hasil motion-capture kuda sungguhan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= METODE ================= -->
+<section class="modern">
+  <div class="wrap">
+    <div class="kicker">05 · Metode</div>
+    <h2>Bagaimana angka di atas dihitung</h2>
+    <table>
+      <tr><th>Besaran</th><th>Rumus</th></tr>
+      <tr><td>Total waktu kerja</td><td>repetisi × durasi kerja</td></tr>
+      <tr><td>Total waktu istirahat</td><td>(repetisi − 1) × durasi istirahat</td></tr>
+      <tr><td>Total waktu sesi</td><td>total kerja + total istirahat</td></tr>
+      <tr><td>Jarak tempuh</td><td>kecepatan × (total waktu kerja ÷ 3600)</td></tr>
+      <tr><td>Rasio kerja:istirahat</td><td>durasi kerja ÷ durasi istirahat</td></tr>
+    </table>
+    <p class="small">Kategori beban (rendah/sedang/tinggi/sangat tinggi) ditentukan dari kombinasi rasio kerja:istirahat dan kecepatan target — ambang batasnya kami tetapkan sendiri untuk ilustrasi pola, bukan hasil studi fisiologi kuda yang divalidasi.</p>
+  </div>
+</section>
+
+<!-- ================= BATASAN ================= -->
+<section class="modern alt">
+  <div class="wrap">
+    <div class="kicker">06 · Batasan</div>
+    <h2>Kapan alat ini tidak boleh dipercaya begitu saja</h2>
+    <ul>
+      <li>Pembagian "tiga-per-tiga" pada penjelajah 214 hari adalah model ilustratif kami, bukan pembagian hari yang tertulis eksplisit di tablet — perlu dicek ke edisi primer (Kammenhuber, Raulwing) untuk batas hari yang sesungguhnya.</li>
+      <li>Konverter satuan memakai definisi liga/furlong <em>Inggris modern</em>, bukan nilai IKU/DANNA Het yang divalidasi filolog — nilai aslinya masih diperdebatkan.</li>
+      <li>Kalkulator interval adalah model pendidikan umum, <strong>bukan</strong> program latihan untuk kuda maupun manusia sungguhan. Kategori beban bersifat ilustratif, bukan rekomendasi veteriner atau olahraga.</li>
+      <li>Untuk kebutuhan pelatihan kuda nyata, konsultasikan dengan pelatih/dokter hewan berkompeten — bukan alat ini.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ================= REFERENSI ================= -->
+<section class="ancient">
+  <div class="wrap">
+    <div class="kicker">07 · Referensi &amp; Artikel Terkait</div>
+    <h2>Sumber &amp; kemungkinan laboratorium lanjutan</h2>
+    <ul class="refs">
+      <li>Wikipedia — "Kikkuli" (ringkasan naskah, penemuan tablet, konteks bahasa).</li>
+      <li>Peter Raulwing (2009) — <em>The Kikkuli Text: Hittite Training Instructions for Chariot Horses…</em>, kajian interdisipliner paling rinci yang tersedia.</li>
+      <li>Ann Nyland — <em>The Kikkuli Method of Horse Training</em>, penerapan ulang modern untuk kuda ketahanan (endurance).</li>
+      <li>H. Craig Melchert (1980) — "The Use of IKU in Hittite Texts", <em>Journal of Cuneiform Studies</em> 32 — dasar perdebatan satuan jarak.</li>
+      <li>Horse Nation &amp; Horse Education Online — ringkasan populer struktur naskah dan pengaruhnya pada pelatihan kuda modern.</li>
+    </ul>
+    <p class="small">Kemungkinan laboratorium lanjutan dari bank ide yang sama: peta kekaisaran Mitanni &amp; jalur kereta perang Zaman Perunggu, kalkulator konversi satuan Het lainnya, studi zoologi kuda kereta perang (perbandingan dengan kuda modern), atau modul biomekanika gerak trot/canter/gallop.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Laboratorium ini mengikuti metode "Belajar → Memodelkan → Menguji → Baru Membuat Tool" — Produk A (pengetahuan) ada di bagian Belajar/Metode/Batasan/Referensi, Produk B (alat) ada di bagian Eksplorasi/Perhitungan.
+  </div>
+</footer>
+
+<script>
+  // ---- Day explorer ----
+  const daySlider = document.getElementById('daySlider');
+  const dayVal = document.getElementById('dayVal');
+  const weekVal = document.getElementById('weekVal');
+  const pctVal = document.getElementById('pctVal');
+  const phaseName = document.getElementById('phaseName');
+  const phaseDesc = document.getElementById('phaseDesc');
+
+  const phases = [
+    {
+      max: Math.round(214/3),
+      name: 'Tahap Fondasi — Penguatan Kaki',
+      desc: 'Fokus pada gerakan berulang intensitas rendah–sedang (jalan cepat dan trot pendek) untuk membangun kekuatan tendon, ligamen, dan tulang sebelum beban kardiovaskular ditingkatkan.'
+    },
+    {
+      max: Math.round(214*2/3),
+      name: 'Tahap Kardio-Muskular — Interval Berjenjang',
+      desc: 'Jarak dan intensitas trot–canter–lari cepat ditingkatkan bertahap melalui pola interval (kerja lalu pemulihan), membangun kapasitas jantung dan sistem peredaran darah.'
+    },
+    {
+      max: 214,
+      name: 'Tahap Neuromuskular — Koordinasi & Beban Kereta',
+      desc: 'Kuda mulai dibebani menarik kereta sungguhan; fokus bergeser dari kapasitas mentah ke koordinasi halus dan efisiensi gerak di bawah beban kerja nyata.'
+    }
+  ];
+
+  function updateDay(){
+    const d = parseInt(daySlider.value, 10);
+    dayVal.textContent = d;
+    weekVal.textContent = 'Pekan ' + Math.ceil(d/7);
+    pctVal.textContent = Math.round((d/214)*100) + '% program';
+    const p = phases.find(ph => d <= ph.max) || phases[phases.length-1];
+    phaseName.textContent = p.name;
+    phaseDesc.textContent = p.desc;
+  }
+  daySlider.addEventListener('input', updateDay);
+  updateDay();
+
+  // ---- Unit converter ----
+  const leagueIn = document.getElementById('leagueIn');
+  const furlongIn = document.getElementById('furlongIn');
+  const convOut = document.getElementById('convOut');
+  function updateConv(){
+    const league = parseFloat(leagueIn.value) || 0;
+    const furlong = parseFloat(furlongIn.value) || 0;
+    const km = league*4.828 + furlong*0.201168;
+    convOut.textContent = km.toFixed(2);
+  }
+  leagueIn.addEventListener('input', updateConv);
+  furlongIn.addEventListener('input', updateConv);
+  updateConv();
+
+  // ---- Interval calculator ----
+  const reps = document.getElementById('reps');
+  const workSec = document.getElementById('workSec');
+  const restSec = document.getElementById('restSec');
+  const paceKmh = document.getElementById('paceKmh');
+  const outTime = document.getElementById('outTime');
+  const outDist = document.getElementById('outDist');
+  const outRatio = document.getElementById('outRatio');
+  const outZone = document.getElementById('outZone');
+
+  function fmtTime(sec){
+    const m = Math.floor(sec/60);
+    const s = Math.round(sec%60);
+    return m + ' mnt ' + s + ' dtk';
+  }
+
+  function updateCalc(){
+    const r = Math.max(1, parseInt(reps.value,10) || 1);
+    const w = Math.max(0, parseFloat(workSec.value) || 0);
+    const rest = Math.max(0, parseFloat(restSec.value) || 0);
+    const pace = Math.max(0, parseFloat(paceKmh.value) || 0);
+
+    const totalWork = r * w;
+    const totalRest = (r-1) * rest;
+    const totalTime = totalWork + totalRest;
+    const dist = pace * (totalWork/3600);
+    const ratio = rest > 0 ? (w/rest) : Infinity;
+
+    outTime.textContent = fmtTime(totalTime);
+    outDist.textContent = dist.toFixed(2) + ' km';
+    outRatio.textContent = isFinite(ratio) ? ratio.toFixed(2) + ' : 1' : '∞ : 1';
+
+    let zone = 'Ringan';
+    if (ratio >= 0.5 && ratio < 1.2) zone = 'Sedang';
+    if (ratio >= 1.2 && ratio < 2.5) zone = 'Tinggi';
+    if (ratio >= 2.5) zone = 'Sangat Tinggi';
+    if (pace >= 25) zone = 'Sangat Tinggi';
+    outZone.textContent = zone;
+  }
+  [reps, workSec, restSec, paceKmh].forEach(el => el.addEventListener('input', updateCalc));
+  updateCalc();
+
+  // ---------- VISUALISASI GAIT: DATA BERSAMA (2D + 3D) ----------
+  // Konvensi sudut sagital (hip), identik di render 2D & 3D:
+  //   0° = kaki tergantung lurus ke bawah, +90° = terayun penuh ke depan (arah hadap kuda),
+  //   -90° = terayun penuh ke belakang. `knee` = tekukan lutut/pergelangan (0=lurus),
+  //   sudut absolut bagian bawah kaki = hip - knee (menekuk kaki ke belakang-atas saat fase ayun).
+  // `offsets` = pergeseran fase tiap kaki dalam satu siklus (0..1) — inilah yang membedakan
+  // pola jalan (4-ketuk), trot (diagonal berpasangan), dan lari cepat (asimetris).
+  const GAITS = {
+    jalan:  { label:'Jalan',  durasi:2600, beta:0.70, amp:24, kneeSwing:55,
+              offsets:{FL:0.00, HR:0.25, FR:0.50, HL:0.75} },
+    trot:   { label:'Trot',   durasi:1300, beta:0.46, amp:30, kneeSwing:80,
+              offsets:{FL:0.00, HR:0.00, FR:0.50, HL:0.50} },
+    canter: { label:'Lari Cepat (Canter/Gallop)', durasi:850, beta:0.32, amp:40, kneeSwing:100,
+              offsets:{HR:0.00, HL:0.30, FR:0.30, FL:0.58} }
+  };
+  function easeInOutQuadG(x){ return x<0.5 ? 2*x*x : 1-Math.pow(-2*x+2,2)/2; }
+  function lerpG(a,b,t){ return a+(b-a)*t; }
+  function gaitLeg(phase, g){
+    phase = ((phase%1)+1)%1;
+    if(phase < g.beta){
+      const u = phase/g.beta;
+      return { hip: lerpG(g.amp, -g.amp, u), knee: lerpG(8,5,u) };
+    }
+    const u = (phase-g.beta)/(1-g.beta);
+    return { hip: lerpG(-g.amp, g.amp, easeInOutQuadG(u)), knee: 5 + g.kneeSwing*Math.sin(Math.PI*u) };
+  }
+
+  // ---------- RENDER 2D (SVG, pandangan samping) ----------
+  const svgG = document.getElementById('fig2dGait');
+  const SVGNSg = 'http://www.w3.org/2000/svg';
+  const SH2Dg={x:178,y:88}, HIP2Dg={x:90,y:92}, FUP=26, FLO=30, HUP=28, HLO=30;
+  function mkElG(tag, attrs){ const el=document.createElementNS(SVGNSg,tag); for(const k in attrs) el.setAttribute(k,attrs[k]); return el; }
+  const g2 = {};
+  (function build2DGait(){
+    svgG.innerHTML='';
+    svgG.appendChild(mkElG('line',{x1:20,y1:138,x2:220,y2:138,stroke:'#3a4a40','stroke-width':2}));
+    g2.tail = mkElG('line',{stroke:'#8b939b','stroke-width':4,'stroke-linecap':'round'}); svgG.appendChild(g2.tail);
+    g2.body = mkElG('ellipse',{rx:44,ry:20,fill:'#C98A3A',opacity:0.9}); svgG.appendChild(g2.body);
+    g2.neck = mkElG('line',{stroke:'#C98A3A','stroke-width':13,'stroke-linecap':'round'}); svgG.appendChild(g2.neck);
+    g2.head = mkElG('circle',{r:9,fill:'#C98A3A'}); svgG.appendChild(g2.head);
+    ['hindUp','hindLo','frontUp','frontLo'].forEach(name=>{
+      const isFront = name.startsWith('front');
+      g2[name] = mkElG('line',{stroke:isFront?'#e3b979':'#3E9A93','stroke-width':isFront?7:8,'stroke-linecap':'round'});
+      svgG.appendChild(g2[name]);
+    });
+  })();
+  function seg2Dg(pivot, angDeg, len){ const r=angDeg*Math.PI/180; return {x:pivot.x+Math.sin(r)*len, y:pivot.y+Math.cos(r)*len}; }
+  function setPoseHorse2D(phase, gaitKey){
+    const g = GAITS[gaitKey];
+    const bob = 2.2*Math.abs(Math.sin(2*Math.PI*phase*2));
+    const SH = {x:SH2Dg.x, y:SH2Dg.y-bob}, HIP = {x:HIP2Dg.x, y:HIP2Dg.y-bob};
+
+    g2.body.setAttribute('cx', (SH.x+HIP.x)/2); g2.body.setAttribute('cy', (SH.y+HIP.y)/2 - 5);
+    const neckBase = {x:SH.x+14, y:SH.y-18};
+    g2.neck.setAttribute('x1',neckBase.x); g2.neck.setAttribute('y1',neckBase.y+8);
+    g2.neck.setAttribute('x2',neckBase.x+30); g2.neck.setAttribute('y2',neckBase.y-26);
+    g2.head.setAttribute('cx',neckBase.x+34); g2.head.setAttribute('cy',neckBase.y-32);
+    const tailSwish = 6*Math.sin(2*Math.PI*phase*2);
+    const tailTip = seg2Dg({x:HIP.x-30,y:HIP.y-2}, 250+tailSwish, 26);
+    g2.tail.setAttribute('x1',HIP.x-30); g2.tail.setAttribute('y1',HIP.y-2);
+    g2.tail.setAttribute('x2',tailTip.x); g2.tail.setAttribute('y2',tailTip.y);
+
+    const fl = gaitLeg(phase+g.offsets.FL, g);
+    const fMid = seg2Dg(SH, fl.hip, FUP), fEnd = seg2Dg(fMid, fl.hip-fl.knee, FLO);
+    g2.frontUp.setAttribute('x1',SH.x); g2.frontUp.setAttribute('y1',SH.y); g2.frontUp.setAttribute('x2',fMid.x); g2.frontUp.setAttribute('y2',fMid.y);
+    g2.frontLo.setAttribute('x1',fMid.x); g2.frontLo.setAttribute('y1',fMid.y); g2.frontLo.setAttribute('x2',fEnd.x); g2.frontLo.setAttribute('y2',fEnd.y);
+
+    const hl = gaitLeg(phase+g.offsets.HL, g);
+    const hMid = seg2Dg(HIP, hl.hip, HUP), hEnd = seg2Dg(hMid, hl.hip-hl.knee, HLO);
+    g2.hindUp.setAttribute('x1',HIP.x); g2.hindUp.setAttribute('y1',HIP.y); g2.hindUp.setAttribute('x2',hMid.x); g2.hindUp.setAttribute('y2',hMid.y);
+    g2.hindLo.setAttribute('x1',hMid.x); g2.hindLo.setAttribute('y1',hMid.y); g2.hindLo.setAttribute('x2',hEnd.x); g2.hindLo.setAttribute('y2',hEnd.y);
+  }
+
+  // ---------- RENDER 3D (Three.js, balok sederhana) ----------
+  let horse3d = null;
+  function initFig3DGait(){
+    const container = document.getElementById('fig3dGait');
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x161d24);
+    const camera = new THREE.PerspectiveCamera(38, container.clientWidth/container.clientHeight, 0.5, 400);
+    const renderer = new THREE.WebGLRenderer({antialias:true});
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    scene.add(new THREE.AmbientLight(0xffffff,0.7));
+    const dir = new THREE.DirectionalLight(0xffffff,0.65); dir.position.set(30,50,40); scene.add(dir);
+    const floor = new THREE.Mesh(new THREE.PlaneGeometry(80,80), new THREE.MeshStandardMaterial({color:0x2a3138,side:THREE.DoubleSide}));
+    floor.rotation.x=-Math.PI/2; scene.add(floor);
+
+    function box(w,h,d,color){ return new THREE.Mesh(new THREE.BoxGeometry(w,h,d), new THREE.MeshStandardMaterial({color})); }
+    const FRONT_C=0xC98A3A, HIND_C=0x3E9A93, BODY_C=0x7A3B2E;
+
+    const root = new THREE.Group(); scene.add(root);
+    const body = box(34,14,11,BODY_C); body.position.set(-2,15,0); root.add(body);
+    const neck = box(6,17,6,BODY_C); neck.position.set(17,25,0); neck.rotation.z = -0.6; root.add(neck);
+    const head = box(5,9,5,BODY_C); head.position.set(24,34,0); head.rotation.z=-0.6; root.add(head);
+    const tail = box(2,13,2,0x8b939b); tail.position.set(-19,17,0); tail.rotation.z = 0.55; root.add(tail);
+
+    function makeLeg(x, color){
+      const legs = {};
+      [-4.6, 4.6].forEach((z, i)=>{
+        const key = i===0 ? 'near' : 'far';
+        const hipJ = new THREE.Group(); hipJ.position.set(x, 8, z); root.add(hipJ);
+        const upper = box(2.3,8,2.3,color); upper.position.y=-4; hipJ.add(upper);
+        const kneeJ = new THREE.Group(); kneeJ.position.set(0,-8,0); hipJ.add(kneeJ);
+        const lower = box(1.9,9,1.9,color); lower.position.y=-4.5; kneeJ.add(lower);
+        const hoof = box(2,1.4,2.6,0x1B2027); hoof.position.y=-9-0.7; kneeJ.add(hoof);
+        legs[key] = {hipJ, kneeJ};
+      });
+      return legs;
+    }
+    const frontLegs = makeLeg(13, FRONT_C);   // near = FL, far = FR
+    const hindLegs  = makeLeg(-13, HIND_C);   // near = HL, far = HR
+
+    const D2R = Math.PI/180;
+    function setPoseHorse3D(phase, gaitKey){
+      const g = GAITS[gaitKey];
+      const bob = 0.35*Math.abs(Math.sin(2*Math.PI*phase*2));
+      root.position.y = -bob;
+      const fl = gaitLeg(phase+g.offsets.FL, g); frontLegs.near.hipJ.rotation.z = fl.hip*D2R; frontLegs.near.kneeJ.rotation.z = -fl.knee*D2R;
+      const fr = gaitLeg(phase+g.offsets.FR, g); frontLegs.far.hipJ.rotation.z  = fr.hip*D2R; frontLegs.far.kneeJ.rotation.z  = -fr.knee*D2R;
+      const hl = gaitLeg(phase+g.offsets.HL, g); hindLegs.near.hipJ.rotation.z  = hl.hip*D2R; hindLegs.near.kneeJ.rotation.z  = -hl.knee*D2R;
+      const hr = gaitLeg(phase+g.offsets.HR, g); hindLegs.far.hipJ.rotation.z   = hr.hip*D2R; hindLegs.far.kneeJ.rotation.z   = -hr.knee*D2R;
+      tail.rotation.x = 0.25*Math.sin(2*Math.PI*phase*2);
+    }
+
+    let theta=0.85, phi=1.15, radius=72; const target=new THREE.Vector3(0,13,0);
+    function updateCam(){
+      camera.position.x = target.x + radius*Math.sin(phi)*Math.sin(theta);
+      camera.position.z = target.z + radius*Math.sin(phi)*Math.cos(theta);
+      camera.position.y = target.y + radius*Math.cos(phi);
+      camera.lookAt(target);
+    }
+    updateCam();
+    let dragging=false,lastX=0,lastY=0;
+    renderer.domElement.addEventListener('pointerdown', e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;container.classList.add('grabbing');});
+    window.addEventListener('pointerup', ()=>{dragging=false;container.classList.remove('grabbing');});
+    window.addEventListener('pointermove', e=>{
+      if(!dragging) return;
+      theta -= (e.clientX-lastX)*0.008; phi -= (e.clientY-lastY)*0.008;
+      phi = Math.max(0.35, Math.min(1.5, phi));
+      lastX=e.clientX; lastY=e.clientY; updateCam();
+    });
+    renderer.domElement.addEventListener('wheel', e=>{ e.preventDefault(); radius=Math.max(35,Math.min(160,radius+e.deltaY*0.06)); updateCam(); }, {passive:false});
+    let pinchDist=null;
+    const touchDist=(a,b)=>Math.hypot(b.clientX-a.clientX,b.clientY-a.clientY);
+    renderer.domElement.addEventListener('touchstart', e=>{ if(e.touches.length===2){ pinchDist=touchDist(e.touches[0],e.touches[1]); dragging=false; } }, {passive:true});
+    renderer.domElement.addEventListener('touchmove', e=>{
+      if(e.touches.length===2 && pinchDist!==null){
+        e.preventDefault();
+        const d=touchDist(e.touches[0],e.touches[1]);
+        radius=Math.max(35,Math.min(160,radius-(d-pinchDist)*0.12));
+        pinchDist=d; updateCam();
+      }
+    }, {passive:false});
+    renderer.domElement.addEventListener('touchend', e=>{ if(e.touches.length<2) pinchDist=null; }, {passive:true});
+
+    function onResize(){
+      const w=container.clientWidth, h=container.clientHeight;
+      if(!w||!h) return;
+      camera.aspect=w/h; camera.updateProjectionMatrix(); renderer.setSize(w,h);
+    }
+    window.addEventListener('resize', onResize);
+
+    horse3d = { renderer, scene, camera, setPoseHorse3D, render:()=>renderer.render(scene,camera) };
+  }
+
+  // ---------- LOOP ANIMASI BERSAMA ----------
+  (function initAnimasiGait(){
+    let gaitAktif = 'jalan';
+    let playing = false, speed = 1.0, manualFrac = 0, usingManual = false, startTime = null;
+
+    function applyPose(frac){
+      setPoseHorse2D(frac, gaitAktif);
+      if(horse3d){ horse3d.setPoseHorse3D(frac, gaitAktif); horse3d.render(); }
+      document.getElementById('gaitScrub').value = Math.round(frac*1000);
+    }
+    setPoseHorse2D(0,'jalan');
+
+    let started3D = false;
+    function ensure3D(){ if(started3D) return; started3D=true; initFig3DGait(); applyPose(usingManual?manualFrac:0); }
+    const io = new IntersectionObserver(entries=>{ entries.forEach(en=>{ if(en.isIntersecting) ensure3D(); }); }, {threshold:0.1});
+    io.observe(document.getElementById('fig3dGait'));
+
+    function loop(ts){
+      requestAnimationFrame(loop);
+      if(usingManual || !playing) return;
+      if(startTime===null) startTime = ts;
+      const durasi = GAITS[gaitAktif].durasi / speed;
+      const frac = ((ts-startTime)%durasi)/durasi;
+      applyPose(frac);
+    }
+    requestAnimationFrame(loop);
+
+    document.getElementById('segGait').querySelectorAll('button').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        document.getElementById('segGait').querySelectorAll('button').forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        gaitAktif = btn.dataset.gait;
+        startTime = null; usingManual = false;
+        applyPose(0);
+      });
+    });
+
+    const playBtn = document.getElementById('gaitPlayBtn');
+    playBtn.addEventListener('click', ()=>{
+      playing = !playing;
+      playBtn.textContent = playing ? '⏸ Jeda' : '▶ Putar';
+      if(playing){ usingManual=false; startTime=null; }
+    });
+
+    const scrub = document.getElementById('gaitScrub');
+    scrub.addEventListener('input', ()=>{
+      usingManual = true; playing = false; playBtn.textContent='▶ Putar';
+      manualFrac = (+scrub.value)/1000;
+      applyPose(manualFrac);
+    });
+
+    const speedInput = document.getElementById('gaitSpeed');
+    speedInput.addEventListener('input', ()=>{
+      speed = (+speedInput.value)/100;
+      document.getElementById('valGaitSpeed').textContent = speed.toFixed(2).replace(/0$/,'').replace(/\.$/,'') + '×';
+      startTime = null;
+    });
+  })();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

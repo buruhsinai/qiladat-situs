@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produk Global — JAZMI</title>
+<meta name="description" content="Produk Global JAZMI — etalase lintas-ekosistem yang menghimpun produk dari ranah Dien, Kesehatan, dan Sains dalam satu tempat, bukan marketplace generik.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="produk-global.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (disalin persis dari kontrak C01, 6.1) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/" class="is-active">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= BREADCRUMB ================= -->
+  <nav class="breadcrumb" aria-label="Jejak navigasi">
+    <div class="section-inner breadcrumb-inner">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page">Produk</span>
+    </div>
+  </nav>
+
+  <!-- ================= HERO PRODUK GLOBAL ================= -->
+  <section class="domain-hero">
+    <div class="section-inner domain-hero-inner">
+      <p class="domain-eyebrow">Produk Global</p>
+      <h1 class="domain-title">Produk JAZMI</h1>
+      <p class="domain-desc">Etalase lintas-ekosistem yang menghimpun produk dari ranah Dien, Kesehatan, Sains, dan kebutuhan umum JAZMI dalam satu tempat — sebuah pintu masuk, bukan toko daring. Setiap produk tetap menjadi bagian dari satu JAZMI yang sama.</p>
+    </div>
+  </section>
+
+  <!-- ================= 01 — RAGAM KATEGORI (statis, informatif) ================= -->
+  <section class="section" aria-labelledby="kategori-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">01 — Ragam</p>
+        <h2 class="section-title" id="kategori-heading">Kategori Produk</h2>
+        <p class="section-desc">Empat kategori yang menghimpun produk dari seluruh ekosistem JAZMI.</p>
+      </div>
+
+      <div class="kategori-grid">
+        <article class="kategori-card">
+          <h3 class="kategori-card-title">Dien</h3>
+          <p class="kategori-card-desc">Mushaf, alat bantu ibadah, dan perlengkapan yang menemani amalan harian.</p>
+        </article>
+
+        <article class="kategori-card">
+          <h3 class="kategori-card-title">Kesehatan</h3>
+          <p class="kategori-card-desc">Produk herbal dan kebutuhan kesehatan keluarga yang dihimpun JAZMI.</p>
+        </article>
+
+        <article class="kategori-card">
+          <h3 class="kategori-card-title">Sains</h3>
+          <p class="kategori-card-desc">Alat bantu pengamatan dan navigasi yang berkaitan dengan ilmu falak sehari-hari.</p>
+        </article>
+
+        <article class="kategori-card">
+          <h3 class="kategori-card-title">Umum</h3>
+          <p class="kategori-card-desc">Perlengkapan sehari-hari bernuansa JAZMI di luar tiga ranah utama.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 02 — PRODUK PILIHAN (dinamis, data via fetch) ================= -->
+  <section class="section section-alt" aria-labelledby="pilihan-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">02 — Pilihan</p>
+        <h2 class="section-title" id="pilihan-heading">Produk Pilihan</h2>
+        <p class="section-desc">Produk JAZMI yang sudah terbit dan tersedia sekarang.</p>
+      </div>
+
+      
+      <p class="data-empty-note" id="pilihanStateLoading">Memuat produk pilihan…</p>
+      <p class="data-empty-note" id="pilihanStateError" hidden>Data produk belum dapat dimuat. Coba muat ulang halaman ini beberapa saat lagi.</p>
+      <p class="data-empty-note" id="pilihanStateEmpty" hidden>Belum ada produk pilihan yang dapat ditampilkan saat ini.</p>
+
+      <div class="produk-grid" id="pilihanGrid" hidden>
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 03 — SEMUA PRODUK (dinamis, filter kategori) ================= -->
+  <section class="section" aria-labelledby="semua-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">03 — Katalog</p>
+        <h2 class="section-title" id="semua-heading">Semua Produk</h2>
+        <p class="section-desc">Jelajahi seluruh produk berdasarkan kategori.</p>
+      </div>
+
+      
+      <div class="filter-bar" id="filterBar" role="group" aria-label="Saring produk berdasarkan kategori">
+        <button type="button" class="filter-btn" data-kategori="Semua" aria-pressed="true">Semua</button>
+        <button type="button" class="filter-btn" data-kategori="Dien" aria-pressed="false">Dien</button>
+        <button type="button" class="filter-btn" data-kategori="Kesehatan" aria-pressed="false">Kesehatan</button>
+        <button type="button" class="filter-btn" data-kategori="Sains" aria-pressed="false">Sains</button>
+        <button type="button" class="filter-btn" data-kategori="Umum" aria-pressed="false">Umum</button>
+      </div>
+
+      <p class="data-empty-note" id="produkStateLoading">Memuat produk…</p>
+      <p class="data-empty-note" id="produkStateError" hidden>Data produk belum dapat dimuat. Coba muat ulang halaman ini beberapa saat lagi.</p>
+      <p class="data-empty-note" id="produkStateEmpty" hidden>Belum ada produk yang dapat ditampilkan saat ini.</p>
+
+      <div class="produk-grid" id="produkGrid" hidden>
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 04 — HUBUNGAN (relasi ke Produk domain & Artikel) ================= -->
+  <section class="section section-alt" aria-labelledby="relasi-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">04 — Jelajahi Lebih Lanjut</p>
+        <h2 class="section-title" id="relasi-heading">Produk per Ranah</h2>
+        <p class="section-desc">Sebagian produk berasal dari ranah yang memiliki katalognya sendiri secara lebih mendalam.</p>
+      </div>
+
+      <div class="relasi-block">
+        <a class="btn btn-outline" href="/kesehatan/produk.html">Produk Kesehatan →</a>
+        <a class="btn btn-outline" href="/sains/produk.html">Produk Sains →</a>
+        <a class="btn btn-outline" href="/artikel/">Baca Artikel JAZMI →</a>
+        <a class="btn btn-outline" href="/">Kembali ke Beranda →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= MODAL DETAIL PRODUK ================= -->
+<div class="modal-overlay" id="modalOverlay" hidden>
+  <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button type="button" class="modal-close" id="modalClose" aria-label="Tutup detail produk">✕</button>
+    <p class="modal-kategori" id="modalKategori"></p>
+    <h2 class="modal-title" id="modalTitle"></h2>
+    <p class="modal-desc" id="modalDesc"></p>
+    <p class="modal-info" id="modalInfo" hidden></p>
+    <p class="modal-cta" id="modalCta"><strong>Cara memperoleh:</strong> belum tersedia — akan diinformasikan melalui kanal resmi JAZMI.</p>
+    <p class="modal-aksi"><a class="btn btn-solid" id="modalLink" href="#" hidden></a></p>
+  </div>
+</div>
+
+<!-- ================= FOOTER (disalin dari HOME/C13 — path disesuaikan) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/artikel/">Artikel</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah.</p>
+  </div>
+</footer>
+
+<script src="produk-global.js"></script>
+</body>
+</html>

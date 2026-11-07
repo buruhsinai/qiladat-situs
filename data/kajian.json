@@ -1,0 +1,18 @@
+{
+  "_catatan": "DATA CONTOH/DEMO. Satu kajian = satu karya induk dengan beberapa output terkait (rangkuman/PDF/video/audio).",
+  "kajian": [
+    {
+      "id": "kaj-001",
+      "judul": "[Contoh] Kajian Kitab Riyadhus Shalihin — Bab Ikhlas",
+      "tanggal": "2026-08-13",
+      "deskripsi": "Placeholder deskripsi singkat kajian — ganti dengan deskripsi asli.",
+      "output": {
+        "rangkuman": true,
+        "pdf": true,
+        "video": true,
+        "audio": true
+      },
+      "tautan": "#"
+    }
+  ]
+}

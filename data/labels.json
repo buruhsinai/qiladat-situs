@@ -1,0 +1,71 @@
+{
+  "_catatan": "DRAF AWAL — belum dikonfirmasi user. Daftar & kata kunci di bawah disusun oleh AI berdasarkan tema yang TERLIHAT di 18 artikel ranah Dien yang sudah masuk data/articles.json (9 artikel [Contoh] + 9 artikel seri asli). Ini BUKAN taksonomi resmi JAZMI. User perlu meninjau, mengoreksi nama/kata kunci, menghapus label yang tidak relevan, dan menambah label baru sesuai kebutuhan — lalu mengirim ulang file ini pada sesi berikutnya bersama file artikel. Pencocokan artikel ke label dilakukan OTOMATIS oleh js/label-utils.js lewat pemindaian kata kunci pada judul+ringkasan+isi (huruf kecil, cocok substring) — tidak perlu menandai artikel satu per satu. Field 'kataKunci' sebaiknya berisi kata/frasa yang KHAS untuk topik itu (hindari kata umum yang bisa memicu kecocokan salah, mis. 'baik', 'satu').",
+  "label": [
+    {
+      "id": "lbl-tauhid-fitrah",
+      "nama": "Tauhid & Fitrah",
+      "slug": "tauhid-fitrah",
+      "kataKunci": ["tauhid", "fitrah", "التوحيد", "دين الفطرة", "akidah", "keimanan"]
+    },
+    {
+      "id": "lbl-pendidikan-belajar",
+      "nama": "Pendidikan & Cara Belajar",
+      "slug": "pendidikan-cara-belajar",
+      "kataKunci": ["pendidikan", "pelajaran", "murid", "peserta didik", "kurikulum", "mengajar", "guru"]
+    },
+    {
+      "id": "lbl-cara-berpikir",
+      "nama": "Logika & Cara Berpikir",
+      "slug": "logika-cara-berpikir",
+      "kataKunci": ["cara berpikir", "memahami", "pemahaman", "nalar", "berpikir"]
+    },
+    {
+      "id": "lbl-tazkiyatun-nafs",
+      "nama": "Tazkiyatun Nafs (Penyucian Jiwa)",
+      "slug": "tazkiyatun-nafs",
+      "kataKunci": ["muhasabah", "mengingat allah", "istighfar", "penyucian jiwa", "tazkiyah", "kembali mengingat"]
+    },
+    {
+      "id": "lbl-adab-akhlak",
+      "nama": "Adab & Akhlak",
+      "slug": "adab-akhlak",
+      "kataKunci": ["adab", "akhlak", "adab menulis"]
+    },
+    {
+      "id": "lbl-kitab-warisan-ulama",
+      "nama": "Kitab & Warisan Ulama",
+      "slug": "kitab-warisan-ulama",
+      "kataKunci": ["kitab", "ulama", "fiqih", "manuskrip", "kitab klasik"]
+    },
+    {
+      "id": "lbl-bahasa-arab",
+      "nama": "Bahasa Arab & Ilmu Alat",
+      "slug": "bahasa-arab-ilmu-alat",
+      "kataKunci": ["nahwu", "i'rab", "irab", "bahasa arab", "sharaf", "balaghah"]
+    },
+    {
+      "id": "lbl-kalender-astronomi-islam",
+      "nama": "Kalender & Astronomi Islam",
+      "slug": "kalender-astronomi-islam",
+      "kataKunci": ["hilal", "hijriah", "rukyat", "waktu salat", "kalender", "astronomi"]
+    },
+    {
+      "id": "lbl-kesehatan-sunnah",
+      "nama": "Kesehatan & Gaya Hidup Sunnah",
+      "slug": "kesehatan-gaya-hidup-sunnah",
+      "kataKunci": ["kesehatan", "tidur", "herbal", "fermentasi", "pangan", "sunnah"]
+    },
+    {
+      "id": "lbl-doa-ibtihal",
+      "nama": "Doa & Ibtihal",
+      "slug": "doa-ibtihal",
+      "kataKunci": ["ibtihal", "mendoakan", "doa"]
+    },
+    {
+      "id": "lbl-rihlah-ilmiah",
+      "nama": "Rihlah & Tradisi Menuntut Ilmu",
+      "slug": "rihlah-tradisi-menuntut-ilmu",
+      "kataKunci": ["rihlah", "menuntut ilmu", "tradisi keilmuan"]
+    }
+  ]
+}

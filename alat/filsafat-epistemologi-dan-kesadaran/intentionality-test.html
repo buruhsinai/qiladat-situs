@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Intentionality Test — Qidalat</title>
+<style>
+:root {
+  --navy:    #0D1B2A;
+  --gold:    #C9A84C;
+  --ling:    #3DAA6A;
+  --estet:   #C0392B;
+  --mid:     #7B8794;
+  --bg:      #F0EDEA;
+  --card:    #FFFFFF;
+  --border:  #E5E0D8;
+  --text:    #1A1A2A;
+  --muted:   #6B7280;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Segoe UI',system-ui,sans-serif; background:var(--bg); color:var(--text); }
+
+/* ── HEADER ── */
+header {
+  background:var(--navy); text-align:center;
+  padding:2.2rem 1rem 1.8rem;
+}
+.eyebrow { font-size:.68rem; letter-spacing:3px; color:var(--gold); text-transform:uppercase; font-weight:600; margin-bottom:.6rem; }
+.en { font-size:clamp(1.35rem,4.2vw,1.9rem); font-weight:700; color:#fff; letter-spacing:.2px; line-height:1.25; margin-bottom:.7rem; }
+.sub { font-size:.88rem; color:rgba(255,255,255,.55); max-width:440px; margin:0 auto; line-height:1.65; }
+
+main { max-width:720px; margin:0 auto; padding:1.8rem 1rem 3rem; }
+
+/* ── SPECTRUM HERO ── */
+.spec-card {
+  background:var(--card); border-radius:20px;
+  padding:1.6rem 1.5rem; margin-bottom:1.5rem;
+  border:1px solid var(--border);
+}
+.sec-label {
+  font-size:.67rem; letter-spacing:3px; color:var(--muted);
+  text-transform:uppercase; margin-bottom:1.4rem;
+}
+
+/* Pole labels */
+.pole-row {
+  display:flex; justify-content:space-between; margin-bottom:.6rem;
+}
+.pole {
+  font-size:.72rem; font-weight:700; letter-spacing:.3px;
+  padding:.2rem .7rem; border-radius:20px;
+}
+.pole.ling { background:rgba(61,170,106,.12); color:var(--ling); }
+.pole.estet { background:rgba(192,57,43,.1); color:var(--estet); }
+
+/* SVG spectrum */
+#specSvg { width:100%; display:block; overflow:visible; }
+
+/* Classification output */
+.classif {
+  margin-top:1.4rem; padding:1rem 1.2rem; border-radius:12px;
+  border:1px solid var(--border); transition:all .5s;
+}
+.classif-name {
+  font-size:1.15rem; font-weight:700; margin-bottom:.35rem; transition:color .5s;
+}
+.classif-desc {
+  font-size:.85rem; line-height:1.65; color:var(--muted);
+}
+
+/* ── PRESETS ── */
+.presets-wrap { margin-bottom:1.5rem; }
+.presets-label {
+  font-size:.67rem; letter-spacing:3px; color:var(--muted);
+  text-transform:uppercase; margin-bottom:.75rem;
+}
+.presets {
+  display:flex; flex-wrap:wrap; gap:.5rem;
+}
+.preset-btn {
+  font-size:.78rem; font-weight:600; padding:.38rem .85rem;
+  border-radius:20px; border:1.5px solid var(--border);
+  background:var(--card); color:var(--text);
+  cursor:pointer; transition:all .2s; white-space:nowrap;
+}
+.preset-btn:hover { border-color:var(--gold); color:var(--navy); }
+.preset-btn.active { border-color:var(--gold); background:rgba(201,168,76,.1); color:var(--navy); }
+
+/* ── QUESTIONS ── */
+.q-label {
+  font-size:.67rem; letter-spacing:3px; color:var(--muted);
+  text-transform:uppercase; margin-bottom:.8rem;
+}
+.qcard {
+  background:var(--card); border-radius:14px;
+  padding:1.2rem 1.4rem; margin-bottom:.8rem;
+  border:1px solid var(--border); transition:border-color .2s;
+}
+.qcard:focus-within { border-color:var(--gold); }
+.q-text {
+  font-size:.94rem; font-weight:600; line-height:1.5; margin-bottom:.9rem;
+}
+input[type=range] {
+  width:100%; height:5px; appearance:none; -webkit-appearance:none;
+  border-radius:3px; background:#E5E0D8; outline:none; cursor:pointer;
+  display:block; margin-bottom:.45rem;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance:none; width:22px; height:22px; border-radius:50%;
+  background:var(--navy); border:3px solid var(--gold); cursor:pointer;
+  transition:transform .1s;
+}
+input[type=range]::-webkit-slider-thumb:hover { transform:scale(1.15); }
+input[type=range]::-moz-range-thumb {
+  width:22px; height:22px; border-radius:50%;
+  background:var(--navy); border:3px solid var(--gold); cursor:pointer;
+}
+.ends {
+  display:flex; justify-content:space-between; font-size:.71rem; line-height:1.4;
+}
+.ends .lo { color:var(--estet); max-width:46%; }
+.ends .hi { color:var(--ling); max-width:46%; text-align:right; }
+
+/* insight strip */
+.insight {
+  font-size:.8rem; font-style:italic; line-height:1.6;
+  padding:.5rem .85rem; margin-top:.7rem;
+  border-left:3px solid var(--gold); background:#FAFAF7;
+  border-radius:0 7px 7px 0; color:var(--text);
+  transition:all .4s; min-height:2rem;
+}
+
+footer {
+  text-align:center; font-size:.74rem; color:var(--muted);
+  margin-top:2rem; padding-top:1.5rem;
+  border-top:1px solid var(--border); line-height:1.8;
+}
+footer strong { color:var(--navy); }
+
+@media(max-width:480px) {
+  .ar { font-size:2rem; }
+  .presets { gap:.4rem; }
+  .preset-btn { font-size:.72rem; padding:.3rem .65rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">JAZMI · Laboratorium Komunikasi &amp; Kesadaran</p>
+  <h1 class="en">Intentionality Test</h1>
+  <p class="sub">Alat untuk membedakan prosodi alami dari formalisasi estetik — di mana suara ini berada dalam spektrum komunikasi hingga kesenangan sensorik?</p>
+</header>
+
+<main>
+
+<!-- SPECTRUM HERO -->
+<div class="spec-card">
+  <div class="sec-label">Spektrum Intentionalitas</div>
+
+  <div class="pole-row">
+    <span class="pole ling">Linguistik Murni</span>
+    <span class="pole estet">Formalisasi Estetik</span>
+  </div>
+
+  <!-- SVG spectrum -->
+  <svg id="specSvg" viewBox="0 0 640 110">
+    <defs>
+      <linearGradient id="specGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%"   stop-color="#3DAA6A"/>
+        <stop offset="45%"  stop-color="#C9A84C" stop-opacity=".6"/>
+        <stop offset="55%"  stop-color="#C9A84C" stop-opacity=".6"/>
+        <stop offset="100%" stop-color="#C0392B"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Track -->
+    <rect x="20" y="28" width="600" height="14" rx="7" fill="url(#specGrad)" opacity=".25"/>
+    <rect x="20" y="28" width="600" height="14" rx="7" fill="none" stroke="#E0DBD4" stroke-width="1"/>
+
+    <!-- Zone labels -->
+    <text x="20"  y="18" font-size="9" fill="#3DAA6A" font-weight="600" opacity=".8">Sahih</text>
+    <text x="265" y="18" font-size="9" fill="#C9A84C" font-weight="600" opacity=".8" text-anchor="middle">Zona Transisi</text>
+    <text x="620" y="18" font-size="9" fill="#C0392B" font-weight="600" opacity=".8" text-anchor="end">Perlu dikaji</text>
+
+    <!-- FIXED EXAMPLE MARKERS (preset dots) -->
+    <!-- Tilawah + tadabbur: score ~85 → x=20+600*0.15=110 (inverted: left=linguistik) -->
+    <!-- Wait: left=linguistik(score 100), right=estetik(score 0) -->
+    <!-- svgX = 20 + 600*(1-score/100) -->
+
+    <!-- Tilawah+tadabbur score=88 → x=20+600*0.12=92 -->
+    <circle id="ex-tilawah" cx="92" cy="35" r="5" fill="#3DAA6A" opacity=".85"/>
+    <text x="92" y="58" text-anchor="middle" font-size="8" fill="#3DAA6A" opacity=".8">Tilawah</text>
+    <text x="92" y="68" text-anchor="middle" font-size="8" fill="#3DAA6A" opacity=".8">+ tadabbur</text>
+
+    <!-- Ibu mendongeng score=84 → x=20+600*0.16=116 -->
+    <circle id="ex-ibu" cx="136" cy="35" r="5" fill="#3DAA6A" opacity=".7"/>
+    <text x="136" y="58" text-anchor="middle" font-size="8" fill="#3DAA6A" opacity=".7">Ibu</text>
+    <text x="136" y="68" text-anchor="middle" font-size="8" fill="#3DAA6A" opacity=".7">mendongeng</text>
+
+    <!-- Syair Arab klasik score=68 → x=20+600*0.32=212 -->
+    <circle id="ex-syair" cx="212" cy="35" r="5" fill="#7BA05B" opacity=".7"/>
+    <text x="212" y="58" text-anchor="middle" font-size="8" fill="#7BA05B" opacity=".7">Syair Arab</text>
+    <text x="212" y="68" text-anchor="middle" font-size="8" fill="#7BA05B" opacity=".7">klasik</text>
+
+    <!-- Tilawah naghamat score=45 → x=20+600*0.55=350 -->
+    <circle id="ex-naghamat" cx="350" cy="35" r="5" fill="#C9A84C" opacity=".8"/>
+    <text x="350" y="58" text-anchor="middle" font-size="8" fill="#C9A84C" opacity=".8">Tilawah</text>
+    <text x="350" y="68" text-anchor="middle" font-size="8" fill="#C9A84C" opacity=".8">naghamat</text>
+
+    <!-- Nasyid modern score=25 → x=20+600*0.75=470 -->
+    <circle id="ex-nasyid" cx="470" cy="35" r="5" fill="#E67E22" opacity=".8"/>
+    <text x="470" y="58" text-anchor="middle" font-size="8" fill="#E67E22" opacity=".8">Nasyid</text>
+    <text x="470" y="68" text-anchor="middle" font-size="8" fill="#E67E22" opacity=".8">modern</text>
+
+    <!-- Beatbox score=12 → x=20+600*0.88=548 -->
+    <circle id="ex-beatbox" cx="548" cy="35" r="5" fill="#C0392B" opacity=".75"/>
+    <text x="548" y="58" text-anchor="middle" font-size="8" fill="#C0392B" opacity=".75">Beatbox</text>
+
+    <!-- Musik industrial score=5 → x=20+600*0.95=590 -->
+    <circle id="ex-musik" cx="590" cy="35" r="5" fill="#C0392B" opacity=".85"/>
+    <text x="590" y="58" text-anchor="middle" font-size="8" fill="#C0392B" opacity=".85">Musik</text>
+    <text x="590" y="68" text-anchor="middle" font-size="8" fill="#C0392B" opacity=".85">industrial</text>
+
+    <!-- USER DOT — starts at center -->
+    <circle id="userDot" cx="320" cy="35" r="11" fill="#0D1B2A" stroke="#C9A84C" stroke-width="3.5"
+      style="transition: cx .7s cubic-bezier(.34,1.2,.64,1), stroke .5s, fill .5s"/>
+    <text id="userLabel" x="320" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="#C9A84C"
+      style="transition: x .7s cubic-bezier(.34,1.2,.64,1), fill .5s">▲ posisimu</text>
+  </svg>
+
+  <!-- Classification output -->
+  <div class="classif" id="classif">
+    <div class="classif-name" id="cName">Geser slider atau pilih contoh di bawah</div>
+    <div class="classif-desc" id="cDesc">Empat pertanyaan mengukur apakah keindahan suara bersifat <em>accidental</em> (pelengkap komunikasi) atau <em>constitutive</em> (tujuan utama). Perbedaan inilah yang memisahkan prosodi alami dari formalisasi estetik.</div>
+  </div>
+</div>
+
+<!-- PRESETS -->
+<div class="presets-wrap">
+  <div class="presets-label">Coba Contoh — klik untuk muat nilai</div>
+  <div class="presets">
+    <button class="preset-btn" data-q="90,88,88,15" data-name="Tilawah + tadabbur">📖 Tilawah + tadabbur</button>
+    <button class="preset-btn" data-q="92,85,88,25" data-name="Ibu mendongeng">👩 Ibu mendongeng</button>
+    <button class="preset-btn" data-q="75,70,72,40" data-name="Syair Arab klasik">📜 Syair Arab klasik</button>
+    <button class="preset-btn" data-q="40,35,40,80" data-name="Tilawah naghamat berlebihan">⚠️ Tilawah naghamat</button>
+    <button class="preset-btn" data-q="22,20,22,92" data-name="Nasyid modern dengan hook">🎵 Nasyid modern</button>
+    <button class="preset-btn" data-q="10,8,10,98" data-name="Beatbox">🥁 Beatbox</button>
+    <button class="preset-btn" data-q="5,5,8,100" data-name="Musik instrumental">🎸 Musik industrial</button>
+  </div>
+</div>
+
+<!-- QUESTIONS -->
+<div class="q-label">Empat Pertanyaan Uji</div>
+
+<div class="qcard">
+  <div class="q-text">Jika keindahan suaranya dihilangkan — apakah fungsi komunikatifnya tetap sampai?</div>
+  <input type="range" min="0" max="100" value="50" id="q1" oninput="go()">
+  <div class="ends">
+    <span class="lo">Tidak — tanpa keindahan, nilai utamanya hilang</span>
+    <span class="hi">Ya — maknanya tetap sampai meski datar</span>
+  </div>
+  <div class="insight" id="i1">—</div>
+</div>
+
+<div class="qcard">
+  <div class="q-text">Apakah ini dirancang untuk transmisi makna atau untuk pengalaman sensorik?</div>
+  <input type="range" min="0" max="100" value="50" id="q2" oninput="go()">
+  <div class="ends">
+    <span class="lo">Pengalaman sensorik — sensasinya yang utama</span>
+    <span class="hi">Transmisi makna — pesannya yang utama</span>
+  </div>
+  <div class="insight" id="i2">—</div>
+</div>
+
+<div class="qcard">
+  <div class="q-text">Apakah nilai utamanya ada di isi atau di cara penyampaian?</div>
+  <input type="range" min="0" max="100" value="50" id="q3" oninput="go()">
+  <div class="ends">
+    <span class="lo">Di cara — tanpa penyampaian indah, tidak ada nilainya</span>
+    <span class="hi">Di isi — kontennya yang menentukan nilainya</span>
+  </div>
+  <div class="insight" id="i3">—</div>
+</div>
+
+<div class="qcard">
+  <div class="q-text">Bisakah ini dinikmati tanpa memahami bahasanya sama sekali?</div>
+  <input type="range" min="0" max="100" value="50" id="q4" oninput="go()">
+  <div class="ends">
+    <span class="lo">Ya — siapapun bisa menikmati tanpa memahami isi</span>
+    <span class="hi">Tidak — harus memahami isi untuk bisa merasakannya</span>
+  </div>
+  <div class="insight" id="i4">—</div>
+</div>
+
+</main>
+
+<footer>
+  Alat ini bukan fatwa hukum — ia adalah kerangka berpikir berbasis linguistik dan fiqh klasik.<br>
+  Perbedaan antara <em>accidental</em> dan <em>constitutive</em> bukan spektrum nilai, tapi lompatan kategoris.<br><br>
+  <strong>Qidalat.com</strong> · Intentionality Test v1.0
+</footer>
+
+<script>
+const stages = [
+  {
+    max:20, name:'Formalisasi Estetik Penuh',
+    desc:'Suara ini dirancang sepenuhnya untuk menciptakan pengalaman sensorik. Keindahannya bersifat constitutive — ia adalah tujuan, bukan pelengkap. Tanpa estetik, tidak ada nilai yang tersisa. Ini masuk kategori yang secara historis disebut ma\'azif.',
+    color:'#C0392B', bg:'rgba(192,57,43,.07)', border:'rgba(192,57,43,.2)',
+    tag:'⛔ Estetik Murni'
+  },
+  {
+    max:38, name:'Cenderung Formalisasi Estetik',
+    desc:'Keindahan suara lebih dari sekadar pelengkap — ia menjadi komponen utama. Makna (jika ada) menjadi secondary. Ini adalah zona di mana nasyid modern dan tilawah dengan naghamat berlebihan biasanya berada.',
+    color:'#E67E22', bg:'rgba(230,126,34,.07)', border:'rgba(230,126,34,.2)',
+    tag:'⚠️ Cenderung Estetik'
+  },
+  {
+    max:55, name:'Zona Transisi',
+    desc:'Suara ini memiliki elemen dari keduanya. Bisa jadi prosodi yang agak berlebihan, atau komunikasi yang sudah mulai diformalisasi. Perlu diperhatikan: apakah estetiknya melayani makna, atau mulai mendominasi?',
+    color:'#C9A84C', bg:'rgba(201,168,76,.07)', border:'rgba(201,168,76,.2)',
+    tag:'◎ Zona Transisi'
+  },
+  {
+    max:74, name:'Cenderung Prosodi Alami',
+    desc:'Keindahan suara bersifat accidental — ia melayani makna, bukan menggantikannya. Seperti guru yang mengajar dengan intonasi indah: tanpa intonasi, pesannya tetap sampai. Ini adalah fitrah komunikasi yang mubah.',
+    color:'#7BA05B', bg:'rgba(123,160,91,.07)', border:'rgba(123,160,91,.2)',
+    tag:'✓ Cenderung Linguistik'
+  },
+  {
+    max:100, name:'Prosodi Alami — Linguistik Murni',
+    desc:'Keindahan suara di sini sepenuhnya accidental (tambahan) — ia membantu penerimaan makna tapi bukan tujuan. Tanpa keindahan, fungsi komunikatifnya tetap utuh. Ini adalah kategori tilawah dengan tadabbur, dongeng, pengajaran yang hidup.',
+    color:'#3DAA6A', bg:'rgba(61,170,106,.07)', border:'rgba(61,170,106,.2)',
+    tag:'✨ Linguistik Murni'
+  }
+];
+
+const insights = {
+  q1:[
+    [0,  30,'⚠️ Constitutive: keindahan adalah esensi objek ini, bukan hiasan. Tanpanya, ia kehilangan seluruh daya tariknya.'],
+    [31, 69,'Posisi ambigu. Tanyakan lebih jujur: jika datar sepenuhnya, apakah orang masih mau mendengarnya?'],
+    [70,100,'✓ Accidental: keindahan hanya membantu penerimaan — maknanya tetap sampai meski tanpa keindahan.']
+  ],
+  q2:[
+    [0,  30,'⚠️ Pengalaman sensorik sebagai tujuan = closed formal system. Ia hanya merujuk ke sensasi diri sendiri, bukan ke wahyu atau makna.'],
+    [31, 69,'Ada campuran. Tanyakan: apa yang lebih diingat setelah mendengar — isinya atau rasanya?'],
+    [70,100,'✓ Transmisi makna sebagai tujuan = open system dengan referent di luar suara itu sendiri.']
+  ],
+  q3:[
+    [0,  30,'⚠️ Nilai di cara penyampaian = formalisasi estetik. Lirik tanpa melodi tidak menarik — ini tanda bahwa melodinya adalah intinya.'],
+    [31, 69,'Perlu dicermati. Apakah estetiknya melayani isi, atau isi hanya menjadi alasan untuk estetik?'],
+    [70,100,'✓ Nilai di isi = prosodi alami. Cara penyampaian adalah pelayan, bukan tuan.']
+  ],
+  q4:[
+    [0,  30,'⚠️ Bisa dinikmati tanpa memahami bahasa = suara ini tidak bergantung pada makna. Ia bekerja murni di level sensorik — sama seperti musik.'],
+    [31, 69,'Sebagian bisa, sebagian tidak. Ini zona transisi — estetik sudah cukup kuat untuk menarik orang meski tanpa pemahaman.'],
+    [70,100,'✓ Tidak bisa dinikmati tanpa memahami isi = suara ini mensyaratkan kognisi. Ia adalah komunikasi, bukan pertunjukan.']
+  ]
+};
+
+function getInsight(key, val) {
+  for (const [lo, hi, txt] of insights[key]) {
+    if (val >= lo && val <= hi) return txt;
+  }
+  return '—';
+}
+
+let activePreset = null;
+
+function go(fromPreset) {
+  const v = [1,2,3,4].map(i => +document.getElementById('q'+i).value);
+
+  // Update slider colors
+  [1,2,3,4].forEach(i => {
+    const s = document.getElementById('q'+i);
+    s.style.background = `linear-gradient(to right,var(--gold) ${s.value}%,#E5E0D8 ${s.value}%)`;
+  });
+
+  // Update insights
+  ['q1','q2','q3','q4'].forEach((k,i) => {
+    document.getElementById('i'+(i+1)).textContent = getInsight(k, v[i]);
+  });
+
+  // Score: higher = more linguistik
+  const score = (v[0]+v[1]+v[2]+v[3]) / 4;
+
+  // SVG: left=linguistik(score 100), right=estetik(score 0)
+  // svgX = 20 + 600*(1 - score/100)
+  const svgX = 20 + 600*(1 - score/100);
+
+  const dot = document.getElementById('userDot');
+  const lbl = document.getElementById('userLabel');
+  dot.setAttribute('cx', svgX);
+  lbl.setAttribute('x', svgX);
+
+  // Stage
+  const stage = stages.find(s => score <= s.max) || stages[stages.length-1];
+  dot.setAttribute('stroke', stage.color);
+
+  const classif = document.getElementById('classif');
+  classif.style.background = stage.bg;
+  classif.style.borderColor = stage.border;
+
+  document.getElementById('cName').textContent = stage.tag + ' — ' + stage.name;
+  document.getElementById('cName').style.color = stage.color;
+  document.getElementById('cDesc').textContent = stage.desc;
+  document.getElementById('userLabel').setAttribute('fill', stage.color);
+
+  // Deactivate preset buttons if manually adjusted
+  if (!fromPreset) {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    activePreset = null;
+  }
+}
+
+// Preset buttons
+document.querySelectorAll('.preset-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const vals = btn.dataset.q.split(',').map(Number);
+    [1,2,3,4].forEach((_, i) => {
+      document.getElementById('q'+(i+1)).value = vals[i];
+    });
+    go(true);
+  });
+});
+
+go();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

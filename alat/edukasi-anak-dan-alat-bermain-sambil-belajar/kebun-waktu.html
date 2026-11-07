@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kebun Waktu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fdf6e8;--card:#fff;--line:#f0e2c4;--ink:#3a3226;--dim:#7a6c52;--accent:#5a9a5a;--accent-d:#2f6b3a;--soft:#e8f3e3;--ok:#3f9d62;--warn:#e0663a;--gold:#f2b632;--display:'Fredoka',sans-serif;--sans:'Quicksand',sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.55}
+button,input{font-family:inherit}
+button:focus-visible,input:focus-visible{outline:3px solid var(--accent-d);outline-offset:2px}
+.app{max-width:1180px;margin:0 auto;padding:0 18px 56px}
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding:22px 0 16px}
+.top h1{font-family:var(--display);font-weight:700;font-size:clamp(26px,5vw,36px);margin:0;color:var(--accent-d);line-height:1.1}
+.top p{margin:4px 0 0;color:var(--dim);font-size:.95rem}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tabs{display:flex;gap:6px;background:#e3eed9;padding:5px;border-radius:16px;flex-wrap:wrap}
+.tab{font-family:var(--display);font-weight:600;font-size:.95rem;border:none;background:transparent;color:var(--dim);padding:9px 14px;border-radius:12px;cursor:pointer}
+.tab[aria-selected=true]{background:var(--accent);color:#fff}
+.tg{font-family:var(--display);font-weight:600;font-size:.85rem;border:2px solid var(--line);background:#fff;color:var(--dim);padding:8px 12px;border-radius:12px;cursor:pointer}
+.tg[aria-pressed=true]{border-color:var(--accent);background:var(--soft);color:var(--accent-d)}
+.layout{display:grid;gap:18px;grid-template-columns:1fr}
+@media(min-width:920px){.layout{grid-template-columns:minmax(0,1.5fr) minmax(320px,1fr);align-items:start}}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:16px 18px}
+.card h2{font-family:var(--display);font-weight:600;font-size:1.05rem;margin:0 0 8px;color:var(--accent-d)}
+.guide{background:#fff3e6;border:2px dashed var(--warn)}
+.guide .q{font-family:var(--display);font-weight:700;font-size:1.25rem;color:#a8421d;line-height:1.25}
+.guide .s{font-size:.85rem;color:var(--dim);margin-top:4px}
+#sc{width:100%;height:auto;display:block;border-radius:14px}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
+.cd{background:#fffdf8;border:2px solid var(--line);border-radius:12px;text-align:center;padding:6px 2px;font-family:var(--display);font-weight:600;font-size:.85rem;color:var(--dim);position:relative}
+.cd i{display:block;font-style:normal;font-size:1.2rem;min-height:1.6rem}.cd small{display:block;font-family:var(--sans);font-size:.7rem;color:var(--accent-d);min-height:1rem;line-height:1}
+.cd.now{border-color:var(--accent);background:var(--soft);color:var(--accent-d)}
+.cd.hi{border-color:var(--warn);background:#fff0e6;color:#a8421d}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}
+.chip{font-family:var(--display);font-weight:600;font-size:.95rem;background:#fffdf8;border:2px solid var(--line);color:var(--dim);padding:8px 14px;border-radius:20px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.sw{width:34px;height:34px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2px var(--line);cursor:pointer}.sw[aria-pressed=true]{box-shadow:0 0 0 3px var(--accent-d)}
+.fld{margin-bottom:10px}.fld label{display:block;font-size:.85rem;color:var(--dim);margin-bottom:3px}.fld input{width:100%;padding:9px 12px;border:2px solid var(--line);border-radius:12px;font-size:1rem}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:6px}
+.opt{font-family:var(--display);font-weight:700;font-size:1.15rem;background:#fff;border:2px solid var(--accent);color:var(--accent-d);padding:14px 4px;border-radius:14px;cursor:pointer}
+.opt:disabled{cursor:default}.opt.good{background:var(--ok);border-color:var(--ok);color:#fff}.opt.bad{background:#fbe3da;border-color:var(--warn);color:#a8421d}
+.btn{font-family:var(--display);font-weight:600;font-size:1rem;padding:12px 18px;border-radius:12px;border:none;cursor:pointer;background:var(--accent);color:#fff;margin:8px 8px 0 0}
+.btn.o{background:#fff;border:2px solid var(--accent);color:var(--accent-d)}.btn.wait{background:#9aa89a}.btn:disabled{opacity:.55;cursor:default}
+.stats{display:flex;gap:10px;margin-top:10px}.stat{flex:1;background:var(--soft);border-radius:12px;padding:8px;text-align:center}.stat b{font-family:var(--display);font-size:1.5rem;color:var(--accent-d);display:block;line-height:1.1}.stat span{font-size:.75rem;color:var(--dim)}
+.gal{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;min-height:44px}.gal svg{width:44px;height:44px}
+.demo{margin-top:10px;font-size:.8rem}.demo button{background:none;border:none;color:#a89b80;cursor:pointer;text-decoration:underline;font-size:.8rem;padding:0 8px 0 0}
+.res{background:var(--soft);border-color:#cfe3c4;text-align:center;min-height:96px}
+.res .big{font-family:var(--display);font-weight:700;font-size:1.7rem;color:var(--accent-d);line-height:1.15}
+.res .sm{font-size:.95rem;color:#3d5a3a;margin-top:4px}
+.stars{font-size:1.6rem;letter-spacing:4px;color:var(--gold);overflow-wrap:anywhere;word-break:break-all;line-height:1.3}@media(max-width:480px){.stars{font-size:1.25rem;letter-spacing:2px}}
+body.rec .top p{display:none}
+body.rec .app{max-width:1400px}
+body.rec .guide .q{font-size:1.7rem}body.rec .opt{font-size:1.5rem;padding:20px 4px}body.rec .res .big{font-size:2.4rem}body.rec .res .sm{font-size:1.2rem}body.rec .btn,body.rec .chip{font-size:1.25rem}body.rec .cd{font-size:1.1rem}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div><h1>🌱 Kebun Waktu</h1><p>Waktu berjalan sama untuk semua. Tanaman tumbuh satu tahap setiap satu hari, tidak bisa dipercepat.</p></div>
+    <div class="toolbar">
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <button class="tg" id="tgRec" aria-pressed="false">🎬 Mode rekam</button>
+      <button class="tg" id="tgFs">⛶ Layar penuh</button>
+      <button class="tg" id="tgSnd" aria-pressed="true">🔊 Suara</button>
+      <button class="tg" id="tgAuto" aria-pressed="false">🔁 Otomatis</button>
+    </div>
+  </div>
+  <div class="layout">
+    <div class="col"><div class="card" id="stage"></div></div>
+    <div class="col">
+      <div class="card guide"><div class="q" id="gq"></div><div class="s" id="gs"></div></div>
+      <div class="card" id="panel"></div>
+      <div class="card res" id="res"></div>
+    </div>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id);
+const DAYS=['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'],COL=['#5cb87a','#e0a83f','#e0699a','#4f86c6','#a878d9'];
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const S={mode:'nyata',warna:'#e0699a',snd:true,auto:false,rec:false,timers:[],q:0,stars:0,answered:false,done:false,sim:null};
+const clr=()=>{S.timers.forEach(clearTimeout);S.timers=[]},later=(f,ms)=>S.timers.push(setTimeout(f,ms));
+let AC;function tone(f,d=.12,t='sine',v=.1){if(!S.snd)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type=t;o.frequency.value=f;g.gain.value=v;g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+d)}catch(e){}}
+const ok=()=>{tone(660);setTimeout(()=>tone(880,.18),110)},bad=()=>tone(200,.25,'triangle'),splash=()=>{tone(520,.08);setTimeout(()=>tone(700,.1),70);setTimeout(()=>tone(600,.1),150)};
+function guide(q,s){$('gq').textContent=q;$('gs').textContent=s||''}
+
+/* ===== gambar tanaman & langit ===== */
+function petals(cx,cy,color,n,r){let o='';for(let i=0;i<n;i++){const a=i/n*2*Math.PI,x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r;o+=`<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="9" ry="6" fill="${color}" opacity=".9" transform="rotate(${(a*180/Math.PI).toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)})"/>`}return o}
+function flowerIcon(c){return `<svg viewBox="0 0 40 40"><line x1="20" y1="38" x2="20" y2="24" stroke="#5a8a5a" stroke-width="3"/><circle cx="20" cy="16" r="5" fill="#f4d35e"/>${petals(20,16,c,6,10)}</svg>`}
+function plant(stage,color){
+  const soil='<ellipse cx="90" cy="182" rx="55" ry="10" fill="#c9b48a"/><ellipse cx="90" cy="178" rx="50" ry="8" fill="#8a6a4a"/>',H=[0,15,40,70,95,110,115],h=H[stage];let st='',lv='',bl='';
+  if(h>0)st=`<line x1="90" y1="178" x2="90" y2="${178-h}" stroke="#5a8a5a" stroke-width="5" stroke-linecap="round"/>`;
+  if(stage===0)st='<circle cx="90" cy="174" r="6" fill="#8a6a4a"/>';
+  if(stage>=3){const y=178-h*.55;lv=`<path d="M90 ${y} Q65 ${y-8} 62 ${y+14} Q80 ${y+10} 90 ${y}" fill="#6fae6f"/><path d="M90 ${y} Q115 ${y-8} 118 ${y+14} Q100 ${y+10} 90 ${y}" fill="#6fae6f"/>`}
+  if(stage===4)bl=`<circle cx="90" cy="${178-h}" r="8" fill="${color}" opacity=".55"/>`;
+  if(stage===5)bl=`<circle cx="90" cy="${178-h}" r="12" fill="${color}" opacity=".85"/>${petals(90,178-h,color,5,10)}`;
+  if(stage===6)bl=`<circle cx="90" cy="${178-h}" r="10" fill="#f4d35e"/>${petals(90,178-h,color,7,20)}`;
+  return soil+st+lv+bl}
+const lerp=(a,b,t)=>Math.round(a+(b-a)*t);
+function scene(stage,color,tod){
+  const n=tod<.45?0:tod<.58?(tod-.45)/.13:tod<.92?1:(1-tod)/.08,A=[191,227,245],B=[31,42,85],bg=`rgb(${A.map((v,i)=>lerp(v,B[i],n))})`;
+  let h=`<rect width="600" height="330" fill="${bg}"/>`;
+  if(n>.35)[[60,40],[150,90],[240,30],[330,70],[420,35],[500,85],[560,30]].forEach(s=>h+=`<circle cx="${s[0]}" cy="${s[1]}" r="2.5" fill="#fff" opacity="${n}"/>`);
+  if(tod<.6){const p=Math.min(1,tod/.58);h+=`<circle cx="${70+460*p}" cy="${250-190*Math.sin(Math.PI*p)}" r="30" fill="#f6c945"/>`}
+  if(tod>.5){const p=Math.min(1,(tod-.5)/.5);h+=`<circle cx="${70+460*p}" cy="${250-170*Math.sin(Math.PI*p)}" r="22" fill="#f3f1de"/>`}
+  h+=`<rect y="270" width="600" height="60" fill="#8a6a4a"/><rect y="262" width="600" height="14" fill="#6fae6f"/><svg x="210" y="78" width="180" height="200" viewBox="0 0 180 200">${plant(stage,color)}</svg>`;
+  return `<svg id="sc" viewBox="0 0 600 330" role="img" aria-label="Kebun: tahap ${stage+1} dari 7">${h}</svg>`}
+
+/* ===== Kebun Nyata (disimpan antar hari) ===== */
+let store;try{localStorage.setItem('__t','1');localStorage.removeItem('__t');store=localStorage}catch(e){const m={};store={getItem:k=>k in m?m[k]:null,setItem:(k,v)=>m[k]=v,removeItem:k=>delete m[k]}}
+const KEY='kebunWaktu_v1';let demoOff=0;
+const today=()=>{const d=new Date();d.setDate(d.getDate()+demoOff);return d.toISOString().slice(0,10)};
+const load=()=>{try{return JSON.parse(store.getItem(KEY))}catch(e){return null}},save=s=>store.setItem(KEY,JSON.stringify(s));
+const dayName=()=>{const d=new Date();d.setDate(d.getDate()+demoOff);return d.toLocaleDateString('id-ID',{weekday:'long'})};
+function nyata(msg){const s=load();
+  if(!s){$('stage').innerHTML=scene(0,S.warna,.25);
+    $('panel').innerHTML=`<h2>Mulai menanam</h2><div class="fld"><label>Nama anak</label><input id="sn" value="Adek"></div><div class="fld"><label>Nama kebun</label><input id="sk" value="Kebun Adek"></div><div class="chips">${COL.map(c=>`<button class="sw" data-c="${c}" style="background:${c}" aria-pressed="${c===S.warna}" aria-label="warna bunga"></button>`).join('')}</div><button class="btn" id="go">🌱 Mulai Menanam</button>`;
+    $('res').innerHTML=`<div class="big">Sebiji benih</div><div class="sm">Setiap hari nyata, kamu boleh menyiram satu kali.</div>`;guide('Kapan tanaman ini bisa mekar?','Tanamannya tumbuh pelan-pelan, satu tahap tiap hari.');return}
+  const done=s.lastWatered===today();
+  $('stage').innerHTML=scene(s.stage,s.warna,done?.75:.25)+`<div style="text-align:center;margin-top:8px;font-family:var(--display);font-weight:600;color:var(--accent-d)">Hari ini: ${dayName()} · Tahap ${s.stage+1} dari 7</div>`;
+  $('panel').innerHTML=`<h2>${s.kebun}</h2><button class="btn ${done?'wait':''}" id="sr">${done?'🌙 Sampai Besok':'💧 Siram Hari Ini'}</button><div class="stats"><div class="stat"><b>${s.totalDisiram}</b><span>hari disiram</span></div><div class="stat"><b>${s.selesai}</b><span>bunga mekar</span></div></div><div class="gal">${s.gallery.map(flowerIcon).join('')||'<span style="font-size:.8rem;color:#b9ad94">Belum ada bunga yang mekar</span>'}</div><div class="demo"><button id="dm">🔧 mode demo</button><span id="dr" style="display:none"><button id="dd">Lewati ke hari berikutnya</button><button id="rs">Reset kebun</button></span></div>`;
+  $('res').innerHTML=msg?`<div class="big">${msg[0]}</div><div class="sm">${msg[1]}</div>`:done?`<div class="big">Sudah disiram hari ini</div><div class="sm">Tanaman butuh satu hari penuh untuk tumbuh. Kembali besok ya.</div>`:`<div class="big">Waktunya menyiram!</div><div class="sm">Satu siraman = satu tahap tumbuh.</div>`;
+  guide(done?'Kalau tombolnya ditekan lagi, tanaman tumbuh lebih cepat?':'Sudah waktunya menyiram?',done?'Coba tekan, lalu lihat apa yang terjadi.':'Hari ini belum disiram.')}
+function siram(){const s=load();if(!s)return;const t=today();
+  if(s.lastWatered===t){bad();nyata(['Belum bisa tumbuh lagi','Satu tahap tumbuh = satu hari (matahari terbit dan terbenam). Menekan tombol berkali-kali tidak bisa mempercepat waktu.']);return}
+  s.lastWatered=t;s.totalDisiram++;s.stage++;splash();
+  if(s.stage>=6){s.stage=6;s.selesai++;s.gallery.push(s.warna);save(s);ok();nyata(['🎉 Mekar penuh!',`${s.kebun} butuh ${s.totalDisiram} hari. Tanaman baru dimulai besok.`]);later(()=>{const z=load();z.stage=0;save(z);nyata()},2200);return}
+  save(s);nyata(['Tumbuh satu tahap!','Sampai jumpa besok 🌱'])}
+$('panel').addEventListener('click',e=>{const t=e.target;
+  if(S.mode==='nyata'){
+    if(t.closest('.sw')){S.warna=t.closest('.sw').dataset.c;nyata()}
+    else if(t.id==='go'){const n=$('sn').value||'Adek';save({nama:n,kebun:$('sk').value||'Kebun '+n,warna:S.warna,stage:0,totalDisiram:0,selesai:0,lastWatered:null,gallery:[]});nyata()}
+    else if(t.id==='sr')siram();else if(t.id==='dm'){const r=$('dr');r.style.display=r.style.display==='none'?'inline':'none'}
+    else if(t.id==='dd'){demoOff++;nyata()}else if(t.id==='rs'){store.removeItem(KEY);demoOff=0;nyata()}}
+  else if(S.mode==='putar'){
+    if(t.closest('.sw')){S.warna=t.closest('.sw').dataset.c;putar()}
+    else if(t.closest('[data-g]')){S.sim.guess=+t.closest('[data-g]').dataset.g;putar()}
+    else if(t.id==='bw')siramSim();else if(t.id==='bp')lewat();else if(t.id==='bn')go('putar')}
+  else if(t.closest('.opt'))jawab(t.closest('.opt'))});
+
+/* ===== Putar Waktu (simulasi, tidak disimpan) ===== */
+function calHTML(day,log,hi){const w=Math.floor(day/7)*7;return `<div class="cal">${DAYS.map((d,i)=>{const k=w+i,h=hi&&hi[i];return `<div class="cd ${hi?(h?'hi':''):(k===day?'now':'')}"><span>${d.slice(0,3)}</span><i>${hi?'':log[k]?'💧':k<day?'·':''}</i><small>${hi?(h||''):k===day?'hari ini':''}</small></div>`}).join('')}</div>`}
+function simDraw(tod){const m=S.sim;$('stage').innerHTML=scene(m.stage,S.warna,tod)+calHTML(m.day,m.log)+`<div style="text-align:center;margin-top:8px;font-family:var(--display);font-weight:600;color:var(--accent-d)">Hari ke-${m.day+1} (${DAYS[m.day%7]}) · Tahap ${m.stage+1} dari 7</div>`}
+function putar(msg){if(!S.sim)S.sim={stage:0,day:0,watered:false,count:0,guess:0,busy:false,done:false,log:[],tries:0};const m=S.sim;simDraw(.25);
+  if(!m.guess){$('panel').innerHTML=`<h2>Tebak dulu</h2><p style="margin:0 0 8px">Berapa hari penyiraman sampai bunga mekar?</p><div class="opts">${[3,6,9].map(n=>`<button class="opt" data-g="${n}">${n} hari</button>`).join('')}</div><div class="chips" style="margin-top:12px">${COL.map(c=>`<button class="sw" data-c="${c}" style="background:${c}" aria-pressed="${c===S.warna}" aria-label="warna bunga"></button>`).join('')}</div>`;
+    $('res').innerHTML=`<div class="big">?</div><div class="sm">Tebakanmu akan kita buktikan.</div>`;guide('Berapa hari sampai bunganya mekar?','Tebak dulu sebelum menyiram.');if(S.auto)later(()=>{S.sim.guess=6;putar()},2500);return}
+  $('panel').innerHTML=m.done?`<button class="btn" id="bn">🌱 Tanam lagi</button>`:`<button class="btn" id="bw">💧 Siram hari ini</button><button class="btn o" id="bp">🌙 Biarkan hari berlalu</button><p style="font-size:.85rem;color:var(--dim);margin:10px 0 0">Tebakanmu: ${m.guess} hari · Sudah disiram: ${m.count} kali</p>`;
+  $('res').innerHTML=msg?`<div class="big">${msg[0]}</div><div class="sm">${msg[1]}</div>`:`<div class="big">Hari ke-${m.day+1}</div><div class="sm">Tanaman belum disiram hari ini.</div>`;
+  guide(m.done?'Berapa hari yang dibutuhkan bunga ini?':m.watered?'Kalau disiram lagi hari ini, apakah tumbuh lebih cepat?':'Sudah waktunya menyiram hari ini?',m.done?'Bandingkan dengan tebakanmu.':m.watered?'Coba tekan Siram sekali lagi.':'Siram, lalu biarkan hari berlalu.');
+  if(S.auto&&!m.done&&!m.busy)autoSim()}
+function siramSim(){const m=S.sim;if(m.busy||m.done)return;
+  if(m.watered){bad();m.tries++;putar(['Belum tumbuh lagi','Siraman kedua di hari yang sama tidak membuat tanaman tumbuh lebih cepat. Ia butuh satu hari penuh.']);return}
+  m.watered=true;m.stage++;m.count++;m.log[m.day]=1;splash();
+  if(m.stage>=6){m.done=true;m.stage=6;ok();const g=m.guess;putar(['🎉 Mekar!',`Butuh ${m.count} hari. ${g===m.count?'Tebakanmu tepat!':`Tebakanmu ${g} hari, ternyata ${m.count} hari.`} Waktu tidak bisa dipercepat, sabar membuat bunga mekar.`]);return}
+  putar(['Tumbuh satu tahap!','Sekarang biarkan hari berlalu.'])}
+function lewat(){const m=S.sim;if(m.busy||m.done)return;m.busy=true;clr();const skipped=!m.watered;
+  const end=()=>{m.day++;m.watered=false;m.busy=false;putar(skipped?['Hari berlalu tanpa siraman','Tanaman tidak mati, ia hanya menunggu. Tapi ia belum tumbuh.']:['Pagi baru!','Hari ke-'+(m.day+1)+'. Tanaman boleh disiram lagi.'])};
+  if(RM){end();return}
+  const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/2600);simDraw((.25+p)%1);if(p<1)requestAnimationFrame(f);else end()})(t0)}
+function autoSim(){clr();later(siramSim,1200);later(siramSim,3000);later(()=>{if(S.sim&&!S.sim.done)lewat()},4800)}
+
+/* ===== Hari ke Hari (kuis) ===== */
+const Q=[['Hari ini Senin. Besok hari apa?','Selasa',['Minggu','Rabu'],{0:'hari ini',1:'besok'},'Setelah Senin datang Selasa.'],
+['Hari ini Rabu. Kemarin hari apa?','Selasa',['Kamis','Senin'],{2:'hari ini',1:'kemarin'},'Kemarin = satu hari sebelum hari ini.'],
+['Berapa hari dalam satu minggu?','7 hari',['5 hari','10 hari'],{0:'1',1:'2',2:'3',3:'4',4:'5',5:'6',6:'7'},'Senin sampai Minggu ada 7 hari.'],
+['Tanaman disiram hari Senin. Dua hari kemudian hari apa?','Rabu',['Selasa','Kamis'],{0:'disiram',1:'1',2:'2 hari'},'Senin, lalu Selasa (1), lalu Rabu (2).'],
+['Bunga mekar 6 hari setelah ditanam hari Senin. Mekar hari apa?','Minggu',['Sabtu','Senin'],{0:'ditanam',1:'1',2:'2',3:'3',4:'4',5:'5',6:'6: mekar'},'Hitung maju 6 hari dari Senin sampai Minggu.'],
+['Hari Jumat disiram. Berapa hari lagi sampai Senin?','3 hari',['2 hari','4 hari'],{4:'Jumat',5:'1',6:'2',0:'3: Senin'},'Sabtu (1), Minggu (2), Senin (3).']];
+function kuis(){
+  if(S.q>=Q.length){S.done=true;$('stage').innerHTML=`<div class="stars" style="text-align:center;padding:40px 0">${'★'.repeat(S.stars)}${'☆'.repeat(Q.length*3-S.stars)}</div>`;$('panel').innerHTML=`<button class="btn" id="again">Main lagi</button>`;$('res').innerHTML=`<div class="big">${S.stars} dari ${Q.length*3}</div><div class="sm">Hari berurutan setiap minggu: Senin sampai Minggu, lalu Senin lagi.</div>`;$('again').onclick=()=>{S.q=0;S.stars=0;kuis()};guide('Berapa bintang yang kamu dapat?','');return}
+  const q=Q[S.q];S.answered=false;const o=[q[1],...q[2]],k=S.q%3,arr=o.slice(k).concat(o.slice(0,k));
+  $('stage').innerHTML=`<div style="font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,3vw,1.8rem);color:var(--accent-d);margin-bottom:6px">${q[0]}</div>`+calHTML(0,[],{});
+  $('panel').innerHTML=`<h2>Soal ${S.q+1} dari ${Q.length}</h2><div class="opts">${arr.map(v=>`<button class="opt" data-o="${v}">${v}</button>`).join('')}</div>`;
+  $('res').innerHTML=`<div class="big">?</div><div class="sm">Bintang: ${S.stars}</div>`;guide('Pikirkan dulu urutan harinya.','Lalu pilih jawabanmu.');
+  if(S.auto)later(()=>{const b=$('panel').querySelector('.opt');b&&!S.answered&&b.click()},3500)}
+function jawab(b){if(S.answered)return;S.answered=true;const q=Q[S.q],good=b.dataset.o===q[1];
+  $('panel').querySelectorAll('.opt').forEach(x=>{x.disabled=true;if(x.dataset.o===q[1])x.classList.add('good')});
+  if(good){S.stars+=3;ok()}else{b.classList.add('bad');bad();S.stars+=1}
+  $('stage').innerHTML=`<div style="font-family:var(--display);font-weight:700;font-size:clamp(1.3rem,3vw,1.8rem);color:var(--accent-d);margin-bottom:6px">${q[0]}</div>`+calHTML(0,[],q[3]);
+  $('res').innerHTML=`<div class="big">${q[1]}</div><div class="sm">${good?'Tepat! ':''}${q[4]}</div><button class="btn" id="nx">Soal berikutnya ›</button>`;
+  $('nx').onclick=()=>{S.q++;kuis()};if(S.auto)later(()=>$('nx')&&$('nx').click(),3500);guide('Lihat urutannya di kalender.','Hari selalu berurutan.')}
+
+/* ===== penghubung ===== */
+const MODES=[['nyata','🌱 Kebun Nyata'],['putar','⏩ Putar Waktu'],['kuis','📅 Hari ke Hari']];
+function go(m){clr();S.mode=m;S.q=0;S.stars=0;S.done=false;S.answered=false;if(m==='putar')S.sim=null;
+  document.querySelectorAll('.tab').forEach(t=>t.setAttribute('aria-selected',t.dataset.m===m));
+  m==='nyata'?nyata():m==='putar'?putar():kuis()}
+$('tabs').innerHTML=MODES.map(([k,l])=>`<button class="tab" role="tab" data-m="${k}" aria-selected="${k==='nyata'}">${l}</button>`).join('');
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>go(t.dataset.m));
+$('tgRec').onclick=e=>{S.rec=!S.rec;document.body.classList.toggle('rec',S.rec);e.currentTarget.setAttribute('aria-pressed',S.rec)};
+$('tgSnd').onclick=e=>{S.snd=!S.snd;e.currentTarget.setAttribute('aria-pressed',S.snd)};
+$('tgAuto').onclick=e=>{S.auto=!S.auto;e.currentTarget.setAttribute('aria-pressed',S.auto);go(S.mode)};
+$('tgFs').onclick=()=>{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()};
+go('nyata');
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

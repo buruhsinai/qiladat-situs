@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ajukan Pendaftaran — JAZMI</title>
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+
+<style>
+  .masuk-wrap { max-width: 480px; margin: 0 auto; padding: clamp(2.5rem, 8vw, 4.5rem) var(--gutter) 4rem; }
+  .masuk-title { font-size: clamp(1.6rem, 5vw, 2.1rem); font-weight: 600; margin-bottom: 0.4rem; }
+  .masuk-desc { color: var(--ink-soft); margin: 0 0 1.75rem; }
+  .masuk-card { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--brass); border-radius: var(--radius); padding: clamp(1.25rem, 4vw, 1.75rem); }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.35rem; color: var(--emerald-deep); }
+  .field .opsional { font-weight: 400; color: var(--ink-faint); }
+  .field input, .field textarea { width: 100%; font: inherit; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); }
+  .field textarea { min-height: 6rem; resize: vertical; }
+  .field input:focus-visible, .field textarea:focus-visible { outline: 2px solid var(--brass); outline-offset: 1px; }
+  .field-cek { display: flex; gap: 0.6rem; align-items: flex-start; font-size: 0.86rem; color: var(--ink-soft); margin-bottom: 1rem; }
+  .field-cek input { margin-top: 0.25rem; flex-shrink: 0; }
+  .masuk-card .btn { margin-top: 0.4rem; width: 100%; justify-content: center; background: var(--emerald-deep); color: #fff; border: 1px solid var(--emerald-deep); cursor: pointer; }
+  .masuk-card .btn:hover { background: var(--emerald); }
+  .masuk-card .btn[disabled] { opacity: 0.6; cursor: wait; }
+  .masuk-pesan { margin: 1rem 0 0; font-size: 0.9rem; min-height: 1.3em; }
+  .masuk-pesan.is-error { color: #8A2D1F; }
+  .masuk-pesan.is-ok { color: var(--emerald); }
+  .masuk-catatan { margin-top: 1.25rem; font-size: 0.85rem; color: var(--ink-faint); }
+  .masuk-catatan a { color: var(--emerald); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .jebakan { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+  .sukses { text-align: left; }
+  .sukses h2 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+  .sukses p { color: var(--ink-soft); margin: 0 0 0.75rem; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+    </button>
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+  <div class="masuk-wrap">
+    <h1 class="masuk-title">Ajukan pendaftaran</h1>
+    <p class="masuk-desc">Akun anggota diberikan setelah pengajuan Anda ditinjau oleh pengelola JAZMI. Pengajuan belum berarti akun langsung aktif.</p>
+
+    <div class="masuk-card">
+      <form id="formDaftar" novalidate>
+        <div class="field">
+          <label for="nama">Nama</label>
+          <input type="text" id="nama" autocomplete="name" maxlength="100" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" autocomplete="email" maxlength="200" required>
+        </div>
+        <div class="field">
+          <label for="wa">WhatsApp <span class="opsional">(opsional)</span></label>
+          <input type="tel" id="wa" autocomplete="tel" maxlength="30" inputmode="tel">
+        </div>
+        <div class="field">
+          <label for="alasan">Alasan atau keperluan <span class="opsional">(opsional)</span></label>
+          <textarea id="alasan" maxlength="500"></textarea>
+        </div>
+
+        <!-- Jebakan untuk bot: manusia tidak melihat kolom ini -->
+        <div class="jebakan" aria-hidden="true">
+          <label for="website">Jangan diisi</label>
+          <input type="text" id="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <label class="field-cek">
+          <input type="checkbox" id="setuju" required>
+          <span>Saya setuju data di atas dipakai pengelola JAZMI untuk meninjau pengajuan dan menghubungi saya.</span>
+        </label>
+
+        <button type="submit" class="btn">Kirim pengajuan</button>
+        <p class="masuk-pesan" id="pesan" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="sukses" id="sukses" hidden>
+        <h2>Pengajuan diterima</h2>
+        <p>Terima kasih. Pengajuan Anda akan ditinjau oleh pengelola. Jika disetujui, undangan akan dikirim ke email yang Anda isi. Periksa juga folder spam.</p>
+        <p style="margin:0"><a href="/" class="chip-btn">Kembali ke beranda</a></p>
+      </div>
+    </div>
+
+    <p class="masuk-catatan">Sudah punya akun? <a href="/masuk/">Masuk di sini</a>.</p>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/js/auth-config.js"></script>
+<script>
+(function () {
+  var toggle = document.getElementById('navToggle');
+  var nav = document.getElementById('primaryNav');
+  toggle.addEventListener('click', function () {
+    var open = nav.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  var el = function (id) { return document.getElementById(id); };
+  var pesan = el('pesan');
+  function tampilPesan(teks, jenis) {
+    pesan.textContent = teks || '';
+    pesan.className = 'masuk-pesan' + (jenis ? ' is-' + jenis : '');
+  }
+  function selesai() {
+    el('formDaftar').hidden = true;
+    el('sukses').hidden = false;
+  }
+
+  var cfg = window.JAZMI_AUTH || {};
+  if (!window.supabase || !cfg.url || cfg.url.indexOf('GANTI-') !== -1) {
+    tampilPesan('Formulir belum dikonfigurasi (js/auth-config.js).', 'error');
+    return;
+  }
+  var sb = window.supabase.createClient(cfg.url, cfg.anonKey);
+
+  el('formDaftar').addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    // Bot mengisi kolom jebakan → pura-pura sukses, tidak kirim apa pun
+    if (el('website').value) { selesai(); return; }
+
+    var nama = el('nama').value.trim();
+    var email = el('email').value.trim();
+    var wa = el('wa').value.trim();
+    var alasan = el('alasan').value.trim();
+
+    if (nama.length < 2) { tampilPesan('Isi nama Anda (minimal 2 huruf).', 'error'); return; }
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { tampilPesan('Email tidak valid.', 'error'); return; }
+    if (!el('setuju').checked) { tampilPesan('Centang persetujuan penggunaan data untuk melanjutkan.', 'error'); return; }
+
+    var tombol = e.target.querySelector('button[type=submit]');
+    tombol.disabled = true; tampilPesan('Mengirim…');
+
+    // Penting: JANGAN menambah .select() — pengunjung memang tidak boleh membaca tabel ini.
+    var r = await sb.from('pendaftaran').insert({
+      nama: nama,
+      email: email,
+      whatsapp: wa || null,
+      alasan: alasan || null
+    });
+    tombol.disabled = false;
+
+    // 23505 = email ini sudah punya pengajuan "menunggu". Tampilkan sukses saja,
+    // supaya orang luar tidak bisa memeriksa email siapa yang sudah mengajukan.
+    if (r.error && r.error.code !== '23505') {
+      tampilPesan('Pengajuan gagal dikirim. Periksa isian Anda lalu coba lagi.', 'error');
+      return;
+    }
+    selesai();
+  });
+})();
+</script>
+</body>
+</html>

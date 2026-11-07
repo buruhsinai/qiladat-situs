@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laboratorium Rasio & Teknik Masak | Tools Qiladat JAZMI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#151210;
+  --panel:#1C1815;
+  --panel-2:#221D18;
+  --line:rgba(240,232,214,0.13);
+  --line-strong:rgba(240,232,214,0.28);
+  --chalk:#F0E7D2;
+  --muted:#A69882;
+  --copper:#C1683A;
+  --copper-dim:rgba(193,104,58,0.16);
+  --sage:#82986C;
+  --sage-dim:rgba(130,152,108,0.16);
+  --wine:#8B3F42;
+  --wine-dim:rgba(139,63,66,0.16);
+  --radius:2px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{background:var(--ink);color:var(--chalk);font-family:'Karla',sans-serif;font-size:16px;line-height:1.55;}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}}
+.wrap{max-width:920px;margin:0 auto;padding:0 18px 80px;}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;margin:0 0 6px;}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--copper);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--copper);display:inline-block;}
+
+.hero{background:radial-gradient(ellipse at 30% 0%, #2A241C 0%, #1A1613 55%, #151210 100%);margin:0 -18px 22px;padding:34px 18px 26px;position:relative;overflow:hidden;border-bottom:1px solid var(--line-strong);}
+.hero-inner{max-width:920px;margin:0 auto;position:relative;z-index:2;display:grid;grid-template-columns:1fr;gap:18px;align-items:center;}
+@media(min-width:720px){.hero-inner{grid-template-columns:1.3fr 0.9fr;}}
+.hero h1{font-size:clamp(26px,5vw,38px);line-height:1.08;}
+.hero p.sub{color:var(--muted);font-size:15px;max-width:56ch;margin:10px 0 0;}
+.scale-box{display:flex;justify-content:center;}
+.scale-box svg{width:100%;max-width:260px;height:auto;}
+.beam{transform-origin:150px 70px;animation:tare 5s ease-in-out infinite;}
+@keyframes tare{0%,100%{transform:rotate(-1.2deg);}50%{transform:rotate(1.2deg);}}
+
+.sheet{position:relative;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius);padding:20px;margin-bottom:18px;}
+.sheet::before,.sheet::after{content:"";position:absolute;width:9px;height:9px;top:-1px;left:-1px;border-top:1.5px solid var(--copper);border-left:1.5px solid var(--copper);}
+.sheet::after{top:auto;left:auto;bottom:-1px;right:-1px;border-top:none;border-left:none;border-bottom:1.5px solid var(--copper);border-right:1.5px solid var(--copper);}
+.sheet h2{font-size:19px;}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;display:block;}
+
+.warn{background:var(--wine-dim);border:1px solid rgba(139,63,66,0.5);border-left:4px solid var(--wine);padding:14px 16px;border-radius:var(--radius);margin-bottom:20px;}
+.warn .tag{color:#D98E90;}
+.warn p{margin:6px 0 0;font-size:14.5px;}
+.warn p strong{color:#fff;}
+.warn ul{margin:8px 0 0;padding-left:18px;font-size:14px;}
+.warn ul li{margin-bottom:4px;}
+
+.module-toggle{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.mod-btn{font-family:'Karla',sans-serif;font-weight:700;font-size:13px;background:var(--panel-2);color:var(--chalk);border:1px solid var(--line-strong);padding:8px 14px;border-radius:20px;cursor:pointer;}
+.mod-btn.active{background:var(--copper);color:#241207;border-color:var(--copper);}
+
+.grid{display:grid;grid-template-columns:1fr;gap:14px;}
+@media(min-width:640px){.grid.cols-2{grid-template-columns:1fr 1fr;}}
+@media(min-width:720px){.grid.cols-3{grid-template-columns:1fr 1fr 1fr;}}
+label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;letter-spacing:0.02em;}
+input[type=number],select{width:100%;background:var(--ink);border:1px solid var(--line-strong);color:var(--chalk);padding:9px 10px;border-radius:var(--radius);font-family:'JetBrains Mono',monospace;font-size:14.5px;}
+input:focus,select:focus{outline:2px solid var(--copper);outline-offset:1px;border-color:var(--copper);}
+input[type=range]{width:100%;accent-color:var(--copper);}
+.field-note{font-size:12px;color:var(--muted);margin-top:4px;}
+
+.ratio-bar{display:flex;width:100%;height:30px;border-radius:4px;overflow:hidden;margin:12px 0;border:1px solid var(--line-strong);}
+.rb-seg{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;color:#241207;white-space:nowrap;overflow:hidden;transition:width 0.3s ease;}
+
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+@media(min-width:560px){.stat-row.cols-3{grid-template-columns:1fr 1fr 1fr;}}
+.stat{background:var(--ink);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;}
+.stat .label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);}
+.stat .value{font-family:'Fraunces',serif;font-size:21px;font-weight:600;color:var(--copper);margin-top:2px;}
+.stat .value .unit{font-size:12px;color:var(--muted);font-weight:400;font-family:'Karla',sans-serif;}
+
+table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:13px;margin-top:8px;}
+th,td{padding:7px 8px;text-align:right;border-bottom:1px solid var(--line);}
+th:first-child,td:first-child{text-align:left;}
+th{color:var(--muted);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;}
+.tblwrap{overflow-x:auto;}
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;padding:3px 9px;border-radius:20px;border:1px solid var(--line-strong);}
+.badge.safe{border-color:rgba(130,152,108,0.5);color:var(--sage);background:var(--sage-dim);}
+.badge.warnb{border-color:rgba(139,63,66,0.5);color:#D98E90;background:var(--wine-dim);}
+.badge.info{border-color:rgba(193,104,58,0.5);color:var(--copper);background:var(--copper-dim);}
+
+.region-grid{display:grid;grid-template-columns:1fr;gap:12px;}
+@media(min-width:680px){.region-grid{grid-template-columns:1fr 1fr;}}
+.region-card{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;}
+.region-card h3{font-size:15px;font-family:'Karla',sans-serif;font-weight:700;margin:0 0 8px;color:var(--copper);}
+.region-card dl{margin:0;font-size:13px;}
+.region-card dt{font-family:'JetBrains Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:0.06em;color:var(--muted);margin-top:8px;}
+.region-card dt:first-child{margin-top:0;}
+.region-card dd{margin:2px 0 0;color:var(--chalk);}
+.region-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;}
+.rf-btn{font-family:'JetBrains Mono',monospace;font-size:11.5px;background:transparent;color:var(--muted);border:1px solid var(--line-strong);padding:5px 12px;border-radius:14px;cursor:pointer;}
+.rf-btn.active{background:var(--sage);color:#141a10;border-color:var(--sage);}
+
+.refs{font-size:13px;color:var(--muted);}
+.refs li{margin-bottom:6px;}
+
+.consult{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:linear-gradient(135deg,var(--panel-2),var(--panel));border:1px solid var(--copper);border-radius:var(--radius);padding:16px 18px;}
+.consult p{margin:0;font-size:14px;max-width:52ch;}
+.consult a.wa{font-family:'Karla',sans-serif;font-weight:700;text-decoration:none;background:var(--copper);color:#241207;padding:10px 18px;border-radius:var(--radius);white-space:nowrap;font-size:14px;}
+.consult a.wa:hover{opacity:0.9;}
+footer.foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center;}
+.small{font-size:12px;color:var(--muted);}
+hr.rule{border:none;border-top:1px dashed var(--line-strong);margin:18px 0;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="eyebrow">Tools Qiladat · JAZMI · Laboratorium Sains Dapur</div>
+      <h1>Laboratorium Rasio & Teknik Masak</h1>
+      <p class="sub">Bukan kumpulan resep — ini kalkulator rasio yang dipakai sekolah kuliner: fondasi panas-air-lemak-garam diterjemahkan jadi angka yang bisa Anda skalakan ke takaran berapa pun, plus peta rasa dunia sebagai konteks budaya di baliknya.</p>
+    </div>
+    <div class="scale-box">
+      <svg viewBox="0 0 300 180">
+        <line x1="150" y1="70" x2="150" y2="160" stroke="var(--copper)" stroke-width="5" stroke-linecap="round"/>
+        <ellipse cx="150" cy="163" rx="34" ry="7" fill="var(--copper)"/>
+        <g class="beam">
+          <line x1="60" y1="70" x2="240" y2="70" stroke="var(--copper)" stroke-width="4" stroke-linecap="round"/>
+          <circle cx="150" cy="70" r="7" fill="var(--chalk)"/>
+          <line x1="60" y1="70" x2="60" y2="100" stroke="var(--muted)" stroke-width="2"/>
+          <line x1="240" y1="70" x2="240" y2="100" stroke="var(--muted)" stroke-width="2"/>
+          <path d="M35,100 A25,14 0 0 0 85,100 Z" fill="none" stroke="var(--chalk)" stroke-width="2.5"/>
+          <path d="M215,100 A25,14 0 0 0 265,100 Z" fill="none" stroke="var(--chalk)" stroke-width="2.5"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <div class="warn">
+    <span class="tag">⚠ Baca dulu sebelum memakai</span>
+    <p><strong>Rasio adalah titik awal yang bisa diandalkan, bukan hukum fisika mutlak.</strong> Kelembapan tepung, jenis lemak, suhu ruangan, dan kualitas bahan tetap mengubah hasil akhir — sesuaikan dengan indera Anda, bukan angka semata.</p>
+    <ul>
+      <li>Modul <strong>Brine</strong> di sini hanya untuk perendaman rasa/kelembapan (wet brine) — <strong>bukan</strong> untuk pengawetan daging tahan-simpan (curing dengan garam nitrit seperti untuk sosis/bacon kering). Curing jenis itu butuh dosis nitrit presisi demi keamanan pangan (risiko botulisme) dan di luar cakupan alat ini — ikuti resep bersertifikat/otoritas keamanan pangan untuk itu.</li>
+      <li>Selalu rendam bahan di kulkas, jangan pakai ulang cairan brine bekas, dan masak sampai suhu internal aman.</li>
+    </ul>
+  </div>
+
+  <section class="sheet">
+    <span class="tag">Belajar — Pertanyaan Ilmiah</span>
+    <h2>Kenapa Rasio, Bukan Resep?</h2>
+    <p style="font-size:14.5px;">Fondasi memasak sebenarnya cuma empat variabel yang saling berinteraksi: <strong>panas, air, lemak, garam</strong>. Resep hanyalah satu kombinasi tetap dari keempatnya untuk satu takaran tertentu. Begitu Anda tahu <em>rasio</em> di balik sebuah teknik — bukan cuma angka gram di satu resep — Anda bisa membuat adonan roti untuk 2 orang atau 200 orang dengan logika yang sama persis.</p>
+    <p style="font-size:14.5px;">Ini falsafah yang sama dengan sistem dapur Escoffier: saus induk (mother sauces) bukan resep tunggal, tapi <em>rasio dasar</em> yang darinya lahir puluhan turunan. Empat modul di bawah menerapkan logika itu ke empat teknik berbeda.</p>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">Kalkulator</span>
+    <h2>Empat Rasio Dasar</h2>
+    <div class="module-toggle" id="moduleToggle"></div>
+    <div id="moduleBody"></div>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">Konteks Budaya</span>
+    <h2>Peta Rasa Dunia</h2>
+    <p class="small">Cita rasa khas, bahan andalan, dan fungsi tradisional-vs-modern per wilayah.</p>
+    <div class="region-filter" id="regionFilter"></div>
+    <div class="region-grid" id="regionGrid"></div>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">Batasan</span>
+    <h2>Kapan Rasio Ini Tidak Cukup</h2>
+    <ul style="font-size:14px;padding-left:20px;">
+      <li><strong>Bahan nyata tidak seragam.</strong> Kandungan air tepung, kadar lemak mentega, ukuran telur — semua bervariasi antar merek/musim. Rasio memberi titik awal yang bisa diulang, bukan jaminan hasil identik setiap kali.</li>
+      <li><strong>Roux &amp; brine di sini pakai angka rentang umum yang diajarkan, bukan hasil uji laboratorium presisi</strong> — anggap sebagai panduan awal, sesuaikan dengan hasil nyata di dapur Anda.</li>
+      <li><strong>Waktu perendaman brine hanyalah aturan-praktis (rule of thumb)</strong>, bukan model difusi ilmiah yang presisi — ketebalan tidak sepenuhnya linear terhadap waktu resap garam.</li>
+      <li>Peta Rasa Dunia adalah <strong>ringkasan pola umum</strong>, bukan representasi tunggal satu daerah — tiap keluarga/dapur punya variasi sendiri di dalam pola besar itu.</li>
+    </ul>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">Referensi</span>
+    <ul class="refs">
+      <li>Sistem saus induk (mother sauces) &amp; struktur brigade dapur — Auguste Escoffier, <em>Le Guide Culinaire.</em></li>
+      <li>Pendekatan memasak berbasis rasio ketimbang resep tetap — prinsip yang diajarkan luas di sekolah-sekolah kuliner profesional.</li>
+      <li>Baker's percentage — konvensi standar industri roti untuk menyatakan formula relatif terhadap berat tepung (=100%).</li>
+      <li>Prinsip brining berbasis persen konsentrasi garam terhadap berat air — praktik umum food science dapur profesional.</li>
+    </ul>
+  </section>
+
+  <div class="consult">
+    <p><strong>Rasio ini titik awal — lidah &amp; jam terbang Anda tetap penentu akhir.</strong> Untuk konsultasi lebih lanjut, hubungi kami.</p>
+    <a class="wa" id="waLink" href="https://wa.me/6281356572588?text=Halo%2C%20saya%20ingin%20konsultasi%20soal%20Laboratorium%20Rasio%20%26%20Teknik%20Masak%20JAZMI." target="_blank" rel="noopener">Konsultasi via WhatsApp →</a>
+  </div>
+
+  <footer class="foot">Tools Qiladat / JAZMI — laboratorium alat &amp; keilmuan. Dibangun mengikuti metode Belajar → Model → Uji → Tool.</footer>
+</div>
+
+<script>
+/* ===================== MODULE DEFINITIONS ===================== */
+const MODULES = [
+  {id:'vinaigrette', label:'Vinaigrette'},
+  {id:'roti', label:'Roti Dasar'},
+  {id:'pastry', label:'Adonan Pastry'},
+  {id:'brine', label:'Brine / Larutan Garam'}
+];
+let activeModule = 'vinaigrette';
+
+function fmt(n,d=1){ if(!isFinite(n)) return '–'; return Number(n).toLocaleString('id-ID',{minimumFractionDigits:d,maximumFractionDigits:d}); }
+
+function renderModuleToggle(){
+  const el = document.getElementById('moduleToggle');
+  el.innerHTML = MODULES.map(m=>`<button class="mod-btn ${m.id===activeModule?'active':''}" data-id="${m.id}">${m.label}</button>`).join('');
+  el.querySelectorAll('.mod-btn').forEach(b=>b.addEventListener('click', ()=>{
+    activeModule = b.dataset.id;
+    renderModuleToggle();
+    renderModuleBody();
+  }));
+}
+
+function renderModuleBody(){
+  const body = document.getElementById('moduleBody');
+  if(activeModule==='vinaigrette') body.innerHTML = tplVinaigrette();
+  else if(activeModule==='roti') body.innerHTML = tplRoti();
+  else if(activeModule==='pastry') body.innerHTML = tplPastry();
+  else body.innerHTML = tplBrine();
+  wireModule();
+}
+
+/* ===================== VINAIGRETTE ===================== */
+function tplVinaigrette(){
+  return `
+    <p style="font-size:13.5px;color:var(--muted);">Rasio klasik 3 bagian minyak : 1 bagian asam (cuka/air jeruk). Turunkan ke 2:1 untuk dressing lebih tajam, atau naikkan ke 4:1 untuk yang lebih lembut.</p>
+    <div class="grid cols-3">
+      <div><label for="vinTotal">Total dressing (ml)</label><input type="number" id="vinTotal" value="200" step="10"></div>
+      <div><label for="vinOilPart">Bagian minyak</label><input type="number" id="vinOilPart" value="3" step="0.5" min="1"></div>
+      <div><label for="vinAcidPart">Bagian asam</label><input type="number" id="vinAcidPart" value="1" step="0.5" min="1"></div>
+    </div>
+    <div class="ratio-bar" id="vinBar"></div>
+    <div class="stat-row">
+      <div class="stat"><div class="label">Minyak</div><div class="value" id="vinOilOut">–<span class="unit">ml</span></div></div>
+      <div class="stat"><div class="label">Asam (cuka/jeruk)</div><div class="value" id="vinAcidOut">–<span class="unit">ml</span></div></div>
+    </div>
+    <p class="field-note">Tips: tambahkan ~5–10ml mustard atau madu per 200ml sebagai emulsifier agar tidak cepat memisah — di luar rasio inti, jadi tidak dihitung otomatis.</p>
+  `;
+}
+function computeVinaigrette(){
+  const total = parseFloat(document.getElementById('vinTotal').value)||0;
+  const op = parseFloat(document.getElementById('vinOilPart').value)||1;
+  const ap = parseFloat(document.getElementById('vinAcidPart').value)||1;
+  const sum = op+ap;
+  const oil = total*op/sum, acid = total*ap/sum;
+  document.getElementById('vinOilOut').innerHTML = fmt(oil)+'<span class="unit">ml</span>';
+  document.getElementById('vinAcidOut').innerHTML = fmt(acid)+'<span class="unit">ml</span>';
+  const oilPct=(op/sum*100).toFixed(1), acidPct=(ap/sum*100).toFixed(1);
+  document.getElementById('vinBar').innerHTML = `
+    <div class="rb-seg" style="width:${oilPct}%;background:var(--copper);">Minyak ${oilPct}%</div>
+    <div class="rb-seg" style="width:${acidPct}%;background:var(--sage);">Asam ${acidPct}%</div>
+  `;
+}
+
+/* ===================== ROTI DASAR (Baker's Percentage) ===================== */
+function tplRoti(){
+  return `
+    <p style="font-size:13.5px;color:var(--muted);">Baker's percentage: semua bahan dinyatakan relatif terhadap berat tepung (=100%). Ini yang memudahkan tukang roti profesional menskalakan resep ke ukuran apa pun.</p>
+    <div class="grid cols-3">
+      <div><label for="rotiFlour">Berat tepung (gram) = 100%</label><input type="number" id="rotiFlour" value="500" step="10"></div>
+      <div><label for="rotiHydro">Hidrasi — air (%)</label><input type="number" id="rotiHydro" value="62" step="1" min="40" max="100"></div>
+      <div><label for="rotiSalt">Garam (%)</label><input type="number" id="rotiSalt" value="2" step="0.1" min="0"></div>
+    </div>
+    <div class="grid cols-2" style="margin-top:10px;">
+      <div><label for="rotiYeast">Ragi instan (%)</label><input type="number" id="rotiYeast" value="1.2" step="0.1" min="0"></div>
+      <div><label for="rotiFat">Lemak/minyak opsional (%)</label><input type="number" id="rotiFat" value="0" step="1" min="0"></div>
+    </div>
+    <div class="tblwrap">
+      <table><thead><tr><th>Bahan</th><th>% tepung</th><th>Gram</th></tr></thead><tbody id="rotiTable"></tbody></table>
+    </div>
+    <div class="stat-row" style="margin-top:10px;">
+      <div class="stat"><div class="label">Total berat adonan</div><div class="value" id="rotiTotal" style="font-size:19px;">–<span class="unit">g</span></div></div>
+      <div class="stat"><div class="label">Kategori hidrasi</div><div class="value" id="rotiCat" style="font-size:16px;">–</div></div>
+    </div>
+  `;
+}
+function computeRoti(){
+  const flour = parseFloat(document.getElementById('rotiFlour').value)||0;
+  const hydro = parseFloat(document.getElementById('rotiHydro').value)||0;
+  const salt = parseFloat(document.getElementById('rotiSalt').value)||0;
+  const yeast = parseFloat(document.getElementById('rotiYeast').value)||0;
+  const fat = parseFloat(document.getElementById('rotiFat').value)||0;
+  const rows = [
+    ['Tepung', 100, flour],
+    ['Air', hydro, flour*hydro/100],
+    ['Garam', salt, flour*salt/100],
+    ['Ragi instan', yeast, flour*yeast/100],
+  ];
+  if(fat>0) rows.push(['Lemak/minyak', fat, flour*fat/100]);
+  document.getElementById('rotiTable').innerHTML = rows.map(r=>`<tr><td>${r[0]}</td><td>${fmt(r[1],1)}%</td><td>${fmt(r[2],0)} g</td></tr>`).join('');
+  const total = rows.reduce((a,r)=>a+r[2],0);
+  document.getElementById('rotiTotal').innerHTML = fmt(total,0)+'<span class="unit">g</span>';
+  let cat = hydro<58?'Adonan padat (roti tawar sederhana)': hydro<68?'Adonan sedang (baguette, roti umum)': hydro<80?'Adonan lembap (ciabatta, focaccia)':'Adonan sangat basah (butuh teknik lipat khusus)';
+  document.getElementById('rotiCat').textContent = cat;
+}
+
+/* ===================== PASTRY DOUGH (3:2:1) ===================== */
+function tplPastry(){
+  return `
+    <p style="font-size:13.5px;color:var(--muted);">Rasio klasik pie/tart dough: 3 bagian tepung : 2 bagian lemak (mentega/shortening dingin) : 1 bagian air es — dalam satuan berat (gram), bukan volume.</p>
+    <div class="grid cols-2">
+      <div><label for="pastryTotal">Total adonan target (gram)</label><input type="number" id="pastryTotal" value="600" step="10"></div>
+      <div><label for="pastryRatio">Rasio (tepung:lemak:air)</label>
+        <select id="pastryRatio">
+          <option value="3,2,1" selected>3 : 2 : 1 — pâte brisée klasik</option>
+          <option value="2,1,0.5">2 : 1 : 0,5 — lebih renyah &amp; rendah lemak</option>
+        </select>
+      </div>
+    </div>
+    <div class="ratio-bar" id="pastryBar"></div>
+    <div class="stat-row cols-3">
+      <div class="stat"><div class="label">Tepung</div><div class="value" id="pastryFlourOut" style="font-size:18px;">–<span class="unit">g</span></div></div>
+      <div class="stat"><div class="label">Lemak dingin</div><div class="value" id="pastryFatOut" style="font-size:18px;">–<span class="unit">g</span></div></div>
+      <div class="stat"><div class="label">Air es</div><div class="value" id="pastryWaterOut" style="font-size:18px;">–<span class="unit">g</span></div></div>
+    </div>
+  `;
+}
+function computePastry(){
+  const total = parseFloat(document.getElementById('pastryTotal').value)||0;
+  const parts = document.getElementById('pastryRatio').value.split(',').map(Number);
+  const sum = parts.reduce((a,b)=>a+b,0);
+  const flour = total*parts[0]/sum, fat = total*parts[1]/sum, water = total*parts[2]/sum;
+  document.getElementById('pastryFlourOut').innerHTML = fmt(flour,0)+'<span class="unit">g</span>';
+  document.getElementById('pastryFatOut').innerHTML = fmt(fat,0)+'<span class="unit">g</span>';
+  document.getElementById('pastryWaterOut').innerHTML = fmt(water,0)+'<span class="unit">g</span>';
+  const fp=(parts[0]/sum*100).toFixed(1), ffp=(parts[1]/sum*100).toFixed(1), wp=(parts[2]/sum*100).toFixed(1);
+  document.getElementById('pastryBar').innerHTML = `
+    <div class="rb-seg" style="width:${fp}%;background:var(--copper);">Tepung</div>
+    <div class="rb-seg" style="width:${ffp}%;background:var(--sage);">Lemak</div>
+    <div class="rb-seg" style="width:${wp}%;background:#8B7355;">Air</div>
+  `;
+}
+
+/* ===================== BRINE ===================== */
+function tplBrine(){
+  return `
+    <p style="font-size:13.5px;color:var(--muted);">Brine dinyatakan sebagai % berat garam terhadap berat air. Brine standar untuk unggas/daging umumnya 5–8%; brine ringan untuk sayur/ikan sekitar 3–5%.</p>
+    <div class="grid cols-2">
+      <div><label for="brineWater">Berat/volume air (gram atau ml)</label><input type="number" id="brineWater" value="2000" step="50"></div>
+      <div><label for="brinePct">Target konsentrasi garam (%)</label><input type="number" id="brinePct" value="6" step="0.5" min="1" max="26"></div>
+    </div>
+    <div class="stat-row">
+      <div class="stat"><div class="label">Garam dibutuhkan</div><div class="value" id="brineSaltOut">–<span class="unit">g</span></div></div>
+      <div class="stat"><div class="label">Gula opsional (≈½ garam)</div><div class="value" id="brineSugarOut" style="font-size:18px;">–<span class="unit">g</span></div></div>
+    </div>
+    <hr class="rule">
+    <p style="font-size:13px;color:var(--muted);"><strong>Rentang waktu rendam (aturan-praktis umum, bukan formula presisi)</strong> — selalu di kulkas:</p>
+    <div class="tblwrap">
+      <table><thead><tr><th>Jenis potongan</th><th>Perkiraan waktu</th></tr></thead>
+      <tbody>
+        <tr><td>Irisan tipis / fillet ikan (&lt;1,5cm)</td><td>15–45 menit</td></tr>
+        <tr><td>Potongan sedang, dada ayam (2–4cm)</td><td>1–4 jam</td></tr>
+        <tr><td>Unggas utuh (ayam)</td><td>4–12 jam</td></tr>
+        <tr><td>Unggas besar (kalkun) / daging tebal</td><td>12–24 jam</td></tr>
+      </tbody></table>
+    </div>
+  `;
+}
+function computeBrine(){
+  const water = parseFloat(document.getElementById('brineWater').value)||0;
+  const pct = parseFloat(document.getElementById('brinePct').value)||0;
+  const salt = water*pct/100;
+  document.getElementById('brineSaltOut').innerHTML = fmt(salt,0)+'<span class="unit">g</span>';
+  document.getElementById('brineSugarOut').innerHTML = fmt(salt/2,0)+'<span class="unit">g</span>';
+}
+
+/* ===================== WIRING ===================== */
+function wireModule(){
+  if(activeModule==='vinaigrette'){
+    ['vinTotal','vinOilPart','vinAcidPart'].forEach(id=>document.getElementById(id).addEventListener('input', computeVinaigrette));
+    computeVinaigrette();
+  } else if(activeModule==='roti'){
+    ['rotiFlour','rotiHydro','rotiSalt','rotiYeast','rotiFat'].forEach(id=>document.getElementById(id).addEventListener('input', computeRoti));
+    computeRoti();
+  } else if(activeModule==='pastry'){
+    ['pastryTotal','pastryRatio'].forEach(id=>document.getElementById(id).addEventListener('input', computePastry));
+    computePastry();
+  } else {
+    ['brineWater','brinePct'].forEach(id=>document.getElementById(id).addEventListener('input', computeBrine));
+    computeBrine();
+  }
+}
+
+/* ===================== PETA RASA DUNIA ===================== */
+const REGIONS = [
+  {group:'Nusantara', name:'Sumatra', rasa:'Pedas, gurih, kaya rempah, santan kental', bahan:'Cabai, santan, andaliman (Batak), kunyit, serai', trad:'Rempah berlimpah dari jalur dagang lama; rendang awalnya teknik awet daging tanpa kulkas', modern:'Andaliman & rempah Sumatra dilirik chef fine-dining sebagai rempah eksotis-otentik'},
+  {group:'Nusantara', name:'Jawa', rasa:'Manis-gurih (Tengah/Timur); segar-mentah (Barat)', bahan:'Gula kelapa, kecap manis, terasi, kemiri', trad:'Manis sebagai penanda status (gula dulu mahal) & pengawet alami', modern:'Gula kelapa dipromosikan sebagai pemanis indeks glikemik lebih rendah'},
+  {group:'Nusantara', name:'Bali & Nusa Tenggara', rasa:'Tajam, berlapis (base genep), sedikit pahit', bahan:'Bawang merah, kunyit, kencur, terasi, base genep', trad:'Bumbu lengkap dibuat besar untuk upacara adat — rasa dirancang untuk hidangan komunal', modern:'Base genep kering dikemas jadi bumbu instan ekspor'},
+  {group:'Nusantara', name:'Kalimantan', rasa:'Asam-segar, gurih ikan sungai', bahan:'Asam kandis, terasi, ikan fermentasi (wadi), kalakai', trad:'Fermentasi ikan sebagai cara awetkan protein di daerah sungai', modern:'Wadi/ikan fermentasi diteliti sebagai sumber probiotik'},
+  {group:'Nusantara', name:'Sulawesi', rasa:'Asam-pedas tajam, atau manis-gurih kelapa sangrai', bahan:'Asam jawa, cabai rawit, kelapa sangrai, ikan laut segar', trad:'Asam menyeimbangkan lemak jeroan (coto Makassar)', modern:'Kelapa sangrai dipakai chef modern untuk tekstur tanpa santan berat'},
+  {group:'Nusantara', name:'Maluku & Papua', rasa:'Segar-pedas dari ikan & sagu, minim santan', bahan:'Sagu, kenari, ikan, kemangi hutan, cabai rica', trad:'Sagu sebagai karbohidrat pengganti beras di tanah tak cocok sawah', modern:'Sagu naik daun sebagai alternatif karbohidrat bebas gluten'},
+  {group:'Asia Lain', name:'Asia Timur (China/Jepang/Korea)', rasa:'Umami dalam, fermentasi sebagai tulang punggung', bahan:'Kedelai fermentasi, dashi (kombu+katsuobushi), gochujang', trad:'Fermentasi = pengawetan sekaligus ekstraksi umami tanpa MSG buatan', modern:'Umami diteliti serius sebagai "rasa kelima" sejak penemuan glutamat oleh Ikeda (1908)'},
+  {group:'Asia Lain', name:'Asia Selatan (India)', rasa:'Berlapis, rempah disangrai dulu', bahan:'Jintan, ketumbar, kunyit, ghee, yogurt', trad:'Ghee & rempah panas dipercaya membantu pencernaan (ayurveda)', modern:'Kunyit jadi "superfood" global karena curcumin diteliti anti-inflamasi'},
+  {group:'Asia Lain', name:'Timur Tengah', rasa:'Gurih-asam-segar, lemon & yogurt sebagai penyeimbang', bahan:"Zaitun, sumac, tahini, za'atar", trad:'Minyak zaitun sebagai sumber lemak utama tanah kering', modern:'Zaitun jadi simbol "diet Mediterania" yang diriset untuk kesehatan jantung'},
+  {group:'Eropa', name:'Eropa Selatan (Italia/Spanyol/Yunani)', rasa:'Sederhana, bahan berkualitas tinggi', bahan:'Zaitun, tomat, basil, parmesan', trad:'Masak musiman — sesuai apa yang tersedia saat itu', modern:'Filosofi "ingredient-driven" jadi dasar gerakan slow food global'},
+  {group:'Eropa', name:'Eropa Utara/Barat (Prancis)', rasa:'Kaya, berbasis mentega-krim-anggur, teknik presisi', bahan:'Mentega, krim, wine, stock/kaldu', trad:'Sistem Escoffier — saus induk (mother sauces) jadi fondasi semua turunan', modern:'Teknik Prancis jadi "bahasa universal" sekolah kuliner dunia'},
+  {group:'Lainnya', name:'Meksiko', rasa:'Pedas-asam-smoky', bahan:'Jagung, cabai kering (chipotle, ancho), lime', trad:'Jagung pusat peradaban Maya-Aztec — nixtamalisasi meningkatkan gizi', modern:'Nixtamalisasi diakui sains pangan sebagai teknik cerdas naikkan bioavailabilitas niacin'},
+  {group:'Lainnya', name:'Afrika Barat', rasa:'Pedas-gurih-earthy', bahan:'Kacang tanah, okra, cabai habanero, minyak sawit merah', trad:'—', modern:'—'},
+];
+let activeGroup = 'Semua';
+function renderRegionFilter(){
+  const groups = ['Semua', ...new Set(REGIONS.map(r=>r.group))];
+  const el = document.getElementById('regionFilter');
+  el.innerHTML = groups.map(g=>`<button class="rf-btn ${g===activeGroup?'active':''}" data-g="${g}">${g}</button>`).join('');
+  el.querySelectorAll('.rf-btn').forEach(b=>b.addEventListener('click', ()=>{ activeGroup=b.dataset.g; renderRegionFilter(); renderRegions(); }));
+}
+function renderRegions(){
+  const list = activeGroup==='Semua' ? REGIONS : REGIONS.filter(r=>r.group===activeGroup);
+  document.getElementById('regionGrid').innerHTML = list.map(r=>`
+    <div class="region-card">
+      <h3>${r.name}</h3>
+      <dl>
+        <dt>Cita rasa</dt><dd>${r.rasa}</dd>
+        <dt>Bahan andalan</dt><dd>${r.bahan}</dd>
+        ${r.trad!=='—'?`<dt>Tradisional</dt><dd>${r.trad}</dd>`:''}
+        ${r.modern!=='—'?`<dt>Modern</dt><dd>${r.modern}</dd>`:''}
+      </dl>
+    </div>
+  `).join('');
+}
+
+/* ===================== INIT ===================== */
+renderModuleToggle();
+renderModuleBody();
+renderRegionFilter();
+renderRegions();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

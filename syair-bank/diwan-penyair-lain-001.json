@@ -1,0 +1,402 @@
+{
+ "_catatan": "BANK DIWAN #003 — Campuran 4 penyair (Ibn al-Mudhallal, Ibn Fakkahah, Abu Himdhah al-Yahudi, Ibn Juwayn ath-Tha'i), 6 bait dari aldiwan.net (poem393, 405, 430, 400). Dibuat 24 Okt 2026 (T1, Mode Cepat). Semua 'dipublikasikan'. Qasidah lain dari paket yang sama (poem392, 413, 364, 443, 412, 401) tidak diambil karena kurang berpotensi atau terlalu sulit/ambigu. Harakat mengikuti aldiwan; terjemahan disusun sendiri. Wadah campuran ini asumsi Claude (Bagian 10 no. 2).",
+ "kitab": [
+  {
+   "id": "kitab-diwan-ibnmudhallal-alantu",
+   "judulArab": "أَعْلَنْتُ فِي حُبِّ جُمْلٍ أَيَّ إِعْلَانِ",
+   "judulLatin": "A'lantu fī Ḥubbi Jumlin Ayya I'lān",
+   "penyairMatanId": "penyair-ibn-almudhallal",
+   "penulisSyarahId": null,
+   "periode": null,
+   "jenis": "Qasidah (diwan) — pilihan dari aldiwan.net",
+   "jumlahBait": null,
+   "sumber": "aldiwan.net — https://www.aldiwan.net/poem393.html",
+   "status": "diseleksi",
+   "prioritas": "sedang",
+   "catatan": "Qasidah sedang; hanya bait pilihan. Bait di bank: 3."
+  },
+  {
+   "id": "kitab-diwan-ibnfakkahah-tajjabu",
+   "judulArab": "تَعَجَّبُ جَارَتِي لَمَّا رَأَتْنِي",
+   "judulLatin": "Ta'ajjabu Jāratī lammā Ra'atnī",
+   "penyairMatanId": "penyair-ibn-fakkahah",
+   "penulisSyarahId": null,
+   "periode": null,
+   "jenis": "Qasidah (diwan) — pilihan dari aldiwan.net",
+   "jumlahBait": null,
+   "sumber": "aldiwan.net — https://www.aldiwan.net/poem405.html",
+   "status": "diseleksi",
+   "prioritas": "sedang",
+   "catatan": "Qasidah panjang (2 halaman); hanya bait pilihan. Bait di bank: 1."
+  },
+  {
+   "id": "kitab-diwan-abuhimdhah-asyaththa",
+   "judulArab": "أَشَطَّ بِجِيرَانِكَ الْمَنْزِلُ",
+   "judulLatin": "Asyaththa bi-Jīrānika al-Manzil",
+   "penyairMatanId": "penyair-abu-himdhah-alyahudi",
+   "penulisSyarahId": null,
+   "periode": null,
+   "jenis": "Qasidah (diwan) — pilihan dari aldiwan.net",
+   "jumlahBait": null,
+   "sumber": "aldiwan.net — https://www.aldiwan.net/poem430.html",
+   "status": "diseleksi",
+   "prioritas": "sedang",
+   "catatan": "Qasidah pendek (4 baris di halaman); hanya bait pembuka diambil. Bait di bank: 1."
+  },
+  {
+   "id": "kitab-diwan-ibnjuwayn-haja",
+   "judulArab": "هَاجَ رَسْمٌ دَارِسٌ طَرَبَا",
+   "judulLatin": "Hāja Rasmun Dārisun Tarabā",
+   "penyairMatanId": "penyair-ibn-juwayn-atha-i",
+   "penulisSyarahId": null,
+   "periode": null,
+   "jenis": "Qasidah (diwan) — pilihan dari aldiwan.net",
+   "jumlahBait": null,
+   "sumber": "aldiwan.net — https://www.aldiwan.net/poem400.html",
+   "status": "diseleksi",
+   "prioritas": "sedang",
+   "catatan": "Qasidah panjang (2 halaman); hanya bait pembuka diambil. Bait di bank: 1."
+  }
+ ],
+ "penyair": [
+  {
+   "id": "penyair-ibn-almudhallal",
+   "namaArab": "ابن المضلل",
+   "namaLatin": "Ibn al-Mudhallal",
+   "periode": null,
+   "infoSingkat": null,
+   "catatan": "Nama dan atribusi mengikuti aldiwan.net; era belum diverifikasi."
+  },
+  {
+   "id": "penyair-ibn-fakkahah",
+   "namaArab": "ابن فكهة",
+   "namaLatin": "Ibn Fakkahah",
+   "periode": null,
+   "infoSingkat": null,
+   "catatan": "Nama dan atribusi mengikuti aldiwan.net; era belum diverifikasi."
+  },
+  {
+   "id": "penyair-abu-himdhah-alyahudi",
+   "namaArab": "أبو حمضة اليهودي",
+   "namaLatin": "Abu Himdhah al-Yahudi",
+   "periode": null,
+   "infoSingkat": null,
+   "catatan": "Nama dan atribusi mengikuti aldiwan.net; era belum diverifikasi."
+  },
+  {
+   "id": "penyair-ibn-juwayn-atha-i",
+   "namaArab": "ابن جوين الطائي",
+   "namaLatin": "Ibn Juwayn ath-Tha'i",
+   "periode": null,
+   "infoSingkat": null,
+   "catatan": "Nama dan atribusi mengikuti aldiwan.net; era belum diverifikasi."
+  }
+ ],
+ "bait": [
+  {
+   "id": "bait-diwan-lain-001",
+   "kitabId": "kitab-diwan-ibnmudhallal-alantu",
+   "urutanBank": 1,
+   "teksArab": "أَعْلَنْتُ فِي حُبِّ جُمْلٍ أَيَّ إِعْلَانِ ... وَقَدْ بَدَا شَأْنُهَا مِنْ بَعْدِ كِتْمَانِ",
+   "syatrA": "أَعْلَنْتُ فِي حُبِّ جُمْلٍ أَيَّ إِعْلَانِ",
+   "syatrB": "وَقَدْ بَدَا شَأْنُهَا مِنْ بَعْدِ كِتْمَانِ",
+   "terjemahan": "Kunyatakan cintaku kepada Jumul secara terang-terangan, dan urusannya pun tampak setelah sempat kusembunyikan.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-ibn-almudhallal",
+   "tagIds": [
+    "tag-syair",
+    "tag-rindu"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — A'lantu fī Ḥubbi Jumlin Ayya I'lān",
+    "halamanPdf": null,
+    "bagianBab": "Rindu: cinta yang tak lagi disembunyikan",
+    "nomorSumber": 1,
+    "catatan": "URL: https://www.aldiwan.net/poem393.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 85,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Rindu: cinta yang tak lagi disembunyikan",
+    "alasanRekomendasi": "Pembuka qasidah yang lugas tentang cinta.",
+    "catatanVerifikasi": "Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-lain-002",
+   "kitabId": "kitab-diwan-ibnmudhallal-alantu",
+   "urutanBank": 2,
+   "teksArab": "وَقَدْ سَعَى بَيْنَنَا الْوَاشُونَ وَاخْتَلَفُوا ... حَتَّى تَجَنَّبْتُهَا مِنْ غَيْرِ هِجْرَانِ",
+   "syatrA": "وَقَدْ سَعَى بَيْنَنَا الْوَاشُونَ وَاخْتَلَفُوا",
+   "syatrB": "حَتَّى تَجَنَّبْتُهَا مِنْ غَيْرِ هِجْرَانِ",
+   "terjemahan": "Para penghasut mondar-mandir di antara kami dan berselisih, hingga aku menjauhinya padahal tidak ada pemutusan hubungan.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-ibn-almudhallal",
+   "tagIds": [
+    "tag-syair",
+    "tag-rindu"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — A'lantu fī Ḥubbi Jumlin Ayya I'lān",
+    "halamanPdf": null,
+    "bagianBab": "Rindu: dipisahkan oleh fitnah",
+    "nomorSumber": 2,
+    "catatan": "URL: https://www.aldiwan.net/poem393.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 70,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Rindu: dipisahkan oleh fitnah",
+    "alasanRekomendasi": "Gambaran fitnah yang memisahkan dua hati tanpa putusnya cinta.",
+    "catatanVerifikasi": "DUGAAN: 'اخْتَلَفُوا' diterjemahkan 'mondar-mandir dan berselisih'; Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-lain-003",
+   "kitabId": "kitab-diwan-ibnmudhallal-alantu",
+   "urutanBank": 3,
+   "teksArab": "وَالْمُعْطِيَانِ ابْتِغَاءَ الْحَمْدِ مَالَهُمَا ... وَالْحَمْدُ لَا يُشْتَرَى إِلَّا بِأَثْمَانِ",
+   "syatrA": "وَالْمُعْطِيَانِ ابْتِغَاءَ الْحَمْدِ مَالَهُمَا",
+   "syatrB": "وَالْحَمْدُ لَا يُشْتَرَى إِلَّا بِأَثْمَانِ",
+   "terjemahan": "Keduanya memberikan harta demi mencari pujian, dan pujian tidak dibeli kecuali dengan harga (pengorbanan).",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-ibn-almudhallal",
+   "tagIds": [
+    "tag-syair",
+    "tag-hikmah",
+    "tag-kedermawanan"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — A'lantu fī Ḥubbi Jumlin Ayya I'lān",
+    "halamanPdf": null,
+    "bagianBab": "Hikmah: kemuliaan butuh pengorbanan",
+    "nomorSumber": 13,
+    "catatan": "URL: https://www.aldiwan.net/poem393.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 85,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Hikmah: kemuliaan butuh pengorbanan",
+    "alasanRekomendasi": "Kalimat penutup yang quotable dan mudah dihafal.",
+    "catatanVerifikasi": "Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-lain-004",
+   "kitabId": "kitab-diwan-ibnfakkahah-tajjabu",
+   "urutanBank": 4,
+   "teksArab": "وَإِنَّ أَخَاكَ إِنْ غُيِّبْتَ عَنْهُ ... يَغَصُّ بِنُغْبَةِ الْمَاءِ الْقَرَاحِ",
+   "syatrA": "وَإِنَّ أَخَاكَ إِنْ غُيِّبْتَ عَنْهُ",
+   "syatrB": "يَغَصُّ بِنُغْبَةِ الْمَاءِ الْقَرَاحِ",
+   "terjemahan": "Sesungguhnya saudaramu, bila engkau tak ada di sisinya, akan tercekik oleh seteguk air tawar yang jernih.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-ibn-fakkahah",
+   "tagIds": [
+    "tag-syair",
+    "tag-persahabatan",
+    "tag-hikmah"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Ta'ajjabu Jāratī lammā Ra'atnī",
+    "halamanPdf": null,
+    "bagianBab": "Persahabatan: kehilangan sahabat",
+    "nomorSumber": 19,
+    "catatan": "URL: https://www.aldiwan.net/poem405.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 70,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Persahabatan: kehilangan sahabat",
+    "alasanRekomendasi": "Citra kuat tentang kerinduan sahabat sejati.",
+    "catatanVerifikasi": "DUGAAN: makna dibaca 'ia tak dapat menikmati apa pun tanpamu'; Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-lain-005",
+   "kitabId": "kitab-diwan-abuhimdhah-asyaththa",
+   "urutanBank": 5,
+   "teksArab": "أَشَطَّ بِجِيرَانِكَ الْمَنْزِلُ ... أَمْ أَنْتَ لِبَيْنِهِمْ مُثْقَلُ",
+   "syatrA": "أَشَطَّ بِجِيرَانِكَ الْمَنْزِلُ",
+   "syatrB": "أَمْ أَنْتَ لِبَيْنِهِمْ مُثْقَلُ",
+   "terjemahan": "Apakah tempat tinggal telah menjauh dari tetanggamu, ataukah engkau yang terbebani oleh perpisahan mereka?",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-abu-himdhah-alyahudi",
+   "tagIds": [
+    "tag-syair",
+    "tag-rindu"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Asyaththa bi-Jīrānika al-Manzil",
+    "halamanPdf": null,
+    "bagianBab": "Rindu: perpisahan dengan tetangga",
+    "nomorSumber": 1,
+    "catatan": "URL: https://www.aldiwan.net/poem430.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 85,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Rindu: perpisahan dengan tetangga",
+    "alasanRekomendasi": "Pertanyaan retoris yang singkat tentang beratnya perpisahan.",
+    "catatanVerifikasi": "Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-lain-006",
+   "kitabId": "kitab-diwan-ibnjuwayn-haja",
+   "urutanBank": 6,
+   "teksArab": "هَاجَ رَسْمٌ دَارِسٌ طَرَبَا ... فَطَوِيلاً ظَلْتَ مُكْتَئِبَا",
+   "syatrA": "هَاجَ رَسْمٌ دَارِسٌ طَرَبَا",
+   "syatrB": "فَطَوِيلاً ظَلْتَ مُكْتَئِبَا",
+   "terjemahan": "Bekas rumah yang telah pudar menggugah kerinduan, maka lama sekali aku larut dalam kesedihan.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-ibn-juwayn-atha-i",
+   "tagIds": [
+    "tag-syair",
+    "tag-rindu"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Hāja Rasmun Dārisun Tarabā",
+    "halamanPdf": null,
+    "bagianBab": "Rindu: bekas rumah (atlal)",
+    "nomorSumber": 1,
+    "catatan": "URL: https://www.aldiwan.net/poem400.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 70,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Rindu: bekas rumah (atlal)",
+    "alasanRekomendasi": "Pembuka klasik tentang bekas rumah kekasih.",
+    "catatanVerifikasi": "DUGAAN: 'ظَلْتَ' dibaca sebagai sapaan umum; diterjemahkan orang pertama; Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  }
+ ],
+ "tag": [
+  {
+   "id": "tag-syair",
+   "nama": "Syair",
+   "slug": "syair",
+   "deskripsi": null
+  },
+  {
+   "id": "tag-hikmah",
+   "nama": "Hikmah",
+   "slug": "hikmah",
+   "deskripsi": "Bait berisi pelajaran hidup."
+  },
+  {
+   "id": "tag-rindu",
+   "nama": "Rindu",
+   "slug": "rindu",
+   "deskripsi": "Bait bertema rindu dan perpisahan."
+  },
+  {
+   "id": "tag-kedermawanan",
+   "nama": "Kedermawanan",
+   "slug": "kedermawanan",
+   "deskripsi": "Bait tentang kemurahan hati dan keramahan kepada tamu."
+  },
+  {
+   "id": "tag-persahabatan",
+   "nama": "Persahabatan",
+   "slug": "persahabatan",
+   "deskripsi": "Bait tentang kesetiaan dan kedekatan sahabat/saudara."
+  }
+ ],
+ "series": []
+}

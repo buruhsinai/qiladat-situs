@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zikir: Obat Hati dan Sumber Ketenangan Sejati — Prototipe Khutbah JAZMI</title>
+<meta name="description" content="Prototipe metode penyajian naskah khutbah JAZMI: teks bersih untuk jamaah, atau tampilkan penanda intonasi untuk latihan khatib. Bisa dibagikan ke WhatsApp atau diunduh sebagai PDF.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #F6F1E4;
+  --bg-alt: #EEE6D2;
+  --surface: #FFFFFF;
+  --ink: #1E2A22;
+  --ink-soft: #4B5A50;
+  --ink-faint: #8A8672;
+
+  --emerald-deep: #0F3D2E;
+  --emerald: #1C5C42;
+  --emerald-soft: #2F7A57;
+
+  --brass: #A9812F;
+  --brass-soft: #D8C08A;
+  --brass-line: #D9CBA3;
+
+  --line: #DDD3B8;
+  --line-soft: #E9E1CC;
+
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-arabic: 'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
+
+  --radius: 4px;
+  --shadow-soft: 0 1px 2px rgba(15, 61, 46, 0.06), 0 8px 24px -12px rgba(15, 61, 46, 0.18);
+  --max-width: 760px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* warna penanda */
+  --marker-intonasi: #2F5D8A;
+  --marker-intonasi-bg: #E7EEF6;
+  --marker-jeda: #8A8672;
+  --marker-jeda-bg: #EEE6D2;
+  --marker-napas: #A9812F;
+  --marker-napas-bg: #F5EEDB;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ================= HEADER RINGKAS ================= */
+.proto-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.proto-header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1.1rem var(--gutter);
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.wordmark-mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--emerald-deep);
+  font-size: 1.1rem;
+}
+.proto-eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+}
+
+/* ================= BADGE PROTOTIPE ================= */
+.prototype-badge {
+  margin: 1.5rem 0 0;
+  padding: 0.6rem 0.9rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+/* ================= HERO JUDUL ================= */
+.hero {
+  padding: 1.6rem 0 1rem;
+}
+.hero-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--brass);
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--emerald-deep);
+}
+.hero-sub {
+  margin: 0.6rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  max-width: 56ch;
+}
+
+/* ================= BAR KONTROL ================= */
+.kontrol-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.4rem 0;
+  padding: 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+.kontrol-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.toggle-khatib {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.toggle-track {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  background: var(--line);
+  border-radius: 999px;
+  transition: background 0.2s var(--ease);
+  flex-shrink: 0;
+}
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: var(--surface);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  transition: transform 0.2s var(--ease);
+}
+.toggle-khatib input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.toggle-khatib input:checked + .toggle-track {
+  background: var(--emerald);
+}
+.toggle-khatib input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(18px);
+}
+.toggle-khatib input:focus-visible + .toggle-track {
+  outline: 2px solid var(--emerald-deep);
+  outline-offset: 2px;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--bg-alt);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.65rem 1.1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  line-height: 1.2;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.btn:hover { border-color: var(--brass); }
+.btn:focus-visible { outline: 2px solid var(--emerald-deep); outline-offset: 2px; }
+.btn-emerald {
+  background: var(--emerald-deep);
+  border-color: var(--emerald-deep);
+  color: var(--surface);
+}
+.btn-emerald:hover { background: var(--emerald); border-color: var(--emerald); }
+
+@media (max-width: 560px) {
+  .kontrol-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.85rem;
+  }
+  .toggle-khatib { padding-bottom: 0.2rem; border-bottom: 1px solid var(--line-soft); margin-bottom: 0.15rem; }
+  .kontrol-actions { flex-direction: column; }
+  .btn { width: 100%; }
+}
+
+/* ================= TAUTAN TERKAIT (ramping) ================= */
+.terkait {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.6rem;
+}
+.terkait-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.82rem;
+  color: var(--ink);
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.terkait-item:hover { border-color: var(--brass); background: var(--bg-alt); }
+.terkait-icon { font-size: 0.95rem; line-height: 1; flex-shrink: 0; }
+.terkait-label { color: var(--brass); font-weight: 700; }
+.terkait-judul { font-weight: 600; }
+
+/* ================= LEGENDA PENANDA ================= */
+.legenda {
+  display: none;
+  margin: 0 0 1.4rem;
+  padding: 0.8rem 0.9rem;
+  background: var(--surface);
+  border: 1px dashed var(--brass-line);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+body.mode-khatib .legenda { display: block; }
+.legenda-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.15rem 0.9rem 0.15rem 0;
+}
+.legenda-swatch {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+/* ================= ISI KHUTBAH ================= */
+.khutbah-body {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.2rem, 4vw, 2.2rem);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 2.5rem;
+}
+
+.khutbah-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--emerald-deep);
+  margin: 2.2rem 0 1rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+.khutbah-body h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+
+.khutbah-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--brass);
+  margin: 1.8rem 0 0.8rem;
+  text-transform: none;
+}
+
+.khutbah-body p {
+  margin: 0 0 0.85rem;
+}
+
+.khutbah-body .arab {
+  direction: rtl;
+  font-family: var(--font-arabic);
+  font-size: 1.35rem;
+  line-height: 2.1;
+  color: var(--emerald-deep);
+  margin: 1rem 0;
+}
+
+.khutbah-body .terjemah {
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.khutbah-body .doa {
+  direction: rtl;
+  font-family: var(--font-arabic);
+  font-size: 1.2rem;
+  line-height: 2;
+  color: var(--emerald-deep);
+  margin: 0.5rem 0;
+}
+
+/* ================= PENANDA (marker) ================= */
+.marker {
+  display: none;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  margin: 0 0.25em;
+  vertical-align: middle;
+}
+body.mode-khatib .marker { display: inline; }
+
+.marker-intonasi {
+  color: var(--marker-intonasi);
+  background: var(--marker-intonasi-bg);
+}
+.marker-jeda {
+  color: var(--marker-jeda);
+  background: var(--marker-jeda-bg);
+}
+.marker-napas {
+  color: var(--marker-napas);
+  background: var(--marker-napas-bg);
+}
+
+/* ================= FOOTER ================= */
+.proto-footer {
+  text-align: center;
+  padding: 1.5rem 0 2.5rem;
+  color: var(--ink-faint);
+  font-size: 0.8rem;
+}
+
+/* ================= CETAK / PDF (A4, 7 halaman; opsional 2/lembar utk A5 saat cetak fisik) ================= */
+@media print {
+  .no-print { display: none !important; }
+
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  body {
+    background: #fff;
+    font-size: 11pt;
+    line-height: 1.3;
+  }
+
+  .proto-header, .prototype-badge, .kontrol-bar, .proto-footer { display: none; }
+
+  .wrap { max-width: none; padding: 0; }
+
+  .hero { padding: 0 0 0.2rem; }
+  .hero-eyebrow { font-size: 8pt; }
+  .hero-title { font-size: 16pt; }
+  .hero-sub { display: none; }
+
+  .legenda { font-size: 8pt; padding: 0.3rem 0.4rem; margin-bottom: 0.4rem; }
+
+  .khutbah-body {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+  .khutbah-body h2 {
+    font-size: 15pt;
+    margin: 0.6rem 0 0.4rem;
+    padding-top: 0.4rem;
+  }
+  /* Khutbah Kedua tidak dipaksa halaman baru — biarkan mengalir lanjut di
+     sisa ruang halaman sebelumnya kalau masih cukup (hemat kertas). Sebagai
+     pembatas visual, cukup garis panjang di atasnya, bukan halaman kosong. */
+  .khutbah-body h2:not(:first-child) {
+    margin-top: 1.1rem;
+    padding-top: 0.9rem;
+    border-top: 1.4pt solid var(--ink-faint);
+  }
+  .khutbah-body h3 {
+    font-size: 11.5pt;
+    margin: 0.6rem 0 0.25rem;
+    break-after: avoid;
+  }
+  .khutbah-body .arab { font-size: 13pt; line-height: 1.4; margin: 0.3rem 0; }
+  .khutbah-body .doa { font-size: 11.5pt; line-height: 1.3; margin: 0.3rem 0; }
+
+  .marker {
+    font-size: 6.5pt;
+    padding: 0.02rem 0.25rem;
+  }
+
+  /* Sambung-menyambung otomatis: semua paragraf naskah berbahasa Indonesia
+     (bukan ayat/hadis/doa berbahasa Arab) dijadikan satu aliran teks tanpa
+     baris baru atau jarak antar-paragraf saat cetak — sesuai maksud "kalimat
+     pendek yang ke-enter padahal bisa lanjut, dirapikan otomatis". Teks Arab
+     (.arab, .doa) tetap terpisah baris demi baris karena itu ayat/hadis/doa. */
+  .khutbah-body p:not(.arab):not(.doa) {
+    display: inline;
+    margin: 0;
+  }
+  .khutbah-body p:not(.arab):not(.doa) br { display: none; }
+  .khutbah-body .arab, .khutbah-body .doa { display: block; }
+  .khutbah-body .doa br { display: block; }
+}
+
+/* ================= UTIL ================= */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+</style>
+</head>
+<body>
+
+<header class="proto-header no-print">
+  <div class="proto-header-inner">
+    <span class="wordmark-mark" aria-hidden="true">ز</span>
+    <span class="proto-eyebrow">JAZMI · Laboratorium Khutbah — prototipe metode penyajian</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p class="prototype-badge no-print">Prototipe uji coba metode penyajian — belum masuk Arsip resmi (<code>arsip/khutbah/</code>), tampilan &amp; teks masih bisa berubah.</p>
+
+  <section class="hero">
+    <p class="hero-eyebrow">Khutbah Jumat</p>
+    <h1 class="hero-title">Zikir: Obat Hati dan Sumber Ketenangan Sejati</h1>
+    <p class="hero-sub">Satu naskah, dua kegunaan: nyalakan Panduan Khatib untuk melihat petunjuk intonasi dan jeda, atau matikan untuk membaca teks bersih.</p>
+  </section>
+
+  <div class="kontrol-bar no-print">
+    <label class="toggle-khatib">
+      <input type="checkbox" id="toggleKhatib">
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span>Tampilkan Panduan Khatib</span>
+    </label>
+    <div class="kontrol-actions">
+      <button type="button" class="btn" id="btnWhatsApp"><span aria-hidden="true">💬</span> Bagikan ke WhatsApp</button>
+      <button type="button" class="btn btn-emerald" id="btnPDF"><span aria-hidden="true">🖨️</span> Unduh PDF</button>
+    </div>
+  </div>
+
+  <p class="legenda no-print" id="legenda">
+    <span class="legenda-item"><span class="legenda-swatch" style="background:var(--marker-intonasi-bg); border:1px solid var(--marker-intonasi);"></span>Penanda intonasi/nada</span>
+    <span class="legenda-item"><span class="legenda-swatch" style="background:var(--marker-jeda-bg); border:1px solid var(--marker-jeda);"></span>Penanda jeda diam</span>
+    <span class="legenda-item"><span class="legenda-swatch" style="background:var(--marker-napas-bg); border:1px solid var(--marker-napas);"></span>Penanda tarik napas</span>
+    <br>Penanda ini petunjuk penyampaian untuk khatib, tidak dibaca saat khutbah. "Unduh PDF" langsung menghasilkan 7 halaman A4 siap baca. Ingin ukuran saku (A5)? Saat mencetak fisik, pilih "2 Halaman per Lembar".
+  </p>
+
+  <nav class="terkait no-print" aria-label="Tautan terkait">
+    <a class="terkait-item" href="https://qiladat.com/artikel/detail.html?slug=hujan-musim-semi-003" target="_blank" rel="noopener" title="Artikel — tentang zikir pagi dan petang yang mengembalikan kita pada arah, sejalan dengan tema zikir sebagai tempat pulang hati.">
+      <span class="terkait-icon" aria-hidden="true">📖</span><span class="terkait-judul">Hujan Musim Semi — 003</span>
+    </a>
+    <a class="terkait-item" href="https://qiladat.com/alat/fikih-muamalah-dan-ibadah/tawakal.html" target="_blank" rel="noopener" title="Alat — melengkapi pesan ketenangan hati ketika menghadapi masalah dengan latihan sikap tawakal.">
+      <span class="terkait-icon" aria-hidden="true">🧭</span><span class="terkait-judul">Tawakal — Cara Menang yang Tak Terlihat</span>
+    </a>
+    <a class="terkait-item" href="https://qiladat.com/arsip/khutbah/khutbah-berat-membawa-kebaikan.html" target="_blank" rel="noopener" title="Arsip Khutbah — tentang ujian dan kembali kepada Allah, bukan sekadar menunggu keadaan normal lagi.">
+      <span class="terkait-icon" aria-hidden="true">🕌</span><span class="terkait-judul">Ketika yang Berat Ternyata Membawa Kebaikan</span>
+    </a>
+  </nav>
+
+  <article class="khutbah-body" id="khutbahBody">
+
+    <h2>Khutbah Pertama</h2>
+
+    <p class="arab">[BIASA, KHIDMAT] الْحَمْدُ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللَّهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللَّهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ.</p>
+    <p class="arab">وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ.</p>
+    <p class="arab">اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ عَلَى نَبِيِّنَا مُحَمَّدٍ، وَعَلَى آلِهِ وَأَصْحَابِهِ أَجْمَعِينَ.</p>
+    <p class="arab">أَمَّا بَعْدُ:</p>
+    <p class="arab">فَيَا عِبَادَ اللَّهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللَّهِ، فَإِنَّ تَقْوَى اللَّهِ خَيْرُ زَادٍ لِيَوْمِ الْمَعَادِ.</p>
+
+    <p>[BIASA] Jamaah Jumat rahimakumullah.</p>
+    <p>Marilah kita bertakwa kepada Allah Subhanahu wa Ta'ala dengan sebenar-benar ketakwaan.</p>
+    <p>Saudara-saudaraku yang dimuliakan Allah.</p>
+
+    <p>Setiap manusia tentu menginginkan kehidupan yang tenang. Kita ingin keluarga kita tenang, rumah tangga kita tenang, pekerjaan kita tenang, anak-anak kita menjadi anak yang baik, rezeki kita cukup, dan segala urusan kita berjalan dengan baik.</p>
+
+    <p>Kita bekerja mencari nafkah. Kita berusaha memperbaiki kehidupan. Kita membangun rumah, mengumpulkan harta, memenuhi kebutuhan keluarga, dan melakukan berbagai macam usaha agar kehidupan kita menjadi lebih baik.</p>
+
+    <p>Dan semua itu tidaklah tercela. Bahkan mencari rezeki yang halal adalah perkara yang mulia.</p>
+
+    <p>Tetapi ada satu perkara yang sering kali kita lupakan.</p>
+    <p>[DIAM 2 DETIK] Kita begitu sibuk memperhatikan keadaan tubuh kita, tetapi terkadang kita lupa memperhatikan keadaan hati kita.</p>
+
+    <p>Kalau badan kita sakit, kita segera mencari obat.<br>
+    Kalau kepala kita pusing, kita mencari obat sakit kepala.<br>
+    Kalau perut kita sakit, kita mencari obat untuk perut.<br>
+    Kalau badan kita lemah, kita mencari makanan dan minuman yang bisa menguatkan badan.</p>
+
+    <p>Tetapi bagaimana dengan hati kita?</p>
+    <p>Bagaimana kalau hati kita gelisah?</p>
+    <p>Bagaimana kalau hati kita selalu merasa sempit, mudah marah, mudah kecewa, tidak pernah merasa cukup, selalu mengkhawatirkan masa depan, dan sulit merasakan nikmatnya beribadah?</p>
+
+    <p>[RENDAH, LAMBAT] Ke mana kita mencari obatnya?<br>
+    Ke mana kita mencari ketenangannya?<br>
+    Ke mana kita membawa hati yang sedang sakit?</p>
+    <p>[DIAM 4 DETIK]</p>
+
+    <p>Wahai kaum muslimin rahimakumullah.</p>
+    <p>Ketahuilah, Allah Subhanahu wa Ta'ala telah menunjukkan kepada kita obat hati itu.</p>
+    <p>Allah berfirman:</p>
+
+    <p class="arab">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
+    <p>"Ketahuilah, hanya dengan mengingat Allah hati menjadi tenteram." <span class="terjemah">(QS. Ar-Ra'd: 28)</span></p>
+
+    <p>[TEGAS] Perhatikan baik-baik!</p>
+    <p>[TEGAS] Allah tidak mengatakan bahwa ketenangan hati itu hanya dengan banyaknya harta.<br>
+    Allah tidak mengatakan bahwa ketenangan hati itu hanya dengan tingginya jabatan.<br>
+    Allah tidak mengatakan bahwa ketenangan hati itu hanya dengan bagusnya rumah dan lengkapnya segala fasilitas kehidupan.</p>
+    <p>[DIAM 1 DETIK] Tetapi Allah mengatakan:</p>
+
+    <p class="arab">بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
+    <p>"Dengan mengingat Allah, hati menjadi tenteram."</p>
+
+    <p>[DIAM 2 DETIK] Bukan berarti seorang mukmin tidak boleh mempunyai harta. Bukan berarti seorang mukmin tidak boleh bekerja dan berusaha. Bukan pula berarti seorang mukmin tidak akan pernah bersedih atau menghadapi kesulitan.</p>
+
+    <p>Tetapi maksudnya, di tengah segala keadaan itu, ada satu tempat kembali bagi hati seorang mukmin: Allah Subhanahu wa Ta'ala.</p>
+
+    <p>Ketika rezeki sedang lapang, dia mengingat Allah dan bersyukur.<br>
+    Ketika rezeki sedang sempit, dia mengingat Allah dan bersabar.<br>
+    Ketika mendapatkan nikmat, dia mengingat Allah.<br>
+    Ketika mendapatkan musibah, dia mengingat Allah.<br>
+    Ketika sendirian, dia mengingat Allah.<br>
+    Ketika berada di tengah manusia, dia tetap mengingat Allah.</p>
+
+    <p>[TINGGI] Inilah ketenangan yang sebenarnya!</p>
+    <p>Bukan ketenangan karena semua yang kita inginkan sudah terpenuhi, tetapi ketenangan karena hati kita mengenal siapa Rabb yang mengatur seluruh kehidupan kita.</p>
+
+    <h3>Allah Memerintahkan Kita untuk Banyak Berzikir</h3>
+
+    <p>[BIASA] Jamaah Jumat yang dimuliakan Allah.</p>
+    <p>Karena begitu besar kedudukan zikir, Allah tidak hanya menyebutkannya sebagai amalan yang baik, tetapi Allah secara langsung memerintahkan orang-orang beriman untuk memperbanyaknya.</p>
+    <p>Allah berfirman:</p>
+
+    <p class="arab">يَا أَيُّهَا الَّذِينَ آمَنُوا اذْكُرُوا اللَّهَ ذِكْرًا كَثِيرًا ۝ وَسَبِّحُوهُ بُكْرَةً وَأَصِيلًا</p>
+    <p>"Wahai orang-orang yang beriman! Ingatlah Allah dengan zikir yang sebanyak-banyaknya, dan bertasbihlah kepada-Nya pada waktu pagi dan petang." <span class="terjemah">(QS. Al-Ahzab: 41–42)</span></p>
+
+    <p>[BIASA] Perhatikan, Allah tidak mengatakan: ingatlah Allah hanya ketika berada di masjid.</p>
+    <p>Allah tidak mengatakan: ingatlah Allah hanya ketika sedang menghadiri pengajian.</p>
+    <p>Allah mengatakan:</p>
+
+    <p class="arab">اذْكُرُوا اللَّهَ ذِكْرًا كَثِيرًا</p>
+    <p>"Ingatlah Allah dengan zikir yang sebanyak-banyaknya."</p>
+
+    <p>Artinya, seorang muslim hendaknya memiliki hubungan dengan Allah dalam seluruh keadaan kehidupannya.</p>
+
+    <p>Ketika bangun tidur, dia mengingat Allah.<br>
+    Ketika hendak makan, dia mengingat Allah.<br>
+    Ketika selesai makan, dia mengingat Allah.<br>
+    Ketika keluar rumah, dia mengingat Allah.<br>
+    Ketika masuk rumah, dia mengingat Allah.<br>
+    Ketika mengenakan pakaian, dia mengingat Allah.<br>
+    Ketika berkendara, dia mengingat Allah.<br>
+    Ketika selesai salat, dia mengingat Allah.<br>
+    Ketika hendak tidur, dia mengingat Allah.</p>
+
+    <p>Bahkan ketika melakukan pekerjaan sehari-hari, lisannya bisa tetap basah dengan zikir kepada Allah.</p>
+
+    <p>Dan Allah berfirman dalam hadis qudsi yang diriwayatkan oleh Abu Hurairah radhiyallahu 'anhu:</p>
+
+    <p class="arab">أَنَا عِنْدَ ظَنِّ عَبْدِي بِي، وَأَنَا مَعَهُ إِذَا ذَكَرَنِي، فَإِنْ ذَكَرَنِي فِي نَفْسِهِ ذَكَرْتُهُ فِي نَفْسِي، وَإِنْ ذَكَرَنِي فِي مَلَإٍ ذَكَرْتُهُ فِي مَلَإٍ خَيْرٍ مِنْهُمْ</p>
+    <p>"Allah berfirman: Aku sesuai dengan persangkaan hamba-Ku kepada-Ku, dan Aku bersamanya ketika dia mengingat-Ku. Jika dia mengingat-Ku dalam dirinya, Aku mengingatnya dalam diri-Ku. Jika dia mengingat-Ku di tengah suatu perkumpulan, Aku mengingatnya di tengah perkumpulan yang lebih baik daripada mereka." <span class="terjemah">(HR. Al-Bukhari dan Muslim)</span></p>
+
+    <p>[RENDAH] Bayangkan, wahai saudara-saudaraku.</p>
+    <p>Kita ini manusia yang lemah. Kita sering lupa kepada Allah. Kita sering lalai. Kita sering tenggelam dalam urusan dunia.</p>
+    <p>Namun ketika seorang hamba mengingat Allah, Allah menyebut dan mengingat hamba tersebut.</p>
+    <p>Maka nikmat apa lagi yang lebih besar daripada seorang hamba yang lemah, yang namanya disebut oleh Rabb Yang Mahaagung?</p>
+    <p>Allah juga berfirman:</p>
+
+    <p class="arab">فَاذْكُرُونِي أَذْكُرْكُمْ وَاشْكُرُوا لِي وَلَا تَكْفُرُونِ</p>
+    <p>"Ingatlah kepada-Ku, niscaya Aku ingat pula kepada kalian. Bersyukurlah kepada-Ku dan janganlah kalian mengingkari nikmat-Ku." <span class="terjemah">(QS. Al-Baqarah: 152)</span></p>
+
+    <p>[DIAM 2 DETIK] Maka janganlah kita menjadi orang yang hanya mengingat Allah ketika sedang membutuhkan sesuatu.</p>
+
+    <p>Jangan hanya ingat Allah ketika sedang sakit.<br>
+    Jangan hanya ingat Allah ketika sedang kesulitan ekonomi.<br>
+    Jangan hanya ingat Allah ketika ada musibah yang menimpa keluarga.</p>
+
+    <p>Tetapi ingatlah Allah ketika sehat maupun sakit, ketika lapang maupun sempit, ketika senang maupun susah.</p>
+    <p>Sebab kita membutuhkan Allah setiap saat, bukan hanya ketika kita sedang kesulitan.</p>
+
+    <h3>Orang yang Berzikir dan yang Lalai Tidaklah Sama</h3>
+
+    <p>[BIASA] Jamaah Jumat rahimakumullah.</p>
+    <p>Rasulullah shallallahu 'alaihi wa sallam memberikan sebuah perumpamaan yang sangat menggetarkan hati.</p>
+    <p>Beliau bersabda:</p>
+
+    <p class="arab">مَثَلُ الَّذِي يَذْكُرُ رَبَّهُ وَالَّذِي لَا يَذْكُرُ رَبَّهُ مَثَلُ الْحَيِّ وَالْمَيِّتِ</p>
+    <p>"Perumpamaan orang yang mengingat Rabb-nya dan orang yang tidak mengingat Rabb-nya adalah seperti orang yang hidup dan orang yang mati." <span class="terjemah">(HR. Al-Bukhari no. 6407; makna ini juga diriwayatkan dalam Sahih Muslim no. 779)</span></p>
+    <p>[DIAM 4 DETIK]</p>
+
+    <p>Subhanallah!</p>
+    <p>Rasulullah tidak sekadar mengatakan bahwa orang yang berzikir lebih baik daripada orang yang tidak berzikir.</p>
+    <p>Beliau memberikan perumpamaan yang sangat besar.</p>
+    <p>Orang yang mengingat Allah seperti orang hidup.</p>
+    <p>Orang yang tidak mengingat Allah seperti orang mati.</p>
+
+    <p>[TINGGI, TEGAS] Mengapa demikian?</p>
+    <p>Karena sebagaimana jasad membutuhkan ruh agar hidup, hati juga membutuhkan iman dan ketaatan agar hidup.</p>
+    <p>Seseorang mungkin saja masih berjalan, masih bekerja, masih berbicara, masih tertawa, masih memiliki harta, bahkan mungkin memiliki kedudukan di tengah masyarakat.</p>
+    <p>Tetapi jika hatinya jauh dari Allah, jika lisannya tidak pernah mengingat Allah, jika hidupnya dipenuhi kelalaian, maka hatinya sedang mengalami kematian ruhani.</p>
+
+    <p>[RENDAH] Jangan sampai rumah kita bagus, tetapi hati penghuninya kosong dari zikir.<br>
+    Jangan sampai dapur kita selalu mengepul, tetapi Al-Qur'an tidak pernah dibaca.<br>
+    Jangan sampai rumah kita ramai dengan suara televisi dan percakapan, tetapi hampir tidak pernah terdengar kalimat Allah disebut di dalamnya.<br>
+    Jangan sampai kita begitu rajin membersihkan rumah, tetapi membiarkan hati kita kotor karena dosa dan kelalaian.</p>
+
+    <p>[DIAM 2 DETIK] Rasulullah shallallahu 'alaihi wa sallam juga bersabda:</p>
+
+    <p class="arab">لَا تَجْعَلُوا بُيُوتَكُمْ مَقَابِرَ، إِنَّ الشَّيْطَانَ يَنْفِرُ مِنَ الْبَيْتِ الَّذِي تُقْرَأُ فِيهِ سُورَةُ الْبَقَرَةِ</p>
+    <p>"Janganlah kalian menjadikan rumah-rumah kalian seperti kuburan. Sesungguhnya setan lari dari rumah yang dibacakan di dalamnya Surah Al-Baqarah." <span class="terjemah">(HR. Muslim no. 780)</span></p>
+
+    <p>[TEGAS] Jangan jadikan rumah kita seperti kuburan!</p>
+    <p>Rumah seorang muslim seharusnya hidup dengan salat, bacaan Al-Qur'an, zikir, doa, dan ketaatan kepada Allah.</p>
+    <p>Bukan berarti rumah harus selalu ramai dengan suara bacaan. Bukan pula berarti setiap saat harus ada orang yang membaca Al-Qur'an dengan suara keras.</p>
+    <p>Tetapi jangan sampai rumah kita kosong sama sekali dari ibadah kepada Allah.</p>
+
+    <p>Ajarkan anak-anak kita mengucapkan bismillah.<br>
+    Biasakan mereka mengucapkan alhamdulillah.<br>
+    Ajarkan mereka membaca doa sebelum tidur.<br>
+    Biasakan keluarga kita membaca Al-Qur'an.<br>
+    Hidupkan rumah kita dengan salat-salat sunah dan zikir-zikir yang disyariatkan.</p>
+
+    <p>[TINGGI, TEGAS] Sebab rumah yang hidup bukan semata-mata rumah yang banyak penghuninya, tetapi rumah yang di dalamnya Allah diingat dan ditaati!</p>
+
+    <h3>Perumpamaan Kurma dan Utrujah: Al-Qur'an Menghidupkan Hati dan Memberi Manfaat</h3>
+
+    <p>[BIASA] Jamaah Jumat rahimakumullah.</p>
+    <p>Ada lagi sebuah perumpamaan indah yang disampaikan Rasulullah shallallahu 'alaihi wa sallam.</p>
+    <p>Beliau bersabda:</p>
+
+    <p class="arab">مَثَلُ الْمُؤْمِنِ الَّذِي يَقْرَأُ الْقُرْآنَ كَمَثَلِ الْأُتْرُجَّةِ، رِيحُهَا طَيِّبٌ وَطَعْمُهَا طَيِّبٌ، وَمَثَلُ الْمُؤْمِنِ الَّذِي لَا يَقْرَأُ الْقُرْآنَ كَمَثَلِ التَّمْرَةِ، لَا رِيحَ لَهَا وَطَعْمُهَا حُلْوٌ</p>
+    <p>"Perumpamaan seorang mukmin yang membaca Al-Qur'an seperti buah utrujah, aromanya harum dan rasanya enak. Sedangkan perumpamaan seorang mukmin yang tidak membaca Al-Qur'an seperti buah kurma, rasanya manis tetapi tidak memiliki aroma." <span class="terjemah">(HR. Al-Bukhari no. 5020; juga diriwayatkan dalam Sahih Muslim)</span></p>
+
+    <p>Apa itu utrujah?</p>
+    <p>Utrujah adalah sejenis buah sitrus yang memiliki aroma harum dan rasa yang baik.</p>
+    <p>Rasulullah memberikan perumpamaan seorang mukmin yang membaca Al-Qur'an dengan buah yang memiliki dua kebaikan: baik aromanya dan baik pula rasanya.</p>
+    <p>Sedangkan mukmin yang tidak membaca Al-Qur'an diumpamakan seperti buah kurma. Kurma itu rasanya manis, tetapi tidak memiliki aroma seperti utrujah.</p>
+
+    <p>Perhatikan baik-baik.</p>
+    <p>Seorang mukmin yang tidak membaca Al-Qur'an tetap seorang mukmin yang memiliki kebaikan. Tetapi seorang mukmin yang membaca Al-Qur'an memiliki keutamaan tambahan.</p>
+
+    <p>[RENDAH] Al-Qur'an bukan hanya bacaan untuk orang yang sudah tua.<br>
+    Al-Qur'an bukan hanya dibaca ketika ada orang meninggal.<br>
+    Al-Qur'an bukan hanya dibaca ketika bulan Ramadan.<br>
+    Al-Qur'an bukan hanya dibaca oleh imam masjid.</p>
+
+    <p>Tetapi Al-Qur'an adalah petunjuk hidup bagi setiap muslim.</p>
+    <p>Allah berfirman:</p>
+
+    <p class="arab">إِنَّ هَذَا الْقُرْآنَ يَهْدِي لِلَّتِي هِيَ أَقْوَمُ</p>
+    <p>"Sesungguhnya Al-Qur'an ini memberikan petunjuk kepada jalan yang paling lurus." <span class="terjemah">(QS. Al-Isra': 9)</span></p>
+
+    <p>Dan Allah berfirman:</p>
+
+    <p class="arab">يَا أَيُّهَا النَّاسُ قَدْ جَاءَتْكُمْ مَوْعِظَةٌ مِنْ رَبِّكُمْ وَشِفَاءٌ لِمَا فِي الصُّدُورِ وَهُدًى وَرَحْمَةٌ لِلْمُؤْمِنِينَ</p>
+    <p>"Wahai manusia! Sungguh, telah datang kepadamu pelajaran dari Rabb-mu, penyembuh bagi penyakit yang ada dalam dada, petunjuk, dan rahmat bagi orang-orang yang beriman." <span class="terjemah">(QS. Yunus: 57)</span></p>
+
+    <p>[TEGAS] Perhatikan!</p>
+    <p>Allah menyebut Al-Qur'an sebagai penyembuh bagi penyakit yang ada di dalam dada.</p>
+    <p>Penyakit hati seperti keraguan, kesombongan, iri hati, kebencian, kecintaan berlebihan kepada dunia, dan berbagai penyakit batin lainnya membutuhkan petunjuk Allah.</p>
+    <p>Maka jangan hanya memberi makan tubuh kita, tetapi berilah makan hati kita dengan Al-Qur'an.</p>
+    <p>Jangan sampai kita setiap hari makan tiga kali, bahkan lebih, tetapi hati kita tidak mendapatkan santapan dari ayat-ayat Allah.</p>
+
+    <p>[DIAM 2 DETIK] Jangan sampai kita begitu hafal berita dunia, tetapi tidak mengenal ayat-ayat Rabb kita.</p>
+    <p>Jangan sampai kita begitu cepat mengetahui kabar orang lain, tetapi tidak pernah meluangkan waktu untuk membaca firman Allah.</p>
+    <p>Dan jangan hanya membaca Al-Qur'an, tetapi berusahalah memahami dan mengamalkannya.</p>
+    <p>Sebab tujuan Al-Qur'an bukan sekadar agar huruf-hurufnya bergerak di lisan kita, tetapi agar petunjuknya hidup dalam diri kita.</p>
+
+    <h3>Zikir Itu Ringan di Lisan, tetapi Besar di Sisi Allah</h3>
+
+    <p>[BIASA] Jamaah Jumat yang dirahmati Allah.</p>
+    <p>Terkadang seseorang mengatakan, "Saya sibuk. Saya bekerja dari pagi sampai sore. Saya mengurus sawah, kebun, ternak, keluarga, dan berbagai urusan lainnya. Kapan saya bisa berzikir?"</p>
+    <p>Maka ketahuilah, zikir termasuk amalan yang Allah mudahkan.</p>
+    <p>Rasulullah shallallahu 'alaihi wa sallam bersabda:</p>
+
+    <p class="arab">كَلِمَتَانِ خَفِيفَتَانِ عَلَى اللِّسَانِ، ثَقِيلَتَانِ فِي الْمِيزَانِ، حَبِيبَتَانِ إِلَى الرَّحْمَنِ: سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، سُبْحَانَ اللَّهِ الْعَظِيمِ</p>
+    <p>"Ada dua kalimat yang ringan diucapkan oleh lisan, berat dalam timbangan, dan dicintai oleh Allah Yang Maha Pengasih: Subhanallahi wa bihamdihi, Subhanallahil 'azhim." <span class="terjemah">(HR. Al-Bukhari no. 6406 dan Muslim no. 2694)</span></p>
+
+    <p class="arab">[TINGGI, JELAS] سُبْحَانَ اللَّهِ وَبِحَمْدِهِ</p>
+    <p class="arab">سُبْحَانَ اللَّهِ الْعَظِيمِ</p>
+    <p>Subhanallahi wa bihamdihi. Subhanallahil 'azhim.</p>
+    <p>Ringan di lisan, tetapi berat dalam timbangan.</p>
+
+    <p>Rasulullah juga bersabda:</p>
+
+    <p class="arab">لَأَنْ أَقُولَ سُبْحَانَ اللَّهِ، وَالْحَمْدُ لِلَّهِ، وَلَا إِلَهَ إِلَّا اللَّهُ، وَاللَّهُ أَكْبَرُ، أَحَبُّ إِلَيَّ مِمَّا طَلَعَتْ عَلَيْهِ الشَّمْسُ</p>
+    <p>"Sungguh, mengucapkan Subhanallah, Alhamdulillah, La ilaha illallah, dan Allahu Akbar lebih aku sukai daripada segala sesuatu yang disinari matahari." <span class="terjemah">(HR. Muslim no. 2695)</span></p>
+
+    <p>[BIASA] Lihatlah betapa mudahnya agama ini.</p>
+
+    <p>Ketika kita berjalan menuju kebun, kita bisa mengucapkan Subhanallah.<br>
+    Ketika kita mendapatkan rezeki, kita mengucapkan Alhamdulillah.<br>
+    Ketika kita menyadari bahwa hanya Allah yang berhak disembah, kita mengucapkan La ilaha illallah.<br>
+    Ketika kita menyaksikan kebesaran ciptaan Allah, kita mengucapkan Allahu Akbar.<br>
+    Ketika melakukan kesalahan, kita beristigfar.<br>
+    Ketika mendapatkan nikmat, kita bersyukur.<br>
+    Ketika menghadapi kesulitan, kita berdoa dan memohon pertolongan kepada Allah.</p>
+
+    <p>Dan Rasulullah shallallahu 'alaihi wa sallam menjelaskan bahwa orang-orang yang banyak mengingat Allah memiliki kedudukan yang istimewa.</p>
+    <p>Beliau bersabda:</p>
+
+    <p class="arab">سَبَقَ الْمُفَرِّدُونَ</p>
+    <p class="arab">قَالُوا: وَمَا الْمُفَرِّدُونَ يَا رَسُولَ اللَّهِ؟</p>
+    <p class="arab">قَالَ: الذَّاكِرُونَ اللَّهَ كَثِيرًا وَالذَّاكِرَاتُ</p>
+    <p>"Orang-orang yang mufarridun telah mendahului." Para sahabat bertanya, "Siapakah orang-orang mufarridun itu, wahai Rasulullah?" Beliau menjawab, "Laki-laki dan perempuan yang banyak mengingat Allah." <span class="terjemah">(HR. Muslim no. 2676)</span></p>
+
+    <p>[TEGAS] Orang yang banyak mengingat Allah!</p>
+    <p>[DIAM 1 DETIK] Bukan hanya orang yang banyak hartanya.</p>
+    <p>[DIAM 1 DETIK] Bukan hanya orang yang tinggi kedudukannya.</p>
+    <p>[DIAM 1 DETIK] Bukan hanya orang yang terkenal namanya di tengah masyarakat.</p>
+    <p>[DIAM 2 DETIK] Tetapi orang-orang yang senantiasa mengingat Allah.</p>
+
+    <h3>Jangan Hanya Mengingat Allah dengan Lisan, tetapi Hidupkan Hati dan Anggota Badan dengan Ketaatan</h3>
+
+    <p>[BIASA] Jamaah Jumat rahimakumullah.</p>
+    <p>Ada satu hal yang perlu kita pahami.</p>
+    <p>Zikir bukan sekadar gerakan lisan tanpa kesadaran hati.</p>
+    <p>Zikir yang sempurna menggabungkan lisan, hati, dan anggota badan.</p>
+
+    <p>Lisan menyebut nama Allah.<br>
+    Hati mengenal, mengagungkan, dan mengingat Allah.<br>
+    Anggota badan melaksanakan perintah Allah dan menjauhi larangan-Nya.</p>
+
+    <p>Jangan sampai lisan kita mengucapkan Subhanallah, tetapi tangan kita masih mengambil hak orang lain.<br>
+    Jangan sampai lisan kita mengucapkan Alhamdulillah, tetapi hati kita terus-menerus mengingkari nikmat Allah.<br>
+    Jangan sampai kita banyak membaca istigfar, tetapi tidak mau meninggalkan dosa.<br>
+    Jangan sampai kita mengucapkan La ilaha illallah, tetapi justru menggantungkan hati kepada selain Allah.</p>
+
+    <p>[TINGGI, TEGAS] Zikir yang benar seharusnya menjadikan kita semakin taat kepada Allah!</p>
+
+    <p>Semakin banyak mengingat Allah, seharusnya semakin malu kita untuk bermaksiat kepada-Nya.<br>
+    Semakin dekat kita kepada Allah, seharusnya semakin baik akhlak kita kepada manusia.<br>
+    Semakin sering kita membaca Al-Qur'an, seharusnya semakin besar keinginan kita untuk mengamalkan petunjuknya.</p>
+
+    <p>Allah berfirman:</p>
+
+    <p class="arab">وَمَنْ يَعْشُ عَنْ ذِكْرِ الرَّحْمَٰنِ نُقَيِّضْ لَهُ شَيْطَانًا فَهُوَ لَهُ قَرِينٌ</p>
+    <p>"Barang siapa berpaling dari pengajaran Allah Yang Maha Pengasih, Kami biarkan setan menyesatkannya, maka setan itu menjadi teman yang selalu menyertainya." <span class="terjemah">(QS. Az-Zukhruf: 36)</span></p>
+
+    <p>Maka janganlah kita berpaling dari mengingat Allah.</p>
+    <p>Jangan biarkan hari-hari kita berlalu tanpa Al-Qur'an.</p>
+    <p>Jangan biarkan waktu kita habis untuk urusan dunia, sementara kita tidak menyediakan waktu untuk mengingat Rabb yang telah menciptakan kita.</p>
+
+    <h3>Mulailah dari Rumah dan Kebiasaan Sehari-hari</h3>
+
+    <p>[BIASA] Saudara-saudaraku kaum muslimin.</p>
+    <p>Apa yang harus kita lakukan?</p>
+
+    <p>Tidak perlu menunggu menjadi orang alim terlebih dahulu untuk mulai berzikir.<br>
+    Tidak perlu menunggu memiliki banyak waktu luang.<br>
+    Tidak perlu menunggu semua urusan selesai.</p>
+
+    <p>Mulailah dari hal-hal yang sederhana.</p>
+    <p>Pertama, jagalah salat lima waktu. Sebab salat itu sendiri merupakan ibadah yang agung dan sarana mengingat Allah.</p>
+    <p>Allah berfirman:</p>
+
+    <p class="arab">وَأَقِمِ الصَّلَاةَ لِذِكْرِي</p>
+    <p>"Dirikanlah salat untuk mengingat-Ku." <span class="terjemah">(QS. Thaha: 14)</span></p>
+
+    <p>[BIASA] Salat adalah zikir yang paling agung. Di dalamnya ada takbir, tasbih, pujian, doa, dan bacaan Al-Qur'an. Orang yang menjaga salatnya sedang menjaga hubungan hatinya dengan Allah, lima kali dalam sehari.</p>
+
+    <p>Kedua, jangan tinggalkan zikir setelah salat.</p>
+    <p>Kita sering selesai salam, lalu langsung berdiri, langsung mengambil telepon genggam, langsung kembali kepada urusan dunia. Padahal Rasulullah shallallahu 'alaihi wa sallam mengajarkan zikir yang ringan, tetapi besar balasannya.</p>
+    <p>Beliau bersabda:</p>
+
+    <p class="arab">مَنْ سَبَّحَ اللَّهَ فِي دُبُرِ كُلِّ صَلَاةٍ ثَلَاثًا وَثَلَاثِينَ، وَحَمِدَ اللَّهَ ثَلَاثًا وَثَلَاثِينَ، وَكَبَّرَ اللَّهَ ثَلَاثًا وَثَلَاثِينَ، فَتِلْكَ تِسْعَةٌ وَتِسْعُونَ، وَقَالَ تَمَامَ الْمِائَةِ: لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، غُفِرَتْ خَطَايَاهُ وَإِنْ كَانَتْ مِثْلَ زَبَدِ الْبَحْرِ</p>
+    <p>"Barang siapa bertasbih kepada Allah setiap selesai salat sebanyak tiga puluh tiga kali, bertahmid tiga puluh tiga kali, dan bertakbir tiga puluh tiga kali, maka itu semuanya sembilan puluh sembilan. Lalu dia menggenapkan seratus dengan mengucapkan: Laa ilaaha illallaahu wahdahu laa syariika lah, lahul mulku wa lahul hamdu wa huwa 'alaa kulli syai'in qadiir, maka diampuni kesalahan-kesalahannya, walaupun sebanyak buih di lautan." <span class="terjemah">(HR. Muslim no. 597)</span></p>
+
+    <p>[DIAM 2 DETIK] Tidak membutuhkan alat. Tidak membutuhkan biaya. Hanya beberapa menit.</p>
+
+    <p>Ketiga, jadikan pagi dan petang sebagai waktu pulang kepada Allah.</p>
+    <p>Ingatlah firman Allah yang tadi kita baca: "bertasbihlah kepada-Nya pada waktu pagi dan petang." Rasulullah shallallahu 'alaihi wa sallam bersabda:</p>
+
+    <p class="arab">مَنْ قَالَ حِينَ يُصْبِحُ وَحِينَ يُمْسِي: سُبْحَانَ اللَّهِ وَبِحَمْدِهِ مِائَةَ مَرَّةٍ، لَمْ يَأْتِ أَحَدٌ يَوْمَ الْقِيَامَةِ بِأَفْضَلَ مِمَّا جَاءَ بِهِ، إِلَّا أَحَدٌ قَالَ مِثْلَ مَا قَالَ أَوْ زَادَ عَلَيْهِ</p>
+    <p>"Barang siapa mengucapkan di waktu pagi dan di waktu petang: Subhanallahi wa bihamdihi, seratus kali, maka tidak ada seorang pun pada hari kiamat yang datang membawa sesuatu yang lebih utama daripada apa yang dia bawa, kecuali orang yang mengucapkan seperti itu atau lebih banyak daripadanya." <span class="terjemah">(HR. Muslim no. 2692)</span></p>
+
+    <p>[BIASA] Keempat, bacalah Al-Qur'an setiap hari, walaupun sedikit.</p>
+    <p>Jangan menunggu punya waktu untuk satu juz. Mulailah dari satu halaman. Rasulullah shallallahu 'alaihi wa sallam bersabda:</p>
+
+    <p class="arab">أَحَبُّ الْأَعْمَالِ إِلَى اللَّهِ أَدْوَمُهَا وَإِنْ قَلَّ</p>
+    <p>"Amalan yang paling dicintai Allah adalah yang paling terus-menerus, walaupun sedikit." <span class="terjemah">(HR. Al-Bukhari no. 6464 dan Muslim no. 783)</span></p>
+
+    <p>[DIAM 1 DETIK] Sedikit, tetapi terus. Itulah yang menghidupkan hati.</p>
+
+    <p>Kelima, jangan lelah beristigfar dan berdoa.</p>
+    <p>Rasulullah shallallahu 'alaihi wa sallam bersabda:</p>
+
+    <p class="arab">وَاللَّهِ إِنِّي لَأَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ فِي الْيَوْمِ أَكْثَرَ مِنْ سَبْعِينَ مَرَّةً</p>
+    <p>"Demi Allah, sungguh aku beristigfar kepada Allah dan bertobat kepada-Nya dalam sehari lebih dari tujuh puluh kali." <span class="terjemah">(HR. Al-Bukhari no. 6307)</span></p>
+
+    <p>[RENDAH] Beliau, yang telah Allah ampuni dosa-dosanya yang lalu dan yang akan datang, tidak meninggalkan istigfar.</p>
+    <p>[DIAM 2 DETIK] Lalu bagaimana dengan kita?</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[BIASA] Dan yang terakhir, mulailah dari rumah.</p>
+    <p>Biasakan keluarga kita mengucapkan bismillah sebelum makan. Ajak anak-anak membaca satu ayat bersama. Ajarkan mereka doa sebelum tidur. Ketika masuk rumah, ucapkan salam. Ketika ada nikmat, ucapkan alhamdulillah, agar mereka tumbuh dengan lisan yang akrab menyebut nama Allah.</p>
+
+    <p>[TEGAS] Jangan tunggu sempurna. Mulailah dari yang kecil, dan jagalah supaya terus berjalan.</p>
+
+    <h3>Penutup Khutbah Pertama</h3>
+
+    <p>[DALAM] Jamaah Jumat rahimakumullah, marilah kita kembali ke ayat yang kita buka tadi.</p>
+
+    <p class="arab">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</p>
+    <p>"Ketahuilah, hanya dengan mengingat Allah hati menjadi tenteram."</p>
+
+    <p>[DIAM 2 DETIK] Di bagian lain, Allah memperingatkan:</p>
+
+    <p class="arab">وَمَنْ أَعْرَضَ عَنْ ذِكْرِي فَإِنَّ لَهُ مَعِيشَةً ضَنكًا</p>
+    <p>[RENDAH] "Dan barang siapa berpaling dari peringatan-Ku, maka sesungguhnya baginya penghidupan yang sempit." <span class="terjemah">(QS. Thaha: 124)</span></p>
+
+    <p>[DIAM 2 DETIK] Sebagian ahli tafsir menjelaskan bahwa di antara maknanya adalah kesempitan batin, walaupun hartanya lapang.</p>
+
+    <p>[DIAM 3 DETIK] Maka jelaslah, wahai saudara-saudaraku.</p>
+    <p>[BIASA] Hati yang gelisah, dada yang sempit, dan jiwa yang tidak pernah merasa cukup, sering kali bukan butuh lebih banyak dunia. Ia butuh pulang kepada Allah.</p>
+    <p>[TEGAS] Ketenangan bukan berarti hidup tanpa masalah. Ketenangan adalah hati yang tetap memiliki Allah ketika masalah itu datang.</p>
+    <p>[DIAM 3 DETIK] Semoga Allah menghidupkan hati-hati kita dengan zikir, dan menjadikan kita termasuk orang-orang yang banyak mengingat-Nya.</p>
+
+    <p class="arab">[BIASA] أَقُولُ قَوْلِي هَذَا، وَأَسْتَغْفِرُ اللَّهَ لِي وَلَكُمْ، فَاسْتَغْفِرُوهُ، إِنَّهُ هُوَ الْغَفُورُ الرَّحِيمُ.</p>
+
+    <h2>Khutbah Kedua</h2>
+
+    <p class="arab">[BIASA] الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَى نَبِيِّنَا مُحَمَّدٍ، وَعَلَى آلِهِ وَأَصْحَابِهِ أَجْمَعِينَ.</p>
+    <p class="arab">أَمَّا بَعْدُ،</p>
+    <p class="arab">[TEGAS] فَيَا عِبَادَ اللَّهِ، اتَّقُوا اللَّهَ.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[BIASA] Jamaah rahimakumullah, sebelum kita mengakhiri khutbah, mari kita bawa pulang tiga pesan sederhana.</p>
+    <p>[DIAM 1 DETIK]</p>
+
+    <p><strong>PERTAMA</strong></p>
+    <p>[TEGAS] Jangan mencari ketenangan hanya pada hal-hal yang bisa hilang.</p>
+    <p>[DIAM 2 DETIK] Harta bisa habis. Jabatan bisa berakhir. Tetapi hubungan seorang hamba dengan Rabb-nya tidak boleh putus.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p><strong>KEDUA</strong></p>
+    <p>[TEGAS] Mulailah dari yang ringan, dan jagalah supaya terus berjalan.</p>
+    <p>[DIAM 2 DETIK] Zikir setelah salat. Zikir pagi dan petang. Satu halaman Al-Qur'an setiap hari. Istigfar yang tidak ditinggalkan.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p><strong>KETIGA</strong></p>
+    <p>[TEGAS] Hidupkan rumah kita dengan zikir.</p>
+    <p>[DIAM 2 DETIK] Jangan biarkan rumah kita menjadi seperti kuburan. Jadikan ia tempat Allah disebut, tempat Al-Qur'an dibaca, dan tempat anak-anak kita belajar mengenal Rabb mereka.</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[BIASA] Dan perbanyaklah salawat kepada Nabi kita Muhammad shallallahu 'alaihi wa sallam. Allah berfirman:</p>
+    <p class="arab">إِنَّ اللَّهَ وَمَلَائِكَتَهُ يُصَلُّونَ عَلَى النَّبِيِّ ۚ يَا أَيُّهَا الَّذِينَ آمَنُوا صَلُّوا عَلَيْهِ وَسَلِّمُوا تَسْلِيمًا</p>
+    <p>"Sesungguhnya Allah dan para malaikat-Nya bersalawat untuk Nabi. Wahai orang-orang yang beriman! Bersalawatlah kamu untuk Nabi dan ucapkanlah salam dengan penuh penghormatan kepadanya." <span class="terjemah">(QS. Al-Ahzab: 56)</span></p>
+    <p class="arab">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ، كَمَا صَلَّيْتَ عَلَى إِبْرَاهِيمَ وَعَلَى آلِ إِبْرَاهِيمَ، إِنَّكَ حَمِيدٌ مَجِيدٌ.</p>
+
+    <p>[DIAM 2 DETIK] Maka marilah kita berdoa:</p>
+
+    <p>[RENDAH, LAMBAT] "Ya Allah, hidupkan hati kami dengan zikir kepada-Mu."</p>
+    <p>[DIAM 2 DETIK] "Ya Allah, jangan Engkau jadikan kami orang yang lalai dan berpaling dari-Mu."</p>
+    <p>[DIAM 2 DETIK] "Ya Allah, jadikan Al-Qur'an penyejuk hati kami."</p>
+    <p>[DIAM 2 DETIK] "Ya Allah, kalau hati kami sedang gelisah dan dada kami sedang sempit, tenteramkanlah kami dengan mengingat-Mu."</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p class="doa">اللَّهُمَّ اغْفِرْ لِلْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، الْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ.<br>
+    اللَّهُمَّ أَعِنَّا عَلَى ذِكْرِكَ وَشُكْرِكَ وَحُسْنِ عِبَادَتِكَ.<br>
+    اللَّهُمَّ اجْعَلِ الْقُرْآنَ رَبِيعَ قُلُوبِنَا، وَنُورَ صُدُورِنَا، وَجَلَاءَ أَحْزَانِنَا، وَذَهَابَ هُمُومِنَا.<br>
+    اللَّهُمَّ ارْزُقْنَا قُلُوبًا خَاشِعَةً، وَأَلْسِنَةً ذَاكِرَةً، وَأَبْدَانًا عَلَى طَاعَتِكَ صَابِرَةً.<br>
+    اللَّهُمَّ لَا تَجْعَلِ الدُّنْيَا أَكْبَرَ هَمِّنَا، وَلَا مَبْلَغَ عِلْمِنَا.<br>
+    اللَّهُمَّ أَصْلِحْ لَنَا دِينَنَا الَّذِي هُوَ عِصْمَةُ أَمْرِنَا، وَأَصْلِحْ لَنَا دُنْيَانَا الَّتِي فِيهَا مَعَاشُنَا، وَأَصْلِحْ لَنَا آخِرَتَنَا الَّتِي إِلَيْهَا مَعَادُنَا.<br>
+    رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ.</p>
+
+    <p class="arab">[TEGAS] عِبَادَ اللَّهِ،</p>
+    <p>[DIAM 1 DETIK]</p>
+    <p class="arab">إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالْإِحْسَانِ وَإِيتَاءِ ذِي الْقُرْبَىٰ وَيَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنْكَرِ وَالْبَغْيِ ۚ يَعِظُكُمْ لَعَلَّكُمْ تَذَكَّرُونَ</p>
+
+    <p>[DIAM 2 DETIK]</p>
+    <p class="arab">فَاذْكُرُوا اللَّهَ يَذْكُرْكُمْ، وَاشْكُرُوهُ عَلَى نِعَمِهِ يَزِدْكُمْ، وَلَذِكْرُ اللَّهِ أَكْبَرُ، وَاللَّهُ يَعْلَمُ مَا تَصْنَعُونَ.</p>
+
+  </article>
+
+</main>
+
+<footer class="proto-footer no-print">
+  <p>© 2026 JAZMI — Jalinan Zamrud Islamiah. Prototipe Metode Khutbah, versi awal.</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var KEY_MODE = "jazmi-khutbah-mode-khatib";
+
+  function initToggle() {
+    var checkbox = document.getElementById("toggleKhatib");
+    if (!checkbox) return;
+
+    var tersimpan = null;
+    try { tersimpan = localStorage.getItem(KEY_MODE); } catch (e) {}
+
+    function terapkan(aktif) {
+      document.body.classList.toggle("mode-khatib", aktif);
+      checkbox.checked = aktif;
+    }
+
+    terapkan(tersimpan === "1");
+
+    checkbox.addEventListener("change", function () {
+      terapkan(checkbox.checked);
+      try { localStorage.setItem(KEY_MODE, checkbox.checked ? "1" : "0"); } catch (e) {}
+    });
+  }
+
+  function initWhatsApp() {
+    var btn = document.getElementById("btnWhatsApp");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var judul = document.querySelector(".hero-title").textContent.trim();
+      var pesan = "Khutbah: " + judul + "\n" + window.location.href;
+      var url = "https://wa.me/?text=" + encodeURIComponent(pesan);
+      window.open(url, "_blank", "noopener");
+    });
+  }
+
+  function initPDF() {
+    var btn = document.getElementById("btnPDF");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      window.print();
+    });
+  }
+
+  /* Bungkus semua penanda [...] dalam teks jadi <span class="marker ...">,
+     supaya bisa disembunyikan/ditampilkan lewat toggle Panduan Khatib. */
+  function bungkusPenanda(root) {
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var node;
+    var target = [];
+    while ((node = walker.nextNode())) {
+      if (node.nodeValue.indexOf("[") !== -1) target.push(node);
+    }
+    target.forEach(function (textNode) {
+      var teks = textNode.nodeValue;
+      var regex = /\[([^\]]+)\]/g;
+      if (!regex.test(teks)) return;
+      regex.lastIndex = 0;
+
+      var frag = document.createDocumentFragment();
+      var lastIndex = 0;
+      var match;
+      while ((match = regex.exec(teks)) !== null) {
+        if (match.index > lastIndex) {
+          frag.appendChild(document.createTextNode(teks.slice(lastIndex, match.index)));
+        }
+        var isi = match[1];
+        var kelas = "marker marker-intonasi";
+        if (/^DIAM/i.test(isi)) kelas = "marker marker-jeda";
+        else if (/TARIK NAPAS/i.test(isi)) kelas = "marker marker-napas";
+
+        var span = document.createElement("span");
+        span.className = kelas;
+        span.textContent = "[" + isi + "]";
+        frag.appendChild(span);
+
+        lastIndex = regex.lastIndex;
+      }
+      if (lastIndex < teks.length) {
+        frag.appendChild(document.createTextNode(teks.slice(lastIndex)));
+      }
+      textNode.parentNode.replaceChild(frag, textNode);
+    });
+  }
+
+  function init() {
+    var body = document.getElementById("khutbahBody");
+    if (body) bungkusPenanda(body);
+    initToggle();
+    initWhatsApp();
+    initPDF();
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+
+</body>
+</html>

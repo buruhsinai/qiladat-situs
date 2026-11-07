@@ -1,0 +1,204 @@
+{
+  "_catatan": "DATA DEMO — dibuat oleh C15 hanya untuk menguji struktur halaman Arsip Global. Bukan arsip resmi JAZMI: judul, ringkasan, dan tautan di bawah ini bersifat contoh (ditandai '[Contoh]'). Tautan mengarah ke halaman ranah/tipe terkait (bukan halaman detail per-item, karena Arsip tidak memiliki sistem detail sendiri — lihat Kontrak C15 §7 & §9). Ganti seluruh isi larik 'arsip' dengan data nyata sebelum publikasi, tanpa perlu mengubah struktur halaman.",
+  "status": "demo",
+  "arsip": [
+    {
+      "id": "arsip-001",
+      "tipe": "artikel",
+      "tipeLabel": "Artikel",
+      "ranah": "dien",
+      "ranahLabel": "Dien",
+      "judul": "[Contoh] Adab Menuntut Ilmu dalam Tradisi Pesantren",
+      "ringkasan": "Contoh rujukan artikel bertema adab menuntut ilmu, dihimpun dari ranah Dien.",
+      "tautan": "/artikel/",
+      "tautanLabel": "Jelajahi di Artikel"
+    },
+    {
+      "id": "arsip-002",
+      "tipe": "artikel",
+      "tipeLabel": "Artikel",
+      "ranah": "kesehatan",
+      "ranahLabel": "Kesehatan",
+      "judul": "[Contoh] Menjaga Kesehatan sebagai Bagian dari Amanah",
+      "ringkasan": "Contoh rujukan artikel bertema menjaga kesehatan tubuh, dihimpun dari ranah Kesehatan.",
+      "tautan": "/artikel/",
+      "tautanLabel": "Jelajahi di Artikel"
+    },
+    {
+      "id": "arsip-003",
+      "tipe": "artikel",
+      "tipeLabel": "Artikel",
+      "ranah": "sains",
+      "ranahLabel": "Sains",
+      "judul": "[Contoh] Mengamati Langit dengan Mata Telanjang",
+      "ringkasan": "Contoh rujukan artikel pengantar pengamatan langit, dihimpun dari ranah Sains.",
+      "tautan": "/artikel/",
+      "tautanLabel": "Jelajahi di Artikel"
+    },
+    {
+      "id": "arsip-004",
+      "tipe": "buku",
+      "tipeLabel": "Buku / PDF",
+      "ranah": "dien",
+      "ranahLabel": "Dien",
+      "judul": "[Contoh] Ringkasan Adab Menuntut Ilmu (PDF)",
+      "ringkasan": "Contoh rujukan bahan bacaan berkas PDF dari Media Dien.",
+      "tautan": "/dien/media.html",
+      "tautanLabel": "Jelajahi di Dien — Media"
+    },
+    {
+      "id": "arsip-005",
+      "tipe": "buku",
+      "tipeLabel": "Buku / PDF",
+      "ranah": "kesehatan",
+      "ranahLabel": "Kesehatan",
+      "judul": "[Contoh] Panduan Ringkas Thibbun Nabawi",
+      "ringkasan": "Contoh rujukan bahan bacaan dari Media Kesehatan.",
+      "tautan": "/kesehatan/media.html",
+      "tautanLabel": "Jelajahi di Kesehatan — Media"
+    },
+    {
+      "id": "arsip-006",
+      "tipe": "buku",
+      "tipeLabel": "Buku / PDF",
+      "ranah": "sains",
+      "ranahLabel": "Sains",
+      "judul": "[Contoh] Pengantar Ilmu Falak untuk Pemula",
+      "ringkasan": "Contoh rujukan bahan bacaan dari Media Sains.",
+      "tautan": "/sains/media.html",
+      "tautanLabel": "Jelajahi di Sains — Media"
+    },
+    {
+      "id": "arsip-007",
+      "tipe": "kajian",
+      "tipeLabel": "Kajian / Rangkuman",
+      "ranah": "dien",
+      "ranahLabel": "Dien",
+      "judul": "[Contoh] Rangkuman Kajian Riyadhus Shalihin",
+      "ringkasan": "Contoh rujukan rangkuman kajian dari Dien — Rangkuman.",
+      "tautan": "/dien/rangkuman.html",
+      "tautanLabel": "Jelajahi di Dien — Rangkuman"
+    },
+    {
+      "id": "arsip-008",
+      "tipe": "kajian",
+      "tipeLabel": "Kajian / Rangkuman",
+      "ranah": "dien",
+      "ranahLabel": "Dien",
+      "judul": "[Contoh] Modul Pengantar Fiqih Ibadah",
+      "ringkasan": "Contoh rujukan modul kajian dari Dien — Rangkuman.",
+      "tautan": "/dien/rangkuman.html",
+      "tautanLabel": "Jelajahi di Dien — Rangkuman"
+    },
+    {
+      "id": "arsip-009",
+      "tipe": "kajian",
+      "tipeLabel": "Kajian / Rangkuman",
+      "ranah": "sains",
+      "ranahLabel": "Sains",
+      "judul": "[Contoh] Rangkuman Pengamatan Hilal",
+      "ringkasan": "Contoh rujukan rangkuman kajian dari Sains — Astronomi.",
+      "tautan": "/sains/astronomi.html",
+      "tautanLabel": "Jelajahi di Sains — Astronomi"
+    },
+    {
+      "id": "arsip-010",
+      "tipe": "audio",
+      "tipeLabel": "Audio",
+      "ranah": "dien",
+      "ranahLabel": "Dien",
+      "judul": "[Contoh] Pembacaan Bait — Jejak Syair Santri",
+      "ringkasan": "Contoh rujukan audio dari Media Dien.",
+      "tautan": "/dien/media.html",
+      "tautanLabel": "Jelajahi di Dien — Media"
+    },
+    {
+      "id": "arsip-011",
+      "tipe": "audio",
+      "tipeLabel": "Audio",
+      "ranah": "kesehatan",
+      "ranahLabel": "Kesehatan",
+      "judul": "[Contoh] Kajian Singkat: Adab Menjaga Kesehatan",
+      "ringkasan": "Contoh rujukan audio dari Media Kesehatan.",
+      "tautan": "/kesehatan/media.html",
+      "tautanLabel": "Jelajahi di Kesehatan — Media"
+    },
+    {
+      "id": "arsip-012",
+      "tipe": "video",
+      "tipeLabel": "Video",
+      "ranah": "dien",
+      "ranahLabel": "Dien",
+      "judul": "[Contoh] Penjelasan Bait Mu'allaqat Imru' al-Qais",
+      "ringkasan": "Contoh rujukan video dari Media Dien.",
+      "tautan": "/dien/media.html",
+      "tautanLabel": "Jelajahi di Dien — Media"
+    },
+    {
+      "id": "arsip-013",
+      "tipe": "video",
+      "tipeLabel": "Video",
+      "ranah": "sains",
+      "ranahLabel": "Sains",
+      "judul": "[Contoh] Pengantar Gerak Semu Harian Benda Langit",
+      "ringkasan": "Contoh rujukan video dari Media Sains.",
+      "tautan": "/sains/media.html",
+      "tautanLabel": "Jelajahi di Sains — Media"
+    },
+    {
+      "id": "arsip-014",
+      "tipe": "video",
+      "tipeLabel": "Video",
+      "ranah": "kesehatan",
+      "ranahLabel": "Kesehatan",
+      "judul": "[Contoh] Pengantar Gaya Hidup Sehat Islami",
+      "ringkasan": "Contoh rujukan video dari Media Kesehatan.",
+      "tautan": "/kesehatan/media.html",
+      "tautanLabel": "Jelajahi di Kesehatan — Media"
+    },
+    {
+      "id": "arsip-015",
+      "tipe": "dokumen",
+      "tipeLabel": "Dokumen",
+      "ranah": "sains",
+      "ranahLabel": "Sains",
+      "judul": "[Contoh] Infografis Fase Bulan",
+      "ringkasan": "Contoh rujukan dokumen visual dari Media Sains.",
+      "tautan": "/sains/media.html",
+      "tautanLabel": "Jelajahi di Sains — Media"
+    },
+    {
+      "id": "arsip-016",
+      "tipe": "dokumen",
+      "tipeLabel": "Dokumen",
+      "ranah": "dien",
+      "ranahLabel": "Dien",
+      "judul": "[Contoh] Poster Bait — Jejak Syair Santri",
+      "ringkasan": "Contoh rujukan dokumen visual dari Media Dien.",
+      "tautan": "/dien/media.html",
+      "tautanLabel": "Jelajahi di Dien — Media"
+    },
+    {
+      "id": "arsip-017",
+      "tipe": "dokumen",
+      "tipeLabel": "Dokumen",
+      "ranah": "kesehatan",
+      "ranahLabel": "Kesehatan",
+      "judul": "[Contoh] Infografis Sunnah Menjaga Tubuh",
+      "ringkasan": "Contoh rujukan dokumen visual dari Media Kesehatan.",
+      "tautan": "/kesehatan/media.html",
+      "tautanLabel": "Jelajahi di Kesehatan — Media"
+    },
+    {
+      "id": "arsip-018",
+      "tipe": "artikel",
+      "tipeLabel": "Artikel",
+      "ranah": "umum",
+      "ranahLabel": "Umum",
+      "judul": "[Contoh] Mengenal Tiga Ranah JAZMI: Dien, Kesehatan, Sains",
+      "ringkasan": "Contoh rujukan artikel pengantar yang merentang lintas tiga ranah JAZMI.",
+      "tautan": "/artikel/",
+      "tautanLabel": "Jelajahi di Artikel"
+    }
+  ]
+}

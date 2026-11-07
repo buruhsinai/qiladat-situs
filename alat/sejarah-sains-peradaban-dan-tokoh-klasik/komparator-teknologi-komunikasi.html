@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Komparator Teknologi Komunikasi</title>
+<style>
+:root{
+  --bg:#F2F0EB;--putih:#FFFFFF;--tinta:#1C2130;--tinta2:#3A4255;
+  --abu:#8A919E;--border:#D8D5CE;--border2:#C5C1B8;
+  --hijau:#1A6B45;--hijau-bg:#EBF5F0;
+  --merah:#8B2020;--merah-bg:#FAEAEA;
+  --biru:#1A3E7A;--biru-bg:#EAF0FA;
+  --ungu:#5A2080;--ungu-bg:#F3EAFA;
+  --emas:#7A5A10;--emas-bg:#FBF5E6;
+  --c1:#1A6B45;--c2:#1A3E7A;--c3:#7A5A10;--c4:#5A2080;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Georgia,serif;background:var(--bg);color:var(--tinta);min-height:100vh;font-size:14px}
+header{background:var(--tinta);color:#E8EDF5;padding:1.25rem 2rem;border-bottom:3px solid #2A3550}
+header h1{font-size:clamp(1rem,2.5vw,1.4rem);font-weight:normal;letter-spacing:.01em;margin-bottom:.2rem}
+header p{font-size:.75rem;color:#8A97AD;font-family:system-ui,sans-serif}
+.layout{display:grid;grid-template-columns:280px 1fr;min-height:calc(100vh - 90px)}
+.sidebar{padding:1.25rem;border-right:1px solid var(--border);background:var(--putih);overflow-y:auto}
+.sg{margin-bottom:1.5rem}
+.st{font-family:system-ui,sans-serif;font-size:.65rem;letter-spacing:.08em;color:var(--abu);margin-bottom:.85rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.sf{margin-bottom:1rem}
+.sf:last-child{margin-bottom:0}
+.sl{font-family:system-ui,sans-serif;font-size:.72rem;color:var(--tinta2);margin-bottom:.3rem;display:flex;justify-content:space-between}
+.sv{font-weight:600;color:var(--tinta);font-family:'Courier New',monospace}
+input[type=range]{width:100%;-webkit-appearance:none;height:4px;border-radius:2px;background:var(--border2);outline:none;display:block}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--tinta);cursor:pointer}
+.sel-wrap{display:flex;flex-direction:column;gap:.4rem}
+.sel-item{display:flex;align-items:center;gap:.5rem;font-family:system-ui,sans-serif;font-size:.72rem;color:var(--tinta2);padding:.35rem .5rem;border-radius:4px;cursor:pointer;user-select:none}
+.sel-item:hover{background:var(--bg)}
+.sel-item input{display:none}
+.cb{width:13px;height:13px;border:1.5px solid var(--border2);border-radius:3px;flex-shrink:0;position:relative;transition:all .15s}
+.sel-item input:checked+.cb{background:var(--tinta);border-color:var(--tinta)}
+.sel-item input:checked+.cb::after{content:'';position:absolute;left:2px;top:-1px;width:5px;height:8px;border:2px solid #fff;border-left:none;border-top:none;transform:rotate(45deg)}
+.warna-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.catatan-sidebar{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:.75rem;font-family:system-ui,sans-serif;font-size:.7rem;color:var(--abu);line-height:1.65}
+.main{padding:1.5rem;overflow-y:auto}
+.pemenang-box{background:var(--putih);border:1px solid var(--border);border-radius:8px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:grid;grid-template-columns:auto 1fr auto;gap:1rem;align-items:center}
+.pm-label{font-family:system-ui,sans-serif;font-size:.65rem;color:var(--abu);margin-bottom:.25rem}
+.pm-nama{font-size:1.3rem;font-weight:bold}
+.pm-sub{font-family:system-ui,sans-serif;font-size:.75rem;color:var(--tinta2);margin-top:.15rem}
+.pm-skor{text-align:right}
+.pm-skor-angka{font-size:2rem;font-weight:bold;font-family:'Courier New',monospace;line-height:1}
+.pm-skor-label{font-family:system-ui,sans-serif;font-size:.63rem;color:var(--abu)}
+.kartu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem;margin-bottom:1.5rem}
+.kartu{background:var(--putih);border:1px solid var(--border);border-radius:7px;overflow:hidden;transition:box-shadow .2s}
+.kartu:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.kartu.terbaik{border-color:currentColor;box-shadow:0 0 0 2px currentColor}
+.kartu-header{padding:.85rem 1rem .7rem;border-bottom:1px solid var(--border)}
+.kartu-nama{font-size:.95rem;font-weight:bold;margin-bottom:.15rem}
+.kartu-deskripsi{font-family:system-ui,sans-serif;font-size:.7rem;color:var(--abu);line-height:1.5}
+.kartu-body{padding:.85rem 1rem}
+.metrik{margin-bottom:.65rem}
+.metrik:last-child{margin-bottom:0}
+.m-label{font-family:system-ui,sans-serif;font-size:.63rem;color:var(--abu);margin-bottom:.2rem;display:flex;justify-content:space-between}
+.m-nilai{font-family:system-ui,sans-serif;font-size:.8rem;font-weight:600;color:var(--tinta)}
+.m-bar-bg{height:4px;background:var(--bg);border-radius:2px;overflow:hidden;margin-top:.2rem}
+.m-bar{height:100%;border-radius:2px;transition:width .6s ease}
+.skor-total{display:flex;align-items:center;justify-content:space-between;margin-top:.85rem;padding-top:.75rem;border-top:1px solid var(--border)}
+.skor-label{font-family:system-ui,sans-serif;font-size:.68rem;color:var(--abu)}
+.skor-angka{font-size:1.4rem;font-weight:bold;font-family:'Courier New',monospace}
+.tabel-wrap{background:var(--putih);border:1px solid var(--border);border-radius:7px;overflow:hidden;margin-bottom:1.5rem}
+.tabel-ttl{padding:.85rem 1rem;border-bottom:1px solid var(--border);font-family:system-ui,sans-serif;font-size:.72rem;color:var(--abu)}
+table{width:100%;border-collapse:collapse}
+th{font-family:system-ui,sans-serif;font-size:.63rem;color:var(--abu);font-weight:normal;padding:.55rem .85rem;text-align:left;border-bottom:1px solid var(--border);background:var(--bg)}
+td{font-family:system-ui,sans-serif;font-size:.75rem;padding:.55rem .85rem;border-bottom:1px solid var(--border);color:var(--tinta2);vertical-align:top}
+tr:last-child td{border-bottom:none}
+.td-nama{font-weight:600;color:var(--tinta)}
+.td-baik{color:var(--hijau)}
+.td-buruk{color:var(--merah)}
+.td-sedang{color:var(--emas)}
+.analisis{background:var(--putih);border:1px solid var(--border);border-radius:7px;padding:1.25rem 1.5rem}
+.an-ttl{font-size:.8rem;font-weight:bold;margin-bottom:.75rem;font-family:system-ui,sans-serif;color:var(--abu)}
+.an-p{font-size:.82rem;line-height:1.75;color:var(--tinta2);margin-bottom:.75rem}
+.an-p:last-child{margin-bottom:0}
+.an-p strong{color:var(--tinta);font-family:system-ui,sans-serif;font-weight:600}
+@media(max-width:700px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{border-right:none;border-bottom:1px solid var(--border);max-height:280px;overflow-y:auto}
+  .pemenang-box{grid-template-columns:1fr auto}
+  .pm-label{display:none}
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>Komparator Teknologi Komunikasi</h1>
+  <p>Perhitungan teknis jujur — bukan propaganda. Setiap teknologi unggul dalam kondisi berbeda.</p>
+</header>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="sg">
+      <div class="st">Parameter Kondisi</div>
+      <div class="sf">
+        <div class="sl">Jarak yang dicakup<span class="sv" id="vJarak">150</span> km</div>
+        <input type="range" id="sJarak" min="1" max="2000" value="150" step="1">
+      </div>
+      <div class="sf">
+        <div class="sl">Jumlah pengguna<span class="sv" id="vUser">5000</span></div>
+        <input type="range" id="sUser" min="10" max="500000" value="5000" step="10">
+      </div>
+      <div class="sf">
+        <div class="sl">Budget tersedia<span class="sv" id="vBudget">Rp 50 M</span></div>
+        <input type="range" id="sBudget" min="1" max="500" value="50" step="1">
+      </div>
+      <div class="sf">
+        <div class="sl">Kebutuhan bandwidth<span class="sv" id="vBW">10</span> Mbps/user</div>
+        <input type="range" id="sBW" min="1" max="100" value="10" step="1">
+      </div>
+    </div>
+    <div class="sg">
+      <div class="st">Medan / Kondisi Lapangan</div>
+      <div class="sel-wrap" id="medanWrap">
+        <label class="sel-item"><input type="radio" name="medan" value="datar" checked><span class="cb"></span>Dataran datar / perkotaan</label>
+        <label class="sel-item"><input type="radio" name="medan" value="pegunungan"><span class="cb"></span>Pegunungan / berbukit</label>
+        <label class="sel-item"><input type="radio" name="medan" value="kepulauan"><span class="cb"></span>Kepulauan / laut</label>
+        <label class="sel-item"><input type="radio" name="medan" value="hutan"><span class="cb"></span>Hutan / terpencil</label>
+        <label class="sel-item"><input type="radio" name="medan" value="bencana"><span class="cb"></span>Pasca-bencana / darurat</label>
+      </div>
+    </div>
+    <div class="sg">
+      <div class="st">Prioritas</div>
+      <div class="sel-wrap" id="prioritasWrap">
+        <label class="sel-item"><input type="radio" name="prioritas" value="biaya" checked><span class="cb"></span>Biaya serendah mungkin</label>
+        <label class="sel-item"><input type="radio" name="prioritas" value="kapasitas"><span class="cb"></span>Kapasitas / bandwidth</label>
+        <label class="sel-item"><input type="radio" name="prioritas" value="latensi"><span class="cb"></span>Latensi rendah</label>
+        <label class="sel-item"><input type="radio" name="prioritas" value="keandalan"><span class="cb"></span>Keandalan tinggi</label>
+        <label class="sel-item"><input type="radio" name="prioritas" value="deployment"><span class="cb"></span>Kecepatan deploy</label>
+      </div>
+    </div>
+    <div class="catatan-sidebar">
+      Semua angka adalah estimasi teknis berdasarkan data publik dan literatur engineering. Kondisi riil bervariasi signifikan. Tool ini bukan rekomendasi komersial.
+    </div>
+  </aside>
+  <main class="main">
+    <div class="pemenang-box" id="pemenangBox">
+      <div>
+        <div class="pm-label">Paling Sesuai Kondisi Ini</div>
+        <div class="pm-nama" id="pmNama">—</div>
+        <div class="pm-sub" id="pmSub">—</div>
+      </div>
+      <div></div>
+      <div class="pm-skor">
+        <div class="pm-skor-angka" id="pmSkor">—</div>
+        <div class="pm-skor-label">skor tertinggi</div>
+      </div>
+    </div>
+    <div class="kartu-grid" id="kartuGrid"></div>
+    <div class="tabel-wrap">
+      <div class="tabel-ttl">Perbandingan Detail Semua Teknologi</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Teknologi</th>
+            <th>Biaya Deploy</th>
+            <th>Biaya Operasional</th>
+            <th>Kapasitas</th>
+            <th>Latensi</th>
+            <th>Jangkauan</th>
+            <th>Keandalan</th>
+          </tr>
+        </thead>
+        <tbody id="tabelBody"></tbody>
+      </table>
+    </div>
+    <div class="analisis">
+      <div class="an-ttl">Analisis Kontekstual</div>
+      <div id="analisisText"></div>
+    </div>
+  </main>
+</div>
+<script>
+// Definisi teknologi
+const TEKNOLOGI=[
+  {
+    id:'fiber',nama:'Fiber Optik',
+    deskripsi:'Kabel bawah tanah/laut. Kapasitas sangat tinggi, latensi sangat rendah.',
+    warna:'var(--c1)',warnaBg:'var(--hijau-bg)',
+    biayaDeploy:function(j,u,m){
+      // per km: ~50-200 juta tergantung medan
+      const perKm={datar:75,pegunungan:250,kepulauan:500,hutan:400,bencana:600};
+      return j*(perKm[m]||75)*1e6/1e9; // miliar rupiah
+    },
+    biayaOps:function(j,u){return 0.5+j*0.005;}, // miliar/tahun
+    kapasitas:function(j,u){return 100000;}, // Mbps per rute
+    latensi:function(j){return j/200000*1000+1;}, // ms (kecepatan cahaya di fiber)
+    jangkauan:function(j,m){
+      if(m==='kepulauan')return 20; // sangat terbatas untuk pulau tanpa kabel
+      if(m==='hutan')return 40;
+      if(m==='pegunungan')return 50;
+      return 95; // dataran/kota sangat bagus
+    },
+    keandalan:95,
+    limitJarak:99999,
+    catatan:'Unggul mutlak untuk area perkotaan dan rute tetap. Tidak praktis untuk daerah sangat terpencil atau kepulauan tanpa investasi besar.'
+  },
+  {
+    id:'bts',nama:'Menara BTS / Seluler',
+    deskripsi:'Menara terrestrial 4G/5G. Cocok untuk area moderat dengan infrastruktur listrik.',
+    warna:'var(--c2)',warnaBg:'var(--biru-bg)',
+    biayaDeploy:function(j,u,m){
+      const nTower=Math.ceil(j/30); // 1 tower per 30km rata-rata
+      const perTower={datar:1.5,pegunungan:3.5,kepulauan:5,hutan:4,bencana:2.5};
+      return nTower*(perTower[m]||1.5)*1e8/1e9;
+    },
+    biayaOps:function(j,u){return Math.ceil(j/30)*0.15;}, // miliar/tahun per tower
+    kapasitas:function(j,u){
+      const nTower=Math.ceil(j/30);
+      return nTower*500; // ~500 Mbps per tower sektor
+    },
+    latensi:function(j){return 10+j/500;}, // 10-50ms
+    jangkauan:function(j,m){
+      if(m==='kepulauan')return 35;
+      if(m==='hutan')return 60;
+      if(m==='pegunungan')return 70;
+      if(m==='bencana')return 30;
+      return 90;
+    },
+    keandalan:88,
+    limitJarak:99999,
+    catatan:'Solusi terbaik untuk area semi-urban hingga rural terjangkau. Bergantung pada infrastruktur listrik dan jalur backhaul.'
+  },
+  {
+    id:'balon',nama:'Balon Stratosfer',
+    deskripsi:'Platform ketinggian 20–40 km. Cocok untuk cakupan cepat area terpencil.',
+    warna:'var(--c3)',warnaBg:'var(--emas-bg)',
+    biayaDeploy:function(j,u,m){
+      const nBalon=Math.max(1,Math.ceil(j/150)); // 1 balon mencakup ~150km radius
+      return nBalon*0.5+2; // 500jt per balon + infrastruktur ground 2M
+    },
+    biayaOps:function(j,u){
+      const nBalon=Math.max(1,Math.ceil(j/150));
+      return nBalon*1.2; // 1.2 miliar/tahun per balon (penggantian, ground station)
+    },
+    kapasitas:function(j,u){
+      const nBalon=Math.max(1,Math.ceil(j/150));
+      return nBalon*200; // ~200 Mbps per balon
+    },
+    latensi:function(j){return 20+j/10000;}, // ~20ms
+    jangkauan:function(j,m){
+      if(m==='bencana')return 90;
+      if(m==='kepulauan')return 85;
+      if(m==='hutan')return 85;
+      if(m==='pegunungan')return 80;
+      return 70;
+    },
+    keandalan:72, // cuaca dan teknis masih tantangan
+    limitJarak:99999,
+    catatan:'Teknologi menjanjikan untuk deployment cepat di area terpencil. Keandalan masih berkembang. Google Loon membuktikan teknisnya valid tapi model bisnis masih sulit.'
+  },
+  {
+    id:'satelit',nama:'Satelit (LEO/GEO)',
+    deskripsi:'Konektivitas dari orbit. Cakupan global tanpa infrastruktur darat.',
+    warna:'var(--c4)',warnaBg:'var(--ungu-bg)',
+    biayaDeploy:function(j,u,m){
+      // Terminal pengguna + gateway
+      const nUser=u;
+      return Math.max(2,(nUser*0.003)+(1)); // terminal ~3jt/unit + gateway 1M
+    },
+    biayaOps:function(j,u){
+      return u*0.0018; // langganan ~1.8jt/user/tahun (Starlink ~$100/bulan)
+    },
+    kapasitas:function(j,u){
+      // LEO Starlink: ~100-200 Mbps per terminal, shared
+      return Math.min(u*50,10000); // dibatasi contention ratio
+    },
+    latensi:function(j){return 20;}, // LEO ~20ms, GEO 600ms — kita ambil LEO modern
+    jangkauan:function(j,m){return 95;}, // global coverage
+    keandalan:85,
+    limitJarak:99999,
+    catatan:'Unggul untuk cakupan global dan area tanpa infrastruktur. Biaya per-pengguna relatif tinggi. LEO modern (Starlink) mengatasi masalah latensi GEO.'
+  }
+];
+
+function fmt(n){
+  if(n>=1000)return`${(n/1000).toFixed(1)} T`;
+  if(n>=1)return`${n.toFixed(1)} M`;
+  return`${(n*1000).toFixed(0)} jt`;
+}
+function fmtRp(mil){
+  if(mil>=1000)return`Rp ${(mil/1000).toFixed(1)} T`;
+  if(mil>=1)return`Rp ${mil.toFixed(1)} M`;
+  return`Rp ${(mil*1000).toFixed(0)} jt`;
+}
+
+function hitungSkor(tek,jarak,user,budget,bw,medan,prioritas){
+  const deploy=tek.biayaDeploy(jarak,user,medan);
+  const ops=tek.biayaOps(jarak,user);
+  const kap=tek.kapasitas(jarak,user);
+  const lat=tek.latensi(jarak);
+  const jangk=tek.jangkauan(jarak,medan);
+  const kel=tek.keandalan;
+  const budgetMiliar=budget; // slider dalam miliar
+  const bwTotal=user*bw; // total Mbps dibutuhkan
+
+  // Skor per dimensi (0-100)
+  const sBiaya=Math.max(0,100-deploy/budgetMiliar*50);
+  const sKap=Math.min(100,kap/bwTotal*60);
+  const sLat=Math.max(0,100-lat*1.5);
+  const sJangk=jangk;
+  const sKel=kel;
+  const sDeploy=Math.max(0,100-deploy/budgetMiliar*80);
+
+  const bobot={
+    biaya:{sBiaya:0.35,sKap:0.15,sLat:0.1,sJangk:0.2,sKel:0.1,sDeploy:0.1},
+    kapasitas:{sBiaya:0.1,sKap:0.4,sLat:0.15,sJangk:0.15,sKel:0.1,sDeploy:0.1},
+    latensi:{sBiaya:0.1,sKap:0.1,sLat:0.45,sJangk:0.15,sKel:0.1,sDeploy:0.1},
+    keandalan:{sBiaya:0.1,sKap:0.15,sLat:0.1,sJangk:0.2,sKel:0.35,sDeploy:0.1},
+    deployment:{sBiaya:0.15,sKap:0.1,sLat:0.1,sJangk:0.2,sKel:0.1,sDeploy:0.35},
+  };
+  const b=bobot[prioritas]||bobot.biaya;
+  const skor=b.sBiaya*sBiaya+b.sKap*sKap+b.sLat*sLat+b.sJangk*sJangk+b.sKel*sKel+b.sDeploy*sDeploy;
+
+  return{skor:Math.round(skor),deploy,ops,kap,lat,jangk,kel,sBiaya,sKap,sLat,sJangk,sKel};
+}
+
+function render(){
+  const jarak=parseInt(document.getElementById('sJarak').value);
+  const user=parseInt(document.getElementById('sUser').value);
+  const budget=parseInt(document.getElementById('sBudget').value);
+  const bw=parseInt(document.getElementById('sBW').value);
+  const medan=document.querySelector('input[name="medan"]:checked').value;
+  const prioritas=document.querySelector('input[name="prioritas"]:checked').value;
+
+  const hasil=TEKNOLOGI.map(t=>({...t,...hitungSkor(t,jarak,user,budget,bw,medan,prioritas)}));
+  hasil.sort((a,b)=>b.skor-a.skor);
+  const terbaik=hasil[0];
+
+  // Pemenang
+  document.getElementById('pmNama').textContent=terbaik.nama;
+  document.getElementById('pmNama').style.color=terbaik.warna.replace('var(','').replace(')','');
+  document.getElementById('pmNama').style.color=`var(${terbaik.warna.slice(4,-1)})`;
+  document.getElementById('pmSkor').textContent=`${terbaik.skor}/100`;
+  document.getElementById('pmSkor').style.color=`var(${terbaik.warna.slice(4,-1)})`;
+  document.getElementById('pmSub').textContent=terbaik.deskripsi;
+
+  // Kartu
+  const grid=document.getElementById('kartuGrid');
+  grid.innerHTML='';
+  const maxSkor=Math.max(...hasil.map(h=>h.skor));
+  hasil.forEach(h=>{
+    const isTerbaik=h.skor===maxSkor;
+    const wVar=h.warna;
+    const kartu=document.createElement('div');
+    kartu.className=`kartu${isTerbaik?' terbaik':''}`;
+    if(isTerbaik)kartu.style.cssText=`border-color:${getComputedStyle(document.documentElement).getPropertyValue(h.warna.slice(4,-1))};color:${getComputedStyle(document.documentElement).getPropertyValue(h.warna.slice(4,-1))}`;
+
+    const metrikData=[
+      {label:'Biaya Deploy',nilai:fmtRp(h.deploy),skor:h.sBiaya,warna:h.warna},
+      {label:'Kapasitas vs Kebutuhan',nilai:`${(h.kap/(user*bw)*100).toFixed(0)}%`,skor:h.sKap,warna:h.warna},
+      {label:'Latensi',nilai:`${h.lat.toFixed(0)} ms`,skor:h.sLat,warna:h.warna},
+      {label:'Jangkauan medan ini',nilai:`${h.jangk}%`,skor:h.sJangk,warna:h.warna},
+      {label:'Keandalan',nilai:`${h.kel}%`,skor:h.sKel,warna:h.warna},
+    ];
+
+    kartu.innerHTML=`
+      <div class="kartu-header">
+        <div class="kartu-nama" style="color:${isTerbaik?`var(${h.warna.slice(4,-1)})`:'inherit'}">${h.nama}${isTerbaik?' ✓':''}</div>
+        <div class="kartu-deskripsi">${h.deskripsi}</div>
+      </div>
+      <div class="kartu-body">
+        ${metrikData.map(m=>`
+          <div class="metrik">
+            <div class="m-label"><span>${m.label}</span><span>${m.nilai}</span></div>
+            <div class="m-bar-bg"><div class="m-bar" style="width:${Math.max(2,m.skor)}%;background:var(${m.warna.slice(4,-1)})"></div></div>
+          </div>`).join('')}
+        <div class="skor-total">
+          <div class="skor-label">Skor keseluruhan</div>
+          <div class="skor-angka" style="color:var(${h.warna.slice(4,-1)})">${h.skor}</div>
+        </div>
+      </div>`;
+    grid.appendChild(kartu);
+  });
+
+  // Tabel
+  const tbody=document.getElementById('tabelBody');
+  tbody.innerHTML='';
+  hasil.forEach(h=>{
+    const bw_ok=h.kap>=(user*bw);
+    const budget_ok=h.deploy<=budget;
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td class="td-nama" style="color:var(${h.warna.slice(4,-1)})">${h.nama}</td>
+      <td class="${budget_ok?'td-baik':'td-buruk'}">${fmtRp(h.deploy)}</td>
+      <td>${fmtRp(h.ops)}/thn</td>
+      <td class="${bw_ok?'td-baik':'td-buruk'}">${h.kap>=1000?(h.kap/1000).toFixed(1)+' Gbps':h.kap+' Mbps'}</td>
+      <td class="${h.lat<30?'td-baik':h.lat<100?'td-sedang':'td-buruk'}">${h.lat.toFixed(0)} ms</td>
+      <td class="${h.jangk>80?'td-baik':h.jangk>50?'td-sedang':'td-buruk'}">${h.jangk}%</td>
+      <td class="${h.kel>90?'td-baik':h.kel>75?'td-sedang':'td-buruk'}">${h.kel}%</td>`;
+    tbody.appendChild(tr);
+  });
+
+  // Analisis
+  const bwTotal=user*bw;
+  const medanNama={datar:'dataran datar',pegunungan:'pegunungan',kepulauan:'kepulauan',hutan:'hutan terpencil',bencana:'pasca-bencana'};
+  const prioNama={biaya:'biaya minimum',kapasitas:'kapasitas tinggi',latensi:'latensi rendah',keandalan:'keandalan tinggi',deployment:'deployment cepat'};
+
+  let analisis=`<div class="an-p">Untuk cakupan <strong>${jarak} km</strong> dengan <strong>${user.toLocaleString('id')} pengguna</strong> di <strong>${medanNama[medan]||medan}</strong>, kebutuhan bandwidth total adalah <strong>${bwTotal>=1000?(bwTotal/1000).toFixed(1)+' Gbps':bwTotal+' Mbps'}</strong> dengan prioritas <strong>${prioNama[prioritas]}</strong>.</div>`;
+
+  analisis+=`<div class="an-p"><strong>${terbaik.nama}</strong> menempati skor tertinggi (${terbaik.skor}/100) dalam kondisi ini. ${terbaik.catatan}</div>`;
+
+  // Catatan khusus per kondisi
+  if(medan==='kepulauan'){
+    analisis+=`<div class="an-p">Untuk kepulauan, fiber optik membutuhkan kabel laut yang sangat mahal. Satelit dan balon stratosfer secara teknis lebih realistis untuk cakupan lintas pulau. Menara BTS per pulau tetap kompetitif jika jaraknya dekat.</div>`;
+  }
+  if(medan==='bencana'){
+    analisis+=`<div class="an-p">Pasca-bencana, infrastruktur darat sering rusak. Balon stratosfer dan satelit memiliki keunggulan deployment cepat tanpa bergantung pada infrastruktur darat yang ada.</div>`;
+  }
+  if(jarak<30){
+    analisis+=`<div class="an-p">Untuk jarak pendek (${jarak} km), fiber optik dan menara BTS sangat kompetitif karena biaya instalasi proporsional kecil. Satelit kurang efisien biaya untuk jarak sedekat ini.</div>`;
+  }
+  if(jarak>500){
+    analisis+=`<div class="an-p">Untuk jarak jauh (${jarak} km), biaya deploy fiber meningkat signifikan. Satelit menjadi lebih kompetitif karena biayanya tidak bergantung pada jarak.</div>`;
+  }
+  if(user>50000){
+    analisis+=`<div class="an-p">Dengan ${user.toLocaleString('id')} pengguna, biaya terminal satelit per pengguna menjadi faktor signifikan. Fiber dan BTS lebih efisien per-pengguna pada skala besar jika infrastruktur dasar sudah ada.</div>`;
+  }
+
+  analisis+=`<div class="an-p" style="color:var(--abu);font-style:italic;font-size:.78rem">Catatan metodologi: Skor dihitung dari lima dimensi (biaya deploy, kapasitas, latensi, jangkauan medan, keandalan) dengan bobot yang bergeser berdasarkan prioritas yang Anda pilih. Angka estimasi dari data publik engineering — kondisi riil bervariasi.</div>`;
+
+  document.getElementById('analisisText').innerHTML=analisis;
+}
+
+// Bind semua kontrol
+['sJarak','sUser','sBudget','sBW'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',function(){
+    const v=parseFloat(this.value);
+    if(id==='sJarak')document.getElementById('vJarak').textContent=v.toLocaleString('id');
+    if(id==='sUser')document.getElementById('vUser').textContent=v.toLocaleString('id');
+    if(id==='sBudget')document.getElementById('vBudget').textContent=`Rp ${v} M`;
+    if(id==='sBW')document.getElementById('vBW').textContent=v;
+    render();
+  });
+});
+document.querySelectorAll('input[name="medan"],input[name="prioritas"]').forEach(el=>{
+  el.addEventListener('change',render);
+});
+render();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Masuk — JAZMI</title>
+<meta name="robots" content="noindex">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/style.css">
+
+<style>
+  .masuk-wrap { max-width: 440px; margin: 0 auto; padding: clamp(2.5rem, 8vw, 4.5rem) var(--gutter) 4rem; }
+  .masuk-title { font-size: clamp(1.6rem, 5vw, 2.1rem); font-weight: 600; margin-bottom: 0.4rem; }
+  .masuk-desc { color: var(--ink-soft); margin: 0 0 1.75rem; }
+  .masuk-card { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--brass); border-radius: var(--radius); padding: clamp(1.25rem, 4vw, 1.75rem); }
+  .field { margin-bottom: 1rem; }
+  .field label { display: block; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.35rem; color: var(--emerald-deep); }
+  .field input { width: 100%; font: inherit; padding: 0.7rem 0.8rem; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg); color: var(--ink); }
+  .field input:focus-visible { outline: 2px solid var(--brass); outline-offset: 1px; }
+  .masuk-card .btn { margin-top: 0.4rem; width: 100%; justify-content: center; background: var(--emerald-deep); color: #fff; border: 1px solid var(--emerald-deep); cursor: pointer; }
+  .masuk-card .btn:hover { background: var(--emerald); }
+  .masuk-card .btn[disabled] { opacity: 0.6; cursor: wait; }
+  .masuk-pesan { margin: 1rem 0 0; font-size: 0.9rem; min-height: 1.3em; }
+  .masuk-pesan.is-error { color: #8A2D1F; }
+  .masuk-pesan.is-ok { color: var(--emerald); }
+  .masuk-link { display: inline-block; margin-top: 1rem; background: none; border: none; padding: 0; font-size: 0.88rem; font-weight: 600; color: var(--emerald); text-decoration: underline; text-underline-offset: 3px; }
+  .masuk-catatan { margin-top: 1.25rem; font-size: 0.85rem; color: var(--ink-faint); }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span><span class="nav-toggle-bar"></span>
+    </button>
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+  <div class="masuk-wrap">
+    <h1 class="masuk-title" id="judul">Masuk</h1>
+    <p class="masuk-desc" id="deskripsi">Khusus anggota yang diundang. Masuk untuk membuka alat interaktif terkunci.</p>
+
+    <div class="masuk-card">
+
+      <!-- Mode: masuk -->
+      <form id="formMasuk" novalidate>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" autocomplete="email" required>
+        </div>
+        <div class="field">
+          <label for="sandi">Kata sandi</label>
+          <input type="password" id="sandi" autocomplete="current-password" required>
+        </div>
+        <button type="submit" class="btn">Masuk</button>
+        <button type="button" class="masuk-link" id="lupaSandi">Lupa kata sandi?</button>
+      </form>
+
+      <!-- Mode: atur kata sandi (dari undangan / reset) -->
+      <form id="formSandiBaru" novalidate hidden>
+        <div class="field">
+          <label for="sandiBaru">Kata sandi baru (minimal 8 karakter)</label>
+          <input type="password" id="sandiBaru" autocomplete="new-password" minlength="8" required>
+        </div>
+        <button type="submit" class="btn">Simpan kata sandi</button>
+      </form>
+
+      <!-- Mode: sudah masuk -->
+      <div id="panelSudahMasuk" hidden>
+        <p id="infoPengguna" style="margin:0 0 1rem"></p>
+        <a class="btn" id="lanjutKeAlat" href="/alat/" style="text-decoration:none;margin-top:0">Lanjut ke Alat</a>
+        <button type="button" class="masuk-link" id="tombolKeluar">Keluar</button>
+      </div>
+
+      <p class="masuk-pesan" id="pesan" role="status" aria-live="polite"></p>
+    </div>
+
+    <p class="masuk-catatan">Belum punya akun? <a href="/daftar/" style="color:var(--emerald);font-weight:600;text-decoration:underline;text-underline-offset:3px">Ajukan pendaftaran</a>. Akun diberikan setelah ditinjau oleh pengelola JAZMI.</p>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="/js/auth-config.js"></script>
+<script>
+(function () {
+  // Menu mobile
+  var toggle = document.getElementById('navToggle');
+  var nav = document.getElementById('primaryNav');
+  toggle.addEventListener('click', function () {
+    var open = nav.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  // Mode awal dibaca SEBELUM Supabase menghapus hash dari URL
+  var hash = window.location.hash || '';
+  var modeSandiBaru = /type=(invite|recovery)/.test(hash);
+
+  // Tujuan setelah login — hanya path internal di bawah /alat/
+  var params = new URLSearchParams(window.location.search);
+  var next = params.get('next') || '/alat/';
+  if (!/^\/alat\/[A-Za-z0-9_\-\/\.\?=&%]*$/.test(next) && next !== '/alat/') next = '/alat/';
+
+  var el = function (id) { return document.getElementById(id); };
+  var pesan = el('pesan');
+  function tampilPesan(teks, jenis) {
+    pesan.textContent = teks || '';
+    pesan.className = 'masuk-pesan' + (jenis ? ' is-' + jenis : '');
+  }
+
+  var cfg = window.JAZMI_AUTH || {};
+  if (!window.supabase || !cfg.url || cfg.url.indexOf('GANTI-') !== -1) {
+    tampilPesan('Sistem masuk belum dikonfigurasi (js/auth-config.js).', 'error');
+    return;
+  }
+  var sb = window.supabase.createClient(cfg.url, cfg.anonKey);
+
+  function tampilkan(mode) {
+    el('formMasuk').hidden = mode !== 'masuk';
+    el('formSandiBaru').hidden = mode !== 'sandiBaru';
+    el('panelSudahMasuk').hidden = mode !== 'sudahMasuk';
+    if (mode === 'sandiBaru') {
+      el('judul').textContent = 'Atur kata sandi';
+      el('deskripsi').textContent = 'Buat kata sandi untuk akun Anda.';
+    } else if (mode === 'sudahMasuk') {
+      el('judul').textContent = 'Anda sudah masuk';
+      el('deskripsi').textContent = '';
+    } else {
+      el('judul').textContent = 'Masuk';
+      el('deskripsi').textContent = 'Khusus anggota yang diundang. Masuk untuk membuka alat interaktif terkunci.';
+    }
+  }
+
+  function terjemahError(err) {
+    var m = (err && err.message || '').toLowerCase();
+    if (m.indexOf('invalid login') !== -1) return 'Email atau kata sandi salah (atau akun ini belum punya kata sandi).';
+    if (m.indexOf('not confirmed') !== -1) return 'Email akun ini belum dikonfirmasi di Supabase.';
+    if (m.indexOf('api key') !== -1 || m.indexOf('apikey') !== -1) return 'Kunci Supabase salah. Periksa js/auth-config.js.';
+    if (m.indexOf('failed to fetch') !== -1 || m.indexOf('network') !== -1) return 'Tidak dapat terhubung ke Supabase. Periksa URL di js/auth-config.js dan koneksi internet.';
+    if (m.indexOf('rate limit') !== -1 || m.indexOf('too many') !== -1) return 'Terlalu banyak percobaan. Tunggu beberapa menit lalu coba lagi.';
+    if (m.indexOf('password') !== -1 && m.indexOf('characters') !== -1) return 'Kata sandi terlalu pendek (minimal 8 karakter).';
+    return 'Terjadi kesalahan. Coba lagi sebentar lagi.';
+  }
+
+  async function mulai() {
+    var res = await sb.auth.getSession();
+    var sesi = res.data && res.data.session;
+    if (modeSandiBaru && sesi) { tampilkan('sandiBaru'); return; }
+    if (sesi) {
+      el('infoPengguna').textContent = 'Masuk sebagai ' + sesi.user.email + '.';
+      el('lanjutKeAlat').setAttribute('href', next);
+      tampilkan('sudahMasuk');
+      return;
+    }
+    tampilkan('masuk');
+  }
+
+  el('formMasuk').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var email = el('email').value.trim();
+    var sandi = el('sandi').value;
+    if (!email || !sandi) { tampilPesan('Isi email dan kata sandi.', 'error'); return; }
+    var tombol = e.target.querySelector('button[type=submit]');
+    tombol.disabled = true; tampilPesan('Memeriksa…');
+    var r = await sb.auth.signInWithPassword({ email: email, password: sandi });
+    tombol.disabled = false;
+    if (r.error) { tampilPesan(terjemahError(r.error), 'error'); return; }
+    window.location.href = next;
+  });
+
+  el('formSandiBaru').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    var sandi = el('sandiBaru').value;
+    if (sandi.length < 8) { tampilPesan('Kata sandi minimal 8 karakter.', 'error'); return; }
+    var tombol = e.target.querySelector('button[type=submit]');
+    tombol.disabled = true; tampilPesan('Menyimpan…');
+    var r = await sb.auth.updateUser({ password: sandi });
+    tombol.disabled = false;
+    if (r.error) { tampilPesan(terjemahError(r.error), 'error'); return; }
+    window.location.href = next;
+  });
+
+  el('lupaSandi').addEventListener('click', async function () {
+    var email = el('email').value.trim();
+    if (!email) { tampilPesan('Isi email Anda dulu, lalu tekan "Lupa kata sandi?".', 'error'); return; }
+    var r = await sb.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + '/masuk/' });
+    if (r.error) { tampilPesan(terjemahError(r.error), 'error'); return; }
+    tampilPesan('Jika email terdaftar, tautan pengaturan ulang sudah dikirim.', 'ok');
+  });
+
+  el('tombolKeluar').addEventListener('click', async function () {
+    await sb.auth.signOut();
+    tampilkan('masuk');
+    tampilPesan('Anda sudah keluar.', 'ok');
+  });
+
+  mulai();
+})();
+</script>
+</body>
+</html>

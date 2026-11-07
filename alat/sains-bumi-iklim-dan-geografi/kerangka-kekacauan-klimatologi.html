@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kerangka & Kekacauan — Klimatologi vs Meteorologi</title>
+<style>
+  :root{
+    --bg:#0b0d10; --panel:#14171c; --panel2:#1b1f26; --line:#2a2f38;
+    --text:#e8e6df; --muted:#9aa1ab; --accent:#c9a24d; --accent2:#6fae8c;
+    --warn:#d98c5f; --danger:#c1595a; --blue:#7f9fe8; --font-d:'Georgia',serif; --font-b:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{background:var(--bg);color:var(--text);font-family:var(--font-b);margin:0;padding:0;line-height:1.6}
+  .wrap{max-width:840px;margin:0 auto;padding:28px 18px 80px}
+  header{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:28px}
+  h1{font-family:var(--font-d);font-size:1.55rem;margin:0 0 8px;color:var(--accent)}
+  .tagline{color:var(--muted);font-size:.95rem}
+  h2{font-family:var(--font-d);font-size:1.2rem;color:var(--accent2);border-left:3px solid var(--accent2);padding-left:10px;margin-top:40px}
+  h3{color:var(--text);font-size:1rem;margin-top:0}
+  section{margin-bottom:10px}
+  p{color:#d7d5cd}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin:14px 0}
+  .grid{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:640px){.grid-2{grid-template-columns:1fr 1fr}}
+  .slider-field label{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);margin-bottom:6px}
+  .slider-field label b{color:var(--accent);font-weight:600}
+  .slider-field input[type=range]{width:100%;accent-color:var(--accent2)}
+  .slider-hint{font-size:.78rem;color:#767c85;margin-top:3px}
+  select{width:100%;padding:9px 10px;border-radius:6px;border:1px solid var(--line);background:var(--panel2);color:var(--text);font-size:1rem}
+  .field{margin-bottom:12px}
+  label.plain{display:block;font-size:.85rem;color:var(--muted);margin-bottom:4px}
+  .result{background:var(--panel2);border:1px solid var(--accent);border-radius:8px;padding:14px;margin-top:14px;font-size:1.02rem}
+  .result b{color:var(--accent)}
+  .verdict{border-radius:8px;padding:14px;margin-top:10px;font-size:.95rem}
+  .v-ok{background:#152a1f;border:1px solid var(--accent2);color:#bfe6cf}
+  .v-warn{background:#2a2416;border:1px solid var(--warn);color:#f0dcc4}
+  .v-bad{background:#2a1616;border:1px solid var(--danger);color:#f0c4c4}
+  .note{font-size:.82rem;color:var(--muted);margin-top:6px}
+  table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.86rem}
+  th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left}
+  th{color:var(--accent2)}
+  .wa{display:inline-block;margin-top:14px;background:#25D366;color:#04250f;padding:10px 18px;border-radius:6px;text-decoration:none;font-weight:600}
+  .limitbox{background:#241a14;border:1px solid var(--warn);border-radius:8px;padding:14px;color:#e8d3c1}
+  .fixedbox{background:#161a20;border:1px dashed var(--line);border-radius:8px;padding:14px;color:#c7c4bb;font-size:.92rem}
+  ul{color:#d7d5cd}
+  svg{width:100%;height:auto;background:var(--panel2);border-radius:8px;border:1px solid var(--line)}
+  .chartbox{margin-top:10px}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--muted);margin-top:8px}
+  .legend span{display:inline-flex;align-items:center;gap:5px}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+  footer{margin-top:50px;border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:.8rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Kerangka & Kekacauan</h1>
+  <div class="tagline">Klimatologi memberi pagar yang kokoh. Meteorologi bermain kacau di dalamnya — tapi "kacau" di sini punya definisi ilmiah yang tepat, bukan sekadar kiasan.</div>
+</header>
+
+<section>
+  <h2>1. Belajar — Tiga Konsep yang Sering Tertukar</h2>
+  <p>Penjelasan populer soal "efek kupu-kupu" pada cuaca sering mencampur tiga hal yang sebenarnya berbeda secara ilmiah. Alat ini sengaja memisahkannya jadi tiga panel supaya tidak tercampur:</p>
+  <div class="card">
+    <p><b>Klimatologi</b> — statistik rata-rata cuaca dalam jangka panjang (standar WMO: 30 tahun). Ini kerangka yang stabil dan bisa diandalkan secara statistik: "Agustus di Makassar cenderung kering" adalah pernyataan klimatologi, benar secara rata-rata, meski tidak menjamin hari tertentu.</p>
+    <p><b>Pendorong iklim musiman (ENSO, IOD, MJO)</b> — pola interaksi laut-atmosfer skala besar yang bergeser dalam hitungan bulan, cukup dipahami untuk <i>menggeser probabilitas</i> menjauh dari rata-rata klimatologi (mis. El Niño cenderung menekan curah hujan di banyak wilayah Indonesia). Ini bukan kekacauan — ini pola yang cukup bisa diprediksi berbulan-bulan ke depan, dan justru inilah dasar prakiraan musiman BMKG.</p>
+    <p style="margin-bottom:0"><b>Sensitivitas terhadap kondisi awal (kekacauan/chaos sejati)</b> — konsep yang ditemukan Edward Lorenz (1963) saat model prakiraan cuacanya menghasilkan hasil sangat berbeda hanya karena ia membulatkan satu angka desimal input. Inilah asal istilah "efek kupu-kupu" — bukan metafora bebas, tapi sifat matematis sistem non-linear tertentu: dua kondisi awal yang hampir identik bisa menghasilkan lintasan yang menjauh secara eksponensial. Inilah sebabnya prakiraan cuaca detail (bukan pola musiman) punya batas keterprediksian praktis sekitar 2 minggu, berapa pun canggihnya model.</p>
+  </div>
+  <p>Tiga panel di bawah masing-masing mewakili satu konsep di atas — supaya jelas mana yang "kerangka tetap", mana yang "pendorong yang bisa digeser tapi tetap bisa diperkirakan", dan mana yang benar-benar "kacau" dalam makna teknis.</p>
+</section>
+
+<section>
+  <h2>2. Eksplorasi A — Kerangka Klimatologi (Tetap)</h2>
+  <div class="card">
+    <div class="grid grid-2">
+      <div class="field">
+        <label class="plain">Lokasi</label>
+        <select id="lokasi">
+          <option value="makassar">Makassar</option>
+          <option value="jakarta">Jakarta</option>
+          <option value="medan">Medan</option>
+          <option value="kupang">Kupang</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="plain">Bulan</label>
+        <select id="bulan"></select>
+      </div>
+    </div>
+    <div class="fixedbox" id="hasilKlimatologi"></div>
+    <p class="note">Angka-angka ini pola musiman umum tiap wilayah (representasi ilustratif dari karakter iklim regional Indonesia — monsunal, ekuatorial, atau lokal), bukan data BMKG presisi per tahun.</p>
+  </div>
+</section>
+
+<section>
+  <h2>3. Eksplorasi B — Pendorong Musiman (Menggeser dari Normal)</h2>
+  <p>Ini bukan kekacauan — ini pola berskala bulanan yang cukup bisa diikuti. Geser dan lihat bagaimana ia menggeser hasil menjauh dari kerangka klimatologi di atas.</p>
+  <div class="card">
+    <div class="grid grid-2">
+      <div class="slider-field">
+        <label>Anomali suhu ENSO (Niño 3.4) <b id="valNino">0.0</b> °C</label>
+        <input type="range" id="nino" min="-2.5" max="2.5" step="0.1" value="0">
+        <div class="slider-hint">Negatif = La Niña, positif = El Niño</div>
+      </div>
+      <div class="slider-field">
+        <label>Indeks IOD <b id="valIod">0.0</b></label>
+        <input type="range" id="iod" min="-1.5" max="1.5" step="0.1" value="0">
+        <div class="slider-hint">Negatif = IOD negatif (lebih basah di barat Indonesia)</div>
+      </div>
+      <div class="field">
+        <label class="plain">Fase MJO saat ini</label>
+        <select id="mjo">
+          <option value="0">Tidak aktif</option>
+          <option value="1">Fase 1</option>
+          <option value="2">Fase 2</option>
+          <option value="3">Fase 3 (mendekati Indonesia)</option>
+          <option value="4">Fase 4 (di atas Indonesia)</option>
+          <option value="5">Fase 5 (meninggalkan Indonesia)</option>
+          <option value="6">Fase 6</option>
+          <option value="7">Fase 7</option>
+          <option value="8">Fase 8</option>
+        </select>
+      </div>
+      <div class="slider-field">
+        <label>Anomali kelembapan lokal <b id="valLembap">0</b> %</label>
+        <input type="range" id="lembap" min="-20" max="20" step="1" value="0">
+      </div>
+    </div>
+    <div class="result" id="hasilMusiman"></div>
+    <div class="verdict" id="verdictMusiman"></div>
+  </div>
+</section>
+
+<section>
+  <h2>4. Eksplorasi C — Sensitivitas Kondisi Awal (Kekacauan Sejati)</h2>
+  <p>Ini demonstrasi matematis langsung dari temuan Lorenz — bukan cuaca sungguhan, tapi sistem sederhana (peta logistik) yang punya sifat sama: sensitif terhadap kondisi awal. Bandingkan dua rezim: stabil vs kacau, dengan beda kondisi awal yang sama kecilnya.</p>
+  <div class="card">
+    <div class="grid grid-2">
+      <div class="field">
+        <label class="plain">Rezim sistem</label>
+        <select id="rezim">
+          <option value="2.8">Stabil (r = 2,8)</option>
+          <option value="3.9" selected>Kacau (r = 3,9)</option>
+        </select>
+      </div>
+      <div class="slider-field">
+        <label>Beda kondisi awal, ε <b id="valEps">0.0010</b></label>
+        <input type="range" id="eps" min="1" max="100" step="1" value="10">
+        <div class="slider-hint">Skala: 1 = 0,0001 · 100 = 0,0100</div>
+      </div>
+    </div>
+    <div class="chartbox">
+      <svg id="chartChaos" viewBox="0 0 600 220"></svg>
+    </div>
+    <div class="legend">
+      <span><i class="dot" style="background:#7f9fe8"></i> Lintasan A (x₀)</span>
+      <span><i class="dot" style="background:#d98c5f"></i> Lintasan B (x₀+ε)</span>
+    </div>
+    <div class="result" id="hasilChaos"></div>
+  </div>
+</section>
+
+<section>
+  <h2>5. Metode / Rumus</h2>
+  <div class="card">
+    <p><b>Deviasi curah hujan (Panel B, disederhanakan):</b> deviasi(%) = (ENSO × −15) + (IOD × −10) + efek_MJO(fase) + (kelembapan × 1,5), lalu hujan_akhir = hujan_dasar × (1 + deviasi/100)</p>
+    <p><b>Peta logistik (Panel C):</b> x_{n+1} = r · x_n · (1 − x_n) — sistem non-linear klasik yang berperilaku stabil pada r rendah dan kacau pada r mendekati 4</p>
+  </div>
+</section>
+
+<section>
+  <h2>6. Batasan</h2>
+  <div class="limitbox">
+    <ul>
+      <li><b>Koefisien sensitivitas di Panel B (angka −15, −10, dsb.) adalah perkiraan ilustratif</b> yang mengikuti arah umum hubungan ENSO/IOD-curah hujan Indonesia yang terdokumentasi luas — bukan koefisien hasil regresi statistik dari data BMKG aktual. Jangan dipakai sebagai prakiraan operasional.</li>
+      <li><b>Efek fase MJO disederhanakan jadi tabel lookup tetap</b> — dampak MJO sesungguhnya sangat bergantung interaksi dengan ENSO/IOD yang sedang aktif bersamaan, bukan berdiri sendiri seperti di sini.</li>
+      <li><b>Panel C (peta logistik) adalah ilustrasi matematis konsep kekacauan, bukan model cuaca</b> — model cuaca sungguhan (seperti milik Lorenz maupun BMKG modern) melibatkan ribuan hingga jutaan variabel berinteraksi dalam ruang tiga dimensi, sangat jauh lebih kompleks dari satu persamaan satu variabel ini. Yang dipertahankan sama hanya <i>sifat</i> sensitivitasnya, bukan skalanya.</li>
+      <li>Angka klimatologi di Panel A adalah representasi pola umum tiap tipe iklim regional, bukan data pengukuran resmi tahun tertentu.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>7. Referensi</h2>
+  <ul>
+    <li>Lorenz, E.N. (1963) — "Deterministic Nonperiodic Flow", <i>Journal of the Atmospheric Sciences</i></li>
+    <li>Lorenz, E.N. (1972) — "Predictability: Does the Flap of a Butterfly's Wings in Brazil Set Off a Tornado in Texas?"</li>
+    <li>WMO — definisi Climate Normals (periode rujukan 30 tahun)</li>
+    <li>NOAA / BOM Australia — dokumentasi ENSO, IOD, dan MJO serta pengaruhnya di kawasan maritim Indonesia</li>
+  </ul>
+</section>
+
+<div class="card" style="text-align:center">
+  <p style="margin:0 0 8px">Ingin diskusi lebih lanjut soal topik ini?</p>
+  <a class="wa" id="waLink" href="#" target="_blank">Konsultasi via WhatsApp</a>
+</div>
+
+<footer>
+  Bagian dari Bank Alat JAZMI — Level 1–5 (Belajar → Eksplorasi → Metode → Batasan → Referensi).<br>
+  Alat ini edukasi konsep klimatologi/meteorologi/chaos, bukan prakiraan cuaca operasional.
+</footer>
+</div>
+
+<script>
+function fmt(x, d=2){
+  if(!isFinite(x)) return "-";
+  return parseFloat(x.toFixed(d)).toString();
+}
+
+// ===== Panel A: klimatologi =====
+const namaBulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+const bulanEl = document.getElementById('bulan');
+namaBulan.forEach((n,i)=>{
+  const opt = document.createElement('option');
+  opt.value = i; opt.textContent = n;
+  bulanEl.appendChild(opt);
+});
+bulanEl.value = 7; // Agustus default
+
+// pola musiman ilustratif per lokasi: [curah hujan mm, suhu C] tiap bulan (indeks 0=Jan)
+const dataKlim = {
+  makassar: {
+    hujan: [650,550,450,300,180,90,60,40,50,120,280,500],
+    suhu:  [26.8,26.9,27.2,27.5,27.6,27.3,26.8,26.6,27.0,27.6,27.5,27.0]
+  },
+  jakarta: {
+    hujan: [300,280,200,150,100,80,60,50,60,110,180,260],
+    suhu:  [26.5,26.7,27.0,27.5,27.8,27.6,27.3,27.4,27.6,27.7,27.2,26.8]
+  },
+  medan: {
+    hujan: [150,140,160,180,200,190,180,200,230,260,220,170],
+    suhu:  [25.5,25.8,26.2,26.8,27.0,26.9,26.7,26.6,26.5,26.3,26.0,25.7]
+  },
+  kupang: {
+    hujan: [280,260,180,80,20,10,5,5,10,30,90,220],
+    suhu:  [27.5,27.6,27.8,27.9,27.3,26.5,26.0,26.2,27.0,27.8,28.0,27.8]
+  }
+};
+
+const lokasiEl = document.getElementById('lokasi');
+
+function hitungKlimatologi(){
+  const lok = lokasiEl.value;
+  const b = parseInt(bulanEl.value);
+  const hujan = dataKlim[lok].hujan[b];
+  const suhu = dataKlim[lok].suhu[b];
+  document.getElementById('hasilKlimatologi').innerHTML = `
+    <b>${namaBulan[b]} — ${lok.charAt(0).toUpperCase()+lok.slice(1)}</b><br>
+    Curah hujan rata-rata (kerangka klimatologi): <b>${hujan} mm</b><br>
+    Suhu rata-rata: <b>${fmt(suhu,1)} °C</b>
+  `;
+  hitungMusiman();
+}
+[lokasiEl,bulanEl].forEach(el=>el.addEventListener('input', hitungKlimatologi));
+
+// ===== Panel B: pendorong musiman =====
+const ninoEl = document.getElementById('nino');
+const iodEl = document.getElementById('iod');
+const mjoEl = document.getElementById('mjo');
+const lembapEl = document.getElementById('lembap');
+
+const efekMjo = {0:0, 1:2, 2:5, 3:12, 4:15, 5:8, 6:-5, 7:-12, 8:-8};
+
+function hitungMusiman(){
+  const nino = parseFloat(ninoEl.value);
+  const iod = parseFloat(iodEl.value);
+  const mjo = parseInt(mjoEl.value);
+  const lembap = parseFloat(lembapEl.value);
+
+  document.getElementById('valNino').textContent = fmt(nino,1);
+  document.getElementById('valIod').textContent = fmt(iod,1);
+  document.getElementById('valLembap').textContent = lembap;
+
+  const lok = lokasiEl.value;
+  const b = parseInt(bulanEl.value);
+  const hujanDasar = dataKlim[lok].hujan[b];
+
+  const deviasi = (nino*-15) + (iod*-10) + efekMjo[mjo] + (lembap*1.5);
+  const hujanAkhir = Math.max(0, hujanDasar*(1+deviasi/100));
+
+  document.getElementById('hasilMusiman').innerHTML = `
+    Deviasi dari kerangka klimatologi: <b>${deviasi>=0?'+':''}${fmt(deviasi,1)}%</b><br>
+    Perkiraan curah hujan bulan ini: <b>${fmt(hujanAkhir,0)} mm</b> (dasar: ${hujanDasar} mm)
+  `;
+
+  const verdict = document.getElementById('verdictMusiman');
+  if(deviasi > 20){
+    verdict.className='verdict v-ok';
+    verdict.innerHTML = 'Jauh di atas normal — kombinasi pendorong musiman ini mengarah pada curah hujan yang cukup tinggi dibanding rata-rata bulan ini.';
+  } else if(deviasi > 10){
+    verdict.className='verdict v-ok';
+    verdict.innerHTML = 'Di atas normal — kondisi cenderung lebih basah dari rata-rata klimatologi.';
+  } else if(deviasi > -10){
+    verdict.className='verdict v-warn';
+    verdict.innerHTML = 'Mendekati normal — pendorong musiman relatif seimbang, hasil dekat kerangka klimatologi dasar.';
+  } else if(deviasi > -25){
+    verdict.className='verdict v-bad';
+    verdict.innerHTML = 'Di bawah normal — kombinasi ini mengarah ke kondisi lebih kering dari biasanya untuk bulan ini.';
+  } else {
+    verdict.className='verdict v-bad';
+    verdict.innerHTML = 'Jauh di bawah normal — kombinasi pendorong ini mengarah ke risiko kekeringan musiman yang signifikan dibanding rata-rata.';
+  }
+}
+[ninoEl,iodEl,mjoEl,lembapEl].forEach(el=>el.addEventListener('input', hitungMusiman));
+
+// ===== Panel C: chaos demo =====
+const rezimEl = document.getElementById('rezim');
+const epsEl = document.getElementById('eps');
+
+function hitungChaos(){
+  const r = parseFloat(rezimEl.value);
+  const epsRaw = parseInt(epsEl.value);
+  const eps = epsRaw*0.0001;
+  document.getElementById('valEps').textContent = fmt(eps,4);
+
+  const N = 40;
+  let xA = 0.5, xB = 0.5+eps;
+  let seriesA = [xA], seriesB = [xB];
+  let divergenceIter = null;
+  for(let i=1;i<=N;i++){
+    xA = r*xA*(1-xA);
+    xB = r*xB*(1-xB);
+    seriesA.push(xA); seriesB.push(xB);
+    if(divergenceIter===null && Math.abs(xA-xB) > 0.1) divergenceIter = i;
+  }
+
+  const svg = document.getElementById('chartChaos');
+  const W=600,H=220,padL=36,padR=14,padT=14,padB=28;
+  function px(i){ return padL + (i/N)*(W-padL-padR); }
+  function py(v){ return (H-padB) - v*(H-padT-padB); }
+  let pathA = seriesA.map((v,i)=>(i===0?'M':'L')+px(i).toFixed(1)+','+py(v).toFixed(1)).join(' ');
+  let pathB = seriesB.map((v,i)=>(i===0?'M':'L')+px(i).toFixed(1)+','+py(v).toFixed(1)).join(' ');
+
+  svg.innerHTML = `
+    <line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#2a2f38"/>
+    <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H-padB}" stroke="#2a2f38"/>
+    <path d="${pathA}" fill="none" stroke="#7f9fe8" stroke-width="2"/>
+    <path d="${pathB}" fill="none" stroke="#d98c5f" stroke-width="2"/>
+    <text x="${W/2}" y="${H-6}" fill="#9aa1ab" font-size="11" text-anchor="middle">iterasi (langkah waktu)</text>
+  `;
+
+  document.getElementById('hasilChaos').innerHTML = divergenceIter
+    ? `Kedua lintasan mulai menjauh nyata (selisih &gt;0,1) pada iterasi ke-<b>${divergenceIter}</b>, padahal beda kondisi awalnya cuma ${fmt(eps,4)}.`
+    : `Dalam ${N} iterasi ini, kedua lintasan tetap berdekatan — konsisten dengan rezim stabil (r=${r}) yang tidak sensitif terhadap kondisi awal.`;
+}
+[rezimEl,epsEl].forEach(el=>el.addEventListener('input', hitungChaos));
+
+const waMsg = encodeURIComponent("Assalamu'alaikum, saya ingin diskusi terkait Kerangka & Kekacauan JAZMI.");
+document.getElementById('waLink').href = `https://wa.me/6281356572588?text=${waMsg}`;
+
+hitungKlimatologi();
+hitungChaos();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

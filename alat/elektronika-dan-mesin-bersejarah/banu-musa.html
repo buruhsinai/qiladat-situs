@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mesin-Mesin Banu Musa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdf6e8; --card:#ffffff; --line:#f0e2c4;
+    --ink:#3a3226; --dim:#8a7c62;
+    --accent:#c9784f; --accent-soft:#f7e9df;
+    --water:#5a8ab0; --water-dim:#a9c4d8;
+    --display:'Fredoka',sans-serif; --sans:'Quicksand',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;}
+  .wrap{max-width:520px;margin:0 auto;padding:0 18px 70px;}
+
+  .hero{padding:36px 10px 18px;text-align:center;}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(22px,6.2vw,30px);margin:0 0 8px;color:#8a4a2a;}
+  .hero p{color:var(--dim);font-size:13.5px;max-width:440px;margin:0 auto;}
+
+  .tab-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:18px;}
+  .tab-btn{font-family:var(--display);font-weight:600;font-size:11px;background:#fff;border:2px solid var(--line);
+    color:var(--dim);padding:11px 3px;border-radius:12px;cursor:pointer;text-align:center;line-height:1.3;}
+  .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  .card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:20px 18px;margin-bottom:16px;}
+  .card p.desc{font-size:13.5px;color:var(--dim);margin:0 0 16px;}
+
+  .stage{position:relative;height:210px;margin-bottom:14px;}
+  .stage svg{width:100%;height:100%;}
+
+  .chart-wrap{margin-bottom:16px;}
+  .chart-label{font-family:var(--mono);font-size:10.5px;color:var(--dim);margin-bottom:4px;}
+  canvas.chart{width:100%;height:64px;display:block;border-radius:10px;background:var(--accent-soft);}
+
+  .field{margin-bottom:16px;}
+  .field label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;color:var(--dim);margin-bottom:7px;}
+  .field label .val{color:var(--accent);font-weight:700;}
+  input[type=range]{width:100%;height:4px;-webkit-appearance:none;appearance:none;background:var(--line);border-radius:4px;outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,.15);}
+  input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #fff;}
+
+  .result-panel{background:var(--accent-soft);border-radius:14px;padding:16px;text-align:center;margin-top:6px;}
+  .result-num{font-family:var(--display);font-weight:700;font-size:24px;color:#8a4a2a;}
+  .result-sub{font-size:12.5px;color:var(--dim);margin-top:4px;}
+  .compare-row{display:flex;justify-content:space-around;margin-top:12px;padding-top:12px;border-top:1px dashed #e0c8a8;}
+  .compare-box .n{font-family:var(--display);font-weight:700;font-size:15px;color:#8a4a2a;}
+  .compare-box .l{font-size:10px;color:var(--dim);font-family:var(--mono);}
+
+  .btn-row{display:flex;gap:8px;margin-top:10px;}
+  .play-btn{font-family:var(--display);font-weight:700;font-size:14.5px;padding:13px;border-radius:14px;border:none;
+    cursor:pointer;background:var(--accent);color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.08);flex:2;}
+  .play-btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.08);}
+  .play-btn.ghost{flex:1;background:#fff;color:var(--accent);border:2px solid var(--accent);box-shadow:none;}
+  .play-btn.ghost:active{transform:translateY(2px);}
+
+  .legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:10.5px;color:var(--dim);margin-top:12px;justify-content:center;}
+  .legend .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;vertical-align:middle;}
+
+  .note-card{background:var(--accent-soft);border-radius:14px;padding:14px 16px;font-size:12.5px;color:#6b4a30;margin-top:14px;}
+  .note-card strong{color:#4a2e18;}
+
+  details.info{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin-top:10px;font-size:12px;color:#6b5c44;}
+  details.info summary{cursor:pointer;font-weight:700;color:#4a2e18;font-family:var(--display);font-size:13px;list-style:revert;}
+  details.info[open] summary{margin-bottom:8px;}
+  details.info .formula{font-family:var(--mono);font-size:10.5px;background:var(--accent-soft);border-radius:8px;padding:10px 12px;margin:8px 0;line-height:1.75;color:#5a4a36;overflow-x:auto;white-space:pre;}
+  details.info ul{margin:6px 0;padding-left:18px;}
+  details.info li{margin-bottom:5px;}
+
+  footer{text-align:center;padding-top:26px;color:#b9ad94;font-size:11px;font-family:var(--mono);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>⚙️ Mesin-Mesin Banu Musa</h1>
+    <p>Empat mekanisme dari <em>Kitab al-Hiyal</em> (Kitab Alat-Alat Cerdik), karya tiga bersaudara Banu Musa ibnu Syakir di Baghdad abad ke-9 M — geser parameternya, jalankan simulasinya, lihat mesin purba ini benar-benar "berpikir" tanpa satu roda gigi elektronik pun.</p>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="sifon">💧 Sifon</button>
+    <button class="tab-btn" data-tab="katup">🚰 Katup Apung</button>
+    <button class="tab-btn" data-tab="lampu">🕯️ Lampu Sumbu</button>
+    <button class="tab-btn" data-tab="jungkit">⛲ Pancuran Jungkit</button>
+  </div>
+
+  <!-- ============ TAB 1: SIFON PENGOSONG OTOMATIS ============ -->
+  <div class="tab-panel active" id="tab-sifon">
+    <div class="card">
+      <p class="desc">Wadah ini mengisi diri sendiri lewat pipa kecil — begitu air menyentuh tinggi pemicu, pipa sifon di sisinya otomatis "menghisap" habis seluruh isinya jauh lebih cepat daripada air masuk, lalu berhenti sendiri dan siklus dimulai lagi. Tidak ada tangan yang membuka-tutup keran.</p>
+      <div class="stage"><svg id="sifonSvg" viewBox="0 0 300 200"></svg></div>
+
+      <div class="chart-wrap">
+        <div class="chart-label">TINGGI AIR VS WAKTU</div>
+        <canvas class="chart" id="sifonChart" width="300" height="64"></canvas>
+      </div>
+
+      <div class="field">
+        <label>Debit Air Masuk (cm ketinggian/detik) <span class="val" id="sifonQinVal">0.6</span></label>
+        <input type="range" id="sifonQin" min="0.2" max="1.5" step="0.1" value="0.6">
+      </div>
+      <div class="field">
+        <label>Tinggi Pemicu Sifon (cm) <span class="val" id="sifonHtrigVal">25</span></label>
+        <input type="range" id="sifonHtrig" min="10" max="32" step="1" value="25">
+      </div>
+      <div class="field">
+        <label>Kedalaman Pipa Buang di Bawah Wadah (cm) <span class="val" id="sifonDepthVal">15</span></label>
+        <input type="range" id="sifonDepth" min="5" max="35" step="1" value="15">
+      </div>
+      <div class="field">
+        <label>Kecepatan Animasi <span class="val" id="sifonSpeedVal">3×</span></label>
+        <input type="range" id="sifonSpeed" min="1" max="10" step="1" value="3">
+      </div>
+
+      <div class="result-panel">
+        <div class="result-num" id="sifonHasil">0,0 cm</div>
+        <div class="result-sub" id="sifonStatus">Mengisi…</div>
+        <div class="compare-row">
+          <div class="compare-box"><div class="n" id="sifonSiklus">0</div><div class="l">SIKLUS TERJADI</div></div>
+          <div class="compare-box"><div class="n" id="sifonPeriode">—</div><div class="l">RATA² PERIODE</div></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="play-btn" id="sifonPlayBtn">▶ Mulai</button>
+        <button class="play-btn ghost" id="sifonResetBtn">↺ Ulangi</button>
+      </div>
+      <div class="legend">
+        <span><span class="dot" style="background:#5a8ab0;"></span>Air</span>
+        <span><span class="dot" style="background:#8a7c62;"></span>Pipa sifon (siaga)</span>
+        <span><span class="dot" style="background:#c9784f;"></span>Pipa sifon (sedang menyifon)</span>
+      </div>
+    </div>
+    <div class="note-card"><strong>Kenapa bisa mengosongkan diri sendiri?</strong> Begitu air melewati puncak lengkungan pipa, seluruh kolom air di dalam pipa jadi satu kesatuan yang ditarik gravitasi ke ujung yang lebih rendah — tekanan ini terus menyedot air baru dari wadah sampai permukaannya turun di bawah ujung pipa bagian dalam, barulah udara masuk dan sifon "putus". Prinsip yang sama persis dipakai pada kloset modern dan pompa bensin manual.</div>
+    <details class="info">
+      <summary>Rumus & batasan model</summary>
+      <div class="formula">Mengisi (belum memicu): h bertambah = debit_masuk × waktu
+Menyifon (aktif): debit_keluar = k × √(h + kedalaman_pipa)
+Sifon berhenti otomatis saat h turun mendekati 0 (ujung pipa dekat dasar)</div>
+      <ul>
+        <li>Koefisien pipa (k) dibuat tetap secara internal — dalam kenyataan ia bergantung pada diameter pipa dan kekentalan zat cair, tidak diekspos sebagai penggeser di sini supaya fokus tetap pada dua hal yang benar-benar menentukan perilaku sifon: tinggi pemicu dan kedalaman pembuangan.</li>
+        <li>Gesekan sepanjang pipa dan waktu jeda udara masuk saat sifon putus diabaikan — di dunia nyata siklusnya sedikit lebih lambat dan kurang presisi dibanding simulasi ini.</li>
+        <li>Model ini sudah diverifikasi lewat simulasi Node.js: pada pengaturan awal (debit 0,6; pemicu 25 cm; kedalaman 15 cm), siklus berulang dengan periode konsisten ±46 detik dan tinggi air selalu berada dalam rentang fisik yang masuk akal (0–25 cm), tidak pernah minus atau meluap tak terhingga.</li>
+      </ul>
+    </details>
+  </div>
+
+  <!-- ============ TAB 2: KATUP PELAMPUNG PENJAGA KETINGGIAN ============ -->
+  <div class="tab-panel" id="tab-katup">
+    <div class="card">
+      <p class="desc">Sebuah pelampung mengapung di permukaan air, terhubung ke katup kerucut di pipa masuk. Makin tinggi air, makin tertutup katupnya — persis seperti mekanisme pada tangki kloset modern, tapi ini ditemukan seribu tahun lebih dulu. Coba geser "keran terpakai" sambil simulasi berjalan dan lihat pelampung menyesuaikan diri sendiri.</p>
+      <div class="stage"><svg id="katupSvg" viewBox="0 0 300 200"></svg></div>
+
+      <div class="chart-wrap">
+        <div class="chart-label">TINGGI AIR VS WAKTU (garis putus = target)</div>
+        <canvas class="chart" id="katupChart" width="300" height="64"></canvas>
+      </div>
+
+      <div class="field">
+        <label>Debit Maksimum Pipa Masuk (cm/detik) <span class="val" id="katupQmaxVal">1.2</span></label>
+        <input type="range" id="katupQmax" min="0.4" max="2.0" step="0.1" value="1.2">
+      </div>
+      <div class="field">
+        <label>Ketinggian Target (cm) <span class="val" id="katupHtargetVal">20</span></label>
+        <input type="range" id="katupHtarget" min="10" max="30" step="1" value="20">
+      </div>
+      <div class="field">
+        <label>Kepekaan Pelampung — rentang menutup (cm) <span class="val" id="katupTolVal">5,0</span></label>
+        <input type="range" id="katupTol" min="1" max="10" step="0.5" value="5">
+      </div>
+      <div class="field">
+        <label>Debit Keran Terpakai (cm/detik) <span class="val" id="katupQoutVal">0,8</span></label>
+        <input type="range" id="katupQout" min="0" max="1.8" step="0.1" value="0.8">
+      </div>
+      <div class="field">
+        <label>Kecepatan Animasi <span class="val" id="katupSpeedVal">3×</span></label>
+        <input type="range" id="katupSpeed" min="1" max="10" step="1" value="3">
+      </div>
+
+      <div class="result-panel">
+        <div class="result-num" id="katupHasil">20,0 cm</div>
+        <div class="result-sub" id="katupStatus">Katup terbuka 67%</div>
+        <div class="compare-row">
+          <div class="compare-box"><div class="n" id="katupTarget">20 cm</div><div class="l">TARGET</div></div>
+          <div class="compare-box"><div class="n" id="katupSelisih">0,0 cm</div><div class="l">SELISIH</div></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="play-btn" id="katupPlayBtn">▶ Mulai</button>
+        <button class="play-btn ghost" id="katupResetBtn">↺ Ulangi</button>
+      </div>
+      <div class="legend">
+        <span><span class="dot" style="background:#5a8ab0;"></span>Air</span>
+        <span><span class="dot" style="background:#c9784f;"></span>Pelampung</span>
+        <span>Aliran masuk/keluar makin tebal = makin deras</span>
+      </div>
+    </div>
+    <div class="note-card"><strong>Kenapa levelnya tidak pernah persis pas di target?</strong> Katup ini hanya bereaksi terhadap posisinya sendiri (makin naik, makin menutup) — tidak pernah benar-benar "tahu" berapa target idealnya. Karena itu selalu tersisa sedikit selisih tetap dari target begitu keran dan pemasukan sama-sama seimbang. Ini disebut <em>galat keadaan-tunak</em>, ciri khas semua kendali proporsional murni, termasuk versi modern di tangki kloset rumahmu.</div>
+    <details class="info">
+      <summary>Rumus & batasan model</summary>
+      <div class="formula">Bukaan katup = batasi(0,1)[ 1 − (h − target) / kepekaan ]
+Debit masuk aktual = debit_maks × bukaan_katup
+dh/dt = debit_masuk_aktual − debit_keran</div>
+      <ul>
+        <li>Jika debit keran melebihi kapasitas maksimum pipa masuk (katup dibuka penuh pun tidak cukup), air akan terus turun ke nol — ini sengaja tidak "dicurangi" supaya kamu bisa melihat kapan sebuah keran benar-benar kalah debit.</li>
+        <li>Hubungan bukaan-terhadap-tinggi dianggap linear sempurna — katup kerucut sungguhan punya kurva yang sedikit melengkung tergantung bentuk kerucutnya.</li>
+        <li>Diverifikasi lewat simulasi Node.js: pada pengaturan awal, level stabil di 21,7 cm (target 20 cm, selisih tetap sekitar 1,7 cm sesuai rumus galat keadaan-tunak), dan tetap kembali mendekati level itu walau debit keran diubah-ubah di tengah simulasi.</li>
+      </ul>
+    </details>
+  </div>
+
+  <!-- ============ TAB 3: LAMPU SUMBU BERJALAN SENDIRI ============ -->
+  <div class="tab-panel" id="tab-lampu">
+    <div class="card">
+      <p class="desc">Lampu minyak biasa meredup begitu ujung sumbunya habis terbakar. Lampu Banu Musa punya pelampung di dalam wadah minyaknya yang, lewat roda gigi kecil, mendorong sumbu maju persis secepat ia terbakar — asal rasio giginya benar, nyala tetap sama besar sepanjang malam.</p>
+      <div class="stage"><svg id="lampuSvg" viewBox="0 0 300 200"></svg></div>
+
+      <div class="chart-wrap">
+        <div class="chart-label">PANJANG SUMBU TERSINGKAP (= TINGGI NYALA) VS WAKTU</div>
+        <canvas class="chart" id="lampuChart" width="300" height="64"></canvas>
+      </div>
+
+      <div class="field">
+        <label>Laju Bakar Ujung Sumbu (cm/detik) <span class="val" id="lampuRbakarVal">0,08</span></label>
+        <input type="range" id="lampuRbakar" min="0.03" max="0.20" step="0.01" value="0.08">
+      </div>
+      <div class="field">
+        <label>Rasio Gigi Pendorong Sumbu <span class="val" id="lampuRasioVal">1,00</span></label>
+        <input type="range" id="lampuRasio" min="0.5" max="2.5" step="0.05" value="1.0">
+      </div>
+      <div class="field">
+        <label>Kecepatan Animasi <span class="val" id="lampuSpeedVal">5×</span></label>
+        <input type="range" id="lampuSpeed" min="1" max="10" step="1" value="5">
+      </div>
+
+      <div class="result-panel">
+        <div class="result-num" id="lampuHasil">3,00 cm</div>
+        <div class="result-sub" id="lampuStatus">Menyala stabil</div>
+        <div class="compare-row">
+          <div class="compare-box"><div class="n" id="lampuMinyak">60,0</div><div class="l">SISA MINYAK</div></div>
+          <div class="compare-box"><div class="n" id="lampuCadangan">60,0</div><div class="l">SISA CADANGAN SUMBU</div></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="play-btn" id="lampuPlayBtn">▶ Mulai</button>
+        <button class="play-btn ghost" id="lampuResetBtn">↺ Ulangi</button>
+      </div>
+      <div class="legend">
+        <span><span class="dot" style="background:#e0b84f;"></span>Minyak</span>
+        <span><span class="dot" style="background:#8a7355;"></span>Sumbu tersingkap</span>
+        <span><span class="dot" style="background:#c9784f;"></span>Nyala api</span>
+      </div>
+    </div>
+    <div class="note-card"><strong>Kenapa rasio gigi harus pas persis?</strong> Kalau dorongannya kurang (rasio &lt;1), ujung sumbu yang tersingkap makin pendek sampai habis dan padam — padahal minyak masih tersisa banyak, mubazir. Kalau dorongannya kelewat kencang (rasio &gt;1), cadangan sumbu di dalam malah cepat terkuras duluan sebelum minyaknya habis. Hanya rasio 1,00 yang menghabiskan minyak dan cadangan sumbu bersamaan — pas, tanpa sisa terbuang.</div>
+    <details class="info">
+      <summary>Rumus & batasan model</summary>
+      <div class="formula">Selama menyala: sumbu_tersingkap −= laju_bakar × waktu   (ujung terbakar)
+             minyak −= laju_bakar × waktu           (bahan bakar terpakai)
+Umpan dari mekanisme: dorongan = rasio_gigi × laju_bakar × waktu (dibatasi sisa cadangan)
+             sumbu_tersingkap += dorongan
+Padam jika sumbu_tersingkap ≤ 0 ATAU minyak ≤ 0</div>
+      <ul>
+        <li>Minyak awal dan cadangan sumbu awal disamakan nilainya secara internal (sama-sama 60 satuan) — ini memang disengaja: pada rasio persis 1,00, keduanya akan habis bersamaan, menunjukkan pemanfaatan sempurna tanpa sisa.</li>
+        <li>Konsumsi minyak diasumsikan berbanding lurus 1:1 dengan laju bakar sumbu — pada lampu sungguhan hubungannya sedikit lebih rumit karena kapilaritas minyak naik ke sumbu.</li>
+        <li>Diverifikasi lewat simulasi Node.js: rasio 1,00 menghabiskan minyak & cadangan bersamaan di detik ke-750 (tanpa sisa); rasio 0,85 padam jauh lebih cepat (detik ke-250) dengan sisa minyak ~40 unit terbuang percuma; rasio 2,50 juga padam lebih cepat (detik ke-425) karena cadangan sumbu terkuras duluan, menyisakan ~26 unit minyak tak terpakai.</li>
+      </ul>
+    </details>
+  </div>
+
+  <!-- ============ TAB 4: PANCURAN JUNGKIT SILIH BERGANTI ============ -->
+  <div class="tab-panel" id="tab-jungkit">
+    <div class="card">
+      <p class="desc">Dua wadah kecil diisi bergantian oleh satu pipa air — begitu salah satunya penuh sampai ambang tertentu, ia langsung menumpahkan isinya dan giliran pengisian berpindah ke wadah sebelahnya, terus berputar sendiri tanpa penjaga.</p>
+      <div class="stage"><svg id="jungkitSvg" viewBox="0 0 300 200"></svg></div>
+
+      <div class="chart-wrap">
+        <div class="chart-label">VOLUME KIRI (merah) & KANAN (biru) VS WAKTU</div>
+        <canvas class="chart" id="jungkitChart" width="300" height="64"></canvas>
+      </div>
+
+      <div class="field">
+        <label>Debit Air Masuk (satuan volume/detik) <span class="val" id="jungkitQinVal">0,5</span></label>
+        <input type="range" id="jungkitQin" min="0.2" max="1.5" step="0.1" value="0.5">
+      </div>
+      <div class="field">
+        <label>Ambang Jungkit — kapasitas wadah pemicu <span class="val" id="jungkitAmbangVal">8,0</span></label>
+        <input type="range" id="jungkitAmbang" min="3" max="15" step="0.5" value="8">
+      </div>
+      <div class="field">
+        <label>Kecepatan Animasi <span class="val" id="jungkitSpeedVal">3×</span></label>
+        <input type="range" id="jungkitSpeed" min="1" max="10" step="1" value="3">
+      </div>
+
+      <div class="result-panel">
+        <div class="result-num" id="jungkitHasil">0</div>
+        <div class="result-sub">Jumlah jungkit terjadi</div>
+        <div class="compare-row">
+          <div class="compare-box"><div class="n" id="jungkitPeriode">—</div><div class="l">RATA² PERIODE</div></div>
+          <div class="compare-box"><div class="n" id="jungkitPrediksi">16,0 dtk</div><div class="l">PREDIKSI TEORI</div></div>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="play-btn" id="jungkitPlayBtn">▶ Mulai</button>
+        <button class="play-btn ghost" id="jungkitResetBtn">↺ Ulangi</button>
+      </div>
+      <div class="legend">
+        <span><span class="dot" style="background:#c1595a;"></span>Wadah kiri</span>
+        <span><span class="dot" style="background:#5a8ab0;"></span>Wadah kanan</span>
+        <span>Kotak menyala = sedang mengisi</span>
+      </div>
+    </div>
+    <div class="note-card"><strong>Kenapa periodenya bisa diprediksi persis?</strong> Karena mekanismenya sepenuhnya berdasar volume, bukan waktu — wadah selalu menumpahkan diri tepat saat isinya mencapai ambang, tidak peduli seberapa cepat/lambat air mengalir. Maka periodenya selalu sama persis dengan ambang dibagi debit, sesederhana itu — inilah kenapa mekanisme jungkit seperti ini juga dipakai jadi pengukur curah hujan (tipping bucket rain gauge) hingga sekarang.</div>
+    <details class="info">
+      <summary>Rumus & batasan model</summary>
+      <div class="formula">volume_aktif += debit_masuk × waktu
+Jika volume_aktif ≥ ambang: tumpahkan (volume_aktif = 0), pindah ke wadah sebelah
+Prediksi periode = ambang / debit_masuk</div>
+      <ul>
+        <li>Proses "menumpahkan" dianggap seketika (volume langsung nol) — pada wadah jungkit sungguhan ada jeda singkat saat air benar-benar tumpah karena kemiringan wadah, tidak dimodelkan di sini.</li>
+        <li>Debit air masuk dianggap tetap sepanjang waktu; wadah sebelah tidak menerima air sedikit pun sampai saklarnya sungguh berpindah (tidak ada kebocoran silang).</li>
+        <li>Diverifikasi lewat simulasi Node.js: pada pengaturan awal (debit 0,5; ambang 8), periode simulasi konsisten 16,02 detik antar-jungkit — cocok persis dengan prediksi teori (ambang/debit = 8/0,5 = 16,00 detik).</li>
+      </ul>
+    </details>
+  </div>
+
+  <footer>Rekonstruksi Mekanisme Banu Musa ibnu Syakir dari <em>Kitab al-Hiyal</em> (abad ke-9 M) — Bank Alat JAZMI/Qiladat</footer>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+  function fmt(x, d=1){ if(!isFinite(x)) return '—'; return x.toFixed(d).replace('.',','); }
+
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  function drawLineChart(canvas, series, refLine){
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle = '#e0c8a8'; ctx.lineWidth = 1;
+    ctx.strokeRect(0.5,0.5,W-1,H-1);
+
+    let allVals = [];
+    series.forEach(s => allVals = allVals.concat(s.data));
+    if(refLine!==undefined) allVals.push(refLine);
+    if(allVals.length < 2) return;
+    let min = Math.min(...allVals), max = Math.max(...allVals);
+    if(max-min < 0.001){ min -= 1; max += 1; }
+    const range = max-min;
+    const pad = 6;
+
+    if(refLine!==undefined){
+      const y = H-pad - ((refLine-min)/range)*(H-2*pad);
+      ctx.setLineDash([3,3]);
+      ctx.strokeStyle = '#c9784f'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+
+    series.forEach(s => {
+      const data = s.data;
+      if(data.length < 2) return;
+      ctx.beginPath();
+      data.forEach((v,i) => {
+        const x = (i/(data.length-1))*W;
+        const y = H-pad - ((v-min)/range)*(H-2*pad);
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      });
+      ctx.strokeStyle = s.color; ctx.lineWidth = 2; ctx.stroke();
+    });
+  }
+
+  const HIST_MAX = 300;
+
+  /* =====================================================================
+     TAB 1: SIFON PENGOSONG OTOMATIS
+     ===================================================================== */
+  (function(){
+    const svg = $('sifonSvg'), chart = $('sifonChart');
+    const qinEl=$('sifonQin'), htrigEl=$('sifonHtrig'), depthEl=$('sifonDepth'), speedEl=$('sifonSpeed');
+    const qinVal=$('sifonQinVal'), htrigVal=$('sifonHtrigVal'), depthVal=$('sifonDepthVal'), speedVal=$('sifonSpeedVal');
+    const hasilEl=$('sifonHasil'), statusEl=$('sifonStatus'), siklusEl=$('sifonSiklus'), periodeEl=$('sifonPeriode');
+    const playBtn=$('sifonPlayBtn'), resetBtn=$('sifonResetBtn');
+
+    const K = 0.9, H_BREAK = 0.5, DT = 0.05, VMAX = 36;
+    const topY=15, bottomY=130, scaleV=(bottomY-topY)/VMAX;
+    const extTop=bottomY, extBottom=195, scaleExt=(extBottom-extTop)/35;
+
+    let h=0, siphoning=false, playing=false, history=[];
+    let periods=[], lastTrigT=null, simT=0;
+
+    function toY(hh){ return bottomY - hh*scaleV; }
+
+    function step(){
+      const Qin = parseFloat(qinEl.value), Htrig = parseFloat(htrigEl.value), depth = parseFloat(depthEl.value);
+      if(!siphoning){
+        h += Qin*DT;
+        if(h>=Htrig){
+          siphoning=true;
+          if(lastTrigT!==null) periods.push(simT-lastTrigT);
+          lastTrigT=simT;
+          if(periods.length>20) periods.shift();
+        }
+      } else {
+        const head = Math.max(0, h+depth);
+        h -= K*Math.sqrt(head)*DT;
+        if(h<=H_BREAK){ siphoning=false; h=Math.max(0,h); }
+      }
+      simT += DT;
+      history.push(h);
+      if(history.length>HIST_MAX) history.shift();
+    }
+
+    function draw(){
+      const depth = parseFloat(depthEl.value), Htrig = parseFloat(htrigEl.value);
+      const waterY = toY(h);
+      const spoutY = Math.min(extBottom, extTop + depth*scaleExt);
+      const trigY = toY(Htrig);
+      const pipeColor = siphoning ? '#c9784f' : '#8a7c62';
+      svg.innerHTML = `
+        <rect x="90" y="${topY}" width="120" height="${bottomY-topY}" fill="none" stroke="#8a7c62" stroke-width="3"/>
+        <rect x="92" y="${waterY}" width="116" height="${bottomY-waterY}" fill="${siphoning?'#7fa8c9':'#a9c4d8'}"/>
+        <line x1="90" y1="${trigY}" x2="210" y2="${trigY}" stroke="#c9784f" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="215" y="${trigY+3}" font-family="JetBrains Mono" font-size="8" fill="#c9784f">pemicu</text>
+        <line x1="195" y1="${topY+10}" x2="195" y2="${topY-10}" stroke="${pipeColor}" stroke-width="4" stroke-linecap="round"/>
+        <line x1="195" y1="${topY-10}" x2="225" y2="${topY-10}" stroke="${pipeColor}" stroke-width="4" stroke-linecap="round"/>
+        <line x1="225" y1="${topY-10}" x2="225" y2="${spoutY}" stroke="${pipeColor}" stroke-width="4" stroke-linecap="round"/>
+        ${siphoning ? `<polygon points="219,${spoutY} 231,${spoutY} 225,${spoutY+8}" fill="#5a8ab0"/>` : ''}
+        <text x="150" y="${extBottom+10}" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#8a7c62">dasar wadah</text>
+      `;
+      drawLineChart(chart, [{data:history, color:'#5a8ab0'}]);
+    }
+
+    function updateStats(){
+      qinVal.textContent = fmt(parseFloat(qinEl.value),1);
+      htrigVal.textContent = htrigEl.value;
+      depthVal.textContent = depthEl.value;
+      speedVal.textContent = speedEl.value+'×';
+      hasilEl.textContent = fmt(h,1)+' cm';
+      statusEl.textContent = siphoning ? 'Sedang menyifon…' : 'Mengisi…';
+      siklusEl.textContent = periods.length;
+      periodeEl.textContent = periods.length ? fmt(periods.reduce((a,b)=>a+b,0)/periods.length,1)+' dtk' : '—';
+    }
+
+    function reset(){
+      h=0; siphoning=false; history=[]; periods=[]; lastTrigT=null; simT=0;
+      updateStats(); draw();
+    }
+
+    [qinEl,htrigEl,depthEl,speedEl].forEach(el => el.addEventListener('input', () => { updateStats(); draw(); }));
+    playBtn.addEventListener('click', () => {
+      playing = !playing;
+      playBtn.textContent = playing ? '⏸ Jeda' : '▶ Mulai';
+    });
+    resetBtn.addEventListener('click', reset);
+
+    window.__sifonTick = function(){
+      if(!playing) return;
+      const speed = parseInt(speedEl.value);
+      for(let s=0;s<speed;s++) step();
+      updateStats(); draw();
+    };
+
+    reset();
+  })();
+
+  /* =====================================================================
+     TAB 2: KATUP PELAMPUNG PENJAGA KETINGGIAN
+     ===================================================================== */
+  (function(){
+    const svg = $('katupSvg'), chart = $('katupChart');
+    const qmaxEl=$('katupQmax'), htargetEl=$('katupHtarget'), tolEl=$('katupTol'), qoutEl=$('katupQout'), speedEl=$('katupSpeed');
+    const qmaxVal=$('katupQmaxVal'), htargetVal=$('katupHtargetVal'), tolVal=$('katupTolVal'), qoutVal=$('katupQoutVal'), speedVal=$('katupSpeedVal');
+    const hasilEl=$('katupHasil'), statusEl=$('katupStatus'), targetEl=$('katupTarget'), selisihEl=$('katupSelisih');
+    const playBtn=$('katupPlayBtn'), resetBtn=$('katupResetBtn');
+
+    const DT=0.05, VMAX=36;
+    const topY=15, bottomY=130, scaleV=(bottomY-topY)/VMAX;
+
+    let h=8, playing=false, history=[], lastOpening=1;
+
+    function toY(hh){ return bottomY - hh*scaleV; }
+
+    function step(){
+      const Qmax=parseFloat(qmaxEl.value), Htarget=parseFloat(htargetEl.value), tol=parseFloat(tolEl.value), Qout=parseFloat(qoutEl.value);
+      const opening = Math.max(0, Math.min(1, 1-(h-Htarget)/tol));
+      lastOpening = opening;
+      const Qin = Qmax*opening;
+      h += (Qin-Qout)*DT;
+      h = Math.max(0, Math.min(VMAX, h));
+      history.push(h);
+      if(history.length>HIST_MAX) history.shift();
+    }
+
+    function draw(){
+      const Htarget=parseFloat(htargetEl.value), Qout=parseFloat(qoutEl.value), qMaxAbs=2.0;
+      const waterY = toY(h), targetY = toY(Htarget);
+      const floatY = waterY - 4;
+      const inW = 2+lastOpening*7, inOp = 0.3+lastOpening*0.7;
+      const outW = 2+(Qout/1.8)*7, outOp = 0.3+(Qout/1.8)*0.7;
+      svg.innerHTML = `
+        <rect x="90" y="${topY}" width="120" height="${bottomY-topY}" fill="none" stroke="#8a7c62" stroke-width="3"/>
+        <rect x="92" y="${waterY}" width="116" height="${bottomY-waterY}" fill="#a9c4d8"/>
+        <line x1="90" y1="${targetY}" x2="210" y2="${targetY}" stroke="#c9784f" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text x="215" y="${targetY+3}" font-family="JetBrains Mono" font-size="8" fill="#c9784f">target</text>
+        <line x1="150" y1="${topY-12}" x2="150" y2="${floatY}" stroke="#8a7c62" stroke-width="2"/>
+        <circle cx="150" cy="${floatY}" r="7" fill="#c9784f"/>
+        <line x1="150" y1="${topY-12}" x2="150" y2="${topY-2}" stroke="#5a8ab0" stroke-width="${inW}" stroke-linecap="round" opacity="${inOp}"/>
+        <line x1="240" y1="${bottomY-15}" x2="255" y2="${bottomY-15}" stroke="#5a8ab0" stroke-width="${outW}" stroke-linecap="round" opacity="${outOp}"/>
+        <line x1="210" y1="${bottomY-15}" x2="240" y2="${bottomY-15}" stroke="#8a7c62" stroke-width="3"/>
+      `;
+      drawLineChart(chart, [{data:history, color:'#5a8ab0'}], Htarget);
+    }
+
+    function updateStats(){
+      qmaxVal.textContent = fmt(parseFloat(qmaxEl.value),1);
+      htargetVal.textContent = htargetEl.value;
+      tolVal.textContent = fmt(parseFloat(tolEl.value),1);
+      qoutVal.textContent = fmt(parseFloat(qoutEl.value),1);
+      speedVal.textContent = speedEl.value+'×';
+      const Htarget = parseFloat(htargetEl.value);
+      hasilEl.textContent = fmt(h,1)+' cm';
+      statusEl.textContent = 'Katup terbuka '+Math.round(lastOpening*100)+'%';
+      targetEl.textContent = Htarget+' cm';
+      selisihEl.textContent = fmt(h-Htarget,1)+' cm';
+    }
+
+    function reset(){
+      h = parseFloat(htargetEl.value)*0.4;
+      history=[]; updateStats(); draw();
+    }
+
+    [qmaxEl,htargetEl,tolEl,qoutEl,speedEl].forEach(el => el.addEventListener('input', () => { updateStats(); draw(); }));
+    playBtn.addEventListener('click', () => {
+      playing = !playing;
+      playBtn.textContent = playing ? '⏸ Jeda' : '▶ Mulai';
+    });
+    resetBtn.addEventListener('click', reset);
+
+    window.__katupTick = function(){
+      if(!playing) return;
+      const speed = parseInt(speedEl.value);
+      for(let s=0;s<speed;s++) step();
+      updateStats(); draw();
+    };
+
+    reset();
+  })();
+
+  /* =====================================================================
+     TAB 3: LAMPU SUMBU BERJALAN SENDIRI
+     ===================================================================== */
+  (function(){
+    const svg = $('lampuSvg'), chart = $('lampuChart');
+    const rbakarEl=$('lampuRbakar'), rasioEl=$('lampuRasio'), speedEl=$('lampuSpeed');
+    const rbakarVal=$('lampuRbakarVal'), rasioVal=$('lampuRasioVal'), speedVal=$('lampuSpeedVal');
+    const hasilEl=$('lampuHasil'), statusEl=$('lampuStatus'), minyakEl=$('lampuMinyak'), cadanganEl=$('lampuCadangan');
+    const playBtn=$('lampuPlayBtn'), resetBtn=$('lampuResetBtn');
+
+    const DT=0.1, OIL_AWAL=60, RESERVE_AWAL=60, EXPOSED_AWAL=3, EXPOSED_MAX=10;
+    let exposed=EXPOSED_AWAL, oil=OIL_AWAL, reserve=RESERVE_AWAL, menyala=true, playing=false, history=[];
+
+    function step(){
+      if(!menyala) return;
+      const rBakar = parseFloat(rbakarEl.value), rasio = parseFloat(rasioEl.value);
+      if(exposed>0 && oil>0){
+        exposed -= rBakar*DT;
+        oil -= rBakar*DT;
+        const feedWanted = rasio*rBakar*DT;
+        const actualFeed = Math.min(feedWanted, reserve);
+        exposed += actualFeed;
+        reserve -= actualFeed;
+        exposed = Math.max(0, Math.min(EXPOSED_MAX, exposed));
+        oil = Math.max(0, oil);
+        reserve = Math.max(0, reserve);
+        if(exposed<=0 || oil<=0) menyala=false;
+      }
+      history.push(exposed);
+      if(history.length>HIST_MAX) history.shift();
+    }
+
+    function draw(){
+      const resW=90, resX=105, resTopY=100, resBottomY=150;
+      const oilFillH = (oil/OIL_AWAL)*(resBottomY-resTopY);
+      const oilY = resBottomY-oilFillH;
+      const wickH = exposed*7;
+      const wickTopY = resTopY-wickH;
+      const flame = menyala ? `<polygon points="150,${wickTopY-16} 143,${wickTopY-1} 157,${wickTopY-1}" fill="#c9784f"/>
+        <polygon points="150,${wickTopY-10} 146,${wickTopY-1} 154,${wickTopY-1}" fill="#e0b84f"/>` : '';
+      const reserveH = (reserve/RESERVE_AWAL)*70;
+      svg.innerHTML = `
+        <rect x="${resX}" y="${resTopY}" width="${resW}" height="${resBottomY-resTopY}" fill="none" stroke="#8a7c62" stroke-width="3"/>
+        <rect x="${resX+2}" y="${oilY}" width="${resW-4}" height="${oilFillH}" fill="#e0b84f"/>
+        <rect x="146" y="${wickTopY}" width="8" height="${resTopY-wickTopY}" fill="#8a7355"/>
+        ${flame}
+        <rect x="235" y="80" width="14" height="70" fill="none" stroke="#8a7c62" stroke-width="2"/>
+        <rect x="237" y="${150-reserveH}" width="10" height="${reserveH}" fill="#8a7355"/>
+        <text x="242" y="165" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#8a7c62">cadangan</text>
+        <text x="150" y="180" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#8a7c62">wadah minyak</text>
+      `;
+      drawLineChart(chart, [{data:history, color:'#c9784f'}]);
+    }
+
+    function updateStats(){
+      rbakarVal.textContent = fmt(parseFloat(rbakarEl.value),2);
+      rasioVal.textContent = fmt(parseFloat(rasioEl.value),2);
+      speedVal.textContent = speedEl.value+'×';
+      hasilEl.textContent = fmt(exposed,2)+' cm';
+      statusEl.textContent = !menyala ? 'Padam' : (Math.abs(parseFloat(rasioEl.value)-1)<0.02 ? 'Menyala stabil' : (parseFloat(rasioEl.value)<1 ? 'Meredup…' : 'Membesar…'));
+      minyakEl.textContent = fmt(oil,1);
+      cadanganEl.textContent = fmt(reserve,1);
+    }
+
+    function reset(){
+      exposed=EXPOSED_AWAL; oil=OIL_AWAL; reserve=RESERVE_AWAL; menyala=true; history=[];
+      updateStats(); draw();
+    }
+
+    [rbakarEl,rasioEl,speedEl].forEach(el => el.addEventListener('input', () => { updateStats(); draw(); }));
+    playBtn.addEventListener('click', () => {
+      playing = !playing;
+      playBtn.textContent = playing ? '⏸ Jeda' : '▶ Mulai';
+    });
+    resetBtn.addEventListener('click', reset);
+
+    window.__lampuTick = function(){
+      if(!playing) return;
+      const speed = parseInt(speedEl.value);
+      for(let s=0;s<speed;s++) step();
+      updateStats(); draw();
+    };
+
+    reset();
+  })();
+
+  /* =====================================================================
+     TAB 4: PANCURAN JUNGKIT SILIH BERGANTI
+     ===================================================================== */
+  (function(){
+    const svg = $('jungkitSvg'), chart = $('jungkitChart');
+    const qinEl=$('jungkitQin'), ambangEl=$('jungkitAmbang'), speedEl=$('jungkitSpeed');
+    const qinVal=$('jungkitQinVal'), ambangVal=$('jungkitAmbangVal'), speedVal=$('jungkitSpeedVal');
+    const hasilEl=$('jungkitHasil'), periodeEl=$('jungkitPeriode'), prediksiEl=$('jungkitPrediksi');
+    const playBtn=$('jungkitPlayBtn'), resetBtn=$('jungkitResetBtn');
+
+    const DT=0.02;
+    let vol=0, sisi=0, playing=false, simT=0;
+    let switchTimes=[], histL=[], histR=[], flashSide=-1, flashTimer=0;
+
+    function step(){
+      const Qin = parseFloat(qinEl.value), ambang = parseFloat(ambangEl.value);
+      vol += Qin*DT;
+      if(vol>=ambang){
+        switchTimes.push(simT);
+        if(switchTimes.length>30) switchTimes.shift();
+        flashSide = sisi; flashTimer = 12;
+        vol=0; sisi=1-sisi;
+      }
+      histL.push(sisi===0?vol:0);
+      histR.push(sisi===1?vol:0);
+      if(histL.length>HIST_MAX){ histL.shift(); histR.shift(); }
+      if(flashTimer>0) flashTimer--;
+      simT += DT;
+    }
+
+    function draw(){
+      const ambang = parseFloat(ambangEl.value);
+      const chH = 110, chTopY = 40, chBottomY = chTopY+chH;
+      const fillL = sisi===0 ? (vol/ambang)*chH : (flashSide===0 && flashTimer>0 ? chH : 0);
+      const fillR = sisi===1 ? (vol/ambang)*chH : (flashSide===1 && flashTimer>0 ? chH : 0);
+      const activeStrokeL = sisi===0 ? '#c1595a' : '#c9c0a4';
+      const activeStrokeR = sisi===1 ? '#5a8ab0' : '#c9c0a4';
+      const flashOverlayL = (flashSide===0 && flashTimer>0) ? `<rect x="60" y="${chTopY}" width="80" height="${chH}" fill="#fff" opacity="${flashTimer/12*0.6}"/>` : '';
+      const flashOverlayR = (flashSide===1 && flashTimer>0) ? `<rect x="160" y="${chTopY}" width="80" height="${chH}" fill="#fff" opacity="${flashTimer/12*0.6}"/>` : '';
+      svg.innerHTML = `
+        <rect x="60" y="${chTopY}" width="80" height="${chH}" fill="none" stroke="${activeStrokeL}" stroke-width="${sisi===0?4:2}"/>
+        <rect x="62" y="${chBottomY-fillL}" width="76" height="${fillL}" fill="#c1595a"/>
+        ${flashOverlayL}
+        <rect x="160" y="${chTopY}" width="80" height="${chH}" fill="none" stroke="${activeStrokeR}" stroke-width="${sisi===1?4:2}"/>
+        <rect x="162" y="${chBottomY-fillR}" width="76" height="${fillR}" fill="#5a8ab0"/>
+        ${flashOverlayR}
+        <polygon points="140,175 160,175 150,158" fill="#c9784f"/>
+        <line x1="100" y1="${chBottomY}" x2="100" y2="167" stroke="#8a7c62" stroke-width="3"/>
+        <line x1="200" y1="${chBottomY}" x2="200" y2="167" stroke="#8a7c62" stroke-width="3"/>
+        <text x="100" y="${chTopY-6}" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#8a7c62">kiri</text>
+        <text x="200" y="${chTopY-6}" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="#8a7c62">kanan</text>
+      `;
+      drawLineChart(chart, [{data:histL, color:'#c1595a'},{data:histR, color:'#5a8ab0'}]);
+    }
+
+    function updateStats(){
+      qinVal.textContent = fmt(parseFloat(qinEl.value),1);
+      ambangVal.textContent = fmt(parseFloat(ambangEl.value),1);
+      speedVal.textContent = speedEl.value+'×';
+      hasilEl.textContent = switchTimes.length;
+      const periods=[];
+      for(let i=1;i<switchTimes.length;i++) periods.push(switchTimes[i]-switchTimes[i-1]);
+      periodeEl.textContent = periods.length ? fmt(periods.reduce((a,b)=>a+b,0)/periods.length,1)+' dtk' : '—';
+      const Qin=parseFloat(qinEl.value), ambang=parseFloat(ambangEl.value);
+      prediksiEl.textContent = fmt(ambang/Qin,1)+' dtk';
+    }
+
+    function reset(){
+      vol=0; sisi=0; switchTimes=[]; histL=[]; histR=[]; flashSide=-1; flashTimer=0; simT=0;
+      updateStats(); draw();
+    }
+
+    [qinEl,ambangEl,speedEl].forEach(el => el.addEventListener('input', () => { updateStats(); draw(); }));
+    playBtn.addEventListener('click', () => {
+      playing = !playing;
+      playBtn.textContent = playing ? '⏸ Jeda' : '▶ Mulai';
+    });
+    resetBtn.addEventListener('click', reset);
+
+    window.__jungkitTick = function(){
+      if(!playing) return;
+      const speed = parseInt(speedEl.value);
+      for(let s=0;s<speed;s++) step();
+      updateStats(); draw();
+    };
+
+    reset();
+  })();
+
+  /* ================= LOOP ANIMASI BERSAMA ================= */
+  function mainLoop(){
+    window.__sifonTick && window.__sifonTick();
+    window.__katupTick && window.__katupTick();
+    window.__lampuTick && window.__lampuTick();
+    window.__jungkitTick && window.__jungkitTick();
+    requestAnimationFrame(mainLoop);
+  }
+  requestAnimationFrame(mainLoop);
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kehidupan & Entropi — Laboratorium Interaktif</title>
+<style>
+  :root {
+    --bg: #0a0f1a;
+    --bg2: #111827;
+    --bg3: #1a2535;
+    --border: #2a3a50;
+    --text: #c8d8e8;
+    --text-dim: #6a8aaa;
+    --accent: #4a9ebb;
+    --accent2: #7ecba1;
+    --accent3: #e8a456;
+    --accent4: #c47eb5;
+    --danger: #e05a5a;
+    --life: #7ecba1;
+    --death: #4a6a8a;
+    --font-main: 'Georgia', serif;
+    --font-mono: 'Courier New', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-main);
+    min-height: 100vh;
+    line-height: 1.7;
+  }
+
+  /* HEADER */
+  header {
+    padding: 2.5rem 2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .header-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    letter-spacing: 0.15em;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: normal;
+    color: #e8f0f8;
+    line-height: 1.25;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 span {
+    color: var(--accent2);
+  }
+
+  .subtitle {
+    color: var(--text-dim);
+    font-size: 0.95rem;
+    max-width: 620px;
+    font-style: italic;
+  }
+
+  /* LAYOUT */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 750px) {
+    .main { grid-template-columns: 1fr; padding: 1rem; }
+  }
+
+  .full-width { grid-column: 1 / -1; }
+
+  /* PANELS */
+  .panel {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+  }
+
+  .panel-title {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* CANVAS AREA */
+  .canvas-wrap {
+    position: relative;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  canvas {
+    display: block;
+    width: 100%;
+  }
+
+  /* SLIDERS */
+  .slider-group {
+    margin-bottom: 1.1rem;
+  }
+
+  .slider-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 0.4rem;
+  }
+
+  .slider-label {
+    font-size: 0.85rem;
+    color: var(--text);
+  }
+
+  .slider-value {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+    min-width: 60px;
+    text-align: right;
+  }
+
+  .slider-desc {
+    font-size: 0.72rem;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+    font-style: italic;
+  }
+
+  input[type=range] {
+    width: 100%;
+    height: 4px;
+    background: var(--bg3);
+    border-radius: 2px;
+    outline: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--accent);
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+
+  input[type=range]::-webkit-slider-thumb:hover {
+    background: var(--accent2);
+  }
+
+  /* METRICS */
+  .metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+  }
+
+  .metric {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 0.75rem;
+    border-radius: 3px;
+  }
+
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.3rem;
+  }
+
+  .metric-value {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: var(--accent2);
+    font-family: var(--font-mono);
+  }
+
+  .metric-value.danger { color: var(--danger); }
+  .metric-value.warn { color: var(--accent3); }
+  .metric-value.good { color: var(--accent2); }
+
+  .metric-sub {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+  }
+
+  /* ELEMENT DISPLAY */
+  .elements-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 500px) {
+    .elements-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  .element-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 0.5rem 0.3rem;
+    text-align: center;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .element-card.active {
+    border-color: var(--accent2);
+    background: #1a2e20;
+  }
+
+  .element-symbol {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: var(--accent2);
+    display: block;
+  }
+
+  .element-name {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    display: block;
+    margin-top: 0.15rem;
+  }
+
+  .element-pct {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--accent);
+    display: block;
+    margin-top: 0.2rem;
+  }
+
+  /* BAR CHART */
+  .bar-group {
+    margin-bottom: 0.6rem;
+  }
+
+  .bar-label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    margin-bottom: 0.25rem;
+    color: var(--text-dim);
+  }
+
+  .bar-track {
+    height: 8px;
+    background: var(--bg);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  /* PHILOSOPHICAL READOUT */
+  .readout {
+    background: var(--bg);
+    border-left: 3px solid var(--accent);
+    padding: 1rem 1.2rem;
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: var(--text);
+    border-radius: 0 3px 3px 0;
+    margin-top: 1rem;
+    min-height: 80px;
+    transition: border-color 0.5s;
+  }
+
+  .readout.critical { border-color: var(--danger); }
+  .readout.marginal { border-color: var(--accent3); }
+  .readout.viable { border-color: var(--accent2); }
+
+  .readout em {
+    color: var(--accent2);
+    font-style: normal;
+  }
+
+  .readout .arabic {
+    font-size: 1rem;
+    color: var(--accent3);
+    display: block;
+    margin-top: 0.5rem;
+    text-align: right;
+    direction: rtl;
+  }
+
+  /* TOGGLE BUTTONS */
+  .btn-group {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+
+  .btn {
+    padding: 0.35rem 0.9rem;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.active { border-color: var(--accent2); color: var(--accent2); background: #1a2e20; }
+
+  /* INFO BOX */
+  .info-box {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    border-radius: 3px;
+    font-size: 0.82rem;
+    color: var(--text-dim);
+    line-height: 1.75;
+    margin-top: 1rem;
+  }
+
+  .info-box strong { color: var(--text); }
+
+  /* ENTROPI VISUAL */
+  .entropy-bar-wrap {
+    margin: 1rem 0;
+  }
+
+  .entropy-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-bottom: 0.4rem;
+  }
+
+  .entropy-track {
+    height: 20px;
+    background: var(--bg);
+    border-radius: 3px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid var(--border);
+  }
+
+  .entropy-fill {
+    height: 100%;
+    transition: width 0.6s ease;
+    position: relative;
+  }
+
+  .entropy-life-marker {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: 2px;
+    background: var(--accent2);
+    opacity: 0.7;
+  }
+
+  /* FORMULA */
+  .formula {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    padding: 0.6rem 0.9rem;
+    border-radius: 3px;
+    color: var(--accent);
+    margin: 0.5rem 0;
+    overflow-x: auto;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.2rem;
+  }
+
+  .tab {
+    padding: 0.5rem 1rem;
+    font-size: 0.78rem;
+    color: var(--text-dim);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    font-family: var(--font-mono);
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent2); border-bottom-color: var(--accent2); }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* SEPARATOR */
+  .sep {
+    height: 1px;
+    background: var(--border);
+    margin: 1.2rem 0;
+  }
+
+  /* RESET */
+  .reset-btn {
+    font-size: 0.72rem;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-dim);
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    float: right;
+    margin-top: -0.2rem;
+  }
+
+  .reset-btn:hover { color: var(--accent3); border-color: var(--accent3); }
+
+  /* SCENARIO LABEL */
+  .scenario-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--accent3);
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-label">LABORATORIUM INTERAKTIF · QIDALAT.COM</div>
+  <h1>Kehidupan, Entropi, <span>dan Yang Memaksanya Bersama</span></h1>
+  <p class="subtitle">Eksplorasi saintifik dan filosofis: mengapa unsur-unsur yang cenderung terpisah bisa dipaksa bersatu — dan apa yang terjadi ketika paksaan itu berhenti.</p>
+</header>
+
+<div class="main">
+
+  <!-- SIMULASI PARTIKEL -->
+  <div class="panel full-width">
+    <div class="panel-title">
+      SIMULASI PARTIKEL
+      <button class="reset-btn" onclick="resetSim()">reset</button>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn active" id="btn-life" onclick="setMode('life')">Kondisi Hidup</button>
+      <button class="btn" id="btn-death" onclick="setMode('death')">Kondisi Mati/Terurai</button>
+      <button class="btn" id="btn-abiogenesis" onclick="setMode('abiogenesis')">Abiogenesis?</button>
+    </div>
+
+    <div class="canvas-wrap">
+      <canvas id="simCanvas" height="220"></canvas>
+    </div>
+
+    <div class="metrics">
+      <div class="metric">
+        <div class="metric-label">KETERATURAN SISTEM</div>
+        <div class="metric-value good" id="m-order">--</div>
+        <div class="metric-sub">0 = kacau total, 100 = sempurna teratur</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">ENTROPI RELATIF</div>
+        <div class="metric-value" id="m-entropy">--</div>
+        <div class="metric-sub">semakin tinggi = semakin menuju disorder</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">ENERGI BEBAS (ΔG)</div>
+        <div class="metric-value" id="m-energy">--</div>
+        <div class="metric-sub">negatif = proses spontan, positif = butuh input</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">STATUS SISTEM</div>
+        <div class="metric-value" id="m-status">--</div>
+        <div class="metric-sub">penilaian termodinamika</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL KIRI: PARAMETER -->
+  <div class="panel">
+    <div class="panel-title">PARAMETER YANG BISA DIUBAH</div>
+
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">🌡 Suhu Sistem</span>
+        <span class="slider-value" id="val-temp">37°C</span>
+      </div>
+      <div class="slider-desc">Suhu optimal kehidupan ~37°C. Di luar batas → protein denaturasi.</div>
+      <input type="range" id="sl-temp" min="0" max="120" value="37" oninput="updateSim()">
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">⚡ Input Energi</span>
+        <span class="slider-value" id="val-energy">70%</span>
+      </div>
+      <div class="slider-desc">Representasi ATP / metabolisme aktif. Nol = kematian.</div>
+      <input type="range" id="sl-energy" min="0" max="100" value="70" oninput="updateSim()">
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">💧 Ketersediaan Air</span>
+        <span class="slider-value" id="val-water">80%</span>
+      </div>
+      <div class="slider-desc">Pelarut universal. Tanpa air, reaksi biokimia mustahil.</div>
+      <input type="range" id="sl-water" min="0" max="100" value="80" oninput="updateSim()">
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">🔬 Kompleksitas Molekular</span>
+        <span class="slider-value" id="val-complex">60%</span>
+      </div>
+      <div class="slider-desc">Tingkat organisasi: protein, DNA, membran sel.</div>
+      <input type="range" id="sl-complex" min="0" max="100" value="60" oninput="updateSim()">
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">🧬 Integritas Informasi</span>
+        <span class="slider-value" id="val-info">75%</span>
+      </div>
+      <div class="slider-desc">Keutuhan DNA/RNA sebagai pembawa instruksi. Ini yang paling misterius.</div>
+      <input type="range" id="sl-info" min="0" max="100" value="75" oninput="updateSim()">
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-header">
+        <span class="slider-label">⏱ Skala Waktu</span>
+        <span class="slider-value" id="val-time">Milidetik</span>
+      </div>
+      <div class="slider-desc">Dari reaksi kimia instan hingga skala evolusi miliaran tahun.</div>
+      <input type="range" id="sl-time" min="1" max="6" value="2" oninput="updateSim()">
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="scenario-label">SKENARIO CEPAT</div>
+    <div class="btn-group">
+      <button class="btn" onclick="setScenario('optimal')">Sel Optimal</button>
+      <button class="btn" onclick="setScenario('stress')">Sel Stres</button>
+      <button class="btn" onclick="setScenario('dying')">Menjelang Mati</button>
+      <button class="btn" onclick="setScenario('dead')">Sudah Mati</button>
+      <button class="btn" onclick="setScenario('origin')">Asal Usul?</button>
+    </div>
+  </div>
+
+  <!-- PANEL KANAN: UNSUR + ANALISIS -->
+  <div class="panel">
+    <div class="panel-title">UNSUR KEHIDUPAN</div>
+
+    <div class="elements-grid" id="elemGrid">
+      <!-- diisi JS -->
+    </div>
+
+    <div class="sep"></div>
+
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('sains')">Sains</div>
+      <div class="tab" onclick="switchTab('filsafat')">Filosofis</div>
+      <div class="tab" onclick="switchTab('info')">Informasi</div>
+    </div>
+
+    <!-- TAB SAINS -->
+    <div class="tab-content active" id="tab-sains">
+      <p style="font-size:0.82rem; color:var(--text-dim); margin-bottom:0.8rem;">
+        Kecenderungan termodinamika unsur-unsur utama kehidupan di alam bebas:
+      </p>
+
+      <div class="bar-group">
+        <div class="bar-label-row"><span>Karbon (C)</span><span id="bar-C-val">Lebih suka CO₂</span></div>
+        <div class="bar-track"><div class="bar-fill" id="bar-C" style="width:85%; background: linear-gradient(90deg, var(--danger), var(--accent3));"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-label-row"><span>Nitrogen (N)</span><span id="bar-N-val">Lebih suka N₂</span></div>
+        <div class="bar-track"><div class="bar-fill" id="bar-N" style="width:90%; background: linear-gradient(90deg, var(--danger), var(--accent3));"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-label-row"><span>Hidrogen (H)</span><span id="bar-H-val">Lebih suka H₂O</span></div>
+        <div class="bar-track"><div class="bar-fill" id="bar-H" style="width:75%; background: linear-gradient(90deg, var(--accent), var(--accent3));"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-label-row"><span>Oksigen (O)</span><span id="bar-O-val">Lebih suka O₂</span></div>
+        <div class="bar-track"><div class="bar-fill" id="bar-O" style="width:80%; background: linear-gradient(90deg, var(--danger), var(--accent3));"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-label-row"><span>Fosfor (P)</span><span id="bar-P-val">Lebih suka fosfat</span></div>
+        <div class="bar-track"><div class="bar-fill" id="bar-P" style="width:65%; background: linear-gradient(90deg, var(--accent), var(--accent2));"></div></div>
+      </div>
+      <div class="bar-group">
+        <div class="bar-label-row"><span>Sulfur (S)</span><span id="bar-S-val">Lebih suka sulfat</span></div>
+        <div class="bar-track"><div class="bar-fill" id="bar-S" style="width:70%; background: linear-gradient(90deg, var(--accent), var(--accent2));"></div></div>
+      </div>
+
+      <p style="font-size:0.72rem; color:var(--text-dim); margin-top:0.8rem; font-style:italic;">
+        Bar = seberapa kuat kecenderungan unsur itu "ingin" berada dalam bentuk stabil non-kehidupan. Semakin panjang = semakin "tidak mau" bergabung dalam molekul biologis.
+      </p>
+
+      <div class="formula" id="formula-display">ΔG = ΔH − TΔS</div>
+    </div>
+
+    <!-- TAB FILSAFAT -->
+    <div class="tab-content" id="tab-filsafat">
+      <p style="font-size:0.82rem; color:var(--text-dim); margin-bottom:0.8rem; line-height:1.8;">
+        Hukum kedua termodinamika menyatakan: sistem alami bergerak menuju <em style="color:var(--accent3)">entropi maksimum</em> — disorder, ketidakteraturan. Kehidupan adalah <em style="color:var(--accent2)">perlawanan lokal dan sementara</em> terhadap arus ini.
+      </p>
+
+      <div class="entropy-bar-wrap">
+        <div class="entropy-label">
+          <span>Entropi Rendah (teratur)</span>
+          <span>Entropi Tinggi (chaos)</span>
+        </div>
+        <div class="entropy-track">
+          <div class="entropy-fill" id="entropy-viz" style="width: 20%; background: linear-gradient(90deg, var(--accent2), var(--accent3), var(--danger));"></div>
+          <div class="entropy-life-marker" id="life-marker" style="left: 25%;"></div>
+        </div>
+        <div style="font-size:0.7rem; color:var(--text-dim); margin-top:0.3rem; display:flex; justify-content:space-between;">
+          <span>← Kristal sempurna (0K)</span>
+          <span>↑ Posisi kehidupan</span>
+          <span>Gas bebas →</span>
+        </div>
+      </div>
+
+      <div class="info-box">
+        <strong>Pertanyaan yang belum terjawab sains:</strong><br><br>
+        Kehidupan membutuhkan <em style="color:var(--accent2)">informasi</em> untuk mempertahankan keteraturannya melawan entropi. Protein tidak bisa dibuat tanpa DNA. DNA tidak bisa dibaca tanpa protein. Lingkaran ini tidak bisa mem-bootstrap dirinya sendiri dari unsur-unsur acak.<br><br>
+        Wheeler: <em style="color:var(--accent3)">"It from Bit"</em> — informasi lebih fundamental dari materi.
+      </div>
+    </div>
+
+    <!-- TAB INFORMASI -->
+    <div class="tab-content" id="tab-info">
+      <p style="font-size:0.82rem; color:var(--text-dim); margin-bottom:0.8rem; line-height:1.8;">
+        DNA menggunakan 4 "huruf" (A, T, G, C). Perubahan urutan menghasilkan instruksi yang sama sekali berbeda.
+      </p>
+
+      <div id="dna-display" style="font-family: var(--font-mono); font-size: 0.75rem; line-height: 2; letter-spacing: 0.05em; margin-bottom: 1rem; word-break: break-all;"></div>
+
+      <div class="info-box">
+        <strong>Masalah asal-usul informasi:</strong><br><br>
+        Yockey & Shannon menghitung: probabilitas protein fungsional 150 asam amino muncul secara acak adalah ~10⁻¹⁸⁰ — secara matematis mustahil dalam rentang waktu alam semesta yang tersedia, bahkan dengan asumsi paling optimis.<br><br>
+        Ini bukan argumen teologi. Ini <em style="color:var(--accent2)">batas epistemologis</em> yang jujur.
+      </div>
+    </div>
+
+    <!-- READOUT FILOSOFIS -->
+    <div class="readout viable" id="readout">
+      Geser parameter untuk memulai eksplorasi...
+    </div>
+  </div>
+
+  <!-- PANEL BAWAH: PERTANYAAN TERBUKA -->
+  <div class="panel full-width">
+    <div class="panel-title">PERTANYAAN YANG TETAP TERBUKA</div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem;">
+
+      <div class="info-box">
+        <strong>Tentang Abiogenesis</strong><br><br>
+        Manusia telah membuat 3.000+ material sintetis dengan jutaan eksperimen. Tidak satu pun menghasilkan benda mati yang menjadi hidup. Bukan karena belum dicoba — tapi karena <em style="color:var(--accent2)">lompatan itu belum dipahami sama sekali</em>.
+      </div>
+
+      <div class="info-box">
+        <strong>Tentang Informasi</strong><br><br>
+        Atom karbon tidak "tahu" apakah ia sedang membangun selulosa atau sianida. Yang menentukan adalah <em style="color:var(--accent2)">urutan dan konteks</em> — yang tersimpan dalam DNA. Dari mana sistem pembacaan ini pertama kali ada?
+      </div>
+
+      <div class="info-box">
+        <strong>Tentang Kematian</strong><br><br>
+        Begitu "sesuatu" itu pergi, unsur-unsur yang tadinya dipaksa bersama <em style="color:var(--accent2)">langsung bubar</em>. Seolah mereka tidak pernah mau bersama sejak awal. Kehidupan bukan keadaan default alam semesta — ia adalah tamu.
+      </div>
+
+      <div class="info-box">
+        <strong>وَيُسْقَىٰ بِمَاءٍ وَٰحِدٍ</strong><br><br>
+        <em style="color:var(--accent3)">"Disiram dengan air yang sama, tapi Kami lebihkan sebagian atas sebagian yang lain dalam rasanya."</em><br><br>
+        Semakin dalam diteliti — epigenetik, mikrobioma, interaksi kuantum — semakin dalam pertanyaannya.
+      </div>
+
+    </div>
+
+    <div style="margin-top: 1.5rem; padding: 1.2rem; background: var(--bg); border: 1px solid var(--border); border-left: 3px solid var(--accent3); border-radius: 0 3px 3px 0;">
+      <div style="font-size: 0.72rem; font-family: var(--font-mono); color: var(--text-dim); margin-bottom: 0.5rem; letter-spacing: 0.1em;">CATATAN EPISTEMOLOGIS</div>
+      <p style="font-size: 0.85rem; line-height: 1.8; color: var(--text);">
+        Tool ini bukan argumen untuk kesimpulan apapun — teologis maupun ateistis. Ia adalah undangan untuk <em style="color: var(--accent2)">tetap tidak tahu dengan jujur</em>, dan terus bertanya. Saintisme menutup pertanyaan dengan klaim "pada prinsipnya sudah bisa dijelaskan." Sikap ilmiah yang sesungguhnya berkata: <em style="color: var(--accent2)">"Kami belum tahu — dan ketidaktahuan ini bukan kelemahan, melainkan batas yang perlu dihormati."</em>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ==========================================
+// DATA UNSUR
+// ==========================================
+const ELEMENTS = [
+  { sym: 'C', name: 'Karbon', pct: 18.5, color: '#7ecba1', stable: 'CO₂' },
+  { sym: 'H', name: 'Hidrogen', pct: 9.5, color: '#4a9ebb', stable: 'H₂O' },
+  { sym: 'O', name: 'Oksigen', pct: 65.0, color: '#c47eb5', stable: 'O₂' },
+  { sym: 'N', name: 'Nitrogen', pct: 3.3, color: '#e8a456', stable: 'N₂' },
+  { sym: 'P', name: 'Fosfor', pct: 1.0, color: '#9a7eb5', stable: 'PO₄' },
+  { sym: 'S', name: 'Sulfur', pct: 0.3, color: '#b5a27e', stable: 'SO₄' },
+];
+
+// ==========================================
+// CANVAS SIMULASI
+// ==========================================
+const canvas = document.getElementById('simCanvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+let animFrame;
+let simMode = 'life';
+let simParams = { temp: 37, energy: 70, water: 80, complex: 60, info: 75 };
+
+function resizeCanvas() {
+  const wrap = canvas.parentElement;
+  canvas.width = wrap.offsetWidth;
+  canvas.height = 220;
+}
+
+class Particle {
+  constructor(mode) {
+    this.reset(mode);
+  }
+
+  reset(mode) {
+    this.mode = mode;
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.elem = ELEMENTS[Math.floor(Math.random() * ELEMENTS.length)];
+    this.r = mode === 'life' ? 3 + Math.random() * 4 : 2 + Math.random() * 2;
+    this.paired = false;
+    this.partner = null;
+    this.alpha = 0.7 + Math.random() * 0.3;
+    this.setSpeed(mode);
+    this.trail = [];
+  }
+
+  setSpeed(mode) {
+    const t = simParams.temp / 37;
+    const e = simParams.energy / 70;
+    if (mode === 'life') {
+      const spd = 0.4 + Math.random() * 0.8 * e;
+      const ang = Math.random() * Math.PI * 2;
+      this.vx = Math.cos(ang) * spd;
+      this.vy = Math.sin(ang) * spd;
+    } else if (mode === 'death') {
+      const spd = 1.5 + Math.random() * 2.5 * t;
+      const ang = Math.random() * Math.PI * 2;
+      this.vx = Math.cos(ang) * spd;
+      this.vy = Math.sin(ang) * spd;
+    } else {
+      const spd = 0.8 + Math.random() * 1.5;
+      const ang = Math.random() * Math.PI * 2;
+      this.vx = Math.cos(ang) * spd;
+      this.vy = Math.sin(ang) * spd;
+    }
+  }
+
+  update() {
+    this.trail.push({ x: this.x, y: this.y });
+    if (this.trail.length > 8) this.trail.shift();
+
+    if (this.mode === 'life') {
+      // Kohesif - saling tarik ringan
+      particles.forEach(p => {
+        if (p !== this) {
+          const dx = p.x - this.x;
+          const dy = p.y - this.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 60 && dist > 15) {
+            const force = (simParams.energy / 100) * 0.008;
+            this.vx += (dx/dist) * force;
+            this.vy += (dy/dist) * force;
+          } else if (dist < 15) {
+            this.vx -= (dx/dist) * 0.05;
+            this.vy -= (dy/dist) * 0.05;
+          }
+        }
+      });
+      // Damping
+      this.vx *= 0.98;
+      this.vy *= 0.98;
+
+    } else if (this.mode === 'death') {
+      // Dispersif - saling tolak
+      particles.forEach(p => {
+        if (p !== this) {
+          const dx = p.x - this.x;
+          const dy = p.y - this.y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 40) {
+            const force = 0.02;
+            this.vx -= (dx/dist) * force;
+            this.vy -= (dy/dist) * force;
+          }
+        }
+      });
+    } else {
+      // Abiogenesis: acak, sesekali cluster
+      if (Math.random() < 0.005) {
+        this.vx = (Math.random()-0.5) * 3;
+        this.vy = (Math.random()-0.5) * 3;
+      }
+    }
+
+    this.x += this.vx;
+    this.y += this.vy;
+
+    // Bounce
+    if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+    if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+    this.x = Math.max(0, Math.min(canvas.width, this.x));
+    this.y = Math.max(0, Math.min(canvas.height, this.y));
+  }
+
+  draw() {
+    // Trail
+    if (this.mode !== 'death' && this.trail.length > 2) {
+      ctx.beginPath();
+      ctx.moveTo(this.trail[0].x, this.trail[0].y);
+      for (let i = 1; i < this.trail.length; i++) {
+        ctx.lineTo(this.trail[i].x, this.trail[i].y);
+      }
+      ctx.strokeStyle = this.elem.color + '30';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // Particle
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+    ctx.fillStyle = this.elem.color + Math.floor(this.alpha * 255).toString(16).padStart(2,'0');
+    ctx.fill();
+
+    // Label
+    if (this.r > 4) {
+      ctx.fillStyle = '#0a0f1a';
+      ctx.font = `bold ${Math.floor(this.r * 1.2)}px monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(this.elem.sym, this.x, this.y);
+    }
+  }
+}
+
+function drawBonds() {
+  if (simMode === 'life') {
+    const threshold = 45 + (simParams.complex / 100) * 20;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i+1; j < particles.length; j++) {
+        const dx = particles[j].x - particles[i].x;
+        const dy = particles[j].y - particles[i].y;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        if (dist < threshold) {
+          const alpha = (1 - dist/threshold) * 0.4 * (simParams.energy/100);
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(126,203,161,${alpha})`;
+          ctx.lineWidth = 1;
+          ctx.stroke();
+        }
+      }
+    }
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Background grid untuk mode life
+  if (simMode === 'life') {
+    ctx.strokeStyle = 'rgba(74,158,187,0.05)';
+    ctx.lineWidth = 1;
+    for (let x = 0; x < canvas.width; x += 30) {
+      ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x, canvas.height); ctx.stroke();
+    }
+    for (let y = 0; y < canvas.height; y += 30) {
+      ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(canvas.width, y); ctx.stroke();
+    }
+  }
+
+  drawBonds();
+  particles.forEach(p => { p.update(); p.draw(); });
+
+  // Mode label
+  const modeLabels = {
+    'life': { text: 'SISTEM HIDUP — Unsur dipaksa bersama oleh metabolisme', color: 'rgba(126,203,161,0.8)' },
+    'death': { text: 'SISTEM MATI — Unsur kembali ke keadaan default (dispersi)', color: 'rgba(224,90,90,0.8)' },
+    'abiogenesis': { text: 'ABIOGENESIS? — Kapan & bagaimana pertama kali terjadi?', color: 'rgba(232,164,86,0.8)' }
+  };
+  const lbl = modeLabels[simMode];
+  ctx.fillStyle = lbl.color;
+  ctx.font = '11px monospace';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'top';
+  ctx.fillText(lbl.text, 8, 6);
+
+  animFrame = requestAnimationFrame(animate);
+}
+
+function initParticles(mode) {
+  const count = mode === 'life' ? 28 : mode === 'death' ? 40 : 22;
+  particles = Array.from({ length: count }, () => new Particle(mode));
+}
+
+function setMode(mode) {
+  simMode = mode;
+  ['life','death','abiogenesis'].forEach(m => {
+    document.getElementById('btn-'+m).classList.toggle('active', m === mode);
+  });
+  initParticles(mode);
+  updateSim();
+}
+
+// ==========================================
+// UPDATE LOGIKA
+// ==========================================
+function updateSim() {
+  const temp = +document.getElementById('sl-temp').value;
+  const energy = +document.getElementById('sl-energy').value;
+  const water = +document.getElementById('sl-water').value;
+  const complex = +document.getElementById('sl-complex').value;
+  const info = +document.getElementById('sl-info').value;
+  const timeIdx = +document.getElementById('sl-time').value;
+
+  simParams = { temp, energy, water, complex, info };
+
+  const timeLabels = ['','Nanodetik','Milidetik','Detik','Tahun','Ribuan Tahun','Miliaran Tahun'];
+  document.getElementById('val-temp').textContent = temp + '°C';
+  document.getElementById('val-energy').textContent = energy + '%';
+  document.getElementById('val-water').textContent = water + '%';
+  document.getElementById('val-complex').textContent = complex + '%';
+  document.getElementById('val-info').textContent = info + '%';
+  document.getElementById('val-time').textContent = timeLabels[timeIdx];
+
+  // Hitung metrik
+  let tempFactor = 1;
+  if (temp < 10 || temp > 60) tempFactor = 0.3;
+  else if (temp < 20 || temp > 50) tempFactor = 0.6;
+  else if (temp >= 30 && temp <= 42) tempFactor = 1;
+  else tempFactor = 0.8;
+
+  const viability = (energy * 0.3 + water * 0.2 + complex * 0.2 + info * 0.25 + tempFactor*100 * 0.05) / 100;
+  const order = Math.round(viability * 100 * tempFactor);
+  const entropy = Math.round((1 - viability * tempFactor) * 100);
+  const deltaG = Math.round((viability - 0.5) * 200 - 50);
+
+  // Status
+  let status = '', statusClass = '';
+  if (energy === 0) { status = 'MATI'; statusClass = 'danger'; }
+  else if (order > 70) { status = 'VIABLE'; statusClass = 'good'; }
+  else if (order > 40) { status = 'STRES'; statusClass = 'warn'; }
+  else { status = 'KRITIS'; statusClass = 'danger'; }
+
+  document.getElementById('m-order').textContent = order;
+  document.getElementById('m-order').className = 'metric-value ' + statusClass;
+  document.getElementById('m-entropy').textContent = entropy + '%';
+  document.getElementById('m-entropy').className = 'metric-value ' + (entropy > 70 ? 'danger' : entropy > 40 ? 'warn' : 'good');
+  document.getElementById('m-energy').textContent = (deltaG > 0 ? '+' : '') + deltaG + ' kJ/mol';
+  document.getElementById('m-energy').className = 'metric-value ' + (deltaG > 0 ? 'danger' : 'good');
+  document.getElementById('m-status').textContent = status;
+  document.getElementById('m-status').className = 'metric-value ' + statusClass;
+
+  // Entropy viz
+  document.getElementById('entropy-viz').style.width = entropy + '%';
+  document.getElementById('life-marker').style.left = Math.max(5, order - 5) + '%';
+
+  // Formula update
+  const formulaEl = document.getElementById('formula-display');
+  if (energy === 0) {
+    formulaEl.textContent = 'ΔG > 0 → proses tidak spontan → sistem runtuh';
+  } else if (order > 70) {
+    formulaEl.textContent = `ΔG = ${deltaG} kJ/mol → sistem mempertahankan keteraturan`;
+  } else {
+    formulaEl.textContent = `ΔG = ${deltaG} kJ/mol → sistem dalam tekanan termodinamika`;
+  }
+
+  // Readout filosofis
+  updateReadout(order, energy, info, temp, water, timeIdx);
+
+  // Update particles speed
+  particles.forEach(p => p.setSpeed(simMode));
+}
+
+function updateReadout(order, energy, info, temp, water, timeIdx) {
+  const readout = document.getElementById('readout');
+  let text = '', cls = 'viable';
+
+  if (energy === 0) {
+    text = `<em>Energi nol.</em> Ini adalah kematian — bukan metafora. Tanpa input energi, tidak ada metabolisme. Tidak ada metabolisme, tidak ada yang "memaksa" unsur-unsur tetap bersama. Dan alam langsung mengambil alih: unsur-unsur kembali ke keadaan yang mereka "inginkan" sejak awal — terpisah, stabil, inert. Keteraturan bubar dalam hitungan jam.`;
+    cls = 'critical';
+  } else if (info < 20) {
+    text = `<em>Integritas informasi kritis.</em> Ini menyentuh paradoks terdalam: DNA tidak bisa dibaca tanpa protein, protein tidak bisa dibuat tanpa DNA. Ketika informasi rusak, seluruh sistem instruksi kolaps — meski energi masih ada, meski air masih ada. Kehidupan bukan sekadar materi — ia adalah <em>materi yang diinstruksikan.</em>`;
+    cls = 'critical';
+  } else if (temp > 80) {
+    text = `Pada suhu ${temp}°C, protein terdenaturasi — strukturnya rusak, fungsinya hilang. Enzim yang tadinya menjalankan ribuan reaksi per detik menjadi benang kusut yang tidak berguna. Alam membuktikan: keteraturan biologis sangat rapuh, bergantung pada jendela kondisi yang sangat sempit.`;
+    cls = 'critical';
+  } else if (order > 75) {
+    text = `Sistem dalam kondisi <em>viable</em> — kehidupan sedang berlangsung. Setiap detik, sel ini memompa ion melawan gradien, memperbaiki kerusakan DNA, membangun molekul kompleks. Semua ini melawan arus entropi yang terus menarik. Dan pertanyaan yang belum terjawab: <em>siapa yang pertama kali mengatur semua ini?</em>
+    <span class="arabic">وَيُسْقَىٰ بِمَاءٍ وَٰحِدٍ وَنُفَضِّلُ بَعْضَهَا عَلَىٰ بَعْضٍ</span>`;
+    cls = 'viable';
+  } else if (order > 40) {
+    text = `Sistem dalam <em>tekanan</em>. Keseimbangan antara keteraturan dan entropi mulai goyah. Dalam tubuh, ini seperti sel yang stres — masih hidup, tapi sudah mengeluarkan sinyal bahaya. Satu langkah lagi ke bawah, dan mekanisme kematian sel aktif. Kehidupan itu tipis — sangat tipis.`;
+    cls = 'marginal';
+  } else if (timeIdx === 6) {
+    text = `Skala miliaran tahun. Di sinilah pertanyaan abiogenesis berdiri. Seluruh alam semesta berusia ~13,8 miliar tahun. Jutaan eksperimen manusia selama ratusan tahun tidak bisa mereplikasi lompatan dari benda mati ke benda hidup. <em>Waktu panjang bukan jawaban — ia hanya memindahkan pertanyaan.</em>`;
+    cls = 'marginal';
+  } else {
+    text = `Geser parameter untuk mengeksplorasi batas-batas kehidupan. Setiap kombinasi menceritakan sesuatu tentang <em>betapa mahalnya keteraturan biologis</em> — dan betapa alam sebenarnya tidak "menginginkan" kehidupan secara termodinamika.`;
+    cls = 'viable';
+  }
+
+  readout.innerHTML = text;
+  readout.className = 'readout ' + cls;
+}
+
+// ==========================================
+// ELEMENT GRID
+// ==========================================
+function renderElementGrid() {
+  const grid = document.getElementById('elemGrid');
+  grid.innerHTML = ELEMENTS.map(e => `
+    <div class="element-card active" id="ecard-${e.sym}">
+      <span class="element-symbol" style="color:${e.color}">${e.sym}</span>
+      <span class="element-name">${e.name}</span>
+      <span class="element-pct">${e.pct}%</span>
+    </div>
+  `).join('');
+}
+
+// ==========================================
+// DNA VISUALIZER
+// ==========================================
+function renderDNA() {
+  const bases = ['A','T','G','C'];
+  const colors = { A: '#7ecba1', T: '#4a9ebb', G: '#e8a456', C: '#c47eb5' };
+  const pairs = { A:'T', T:'A', G:'C', C:'G' };
+  let strand1 = '';
+  let seq = [];
+  for (let i = 0; i < 48; i++) {
+    seq.push(bases[Math.floor(Math.random() * 4)]);
+  }
+
+  const dnaDiv = document.getElementById('dna-display');
+  dnaDiv.innerHTML = seq.map((b, i) => {
+    if (i % 16 === 0 && i > 0) return `<br><span style="color:${colors[b]}">${b}</span>`;
+    return `<span style="color:${colors[b]}">${b}</span>`;
+  }).join('') +
+  '<br><span style="color:var(--border)">||||||||||||||||||||||||||||||||||||||||||||||||</span><br>' +
+  seq.map((b, i) => {
+    const pair = pairs[b];
+    if (i % 16 === 0 && i > 0) return `<br><span style="color:${colors[pair]}; opacity:0.6">${pair}</span>`;
+    return `<span style="color:${colors[pair]}; opacity:0.6">${pair}</span>`;
+  }).join('');
+
+  dnaDiv.innerHTML += `<br><br><span style="color:var(--text-dim); font-size:0.7rem;">↑ 48 basa acak dari ~3 miliar basa dalam DNA manusia. Urutan menentukan segalanya.</span>`;
+}
+
+// ==========================================
+// SKENARIO
+// ==========================================
+function setScenario(s) {
+  const scenarios = {
+    optimal: { temp:37, energy:90, water:85, complex:80, info:90, time:2 },
+    stress:  { temp:42, energy:45, water:50, complex:50, info:55, time:2 },
+    dying:   { temp:15, energy:10, water:30, complex:20, info:25, time:3 },
+    dead:    { temp:25, energy:0,  water:20, complex:5,  info:5,  time:4 },
+    origin:  { temp:55, energy:30, water:70, complex:10, info:5,  time:6 },
+  };
+  const sc = scenarios[s];
+  if (!sc) return;
+  document.getElementById('sl-temp').value = sc.temp;
+  document.getElementById('sl-energy').value = sc.energy;
+  document.getElementById('sl-water').value = sc.water;
+  document.getElementById('sl-complex').value = sc.complex;
+  document.getElementById('sl-info').value = sc.info;
+  document.getElementById('sl-time').value = sc.time;
+
+  if (s === 'dead' || s === 'dying') setMode('death');
+  else if (s === 'origin') setMode('abiogenesis');
+  else setMode('life');
+
+  updateSim();
+}
+
+// ==========================================
+// TABS
+// ==========================================
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const ids = ['sains','filsafat','info'];
+    t.classList.toggle('active', ids[i] === id);
+  });
+  document.querySelectorAll('.tab-content').forEach(c => {
+    c.classList.toggle('active', c.id === 'tab-'+id);
+  });
+}
+
+// ==========================================
+// RESET
+// ==========================================
+function resetSim() {
+  setScenario('optimal');
+}
+
+// ==========================================
+// INIT
+// ==========================================
+window.addEventListener('load', () => {
+  resizeCanvas();
+  renderElementGrid();
+  renderDNA();
+  initParticles('life');
+  updateSim();
+  animate();
+});
+
+window.addEventListener('resize', () => {
+  resizeCanvas();
+});
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

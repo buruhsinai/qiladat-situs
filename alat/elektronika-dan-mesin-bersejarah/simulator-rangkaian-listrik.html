@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Rangkaian Listrik — JAZMI Fisika</title>
+<style>
+  :root{
+    --bg:#141210; --panel:#1c1916; --panel2:#211d19;
+    --gold:#c9a24b; --gold-soft:#8a7440; --text:#e8e0d0; --text-dim:#a89a80;
+    --line:#3a332a; --danger:#c25c4a; --ok:#6f9e6a; --blue:#6a91c2;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;line-height:1.6;}
+  .container{max-width:920px;margin:0 auto;padding:24px 16px 60px;}
+  header{text-align:center;margin-bottom:26px;border-bottom:1px solid var(--line);padding-bottom:18px;}
+  header h1{font-size:1.4rem;color:var(--gold);margin:0 0 6px;}
+  header p{color:var(--text-dim);margin:0;font-size:0.9rem;font-style:italic;}
+  h2{color:var(--gold);font-size:1.08rem;margin:0 0 12px;display:flex;align-items:center;gap:8px;}
+  h2 .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;
+    border:1px solid var(--gold-soft);border-radius:50%;font-size:0.78rem;color:var(--gold);flex-shrink:0;}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:16px;}
+  p{margin:0 0 9px;font-size:0.92rem;} p:last-child{margin-bottom:0;}
+  .dim{color:var(--text-dim);font-size:0.84rem;}
+  ul{margin:6px 0;padding-left:20px;} li{margin-bottom:5px;font-size:0.9rem;}
+  .toggles{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+  .toggle-btn{background:var(--panel2);border:1px solid var(--gold-soft);color:var(--text-dim);
+    padding:8px 14px;border-radius:8px;font-family:inherit;font-size:0.85rem;cursor:pointer;}
+  .toggle-btn.on{background:var(--gold-soft);color:#1a1712;font-weight:bold;}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 0;flex-wrap:wrap;}
+  .row label{font-size:0.86rem;flex:1;min-width:160px;display:flex;justify-content:space-between;}
+  .row label span.val{color:var(--gold);font-weight:bold;}
+  input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:var(--line);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;
+    background:var(--gold);cursor:pointer;border:2px solid var(--bg);}
+  svg.canvas{width:100%;height:auto;background:#0d0c0a;border-radius:8px;border:1px solid var(--line);}
+  .btn-row{display:flex;gap:8px;margin-top:10px;}
+  .btn-row button{flex:1;background:var(--panel2);border:1px solid var(--gold-soft);color:var(--text);
+    padding:10px;border-radius:8px;font-family:inherit;font-size:0.88rem;cursor:pointer;}
+  .btn-row button.primary{background:var(--gold-soft);color:#1a1712;font-weight:bold;}
+  .readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-top:14px;}
+  .stat{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:8px 10px;text-align:center;}
+  .stat .label{font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;}
+  .stat .value{font-size:0.98rem;color:var(--gold);margin-top:2px;}
+  .formula{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:10px 14px;
+    font-family:'Courier New',monospace;font-size:0.82rem;margin:8px 0;overflow-x:auto;}
+  .refs li{font-size:0.82rem;color:var(--text-dim);}
+  footer{text-align:center;color:var(--text-dim);font-size:0.76rem;margin-top:22px;}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Simulator Rangkaian Listrik</h1>
+  <p>Susun komponennya sendiri — DC, RC, RL, RLC, sampai AC — lihat arus dan tegangan bergerak nyata</p>
+</header>
+
+<section id="belajar">
+  <h2><span class="num">1</span>Belajar</h2>
+  <p>Rangkaian sederhana bukan cuma soal Hukum Ohm (V=IR) yang statis. Begitu ada kapasitor atau induktor, rangkaian punya <strong>memori terhadap waktu</strong> — arus dan tegangan berubah mengikuti persamaan diferensial, bukan langsung tetap. Inilah yang membedakan rangkaian "reaktif" dari rangkaian resistif murni:</p>
+  <ul>
+    <li><strong>RC</strong> — kapasitor mengisi/mengosongkan secara eksponensial, dengan "konstanta waktu" τ=RC yang menentukan seberapa cepat.</li>
+    <li><strong>RL</strong> — induktor melawan PERUBAHAN arus (bukan arus itu sendiri), memberi kelambatan eksponensial serupa dengan τ=L/R.</li>
+    <li><strong>RLC</strong> — begitu kapasitor DAN induktor ada bersama, sistem bisa BEROSILASI (seperti bandul teredam) sebelum akhirnya diam — persis prinsip di balik rangkaian radio/osilator.</li>
+    <li><strong>AC</strong> — sumber tegangan sendiri yang berosilasi, membuka konsep reaktansi dan resonansi.</li>
+  </ul>
+</section>
+
+<section id="pertanyaan">
+  <h2><span class="num">2</span>Pertanyaan Ilmiah</h2>
+  <ul>
+    <li>Kenapa kapasitor "menghalangi" DC dalam keadaan tunak, tapi meloloskan AC?</li>
+    <li>Kapan sebuah rangkaian RLC berosilasi, dan kapan ia hanya meluruh mulus tanpa osilasi?</li>
+  </ul>
+</section>
+
+<section id="builder">
+  <h2><span class="num">3</span>Susun Rangkaian Anda</h2>
+  <div class="toggles">
+    <button class="toggle-btn on" id="btnSwitch" data-comp="switch">🔌 Sakelar: Tertutup</button>
+    <button class="toggle-btn" id="btnC" data-comp="C">⚡ Kapasitor</button>
+    <button class="toggle-btn" id="btnL" data-comp="L">🌀 Induktor</button>
+    <button class="toggle-btn" id="btnLED" data-comp="LED">💡 LED</button>
+    <button class="toggle-btn" id="btnAC" data-comp="AC">〰️ Sumber: DC</button>
+  </div>
+
+  <div class="row"><label>Tegangan sumber (V) <span class="val" id="v_V">9</span></label><input type="range" id="V" min="1" max="24" step="0.5" value="9"></div>
+  <div class="row"><label>Resistansi R (Ω) <span class="val" id="v_R">220</span></label><input type="range" id="R" min="10" max="2000" step="10" value="220"></div>
+  <div class="row" id="rowC"><label>Kapasitansi C (µF) <span class="val" id="v_C">100</span></label><input type="range" id="C" min="1" max="1000" step="1" value="100"></div>
+  <div class="row" id="rowL"><label>Induktansi L (mH) <span class="val" id="v_L">100</span></label><input type="range" id="L" min="1" max="1000" step="1" value="100"></div>
+  <div class="row" id="rowFreq"><label>Frekuensi AC (Hz) <span class="val" id="v_freq">50</span></label><input type="range" id="freq" min="1" max="200" step="1" value="50"></div>
+
+  <div class="btn-row">
+    <button class="primary" id="btnStart">▶ Mulai</button>
+    <button id="btnReset">⟲ Reset</button>
+  </div>
+
+  <svg id="canvas" class="canvas" viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg" style="margin-top:12px;"></svg>
+
+  <div class="readout">
+    <div class="stat"><div class="label">Arus i(t)</div><div class="value" id="out_i">—</div></div>
+    <div class="stat"><div class="label">V Kapasitor</div><div class="value" id="out_Vc">—</div></div>
+    <div class="stat"><div class="label">V Induktor</div><div class="value" id="out_VL">—</div></div>
+    <div class="stat"><div class="label">Daya di R</div><div class="value" id="out_P">—</div></div>
+    <div class="stat"><div class="label">Konstanta/Info</div><div class="value" id="out_info">—</div></div>
+  </div>
+</section>
+
+<section id="metode">
+  <h2><span class="num">4</span>Metode</h2>
+  <p>Sistem diselesaikan sebagai persamaan diferensial memakai q (muatan kapasitor) dan i (arus) sebagai variabel keadaan, diintegrasikan numerik memakai Runge-Kutta orde 4 (RK4) tiap frame animasi:</p>
+  <div class="formula">dq/dt = i
+di/dt = (V(t) − i·R − q/C) / L   [jika induktor ada]
+Jika tanpa induktor: dq/dt = (V(t) − q/C) / R (orde satu)
+Jika tanpa kapasitor maupun induktor: i = V(t)/R (Ohm langsung)</div>
+  <p class="dim">Verifikasi: pengisian kapasitor cocok dengan rumus analitik V(t)=V₀(1−e^(−t/RC)) hingga selisih &lt;0,1%; rangkaian RLC dengan R kecil menunjukkan arus berosilasi meluruh sesuai kondisi teredam-kurang (underdamped, saat R/2L &lt; 1/√LC) — sesuai teori.</p>
+</section>
+
+<section id="batasan">
+  <h2><span class="num">5</span>Batasan</h2>
+  <ul>
+    <li><strong>Hanya rangkaian seri</strong> — bukan topologi bebas (drag-drop bercabang/paralel). Menyusun solver untuk topologi sembarang (analisis nodal umum) adalah proyek jauh lebih besar (mirip SPICE), di luar cakupan satu tool ini.</li>
+    <li>LED disederhanakan sebagai dioda ideal dengan tegangan maju tetap (~2V) dan pemblokiran total arus balik — tidak memodelkan kurva I-V dioda sesungguhnya yang non-linear halus.</li>
+    <li>Komponen dianggap ideal (resistor tanpa induktansi parasit, kapasitor/induktor tanpa resistansi seri, kabel tanpa hambatan).</li>
+    <li>Integrasi numerik (RK4) memakai langkah waktu tetap kecil — untuk kombinasi R/L/C yang sangat ekstrem (osilasi sangat cepat), langkah waktu mungkin perlu disesuaikan agar tetap akurat; simulator ini membatasi rentang slider agar tetap stabil.</li>
+  </ul>
+</section>
+
+<section id="referensi">
+  <h2><span class="num">6</span>Referensi</h2>
+  <ul class="refs">
+    <li>Analisis rangkaian RC/RL/RLC — teori rangkaian standar (buku teks fisika/teknik elektro dasar).</li>
+    <li>Metode Runge-Kutta orde 4 — metode integrasi numerik standar untuk persamaan diferensial biasa.</li>
+  </ul>
+</section>
+
+<footer>Bagian dari Laboratorium Fisika — Bank Ide Qiladat/JAZMI.</footer>
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  let state = {q:0, i:0, t:0};
+  let running = false;
+  let history = [];
+  const DT = 0.0002; // detik per langkah simulasi
+  const STEPS_PER_FRAME = 20;
+
+  const comp = {switchOn:true, C:false, L:false, LED:false, AC:false};
+
+  function bindToggle(id, key, labelOn, labelOff){
+    $(id).addEventListener('click', ()=>{
+      comp[key] = !comp[key];
+      $(id).classList.toggle('on', comp[key]);
+      if (labelOn) $(id).textContent = comp[key]?labelOn:labelOff;
+      updateVisibility();
+      resetSim();
+    });
+  }
+  bindToggle('btnSwitch','switchOn','🔌 Sakelar: Tertutup','🔌 Sakelar: Terbuka');
+  bindToggle('btnC','C');
+  bindToggle('btnL','L');
+  bindToggle('btnLED','LED');
+  bindToggle('btnAC','AC','〰️ Sumber: AC','〰️ Sumber: DC');
+
+  function updateVisibility(){
+    $('rowC').style.display = comp.C ? 'flex':'none';
+    $('rowL').style.display = comp.L ? 'flex':'none';
+    $('rowFreq').style.display = comp.AC ? 'flex':'none';
+  }
+  updateVisibility();
+
+  ['V','R','C','L','freq'].forEach(id=>{
+    $(id).addEventListener('input', ()=>{
+      $('v_'+id).textContent = $(id).value;
+    });
+  });
+
+  function getParams(){
+    const V0 = parseFloat($('V').value);
+    const R = parseFloat($('R').value);
+    const C = comp.C ? parseFloat($('C').value)*1e-6 : 0;
+    const L = comp.L ? parseFloat($('L').value)*1e-3 : 0;
+    const freq = parseFloat($('freq').value);
+    return {V0,R,C,L,freq};
+  }
+
+  function sourceVoltage(t, p){
+    if (!comp.switchOn) return 0;
+    let v = comp.AC ? p.V0*Math.sin(2*Math.PI*p.freq*t) : p.V0;
+    if (comp.LED){
+      const Vf = 2.0;
+      const sign = v>=0?1:-1;
+      v = sign*Math.max(0, Math.abs(v)-Vf);
+    }
+    return v;
+  }
+
+  function derivFn(q,i,t,p){
+    const Vt = sourceVoltage(t,p);
+    if (p.L>0){
+      const qterm = p.C>0 ? q/p.C : 0;
+      return [i, (Vt - i*p.R - qterm)/p.L];
+    } else if (p.C>0){
+      return [(Vt - q/p.C)/p.R, 0];
+    } else {
+      return [0,0];
+    }
+  }
+
+  function stepRK4(p){
+    let {q,i,t} = state;
+    if (!p.L && !p.C){
+      state.i = sourceVoltage(t,p)/p.R;
+      state.t += DT;
+      return;
+    }
+    const k1 = derivFn(q,i,t,p);
+    const k2 = derivFn(q+k1[0]*DT/2, i+k1[1]*DT/2, t+DT/2, p);
+    const k3 = derivFn(q+k2[0]*DT/2, i+k2[1]*DT/2, t+DT/2, p);
+    const k4 = derivFn(q+k3[0]*DT, i+k3[1]*DT, t+DT, p);
+    q += DT/6*(k1[0]+2*k2[0]+2*k3[0]+k4[0]);
+    i += DT/6*(k1[1]+2*k2[1]+2*k3[1]+k4[1]);
+    if (!p.L && p.C>0) i = (sourceVoltage(t,p) - q/p.C)/p.R;
+    if (comp.LED && i<0){ i=0; }
+    state.q=q; state.i=i; state.t+=DT;
+  }
+
+  function resetSim(){
+    state = {q:0,i:0,t:0};
+    history = [];
+    drawAll();
+  }
+  $('btnReset').addEventListener('click', resetSim);
+
+  $('btnStart').addEventListener('click', ()=>{
+    running = !running;
+    $('btnStart').textContent = running ? '⏸ Jeda' : '▶ Mulai';
+  });
+
+  function drawSchematic(p, Vc, VL){
+    let svg = `<rect x="0" y="0" width="700" height="220" fill="#0d0c0a"/>`;
+    const y=110;
+    svg += `<line x1="40" y1="${y}" x2="660" y2="${y}" stroke="#3a332a" stroke-width="1"/>`;
+    // baterai
+    svg += `<rect x="30" y="${y-30}" width="20" height="60" fill="none" stroke="#c9a24b" stroke-width="2"/>`;
+    svg += `<text x="40" y="${y-38}" fill="#c9a24b" font-size="11" text-anchor="middle" font-family="Georgia,serif">${comp.AC?'~':''}${p.V0}V</text>`;
+    // sakelar
+    svg += `<circle cx="120" cy="${y}" r="4" fill="${comp.switchOn?'#6f9e6a':'#c25c4a'}"/>`;
+    svg += `<text x="120" y="${y-14}" fill="#a89a80" font-size="10" text-anchor="middle" font-family="Georgia,serif">Sakelar</text>`;
+    // R
+    svg += `<rect x="180" y="${y-15}" width="60" height="30" fill="none" stroke="#e8956a" stroke-width="2"/>`;
+    svg += `<text x="210" y="${y-22}" fill="#e8956a" font-size="10" text-anchor="middle" font-family="Georgia,serif">R=${p.R}Ω</text>`;
+    let nx=280;
+    if (comp.C){
+      svg += `<line x1="${nx}" y1="${y-20}" x2="${nx}" y2="${y+20}" stroke="#8fc9e8" stroke-width="2"/>`;
+      svg += `<line x1="${nx+8}" y1="${y-20}" x2="${nx+8}" y2="${y+20}" stroke="#8fc9e8" stroke-width="2"/>`;
+      svg += `<text x="${nx+4}" y="${y-28}" fill="#8fc9e8" font-size="10" text-anchor="middle" font-family="Georgia,serif">C</text>`;
+      nx+=60;
+    }
+    if (comp.L){
+      svg += `<path d="M${nx-20},${y} q10,-20 20,0 q10,-20 20,0 q10,-20 20,0" fill="none" stroke="#b57edc" stroke-width="2"/>`;
+      svg += `<text x="${nx+20}" y="${y-28}" fill="#b57edc" font-size="10" text-anchor="middle" font-family="Georgia,serif">L</text>`;
+      nx+=90;
+    }
+    if (comp.LED){
+      const menyala = state.i>0.001;
+      svg += `<polygon points="${nx},${y-15} ${nx},${y+15} ${nx+25},${y}" fill="${menyala?'#ffdd55':'none'}" stroke="#e8d05a" stroke-width="2"/>`;
+      svg += `<line x1="${nx+25}" y1="${y-15}" x2="${nx+25}" y2="${y+15}" stroke="#e8d05a" stroke-width="2"/>`;
+      if (menyala) svg += `<circle cx="${nx+12}" cy="${y}" r="18" fill="#ffdd55" opacity="0.25"/>`;
+      nx+=60;
+    }
+    $('canvas').innerHTML = svg + graphSVG();
+  }
+
+  function graphSVG(){
+    const W=700,H=220, gx=40, gy=140, gw=620, gh=70;
+    if (history.length<2) return '';
+    const tMax = history[history.length-1].t;
+    const tMin = Math.max(0, tMax-0.5);
+    const visible = history.filter(h=>h.t>=tMin);
+    if (visible.length<2) return '';
+    let maxI = Math.max(0.001, ...visible.map(h=>Math.abs(h.i)));
+    function xAt(t){ return gx + gw*(t-tMin)/(tMax-tMin || 1); }
+    function yAt(i){ return gy+gh/2 - (gh/2)*(i/maxI); }
+    let path = visible.map((h,idx)=>(idx===0?'M':'L')+xAt(h.t).toFixed(1)+','+yAt(h.i).toFixed(1)).join(' ');
+    return `<line x1="${gx}" y1="${gy+gh/2}" x2="${gx+gw}" y2="${gy+gh/2}" stroke="#3a332a" stroke-width="1"/>
+      <path d="${path}" fill="none" stroke="#6a91c2" stroke-width="1.5"/>
+      <text x="${gx}" y="${gy-4}" fill="#6a91c2" font-size="10" font-family="Georgia,serif">Arus i(t) — 0,5 detik terakhir</text>`;
+  }
+
+  function drawAll(){
+    const p = getParams();
+    const Vc = p.C>0 ? state.q/p.C : 0;
+    const VL = p.L>0 ? (sourceVoltage(state.t,p) - state.i*p.R - Vc) : 0;
+    drawSchematic(p, Vc, VL);
+
+    $('out_i').textContent = (state.i*1000).toFixed(2)+' mA';
+    $('out_Vc').textContent = p.C>0 ? Vc.toFixed(2)+' V' : '—';
+    $('out_VL').textContent = p.L>0 ? VL.toFixed(2)+' V' : '—';
+    $('out_P').textContent = (state.i*state.i*p.R*1000).toFixed(2)+' mW';
+
+    let info = '—';
+    if (p.C>0 && p.R>0 && !p.L) info = 'τ='+(p.R*p.C*1000).toFixed(2)+'ms';
+    else if (p.L>0 && p.R>0 && !p.C) info = 'τ='+(p.L/p.R*1000).toFixed(2)+'ms';
+    else if (p.L>0 && p.C>0){
+      const f0 = 1/(2*Math.PI*Math.sqrt(p.L*p.C));
+      info = 'f₀='+f0.toFixed(1)+'Hz';
+    }
+    $('out_info').textContent = info;
+  }
+
+  function loop(){
+    if (running){
+      const p = getParams();
+      for (let s=0;s<STEPS_PER_FRAME;s++) stepRK4(p);
+      history.push({t:state.t, i:state.i});
+      if (history.length>5000) history.shift();
+    }
+    drawAll();
+    requestAnimationFrame(loop);
+  }
+
+  resetSim();
+  loop();
+})();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

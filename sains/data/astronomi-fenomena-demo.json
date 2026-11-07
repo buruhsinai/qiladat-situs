@@ -1,0 +1,51 @@
+{
+  "_catatan": "DATA DEMO — dibuat oleh C12 hanya untuk menguji struktur halaman Astronomi (Langit Malam Ini). Bukan data prediksi astronomi resmi JAZMI. Waktu bersifat ILUSTRATIF (pola musiman umum), bukan hasil perhitungan efemeris yang tepat untuk tahun berjalan. Ganti dengan data nyata terverifikasi sebelum dipublikasikan.",
+  "status": "demo",
+  "fenomena": [
+    {
+      "id": "hujan-meteor",
+      "nama": "Hujan Meteor",
+      "tipe": "Meteor",
+      "status": "demo",
+      "waktuIlustratif": "Puncak biasanya malam hari, beberapa kali dalam setahun (contoh ilustratif)",
+      "ringkasan": "Serpihan debu komet yang terbakar di atmosfer, tampak sebagai garis cahaya sekilas di langit malam.",
+      "caraMengamati": "Cari lokasi gelap jauh dari cahaya kota, biarkan mata beradaptasi sekitar 15–20 menit, dan amati langit lepas tanpa alat bantu."
+    },
+    {
+      "id": "bulan-purnama",
+      "nama": "Bulan Purnama",
+      "tipe": "Bulan",
+      "status": "demo",
+      "waktuIlustratif": "Terjadi setiap kurang lebih 29–30 hari (siklus sinodis, contoh ilustratif)",
+      "ringkasan": "Fase ketika permukaan Bulan yang menghadap Bumi tampak disinari penuh oleh Matahari.",
+      "caraMengamati": "Dapat diamati dengan mata telanjang segera setelah terbenamnya Matahari hingga terbit fajar."
+    },
+    {
+      "id": "konjungsi-planet",
+      "nama": "Konjungsi Planet",
+      "tipe": "Planet",
+      "status": "demo",
+      "waktuIlustratif": "Muncul beberapa kali dalam setahun, waktu berbeda tiap tahunnya (contoh ilustratif)",
+      "ringkasan": "Dua atau lebih planet tampak berdekatan di langit dari sudut pandang Bumi, meski jaraknya sesungguhnya sangat jauh.",
+      "caraMengamati": "Biasanya tampak menjelang senja di ufuk barat atau menjelang fajar di ufuk timur, tergantung planet yang terlibat."
+    },
+    {
+      "id": "gerhana",
+      "nama": "Gerhana",
+      "tipe": "Gerhana",
+      "status": "demo",
+      "waktuIlustratif": "Tidak terjadi tiap bulan; hanya pada kondisi kesejajaran tertentu (contoh ilustratif)",
+      "ringkasan": "Peristiwa saat Bumi, Bulan, dan Matahari berada pada satu garis sehingga salah satu menutupi cahaya yang lain.",
+      "caraMengamati": "Gerhana Bulan aman diamati langsung; gerhana Matahari memerlukan kacamata khusus atau metode proyeksi yang aman bagi mata."
+    },
+    {
+      "id": "rasi-bintang-musiman",
+      "nama": "Rasi Bintang Musiman",
+      "tipe": "Bintang",
+      "status": "demo",
+      "waktuIlustratif": "Berganti tampak sepanjang tahun mengikuti posisi orbit Bumi (contoh ilustratif)",
+      "ringkasan": "Pola bintang yang tampak berbeda dari musim ke musim seiring perubahan posisi Bumi mengelilingi Matahari.",
+      "caraMengamati": "Gunakan aplikasi peta langit atau panduan rasi sederhana, amati dari lokasi minim polusi cahaya."
+    }
+  ]
+}

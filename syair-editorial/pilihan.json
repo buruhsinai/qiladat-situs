@@ -1,0 +1,285 @@
+{
+  "_catatan": "Pointer editorial (baitId, urutan) untuk fitur 'Syair Pilihan' di dien/syair.js. Diisi otomatis dari bait berjenis 'matan' yang berstatus 'dipublikasikan' DAN sudah punya recommendationScore (data kurasi lama) — diurutkan skor tertinggi ke terendah. Bait berjenis 'syahid' (kutipan sekunder) dan bait yang baru dipublikasikan tapi belum punya skor (bait-almusid-v1, bait-almusid-ru07, bait-almusid-ru08) SENGAJA belum dimasukkan — bukan berarti ditolak, hanya menunggu data kurasi/skor diisi dulu. Tambahan 24 Okt 2026: 5 bait Mu'allaqah 'Amr bin Kultsum (diwan) ditambahkan di urutan akhir, atas arahan pengelola. Tambahan 24 Okt 2026 (T2): 4 bait diwan (Ibn al-Mudhallal ×1, Aus bin Hajar ×3) di urutan akhir.",
+  "pilihan": [
+    {
+      "id": "pilihan-001",
+      "baitId": "bait-almusid-002a",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutan": 1,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Panduan praktis yang ringkas saat memasuki masjid."
+    },
+    {
+      "id": "pilihan-002",
+      "baitId": "bait-almusid-002b",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutan": 2,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Sangat ikonik dengan teknik Naht/akronim puitis (Sabhil, Hamdil, dst) yang memudahkan hafalan."
+    },
+    {
+      "id": "pilihan-003",
+      "baitId": "bait-almusid-006a",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutan": 3,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Kalimatnya sangat quotable, filosofis, dan mudah dihafal (ritme simetris)."
+    },
+    {
+      "id": "pilihan-004",
+      "baitId": "bait-almusid-006b",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutan": 4,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Penjelasan logis atas kaitan antara tempat suci dan beratnya pelanggaran/pahala."
+    },
+    {
+      "id": "pilihan-005",
+      "baitId": "bait-manair-110",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 5,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Salah satu bait paling padat makna di seluruh kitab ini — merangkum rukun iman ke-6."
+    },
+    {
+      "id": "pilihan-006",
+      "baitId": "bait-manair-030",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 6,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait yang sangat padat merangkum ayat \"Laisa kamitslihi shay'un\"."
+    },
+    {
+      "id": "pilihan-007",
+      "baitId": "bait-manair-239",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 7,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait penutup yang sempurna untuk program hafalan, memberikan kesimpulan spiritual bagi seluruh isi kitab."
+    },
+    {
+      "id": "pilihan-008",
+      "baitId": "bait-almusid-005",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutan": 8,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Ini adalah \"ruh\" dari kitab ini — masjid adalah tempat menundukkan diri di hadapan Sang Pencipta."
+    },
+    {
+      "id": "pilihan-009",
+      "baitId": "bait-manair-163",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 9,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait sangat indah secara imajinasi, memudahkan pembelajar membayangkan konsep abstrak lewat perumpamaan konkret."
+    },
+    {
+      "id": "pilihan-010",
+      "baitId": "bait-manair-121",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 10,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bagian pertama bait ganda (121-122) — Iman bukan sekadar klaim lisan, mencakup amal."
+    },
+    {
+      "id": "pilihan-011",
+      "baitId": "bait-manair-122",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 11,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bagian kedua bait ganda (121-122) — iman naik-turun sesuai ketaatan/keburukan."
+    },
+    {
+      "id": "pilihan-012",
+      "baitId": "bait-manair-081",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 12,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait ini adalah fondasi penting dalam akidah Ahlussunnah mengenai hakikat Al-Qur'an."
+    },
+    {
+      "id": "pilihan-013",
+      "baitId": "bait-almusid-004a",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutan": 13,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Diksi \"Khasis\" dan \"Ula\" menciptakan kontras moral yang tajam."
+    },
+    {
+      "id": "pilihan-014",
+      "baitId": "bait-almusid-004b",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutan": 14,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Larangan spesifik: menjahit baju atau menyalin naskah demi upah di dalam masjid."
+    },
+    {
+      "id": "pilihan-015",
+      "baitId": "bait-manair-219",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 15,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait yang sangat masyhur dalam bab-bab penutup kitab akidah."
+    },
+    {
+      "id": "pilihan-016",
+      "baitId": "bait-manair-173",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 16,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Kalimat \"Bila imtira'\" (tanpa keraguan) memperkuat aspek keyakinan dalam Aqidah."
+    },
+    {
+      "id": "pilihan-017",
+      "baitId": "bait-manair-001",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 17,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait pembuka yang merangkum esensi syukur seorang mukmin atas nikmat iman."
+    },
+    {
+      "id": "pilihan-018",
+      "baitId": "bait-manair-100",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 18,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait ini sangat positif dan memberikan harapan (Raja') bagi pembaca/penghafal."
+    },
+    {
+      "id": "pilihan-019",
+      "baitId": "bait-manair-056",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 19,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait sangat puitis dan sering dijadikan kutipan (syahid) dalam kajian manhaj."
+    },
+    {
+      "id": "pilihan-020",
+      "baitId": "bait-almusid-001",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutan": 20,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait pembuka yang merangkum tujuan utama menjaga adab masjid: mengagungkan apa yang Allah agungkan."
+    },
+    {
+      "id": "pilihan-021",
+      "baitId": "bait-manair-165",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 21,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Gambaran visual tentang peristiwa akhirat (Shirath) yang kuat."
+    },
+    {
+      "id": "pilihan-022",
+      "baitId": "bait-almusid-003",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutan": 22,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Memadukan hukum fiqh (mendahului kaki kanan) dengan aspek spiritual (meminta rahmat)."
+    },
+    {
+      "id": "pilihan-023",
+      "baitId": "bait-manair-206",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 23,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Mengajarkan etika luhur terhadap generasi awal Islam."
+    },
+    {
+      "id": "pilihan-024",
+      "baitId": "bait-manair-228",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 24,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Sangat relevan untuk konteks media sosial saat ini di mana perdebatan sering mengalahkan pengamalan ilmu."
+    },
+    {
+      "id": "pilihan-025",
+      "baitId": "bait-manair-015",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 25,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bagian dari bait ganda (15-16) yang memberikan konteks bahwa karya ini bersandar pada ulama otoritatif (Ibn Qudamah)."
+    },
+    {
+      "id": "pilihan-026",
+      "baitId": "bait-manair-016",
+      "kitabId": "kitab-manair-alisad",
+      "urutan": 26,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bagian dari bait ganda (15-16); menyebutkan eksplisit nama Ibn Qudamah sebagai penulis matan prosa asal."
+    },
+    {
+      "id": "pilihan-027",
+      "baitId": "bait-diwan-amr-bin-kultsum-007",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutan": 27,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait paling masyhur Mu'allaqah: sikap tegas yang membalas kebodohan melebihi pelakunya; ringkas dan mudah dihafal."
+    },
+    {
+      "id": "pilihan-028",
+      "baitId": "bait-diwan-amr-bin-kultsum-015",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutan": 28,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait penutup Mu'allaqah yang sangat terkenal, puncak kebanggaan kabilah dengan citra yang kuat."
+    },
+    {
+      "id": "pilihan-029",
+      "baitId": "bait-diwan-amr-bin-kultsum-014",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutan": 29,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Gambaran luas daratan dan lautan yang penuh, kuat secara citra dan mudah dipahami."
+    },
+    {
+      "id": "pilihan-030",
+      "baitId": "bait-diwan-amr-bin-kultsum-010",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutan": 30,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Paralelisme ringkas ('kami yang meninggalkan… kami yang mengambil…') yang enak dihafal."
+    },
+    {
+      "id": "pilihan-031",
+      "baitId": "bait-diwan-amr-bin-kultsum-001",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutan": 31,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Bait pembuka Mu'allaqah, dikenal luas sebagai salah satu pembuka qasidah Arab paling ikonik."
+    },
+    {
+      "id": "pilihan-032",
+      "baitId": "bait-diwan-lain-003",
+      "kitabId": "kitab-diwan-ibnmudhallal-alantu",
+      "urutan": 32,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Kalimat penutup yang quotable: pujian tidak dibeli kecuali dengan pengorbanan."
+    },
+    {
+      "id": "pilihan-033",
+      "baitId": "bait-diwan-aus-bin-hajar-003",
+      "kitabId": "kitab-diwan-aus-tankkarat",
+      "urutan": 33,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Prinsip balasan setimpal yang ringkas dan mudah dihafal."
+    },
+    {
+      "id": "pilihan-034",
+      "baitId": "bait-diwan-aus-bin-hajar-004",
+      "kitabId": "kitab-diwan-aus-tankkarat",
+      "urutan": 34,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Perumpamaan kuat: kehormatan lebih patut dijaga daripada pakaian mahal."
+    },
+    {
+      "id": "pilihan-035",
+      "baitId": "bait-diwan-aus-bin-hajar-005",
+      "kitabId": "kitab-diwan-aus-tankkarat",
+      "urutan": 35,
+      "statusEditorial": "aktif",
+      "alasanPemilihan": "Prinsip kehati-hatian dalam harta dan makanan yang mudah dipahami."
+    }
+  ]
+}

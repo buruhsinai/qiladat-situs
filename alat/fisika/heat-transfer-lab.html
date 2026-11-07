@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heat Transfer Laboratory — JAZMI</title>
+<style>
+  :root{
+    --bg:#0a0e1a; --panel:#11162a; --panel2:#161c35;
+    --cyan:#5fd3d8; --cyan-soft:#3a7a7d; --text:#e4e8f2; --dim:#8b93ac;
+    --line:#232a45; --hot:#e0716a; --cold:#5f9fd3; --gold:#e0c26a; --ok:#6fd68a;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Georgia,serif;line-height:1.6;}
+  .wrap{max-width:940px;margin:0 auto;padding:22px 16px 50px;}
+  header{text-align:center;border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:20px;}
+  .tag{color:var(--cyan);font-size:0.75rem;text-transform:uppercase;letter-spacing:1.4px;}
+  h1{font-size:1.4rem;margin:4px 0;}
+  .sub{color:var(--dim);font-size:0.88rem;font-style:italic;}
+  h2{color:var(--cyan);font-size:1.05rem;margin:0 0 12px;display:flex;align-items:center;gap:8px;}
+  h2 .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;
+    border:1px solid var(--cyan-soft);border-radius:50%;font-size:0.78rem;color:var(--cyan);flex-shrink:0;}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:16px;}
+  p{font-size:0.9rem;margin:0 0 8px;} .dim{color:var(--dim);font-size:0.84rem;}
+  ul{margin:6px 0;padding-left:20px;} li{margin-bottom:5px;font-size:0.88rem;}
+
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px;}
+  .tabbtn{font-family:Georgia,serif;font-size:0.85rem;font-weight:bold;background:var(--panel2);color:var(--dim);
+    border:1px solid var(--line);border-radius:999px;padding:8px 16px;cursor:pointer;}
+  .tabbtn.active{background:var(--cyan);color:#0a1520;border-color:var(--cyan);}
+  .tabpane{display:none;} .tabpane.active{display:block;}
+
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:6px 0;flex-wrap:wrap;}
+  .row label{font-size:0.83rem;flex:1;min-width:180px;display:flex;justify-content:space-between;color:var(--dim);}
+  .row label span.val{color:var(--cyan);font-weight:bold;}
+  input[type=range]{-webkit-appearance:none;width:100%;height:4px;border-radius:2px;background:var(--line);outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;
+    background:var(--cyan);cursor:pointer;border:2px solid var(--bg);}
+
+  svg{width:100%;height:auto;background:#050810;border-radius:8px;border:1px solid var(--line);}
+  .readout{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:12px;}
+  .stat{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;}
+  .stat .l{font-size:0.7rem;color:var(--dim);text-transform:uppercase;letter-spacing:0.4px;}
+  .stat .v{font-size:1.05rem;color:var(--cyan);margin-top:2px;}
+  .formula{background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:10px 14px;
+    font-family:'Courier New',monospace;font-size:0.82rem;margin:8px 0;white-space:pre;overflow-x:auto;}
+  .refs li{font-size:0.82rem;color:var(--dim);}
+  footer{text-align:center;color:var(--dim);font-size:0.76rem;margin-top:20px;}
+  select{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:5px;padding:5px 8px;font-family:Georgia;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="tag">JAZMI · Modul Sains · Pelengkap Termodinamika</p>
+  <h1>Heat Transfer Laboratory</h1>
+  <p class="sub">Konduksi, Konveksi, Radiasi — tiga cara panas berpindah, disimulasikan dalam satu laboratorium</p>
+</header>
+
+<section>
+  <h2><span class="num">1</span>Belajar</h2>
+  <p>Termodinamika klasik menjelaskan <em>seberapa banyak</em> energi panas yang terlibat dalam suatu
+  proses (PV=nRT, siklus Carnot, dst — sudah ada di peta prioritas). Tapi ia tidak menjelaskan
+  <em>seberapa cepat</em> panas itu berpindah, atau <em>lewat jalur apa</em>. Itulah wilayah
+  perpindahan panas (heat transfer) — fondasi di balik kenapa gagang panci logam panas tapi
+  gagang kayunya tidak (konduksi), kenapa kipas angin terasa mendinginkan padahal suhu udaranya
+  tidak turun (konveksi), dan kenapa Anda bisa merasakan panas api unggun dari jarak beberapa
+  meter tanpa udara di antaranya perlu ikut memanas (radiasi).</p>
+</section>
+
+<div class="tabs">
+  <button class="tabbtn active" data-tab="konduksi">Konduksi</button>
+  <button class="tabbtn" data-tab="konveksi">Konveksi</button>
+  <button class="tabbtn" data-tab="radiasi">Radiasi</button>
+  <button class="tabbtn" data-tab="gabungan">Gabungan</button>
+</div>
+
+<!-- ===================== KONDUKSI ===================== -->
+<div class="tabpane active" id="pane-konduksi">
+<section>
+  <h2><span class="num">2a</span>Simulator Konduksi</h2>
+  <p class="dim">Panas merambat lewat getaran/tumbukan partikel dalam material padat — tanpa materi
+  itu sendiri berpindah tempat. Geser parameter, lihat partikel panas (titik oranye) mengalir dari
+  sisi panas ke sisi dingin sepanjang batang.</p>
+  <svg id="cvKonduksi" viewBox="0 0 600 160"></svg>
+  <div class="row"><label>Konduktivitas termal k (W/m·K) <span class="val" id="v_k">50</span></label>
+    <input type="range" id="k" min="0.02" max="400" step="0.1" value="50"></div>
+  <div class="row"><label>Luas penampang A (cm²) <span class="val" id="v_Ak">10</span></label>
+    <input type="range" id="Ak" min="1" max="200" value="10"></div>
+  <div class="row"><label>Panjang batang L (cm) <span class="val" id="v_Lk">20</span></label>
+    <input type="range" id="Lk" min="1" max="100" value="20"></div>
+  <div class="row"><label>Suhu sisi panas T1 (°C) <span class="val" id="v_T1k">100</span></label>
+    <input type="range" id="T1k" min="0" max="300" value="100"></div>
+  <div class="row"><label>Suhu sisi dingin T2 (°C) <span class="val" id="v_T2k">20</span></label>
+    <input type="range" id="T2k" min="-20" max="150" value="20"></div>
+  <select id="matPreset">
+    <option value="">— pilih material cepat —</option>
+    <option value="401">Tembaga (k=401)</option>
+    <option value="205">Aluminium (k=205)</option>
+    <option value="50">Baja (k=50)</option>
+    <option value="0.15">Kayu (k=0.15)</option>
+    <option value="0.026">Udara diam (k=0.026)</option>
+    <option value="0.04">Wol/isolator (k=0.04)</option>
+  </select>
+  <div class="readout">
+    <div class="stat"><div class="l">Laju perpindahan panas Q</div><div class="v" id="out_Qk">—</div></div>
+    <div class="stat"><div class="l">Gradien suhu (ΔT/L)</div><div class="v" id="out_gradk">—</div></div>
+  </div>
+</section>
+</div>
+
+<!-- ===================== KONVEKSI ===================== -->
+<div class="tabpane" id="pane-konveksi">
+<section>
+  <h2><span class="num">2b</span>Simulator Konveksi</h2>
+  <p class="dim">Panas dibawa berpindah oleh gerakan fluida (udara/air) itu sendiri. Geser koefisien
+  konveksi h — perhatikan bagaimana angin/aliran paksa (h besar) mendinginkan jauh lebih cepat
+  daripada udara diam (h kecil), meski suhu fluidanya sama.</p>
+  <svg id="cvKonveksi" viewBox="0 0 600 180"></svg>
+  <div class="row"><label>Koefisien konveksi h (W/m²K) <span class="val" id="v_h">15</span></label>
+    <input type="range" id="h" min="2" max="500" value="15"></div>
+  <div class="row"><label>Luas permukaan A (cm²) <span class="val" id="v_Ah">100</span></label>
+    <input type="range" id="Ah" min="10" max="1000" value="100"></div>
+  <div class="row"><label>Suhu permukaan Ts (°C) <span class="val" id="v_Ts">80</span></label>
+    <input type="range" id="Ts" min="0" max="200" value="80"></div>
+  <div class="row"><label>Suhu fluida T∞ (°C) <span class="val" id="v_Tinf">25</span></label>
+    <input type="range" id="Tinf" min="-10" max="100" value="25"></div>
+  <select id="convPreset">
+    <option value="">— pilih kondisi cepat —</option>
+    <option value="5">Udara diam (h≈5)</option>
+    <option value="25">Udara berhembus/kipas (h≈25)</option>
+    <option value="100">Udara paksa cepat (h≈100)</option>
+    <option value="500">Air mengalir (h≈500)</option>
+  </select>
+  <div class="readout">
+    <div class="stat"><div class="l">Laju perpindahan panas Q</div><div class="v" id="out_Qh">—</div></div>
+  </div>
+</section>
+</div>
+
+<!-- ===================== RADIASI ===================== -->
+<div class="tabpane" id="pane-radiasi">
+<section>
+  <h2><span class="num">2c</span>Simulator Radiasi Termal</h2>
+  <p class="dim">Semua benda dengan suhu di atas nol mutlak memancarkan radiasi elektromagnetik —
+  tak butuh medium sama sekali (inilah cara panas Matahari sampai ke Bumi lewat ruang hampa).
+  Warna benda di bawah ini kasar merepresentasikan intensitas pancarannya (bukan warna cahaya
+  tampak sungguhan kecuali sangat panas).</p>
+  <svg id="cvRadiasi" viewBox="0 0 600 180"></svg>
+  <div class="row"><label>Emisivitas ε (0–1) <span class="val" id="v_eps">0.9</span></label>
+    <input type="range" id="eps" min="0.05" max="1" step="0.01" value="0.9"></div>
+  <div class="row"><label>Luas permukaan A (cm²) <span class="val" id="v_Ar">100</span></label>
+    <input type="range" id="Ar" min="10" max="1000" value="100"></div>
+  <div class="row"><label>Suhu benda T1 (°C) <span class="val" id="v_T1r">300</span></label>
+    <input type="range" id="T1r" min="0" max="1200" value="300"></div>
+  <div class="row"><label>Suhu sekitar T2 (°C) <span class="val" id="v_T2r">25</span></label>
+    <input type="range" id="T2r" min="-20" max="100" value="25"></div>
+  <div class="readout">
+    <div class="stat"><div class="l">Laju radiasi neto Q</div><div class="v" id="out_Qr">—</div></div>
+  </div>
+</section>
+</div>
+
+<!-- ===================== GABUNGAN ===================== -->
+<div class="tabpane" id="pane-gabungan">
+<section>
+  <h2><span class="num">2d</span>Gabungan — Analogi Rangkaian Termal</h2>
+  <p class="dim">Kasus nyata paling umum: panas dari dalam ruangan menembus dinding (konduksi) lalu
+  lepas ke udara luar (konveksi) — dua hambatan tersusun seri, persis rangkaian resistor listrik.
+  Radiasi diabaikan di sini demi kejelasan (biasanya jauh lebih kecil dari konveksi+konduksi untuk
+  dinding suhu ruangan biasa).</p>
+  <svg id="cvGabungan" viewBox="0 0 600 200"></svg>
+  <div class="row"><label>Suhu dalam ruangan (°C) <span class="val" id="v_Tin">24</span></label>
+    <input type="range" id="Tin" min="-10" max="40" value="24"></div>
+  <div class="row"><label>Suhu luar (°C) <span class="val" id="v_Tout">5</span></label>
+    <input type="range" id="Tout" min="-30" max="30" value="5"></div>
+  <div class="row"><label>k dinding (W/m·K) <span class="val" id="v_kw">0.8</span></label>
+    <input type="range" id="kw" min="0.02" max="10" step="0.01" value="0.8"></div>
+  <div class="row"><label>Tebal dinding (cm) <span class="val" id="v_Lw">20</span></label>
+    <input type="range" id="Lw" min="1" max="60" value="20"></div>
+  <div class="row"><label>h permukaan luar (W/m²K) <span class="val" id="v_hw">20</span></label>
+    <input type="range" id="hw" min="2" max="100" value="20"></div>
+  <div class="readout">
+    <div class="stat"><div class="l">R konduksi</div><div class="v" id="out_Rc">—</div></div>
+    <div class="stat"><div class="l">R konveksi</div><div class="v" id="out_Rv">—</div></div>
+    <div class="stat"><div class="l">Q total (per m²)</div><div class="v" id="out_Qtot">—</div></div>
+    <div class="stat"><div class="l">Suhu permukaan dinding luar</div><div class="v" id="out_Tsurf">—</div></div>
+  </div>
+</section>
+</div>
+
+<section>
+  <h2><span class="num">3</span>Metode &amp; Rumus</h2>
+  <div class="formula">Konduksi (Hukum Fourier):    Q = k·A·(T1−T2)/L
+Konveksi (Hukum Pendinginan Newton):  Q = h·A·(Ts−T∞)
+Radiasi (Hukum Stefan-Boltzmann):    Q = ε·σ·A·(T1⁴−T2⁴)   [T dalam Kelvin, σ=5,67×10⁻⁸ W/m²K⁴]
+
+Analogi rangkaian termal (gabungan, tersusun seri):
+  R_konduksi = L/(k·A)      R_konveksi = 1/(h·A)
+  Q = ΔT_total / (R_konduksi + R_konveksi)</div>
+</section>
+
+<section>
+  <h2><span class="num">4</span>Batasan</h2>
+  <ul>
+    <li>Semua simulator ini memakai kondisi <em>tunak</em> (steady-state) — mengasumsikan sistem
+    sudah lama mencapai kesetimbangan, bukan simulasi transien penuh terhadap waktu.</li>
+    <li>Warna benda di simulator radiasi adalah representasi visual kasar (skema panas→dingin),
+    bukan perhitungan warna spektrum benda hitam (Planck) yang sesungguhnya.</li>
+    <li>Simulator Gabungan mengabaikan radiasi demi kesederhanaan — dalam kasus nyata suhu sangat
+    tinggi atau permukaan sangat reflektif, radiasi bisa jadi signifikan dan perlu ditambahkan
+    sebagai hambatan paralel, bukan diabaikan.</li>
+    <li>Nilai h (koefisien konveksi) pada preset adalah kisaran umum yang dikutip literatur teknik,
+    bukan hasil pengukuran—nilai sungguhan bergantung sangat besar pada geometri &amp; kecepatan aliran.</li>
+  </ul>
+</section>
+
+<section>
+  <h2><span class="num">5</span>Referensi</h2>
+  <ul class="refs">
+    <li>Hukum Fourier (1822) — dasar konduksi panas, <em>Théorie analytique de la chaleur</em>.</li>
+    <li>Hukum Pendinginan Newton — model empiris konveksi, banyak dipakai dalam bentuk sederhana ini
+    untuk konveksi paksa maupun alami dengan koefisien h yang disesuaikan.</li>
+    <li>Hukum Stefan–Boltzmann (1879/1884) — dasar radiasi benda hitam, konstanta σ hasil pengukuran presisi tinggi.</li>
+  </ul>
+</section>
+
+<footer>Bagian dari Laboratorium Sains JAZMI — pelengkap Termodinamika &amp; Perpindahan Panas</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const SIGMA=5.67e-8;
+
+// ---- tabs ----
+document.querySelectorAll('.tabbtn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tabbtn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tabpane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    $('pane-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ---- KONDUKSI ----
+let flowT=0;
+function renderKonduksi(){
+  const k=+$('k').value, A=+$('Ak').value/10000, L=+$('Lk').value/100, T1=+$('T1k').value, T2=+$('T2k').value;
+  $('v_k').textContent=k; $('v_Ak').textContent=$('Ak').value; $('v_Lk').textContent=$('Lk').value;
+  $('v_T1k').textContent=T1; $('v_T2k').textContent=T2;
+  const Q = k*A*(T1-T2)/L;
+  $('out_Qk').textContent = Q.toFixed(2)+' W';
+  $('out_gradk').textContent = ((T1-T2)/(L*100)).toFixed(2)+' °C/cm';
+
+  const x0=40,x1=560,y=80,barH=40;
+  const hot='#e0716a', cold='#5f9fd3';
+  let s=`<defs><linearGradient id="gradK" x1="0" y1="0" x2="1" y2="0">
+    <stop offset="0%" stop-color="${T1>=T2?hot:cold}"/><stop offset="100%" stop-color="${T1>=T2?cold:hot}"/></linearGradient></defs>`;
+  s+=`<rect x="${x0}" y="${y-barH/2}" width="${x1-x0}" height="${barH}" rx="4" fill="url(#gradK)"/>`;
+  s+=`<text x="${x0}" y="${y-30}" fill="#e4e8f2" font-size="13" font-family="Georgia">${T1}°C</text>`;
+  s+=`<text x="${x1-30}" y="${y-30}" fill="#e4e8f2" font-size="13" font-family="Georgia">${T2}°C</text>`;
+  const speed=Math.max(0.2,Math.min(3, Math.abs(Q)/50));
+  const dir = T1>=T2 ? 1 : -1;
+  const n=8;
+  for(let i=0;i<n;i++){
+    let frac=((flowT*speed*0.15)+i/n)%1;
+    if(dir<0) frac=1-frac;
+    const px=x0+frac*(x1-x0);
+    s+=`<circle cx="${px}" cy="${y}" r="4" fill="#e0c26a"/>`;
+  }
+  s+=`<text x="300" y="140" fill="#8b93ac" font-size="11" text-anchor="middle" font-family="Georgia">titik oranye = arah &amp; kecepatan aliran panas (Q)</text>`;
+  $('cvKonduksi').innerHTML=s;
+}
+['k','Ak','Lk','T1k','T2k'].forEach(id=>$(id).addEventListener('input',renderKonduksi));
+$('matPreset').addEventListener('change',e=>{ if(e.target.value){ $('k').value=e.target.value; renderKonduksi(); }});
+
+// ---- KONVEKSI ----
+function renderKonveksi(){
+  const h=+$('h').value, A=+$('Ah').value/10000, Ts=+$('Ts').value, Tinf=+$('Tinf').value;
+  $('v_h').textContent=h; $('v_Ah').textContent=$('Ah').value; $('v_Ts').textContent=Ts; $('v_Tinf').textContent=Tinf;
+  const Q=h*A*(Ts-Tinf);
+  $('out_Qh').textContent=Q.toFixed(2)+' W';
+
+  const cx=150,cy=90,r=40;
+  const tcol = Ts>Tinf ? '#e0716a' : '#5f9fd3';
+  let s=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${tcol}"/>`;
+  s+=`<text x="${cx}" y="${cy+4}" fill="#0a1520" font-size="12" text-anchor="middle" font-family="Georgia" font-weight="bold">${Ts}°C</text>`;
+  const nArrows=Math.round(2+Math.min(8,h/60));
+  for(let i=0;i<nArrows;i++){
+    const ang=(i/nArrows)*Math.PI*2 + flowT*0.3;
+    const x1=cx+Math.cos(ang)*(r+5), y1=cy+Math.sin(ang)*(r+5);
+    const x2=cx+Math.cos(ang)*(r+40), y2=cy+Math.sin(ang)*(r+40);
+    s+=`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#5fd3d8" stroke-width="2" marker-end="url(#arrow)"/>`;
+  }
+  s=`<defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#5fd3d8"/></marker></defs>`+s;
+  s+=`<text x="380" y="60" fill="#8b93ac" font-size="12" font-family="Georgia">Fluida sekitar: ${Tinf}°C</text>`;
+  s+=`<text x="300" y="160" fill="#8b93ac" font-size="11" text-anchor="middle" font-family="Georgia">panah = aliran fluida membawa panas menjauh (h besar → panah lebih banyak/cepat)</text>`;
+  $('cvKonveksi').innerHTML=s;
+}
+['h','Ah','Ts','Tinf'].forEach(id=>$(id).addEventListener('input',renderKonveksi));
+$('convPreset').addEventListener('change',e=>{ if(e.target.value){ $('h').value=e.target.value; renderKonveksi(); }});
+
+// ---- RADIASI ----
+function tempColor(tC){
+  // rough heat-map: blue(cold) -> red -> orange -> white-yellow (very hot)
+  const t=Math.max(0,Math.min(1, (tC+20)/1220));
+  if(t<0.4){ const f=t/0.4; return `rgb(${Math.round(95+f*130)},${Math.round(159-f*100)},${Math.round(211-f*140)})`; }
+  if(t<0.75){ const f=(t-0.4)/0.35; return `rgb(${Math.round(225)},${Math.round(59+f*130)},${Math.round(71-f*40)})`; }
+  const f=(t-0.75)/0.25; return `rgb(255,${Math.round(189+f*66)},${Math.round(31+f*180)})`;
+}
+function renderRadiasi(){
+  const eps=+$('eps').value, A=+$('Ar').value/10000, T1=+$('T1r').value, T2=+$('T2r').value;
+  $('v_eps').textContent=eps.toFixed(2); $('v_Ar').textContent=$('Ar').value; $('v_T1r').textContent=T1; $('v_T2r').textContent=T2;
+  const T1k=T1+273.15, T2k=T2+273.15;
+  const Q=eps*SIGMA*A*(Math.pow(T1k,4)-Math.pow(T2k,4));
+  $('out_Qr').textContent=Q.toFixed(2)+' W';
+
+  const cx=150,cy=90,r=38;
+  const col=tempColor(T1);
+  let s=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${col}"/>`;
+  const nWave=3+Math.round(Math.min(6,Math.abs(Q)/5));
+  for(let i=0;i<nWave;i++){
+    const rr=r+10+i*12 + (flowT*20%12);
+    s+=`<circle cx="${cx}" cy="${cy}" r="${rr}" fill="none" stroke="${col}" stroke-width="1.4" opacity="${Math.max(0,0.6-i*0.1)}"/>`;
+  }
+  s+=`<text x="${cx}" y="${cy+4}" fill="#0a1520" font-size="11" text-anchor="middle" font-family="Georgia" font-weight="bold">${T1}°C</text>`;
+  s+=`<text x="400" y="60" fill="#8b93ac" font-size="12" font-family="Georgia">Sekitar: ${T2}°C</text>`;
+  s+=`<text x="300" y="160" fill="#8b93ac" font-size="11" text-anchor="middle" font-family="Georgia">gelombang = radiasi termal (tanpa medium) — warna hanya ilustrasi kasar suhu</text>`;
+  $('cvRadiasi').innerHTML=s;
+}
+['eps','Ar','T1r','T2r'].forEach(id=>$(id).addEventListener('input',renderRadiasi));
+
+// ---- GABUNGAN ----
+function renderGabungan(){
+  const Tin=+$('Tin').value, Tout=+$('Tout').value, kw=+$('kw').value, Lw=+$('Lw').value/100, hw=+$('hw').value;
+  $('v_Tin').textContent=Tin; $('v_Tout').textContent=Tout; $('v_kw').textContent=kw; $('v_Lw').textContent=$('Lw').value; $('v_hw').textContent=hw;
+  const A=1; // per m2
+  const Rc = Lw/(kw*A);
+  const Rv = 1/(hw*A);
+  const Rtot = Rc+Rv;
+  const Q = (Tin-Tout)/Rtot;
+  const Tsurf = Tout + Q*Rv; // temp at outer wall surface (before convection film)
+  $('out_Rc').textContent=Rc.toFixed(3)+' K/W';
+  $('out_Rv').textContent=Rv.toFixed(3)+' K/W';
+  $('out_Qtot').textContent=Q.toFixed(1)+' W/m²';
+  $('out_Tsurf').textContent=Tsurf.toFixed(1)+' °C';
+
+  const x0=60,xw1=280,xw2=380,x1=560,y=100,h=70;
+  let s=`<rect x="${x0}" y="${y-h/2}" width="${xw1-x0}" height="${h}" fill="#e0716a" opacity="0.5"/>`;
+  s+=`<rect x="${xw1}" y="${y-h/2}" width="${xw2-xw1}" height="${h}" fill="#8b93ac" opacity="0.6"/>`;
+  s+=`<rect x="${xw2}" y="${y-h/2}" width="${x1-xw2}" height="${h}" fill="#5f9fd3" opacity="0.5"/>`;
+  s+=`<text x="${(x0+xw1)/2}" y="${y+h/2+18}" fill="#e4e8f2" font-size="11" text-anchor="middle" font-family="Georgia">Dalam ${Tin}°C</text>`;
+  s+=`<text x="${(xw1+xw2)/2}" y="${y+h/2+18}" fill="#e4e8f2" font-size="11" text-anchor="middle" font-family="Georgia">Dinding</text>`;
+  s+=`<text x="${(xw2+x1)/2}" y="${y+h/2+18}" fill="#e4e8f2" font-size="11" text-anchor="middle" font-family="Georgia">Luar ${Tout}°C</text>`;
+  s+=`<text x="${(xw1+xw2)/2}" y="${y-h/2-10}" fill="#8b93ac" font-size="10" text-anchor="middle" font-family="Georgia">R_konduksi=${Rc.toFixed(3)}</text>`;
+  s+=`<text x="${(xw2+x1)/2}" y="${y-h/2-10}" fill="#8b93ac" font-size="10" text-anchor="middle" font-family="Georgia">R_konveksi=${Rv.toFixed(3)}</text>`;
+  s+=`<text x="300" y="185" fill="#e0c26a" font-size="12" text-anchor="middle" font-family="Georgia">Q = ${Q.toFixed(1)} W/m² (mengalir kanan, seperti arus lewat dua resistor seri)</text>`;
+  $('cvGabungan').innerHTML=s;
+}
+['Tin','Tout','kw','Lw','hw'].forEach(id=>$(id).addEventListener('input',renderGabungan));
+
+// ---- animation loop for flowing particles/waves ----
+function loop(){
+  flowT+=1;
+  if(document.getElementById('pane-konduksi').classList.contains('active')) renderKonduksi();
+  if(document.getElementById('pane-konveksi').classList.contains('active')) renderKonveksi();
+  if(document.getElementById('pane-radiasi').classList.contains('active')) renderRadiasi();
+  requestAnimationFrame(loop);
+}
+renderKonduksi(); renderKonveksi(); renderRadiasi(); renderGabungan();
+loop();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

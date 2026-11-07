@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hitungan Panjang Maya — Laboratorium JAZMI</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Karla:wght@400;500;700&display=swap');
+
+:root{
+  --bg-top:#211f1a; --bg-bot:#161512;
+  --stone:#4a463d; --stone-dark:#2c2a24; --stone-light:#6b6658;
+  --red:#A83A2C; --red-light:#D46A54;
+  --jade:#4E8C6C; --cream:#E8DFC8;
+  --ink:#E8DFC8; --ink-soft:#a89c82;
+  --panel:#26241d; --panel-border:#453f30;
+  --line:rgba(232,223,200,.15); --line-strong:rgba(232,223,200,.3);
+}
+*{box-sizing:border-box;} html,body{margin:0;padding:0;}
+body{ background:linear-gradient(180deg,var(--bg-top),var(--bg-bot)); color:var(--ink); font-family:'Karla',sans-serif; min-height:100vh; }
+.wrap{max-width:1000px; margin:0 auto; padding:20px 14px 44px;}
+.eyebrow{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--red-light); margin:0 0 4px;}
+h1{font-family:'Fraunces',serif; font-weight:700; font-size:clamp(24px,5.5vw,34px); margin:0 0 6px;}
+.sub{font-size:13.5px; color:var(--ink-soft); max-width:70ch; line-height:1.55;}
+
+.intro{ background:var(--panel); border:1px solid var(--panel-border); border-radius:6px; padding:16px 18px; margin-top:16px; }
+.intro h2{ font-family:'Fraunces',serif; font-size:17px; margin:0 0 8px; color:var(--red-light); }
+.intro p{ font-size:13px; line-height:1.65; margin:0 0 8px; }
+.unit-table{ width:100%; border-collapse:collapse; font-size:12px; margin-top:8px; }
+.unit-table th,.unit-table td{ text-align:left; padding:5px 8px; border-bottom:1px solid var(--line); }
+.unit-table th{ color:var(--ink-soft); font-size:10.5px; text-transform:uppercase; letter-spacing:.05em; }
+
+.panel{ background:var(--panel); border:1px solid var(--panel-border); border-radius:6px; padding:16px; margin-top:16px; }
+.panel h2{ font-family:'Fraunces',serif; font-size:16px; margin:0 0 10px; color:var(--red-light); }
+.row{ display:flex; flex-wrap:wrap; gap:10px; align-items:flex-end; margin-bottom:10px; }
+.field{ display:flex; flex-direction:column; gap:4px; }
+.field label{ font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); }
+.field input, .field select{
+  background:#1a1812; border:1px solid var(--line-strong); color:var(--ink);
+  border-radius:4px; padding:6px 8px; font-family:'Karla',sans-serif; font-size:13px; width:88px;
+}
+.field.wide input{ width:130px; }
+button{
+  font-family:'Karla',sans-serif; font-weight:700; font-size:12px;
+  background:var(--red); color:var(--cream); border:none; border-radius:999px; padding:8px 15px; cursor:pointer;
+}
+button.ghost{ background:transparent; color:var(--ink); border:1px solid var(--line-strong); font-weight:500; }
+button:hover{ filter:brightness(1.12); }
+
+.lc-blocks{ display:flex; gap:10px; flex-wrap:wrap; margin:12px 0; }
+.lc-block{ background:var(--stone); border:1px solid var(--stone-dark); border-radius:8px; padding:10px 8px; text-align:center; width:88px; }
+.lc-block .unit-name{ font-size:9.5px; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.05em; }
+.lc-block svg{ width:60px; height:74px; margin:4px auto; display:block; }
+.lc-block input{ width:100%; text-align:center; font-family:'Fraunces',serif; font-weight:700; font-size:16px;
+  background:var(--stone-dark); border:1px solid var(--panel-border); color:var(--cream); border-radius:4px; padding:3px; }
+.lc-block .steppers{ display:flex; justify-content:center; gap:4px; margin-top:4px; }
+.lc-block .steppers button{ padding:2px 8px; font-size:11px; }
+
+.result-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; margin-top:14px; }
+.result-card{ background:var(--stone-dark); border:1px solid var(--panel-border); border-radius:6px; padding:12px 14px; }
+.result-card .label{ font-size:10px; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); }
+.result-card .value{ font-family:'Fraunces',serif; font-size:18px; font-weight:700; color:var(--cream); margin-top:3px; }
+.result-card .sub{ font-size:11.5px; color:var(--ink-soft); margin-top:2px; }
+
+.presets{ display:flex; gap:8px; flex-wrap:wrap; }
+
+.section p{ font-size:13px; line-height:1.6; color:var(--ink-soft); max-width:72ch; }
+
+footer{margin-top:26px; padding-top:14px; border-top:1px solid var(--line); font-size:11.5px; color:var(--ink-soft); line-height:1.6;}
+footer b{color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">JAZMI · Laboratorium Arkeoastronomi · Level 4</p>
+  <h1>Hitungan Panjang Maya (Long Count)</h1>
+  <p class="sub">Sistem penanggalan vigesimal (basis-20, dengan satu pengecualian cerdas) yang bisa
+  menghitung hari tanpa batas ke masa lalu maupun masa depan — dipakai peradaban Maya pra-Kolonial
+  untuk mencatat tanggal di prasasti batu. Ubah tanggal Masehi ATAU angka Hitungan Panjang secara
+  langsung; keduanya saling menyesuaikan otomatis.</p>
+
+  <div class="intro">
+    <h2>Belajar dulu: struktur satuannya</h2>
+    <p>Setiap level bernilai 20× level di bawahnya — <b>kecuali</b> Tun, yang sengaja dibuat 18×
+    Winal (bukan 20×) supaya 1 Tun ≈ 360 hari, mendekati satu tahun matahari.</p>
+    <table class="unit-table">
+      <tr><th>Satuan</th><th>Nilai</th><th>≈ Hari</th><th>≈ Tahun Masehi</th></tr>
+      <tr><td>K'in</td><td>1 hari</td><td>1</td><td>–</td></tr>
+      <tr><td>Winal</td><td>20 K'in</td><td>20</td><td>–</td></tr>
+      <tr><td>Tun</td><td>18 Winal <i>(bukan 20)</i></td><td>360</td><td>~0,986</td></tr>
+      <tr><td>K'atun</td><td>20 Tun</td><td>7.200</td><td>~19,7</td></tr>
+      <tr><td>B'ak'tun</td><td>20 K'atun</td><td>144.000</td><td>~394,3</td></tr>
+    </table>
+  </div>
+
+  <div class="panel">
+    <h2>Konverter Dua Arah</h2>
+    <div class="row">
+      <div class="field">
+        <label>Tahun (boleh negatif = SM)</label>
+        <input type="number" id="yearIn" value="2026">
+      </div>
+      <div class="field">
+        <label>Bulan</label>
+        <input type="number" id="monthIn" value="1" min="1" max="12">
+      </div>
+      <div class="field">
+        <label>Tanggal</label>
+        <input type="number" id="dayIn" value="1" min="1" max="31">
+      </div>
+      <div class="field wide">
+        <label>Konstanta Korelasi</label>
+        <select id="corrSel">
+          <option value="584283">GMT 584283 (paling diterima)</option>
+          <option value="584285">GMT+2 — 584285 (varian minor)</option>
+          <option value="489384">Spinden — 489384 (~260 th lebih tua, minoritas)</option>
+        </select>
+      </div>
+      <div class="field" style="flex:0 0 auto;">
+        <label>&nbsp;</label>
+        <button id="fromDateBtn">Hitung dari Tanggal</button>
+      </div>
+    </div>
+    <div class="row presets">
+      <button class="ghost" id="pCreation">Tanggal Penciptaan (13.0.0.0.0)</button>
+      <button class="ghost" id="p2012">21 Des 2012 (13.0.0.0.0 era ini)</button>
+      <button class="ghost" id="pToday">Hari ini</button>
+    </div>
+    <div id="yearNote" style="font-size:11.5px; color:var(--ink-soft); margin-top:-2px;"></div>
+
+    <div class="lc-blocks" id="lcBlocks"></div>
+
+    <div class="result-grid" id="resultGrid"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Kalkulator Jarak Antar-Tanggal</h2>
+    <p style="font-size:12.5px; color:var(--ink-soft); margin-top:-4px;">Sama seperti prasasti Maya
+    asli yang sering mencatat "jarak" antar dua peristiwa, bukan cuma tanggal tunggal.</p>
+    <div class="row">
+      <div class="field wide"><label>Tanggal A (tahun,bulan,hari)</label>
+        <div style="display:flex; gap:4px;">
+          <input type="number" id="aY" value="2026" style="width:70px;">
+          <input type="number" id="aM" value="1" style="width:50px;">
+          <input type="number" id="aD" value="1" style="width:50px;">
+        </div>
+      </div>
+      <div class="field wide"><label>Tanggal B (tahun,bulan,hari)</label>
+        <div style="display:flex; gap:4px;">
+          <input type="number" id="bY" value="2012" style="width:70px;">
+          <input type="number" id="bM" value="12" style="width:50px;">
+          <input type="number" id="bD" value="21" style="width:50px;">
+        </div>
+      </div>
+      <div class="field" style="flex:0 0 auto;">
+        <label>&nbsp;</label>
+        <button id="distBtn">Hitung Jarak</button>
+      </div>
+    </div>
+    <div id="distOut" class="result-grid"></div>
+  </div>
+
+  <div class="panel">
+    <h2>Putaran Kalender (Calendar Round) — siklus 52 tahun</h2>
+    <p style="font-size:12.5px; color:var(--ink-soft); margin-top:-4px;">Kombinasi Tzolk'in (260 hari)
+    dan Haab' (365 hari) hanya berulang persis sama setiap 18.980 hari (≈52 tahun Haab') — inilah
+    "abad" Mesoamerika. Tekan tombol untuk melompat ke pengulangan berikutnya dari tanggal yang
+    sedang ditampilkan di atas.</p>
+    <button class="ghost" id="crBtn">Lompat ke Putaran Kalender berikutnya (+18.980 hari)</button>
+  </div>
+
+  <footer>
+    <b>Batasan:</b> Konversi Tzolk'in &amp; Haab' dikalibrasi terhadap tanggal Penciptaan yang tercatat
+    luas sebagai "4 Ajaw 8 Kumk'u" dan tervalidasi terhadap 21 Desember 2012 = 13.0.0.0.0 — dua titik
+    referensi yang paling diterima. Konstanta korelasi GMT (584283) adalah yang paling diterima
+    komunitas ilmiah, tapi bukan tanpa perdebatan; dua alternatif yang saya sertakan menunjukkan
+    seberapa besar pilihan ini bisa menggeser tanggal Masehi yang dihasilkan. Tanggal Masehi memakai
+    kalender Gregorian proleptik (dihitung mundur secara matematis, bukan kalender yang sungguh
+    dipakai pada masa itu — orang Eropa memakai kalender Julian saat itu). Penanda "Tuan Malam"
+    (siklus 9 hari) ditampilkan tanpa kalibrasi historis presisi terhadap prasasti asli — sumber
+    akademik berbeda memberi pergeseran fase yang berbeda; anggap sebagai ilustrasi keberadaan
+    siklusnya. Hitungan Panjang di atas 20 B'ak'tun (Piktun dst.) jarang muncul di prasasti asli;
+    alat ini menampilkannya untuk kelengkapan matematis, bukan klaim penggunaan historis luas.
+  </footer>
+</div>
+
+<script>
+const TZOLKIN_NAMES=["Imix","Ik'","Ak'b'al","K'an","Chikchan","Kimi","Manik'","Lamat","Muluk","Ok","Chuwen","Eb'","B'en","Ix","Men","Kib'","Kab'an","Etz'nab'","Kawak","Ajaw"];
+const HAAB_MONTHS=["Pop","Wo","Sip","Sotz'","Sek","Xul","Yaxk'in","Mol","Ch'en","Yax","Sak'","Keh","Mak","K'ank'in","Muwan","Pax","K'ayab","Kumk'u"];
+const LC_UNITS=[{key:'baktun',label:"B'ak'tun",mult:144000},{key:'katun',label:"K'atun",mult:7200},{key:'tun',label:"Tun",mult:360},{key:'winal',label:"Winal",mult:20},{key:'kin',label:"K'in",mult:1}];
+
+function dateToJD(Y,M,D){
+  if(M<=2){Y-=1;M+=12;}
+  const A=Math.floor(Y/100), B=2-A+Math.floor(A/4);
+  return Math.floor(365.25*(Y+4716))+Math.floor(30.6001*(M+1))+D+B-1524.5;
+}
+function jdToDate(JD){
+  JD+=0.5; const Z=Math.floor(JD), F=JD-Z; let A;
+  if(Z<2299161){ A=Z; } else { const alpha=Math.floor((Z-1867216.25)/36524.25); A=Z+1+alpha-Math.floor(alpha/4); }
+  const B=A+1524, C=Math.floor((B-122.1)/365.25), D=Math.floor(365.25*C), E=Math.floor((B-D)/30.6001);
+  const day=B-D-Math.floor(30.6001*E)+F;
+  const month=(E<14)?E-1:E-13;
+  const year=(month>2)?C-4716:C-4715;
+  return {year,month,day:Math.round(day)};
+}
+function yearLabel(y){ return y<=0 ? (1-y)+' SM' : y+' M'; }
+
+function dayNumFromYMD(Y,M,D,corr){
+  const jd=dateToJD(Y,M,D);
+  return Math.round(jd+0.5)-corr;
+}
+function ymdFromDayNum(dn,corr){
+  const jd=(dn+corr)-0.5;
+  return jdToDate(jd);
+}
+function lcFromDayNum(dn){
+  let n=dn;
+  const baktun=Math.floor(n/144000); n-=baktun*144000;
+  const katun=Math.floor(n/7200); n-=katun*7200;
+  const tun=Math.floor(n/360); n-=tun*360;
+  const winal=Math.floor(n/20); n-=winal*20;
+  const kin=n;
+  return {baktun,katun,tun,winal,kin};
+}
+function dayNumFromLC(lc){
+  return lc.baktun*144000+lc.katun*7200+lc.tun*360+lc.winal*20+lc.kin;
+}
+function tzolkin(dn){
+  const nameIdx=((dn+19)%20+20)%20;
+  const number=(((dn+3)%13+13)%13)+1;
+  return {number, name:TZOLKIN_NAMES[nameIdx]};
+}
+function haab(dn){
+  const pos=((dn+348)%365+365)%365;
+  if(pos>=360){ return {day:pos-360, month:"Wayeb'"}; }
+  return {day:pos%20, month:HAAB_MONTHS[Math.floor(pos/20)]};
+}
+function nightLord(dn){
+  return ((dn%9)+9)%9+1;
+}
+
+const NS="http://www.w3.org/2000/svg";
+function el(tag,attrs){const e=document.createElementNS(NS,tag); for(const k in attrs) e.setAttribute(k,attrs[k]); return e;}
+function barDotSVG(n){
+  const svg=el('svg',{viewBox:'0 0 60 74'});
+  if(n===0){
+    svg.appendChild(el('ellipse',{cx:30,cy:37,rx:16,ry:11,fill:'none',stroke:'var(--cream)','stroke-width':2.5}));
+    svg.appendChild(el('path',{d:'M18,37 Q30,30 42,37',fill:'none',stroke:'var(--cream)','stroke-width':1.5}));
+    return svg;
+  }
+  const bars=Math.floor(n/5), dots=n%5;
+  let y=8;
+  for(let i=0;i<dots;i++){
+    svg.appendChild(el('circle',{cx:14+i*13,cy:14,r:5,fill:'var(--cream)'}));
+  }
+  y=30;
+  for(let b=0;b<bars;b++){
+    svg.appendChild(el('rect',{x:6,y:y,width:48,height:9,rx:4,fill:'var(--red-light)'}));
+    y+=15;
+  }
+  return svg;
+}
+
+let currentLC={baktun:0,katun:0,tun:0,winal:0,kin:0};
+let corr=584283;
+
+function buildBlocks(){
+  const box=document.getElementById('lcBlocks'); box.innerHTML='';
+  LC_UNITS.forEach(u=>{
+    const block=document.createElement('div'); block.className='lc-block';
+    block.innerHTML=`<div class="unit-name">${u.label}</div>
+      <div class="glyph"></div>
+      <input type="number" id="lc_${u.key}" value="${currentLC[u.key]}">
+      <div class="steppers"><button data-u="${u.key}" data-d="-1">-</button><button data-u="${u.key}" data-d="1">+</button></div>`;
+    block.querySelector('.glyph').appendChild(barDotSVG(Math.max(0,Math.min(19,currentLC[u.key]))));
+    box.appendChild(block);
+  });
+  box.querySelectorAll('.steppers button').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const u=btn.dataset.u, d=parseInt(btn.dataset.d);
+      currentLC[u]+=d;
+      syncFromLC();
+    });
+  });
+  LC_UNITS.forEach(u=>{
+    document.getElementById('lc_'+u.key).addEventListener('change', (e)=>{
+      currentLC[u.key]=parseInt(e.target.value)||0;
+      syncFromLC();
+    });
+  });
+}
+
+function renderResults(dn){
+  const tz=tzolkin(dn), hb=haab(dn), nl=nightLord(dn);
+  const grid=document.getElementById('resultGrid');
+  grid.innerHTML=`
+    <div class="result-card"><div class="label">Tzolk'in (260 hari)</div><div class="value">${tz.number} ${tz.name}</div></div>
+    <div class="result-card"><div class="label">Haab' (365 hari)</div><div class="value">${hb.day} ${hb.month}</div></div>
+    <div class="result-card"><div class="label">Putaran Kalender</div><div class="value">${tz.number} ${tz.name} ${hb.day} ${hb.month}</div></div>
+    <div class="result-card"><div class="label">Tuan Malam (siklus 9 hari)</div><div class="value">G${nl}</div><div class="sub">ilustratif, lihat batasan</div></div>
+    <div class="result-card"><div class="label">Hari sejak 0.0.0.0.0</div><div class="value">${dn.toLocaleString('id-ID')}</div></div>
+  `;
+}
+
+function syncFromLC(){
+  const dn=dayNumFromLC(currentLC);
+  const ymd=ymdFromDayNum(dn,corr);
+  document.getElementById('yearIn').value=ymd.year;
+  document.getElementById('monthIn').value=ymd.month;
+  document.getElementById('dayIn').value=ymd.day;
+  document.getElementById('yearNote').textContent = '= '+yearLabel(ymd.year);
+  buildBlocks();
+  renderResults(dn);
+}
+
+function syncFromDate(){
+  const Y=parseInt(document.getElementById('yearIn').value);
+  const M=parseInt(document.getElementById('monthIn').value);
+  const D=parseInt(document.getElementById('dayIn').value);
+  const dn=dayNumFromYMD(Y,M,D,corr);
+  currentLC=lcFromDayNum(dn);
+  document.getElementById('yearNote').textContent = '= '+yearLabel(Y);
+  buildBlocks();
+  renderResults(dn);
+}
+
+document.getElementById('corrSel').addEventListener('change', (e)=>{
+  corr=parseInt(e.target.value);
+  syncFromDate();
+});
+document.getElementById('fromDateBtn').addEventListener('click', syncFromDate);
+document.getElementById('yearIn').addEventListener('change', syncFromDate);
+document.getElementById('monthIn').addEventListener('change', syncFromDate);
+document.getElementById('dayIn').addEventListener('change', syncFromDate);
+
+document.getElementById('pCreation').addEventListener('click', ()=>{
+  document.getElementById('yearIn').value=-3113;
+  document.getElementById('monthIn').value=8;
+  document.getElementById('dayIn').value=11;
+  syncFromDate();
+});
+document.getElementById('p2012').addEventListener('click', ()=>{
+  document.getElementById('yearIn').value=2012;
+  document.getElementById('monthIn').value=12;
+  document.getElementById('dayIn').value=21;
+  syncFromDate();
+});
+document.getElementById('pToday').addEventListener('click', ()=>{
+  const d=new Date();
+  document.getElementById('yearIn').value=d.getFullYear();
+  document.getElementById('monthIn').value=d.getMonth()+1;
+  document.getElementById('dayIn').value=d.getDate();
+  syncFromDate();
+});
+
+document.getElementById('crBtn').addEventListener('click', ()=>{
+  const dn=dayNumFromLC(currentLC)+18980;
+  currentLC=lcFromDayNum(dn);
+  const ymd=ymdFromDayNum(dn,corr);
+  document.getElementById('yearIn').value=ymd.year;
+  document.getElementById('monthIn').value=ymd.month;
+  document.getElementById('dayIn').value=ymd.day;
+  document.getElementById('yearNote').textContent='= '+yearLabel(ymd.year);
+  buildBlocks(); renderResults(dn);
+});
+
+document.getElementById('distBtn').addEventListener('click', ()=>{
+  const aY=parseInt(document.getElementById('aY').value), aM=parseInt(document.getElementById('aM').value), aD=parseInt(document.getElementById('aD').value);
+  const bY=parseInt(document.getElementById('bY').value), bM=parseInt(document.getElementById('bM').value), bD=parseInt(document.getElementById('bD').value);
+  const dnA=dayNumFromYMD(aY,aM,aD,corr), dnB=dayNumFromYMD(bY,bM,bD,corr);
+  const diff=Math.abs(dnA-dnB);
+  const lc=lcFromDayNum(diff);
+  const out=document.getElementById('distOut');
+  out.innerHTML=`
+    <div class="result-card"><div class="label">Selisih hari</div><div class="value">${diff.toLocaleString('id-ID')}</div></div>
+    <div class="result-card"><div class="label">Sebagai Hitungan Panjang</div><div class="value">${lc.baktun}.${lc.katun}.${lc.tun}.${lc.winal}.${lc.kin}</div></div>
+    <div class="result-card"><div class="label">≈ Tahun Masehi</div><div class="value">${(diff/365.2422).toFixed(2)}</div></div>
+    <div class="result-card"><div class="label">≈ Tun Maya</div><div class="value">${(diff/360).toFixed(2)}</div></div>
+  `;
+});
+
+// init
+syncFromDate();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

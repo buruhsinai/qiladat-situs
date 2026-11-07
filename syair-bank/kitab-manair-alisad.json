@@ -1,0 +1,811 @@
+{
+  "_catatan": "DATASET PILOT #001a — Manair al-Is'ad. DIMIGRASIKAN ke SYAIR_SCHEMA.md v2 (final). Migrasi bersifat struktural: tidak ada bait/terjemahan/tag/series baru ditambahkan, tidak ada teks Arab atau status yang diubah. Field lama (nomor, jenisSumber, bagianBab/halamanPdf top-level) direstrukturisasi mengikuti v2 — lihat laporan migrasi.",
+  "kitab": [
+    {
+      "id": "kitab-manair-alisad",
+      "judulArab": "مَنَائِرُ الإِسْعَادِ نَظْمُ لُمْعَةِ الاعْتِقَادِ",
+      "judulLatin": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+      "penyairMatanId": "penyair-hamzah-alfathi",
+      "penulisSyarahId": null,
+      "periode": "Kontemporer — selesai 24 Rabi'ul Akhir 1421 H (2000 M); merupakan nazhm dari matan klasik abad ke-7 H karya Ibnu Qudamah al-Maqdisi",
+      "jenis": "Nazhm (puisi didaktis/ilmiah) — Aqidah, bahar Rajaz",
+      "jumlahBait": 246,
+      "sumber": "Hasil pembedahan/kurasi visual PDF kitab Manair al-Is'ad, disusun oleh pengelola JAZMI (audit multimodal terhadap gambar PDF)",
+      "status": "diseleksi",
+      "prioritas": "tinggi",
+      "catatan": "Total 246 bait ada dalam kitab, namun pada pilot ini hanya bait yang disertai teks Arab eksplisit dalam bahan kurasi yang dimasukkan ke Bank (17 bait). Bait 50-51, 182-183, dan 243 disebut dalam kurasi namun teks Arabnya tidak disertakan dalam bahan sumber sehingga TIDAK dimasukkan (lihat laporan pilot). Tidak ditemukan Syahid dalam kitab ini — nazhm mandiri, seluruh syair adalah gubahan penulis sendiri."
+    }
+  ],
+  "penyair": [
+    {
+      "id": "penyair-hamzah-alfathi",
+      "namaArab": "أبي يزن حمزة بن فايع الفتحي",
+      "namaLatin": "Abu Yazan Hamzah bin Fayea' al-Fathi",
+      "periode": "Kontemporer (karya selesai 1421 H / 2000 M)",
+      "infoSingkat": null,
+      "catatan": null
+    }
+  ],
+  "bait": [
+    {
+      "id": "bait-manair-001",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 1,
+      "teksArab": "الـحَـمْـدُ لِـلَّـهِ عَـلَـى الـتَّـوْحِـيـدِ ... وَنِـعْـمَـةِ الـتَّـوْفِـيـقِ وَالـتَّـسْـدِيدِ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Segala puji bagi Allah atas tauhid, serta nikmat taufik dan bimbingan yang lurus.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah",
+        "tag-syair"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 2,
+        "bagianBab": "Muqaddimah",
+        "nomorSumber": 1,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 85,
+        "meaningStrength": 90,
+        "meaningDensity": 80,
+        "learningPotential": 95,
+        "recommendationScore": 87.25,
+        "tema": "Syukur & Tauhid",
+        "alasanRekomendasi": "Bait pembuka yang merangkum esensi syukur seorang mukmin atas nikmat iman.",
+        "catatanVerifikasi": "Redaksi PDF sesuai dengan kaidah bahasa Arab standar."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-015",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 2,
+      "teksArab": "نَـظَـمْـتُ فِـيـهَـا لُـمْـعَـةَ الـعَـقِـيـدَةْ ... لِـلْـفِـرْقَـةِ الـنَّـاجِـيَـةِ الـرَّشِـيـدَةْ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Kususun di dalamnya (ringkasan) Lum'atul Aqidah, untuk golongan yang selamat lagi mendapat petunjuk.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah",
+        "tag-syair"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 2,
+        "bagianBab": "Muqaddimah",
+        "nomorSumber": 15,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 80,
+        "meaningStrength": 85,
+        "meaningDensity": 85,
+        "learningPotential": 80,
+        "recommendationScore": 82.25,
+        "tema": "Metodologi & Literatur",
+        "alasanRekomendasi": "Bagian dari bait ganda (15-16) yang memberikan konteks bahwa karya ini bersandar pada ulama otoritatif (Ibn Qudamah).",
+        "catatanVerifikasi": "Bait 15-16 dituliskan sebagai satu blok pada sumber (bait ganda) — dipisah menjadi dua entry (015 dan 016) pada pilot ini berdasarkan pola dua syatr per bait."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-016",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 3,
+      "teksArab": "مُـخْـتَـصَـرَ الـمُـوَفَّـقِ الـعَـلَّـامَـةْ ... ابْـنِ قُـدَامَـةَ الـمُـتْـقِـنِ الـفَـهَّـامَـةْ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Ringkasan karya sang penerima taufik, ulama besar Ibnu Qudamah, yang teliti lagi sangat memahami.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah",
+        "tag-syair"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 2,
+        "bagianBab": "Muqaddimah",
+        "nomorSumber": 16,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 80,
+        "meaningStrength": 85,
+        "meaningDensity": 85,
+        "learningPotential": 80,
+        "recommendationScore": 82.25,
+        "tema": "Metodologi & Literatur",
+        "alasanRekomendasi": "Bagian dari bait ganda (15-16); menyebutkan eksplisit nama Ibn Qudamah sebagai penulis matan prosa asal.",
+        "catatanVerifikasi": "Nama \"ابن قدامة\" (Ibn Qudamah) adalah kunci identifikasi sumber utama."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-030",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 4,
+      "teksArab": "سُـبْـحَـانَـهُ لَـيْـسَ لَـهُ نَـظِـيـرُ ... وَإِنَّـهُ الـسَّـمِـيـعُ وَالـبَـصِـيـرُ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Mahasuci Dia, tiada tandingan bagi-Nya, dan sesungguhnya Dia Maha Mendengar lagi Maha Melihat.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 3,
+        "bagianBab": "Sifat Allah",
+        "nomorSumber": 30,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 90,
+        "meaningStrength": 95,
+        "meaningDensity": 90,
+        "learningPotential": 100,
+        "recommendationScore": 93,
+        "tema": "Tauhid Al-Asma' wa As-Sifat",
+        "alasanRekomendasi": "Bait yang sangat padat merangkum ayat \"Laisa kamitslihi shay'un\".",
+        "catatanVerifikasi": "Sesuai dengan visual PDF halaman 3."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-056",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 5,
+      "teksArab": "عَـلَـيْـكُـمُ بِـالـسُّـنَّـةِ الـمَـرْضِـيَّـةْ ... وَسُـنَّـةِ الأَئِـمَّـةِ الـبَـهِـيَّـةْ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Berpegang teguhlah kalian pada sunnah yang diridhai, dan sunnah para imam yang mulia.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah",
+        "tag-adab"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 4,
+        "bagianBab": "Ittiba' (Mengikuti Sunnah)",
+        "nomorSumber": 56,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 88,
+        "meaningStrength": 90,
+        "meaningDensity": 80,
+        "learningPotential": 95,
+        "recommendationScore": 86.65,
+        "tema": "Ittiba' al-Sunnah",
+        "alasanRekomendasi": "Bait sangat puitis dan sering dijadikan kutipan (syahid) dalam kajian manhaj.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-081",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 6,
+      "teksArab": "وَمِـنْ كَـلَامِ اللَّهِ ذَا (الـقُـرْآنُ) ... مُـنَـزَّلٌ لَـيْـسَ بِـهِ طُـعَـانُ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Dan di antara Kalamullah adalah Al-Qur'an ini, diturunkan (Allah), tiada cela di dalamnya.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 5,
+        "bagianBab": "Kalamullah (Al-Qur'an)",
+        "nomorSumber": 81,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 80,
+        "meaningStrength": 95,
+        "meaningDensity": 85,
+        "learningPotential": 90,
+        "recommendationScore": 88.25,
+        "tema": "Al-Qur'an",
+        "alasanRekomendasi": "Bait ini adalah fondasi penting dalam akidah Ahlussunnah mengenai hakikat Al-Qur'an.",
+        "catatanVerifikasi": "Kata \"طعان\" (thu'aan) di sini berarti celaan atau keraguan."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-100",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 7,
+      "teksArab": "وَهَـذَا مَـقْـطُـوعٌ بِـهِ فِي الآخِـرَةْ ... فَـكَـمْ تَـرَى مِـنْ زَائِـرَةٍ وَنَـاظِـرَةْ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Dan ini adalah kepastian yang tak terbantahkan di akhirat kelak, betapa banyak yang kau saksikan berziarah dan memandang.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah",
+        "tag-hari-akhir"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 6,
+        "bagianBab": "Ru'yah (Melihat Allah)",
+        "nomorSumber": 100,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 85,
+        "meaningStrength": 95,
+        "meaningDensity": 80,
+        "learningPotential": 85,
+        "recommendationScore": 87,
+        "tema": "Kenikmatan Tertinggi di Surga",
+        "alasanRekomendasi": "Bait ini sangat positif dan memberikan harapan (Raja') bagi pembaca/penghafal.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-110",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 8,
+      "teksArab": "قَدْ خَلَقَ الخَلْقَ كَذَا الأَفْعَالَا ... وَقَدَّرَ الأَرْزَاقَ وَالآجَالَا",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Sungguh Dia telah menciptakan makhluk beserta perbuatan-perbuatannya, dan telah menakdirkan rezeki serta ajal setiap makhluk.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 7,
+        "bagianBab": "Al-Qadar (Takdir)",
+        "nomorSumber": 110,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 82,
+        "meaningStrength": 100,
+        "meaningDensity": 95,
+        "learningPotential": 100,
+        "recommendationScore": 93.85,
+        "tema": "Iman kepada Takdir",
+        "alasanRekomendasi": "Salah satu bait paling padat makna di seluruh kitab ini — merangkum rukun iman ke-6.",
+        "catatanVerifikasi": "Visual PDF mengonfirmasi \"الأفعالا\" (dengan alif itlaq untuk kebutuhan rima)."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-121",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 9,
+      "teksArab": "الـمُـؤْمِـنُ الـنَّـاطِـقُ بِـالـلِّـسَـانِ ... وَالـسَّـاعِي وَالـعَـامِـلُ بِـالأَرْكَـانِ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Mukmin sejati adalah yang mengikrarkan dengan lisan, yang berusaha dan beramal dengan anggota badannya.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 7,
+        "bagianBab": "Hakikat Iman",
+        "nomorSumber": 121,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 80,
+        "meaningStrength": 95,
+        "meaningDensity": 90,
+        "learningPotential": 90,
+        "recommendationScore": 88.5,
+        "tema": "Definisi Iman",
+        "alasanRekomendasi": "Bagian pertama bait ganda (121-122) — Iman bukan sekadar klaim lisan, mencakup amal.",
+        "catatanVerifikasi": "\"جنان\" (Janan) adalah sinonim puitis untuk \"Qalb\" (Hati) — muncul pada bait 122."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-122",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 10,
+      "teksArab": "وَمَـنْ يَـكُـنْ جَـنَانُـهُ قَـدْ عَـقَـدْ ... يَـزِيـدُ بِـالـطَّـاعَةِ يَـنْـقُـصُ بِـالـرَّدَى",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Barangsiapa hatinya sudah teguh berikrar (beriman), imannya bertambah dengan ketaatan dan berkurang dengan keburukan.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 7,
+        "bagianBab": "Hakikat Iman",
+        "nomorSumber": 122,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 80,
+        "meaningStrength": 95,
+        "meaningDensity": 90,
+        "learningPotential": 90,
+        "recommendationScore": 88.5,
+        "tema": "Definisi Iman",
+        "alasanRekomendasi": "Bagian kedua bait ganda (121-122) — iman naik-turun sesuai ketaatan/keburukan.",
+        "catatanVerifikasi": "Pergeseran rima dari bait 121 (akhiran Dal) ke bait ini (akhiran Alif Maqshurah) adalah pola Muzdawij yang lazim dalam Rajaz didaktis; tidak memengaruhi makna kata. Aman diterjemahkan dan dipublikasikan."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-163",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 11,
+      "teksArab": "فَـمَـاؤُهُ أَصْـفَـى مِـنَ الـلَّـبَـنِ وَقُـلْ ... أَحْـلَى مِـنَ الـعَـسَـلِ وَكُـلُّ مَـا فَـضُـلْ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Maka airnya (telaga itu) lebih jernih daripada susu, dan katakanlah: lebih manis daripada madu, serta melebihi segalanya.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-hari-akhir"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 9,
+        "bagianBab": "Al-Hawdh (Telaga Nabi)",
+        "nomorSumber": 163,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 92,
+        "meaningStrength": 90,
+        "meaningDensity": 80,
+        "learningPotential": 95,
+        "recommendationScore": 89.85,
+        "tema": "Eskatologi / Telaga Nabi",
+        "alasanRekomendasi": "Bait sangat indah secara imajinasi, memudahkan pembelajar membayangkan konsep abstrak lewat perumpamaan konkret.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-165",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 12,
+      "teksArab": "ثُـمَّ (صِـرَاطُ) الـنَّـارِ لَا إِنْـكَـارُ ... تَـجُـوزُهُ الأَبْـرَارُ فَـالأَبْـرَارُ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Kemudian (jembatan) Shirath di atas neraka, tiada yang mengingkarinya, dilintasi oleh orang-orang yang berbakti, satu demi satu.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-hari-akhir"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 9,
+        "bagianBab": "Al-Yaum al-Akhir (Hari Akhir)",
+        "nomorSumber": 165,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 80,
+        "meaningStrength": 90,
+        "meaningDensity": 85,
+        "learningPotential": 85,
+        "recommendationScore": 85.25,
+        "tema": "Hari Kiamat",
+        "alasanRekomendasi": "Gambaran visual tentang peristiwa akhirat (Shirath) yang kuat.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-173",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 13,
+      "teksArab": "(مُـحَـمَّـدٌ) خَـاتِـمُ الأَنْـبِـيَـاءِ ... وَسَـيِّـدُ الـرُّسْـلِ بِـلَا امْـتِـرَاءِ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Muhammad adalah penutup para nabi, dan penghulu para rasul tanpa keraguan.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 9,
+        "bagianBab": "Kenabian (An-Nubuwwat)",
+        "nomorSumber": 173,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 85,
+        "meaningStrength": 95,
+        "meaningDensity": 80,
+        "learningPotential": 90,
+        "recommendationScore": 87.5,
+        "tema": "Nabi Muhammad ﷺ",
+        "alasanRekomendasi": "Kalimat \"Bila imtira'\" (tanpa keraguan) memperkuat aspek keyakinan dalam Aqidah.",
+        "catatanVerifikasi": "Redaksi PDF: \"(محمدٌ)\" menggunakan tanda kurung untuk penekanan subjek."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-206",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 14,
+      "teksArab": "تُـحِـبُّـهُـمْ ، نَـذْكُـرُهُـمْ بِـالْأَحْـسَـنِ ... وَكُـلُّ مَـا جَـاءَ لَـهُـمْ مِـنْ مِـنَـنِ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Engkau mencintai mereka (para sahabat), mengingat mereka dengan kebaikan, dan segala karunia yang datang kepada mereka (adalah dari Allah).",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-adab"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 11,
+        "bagianBab": "Fadhail ash-Sahabah (Keutamaan Sahabat)",
+        "nomorSumber": 206,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 95,
+        "sourceConfidence": 100,
+        "literaryStrength": 75,
+        "meaningStrength": 90,
+        "meaningDensity": 85,
+        "learningPotential": 85,
+        "recommendationScore": 83.5,
+        "tema": "Adab & Sahabat Nabi",
+        "alasanRekomendasi": "Mengajarkan etika luhur terhadap generasi awal Islam.",
+        "catatanVerifikasi": "Kata منن (minan) adalah bentuk jamak dari minnah (karunia/kebaikan) — bacaan baku dan jelas (textConfidence 95). Kehati-hatian sebelumnya hanya soal rima, bukan makna kata."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-219",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 15,
+      "teksArab": "وَالـسَّـمْـعُ وَالـطَّـاعَـةُ لِلْأَمِـيـرِ ... مِـنْ سُـنَّـةِ الـبَـشِـيـرِ وَالـنَّـذِيـرِ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Dan mendengar serta taat kepada pemimpin, termasuk sunnah Nabi sang pembawa kabar gembira dan peringatan.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-adab"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 12,
+        "bagianBab": "As-Sam'u wa Ath-Tha'ah (Ketaatan)",
+        "nomorSumber": 219,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 85,
+        "meaningStrength": 95,
+        "meaningDensity": 80,
+        "learningPotential": 90,
+        "recommendationScore": 88,
+        "tema": "Adab Bernegara",
+        "alasanRekomendasi": "Bait yang sangat masyhur dalam bab-bab penutup kitab akidah.",
+        "catatanVerifikasi": "Visual PDF menunjukkan rima 'ir' yang konsisten di halaman 12."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-228",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 16,
+      "teksArab": "وَنَـتْـرُكُ الـجِـدَالَ وَالـخُـصُـومَةْ ... فِي هَـذِهِ الـشَّـرِيـعَـةِ الـمَـعْـلُـومَةْ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Dan kami tinggalkan perdebatan serta pertikaian, dalam syariat yang telah jelas ini.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-adab"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 12,
+        "bagianBab": "Adab Terhadap Syariat",
+        "nomorSumber": 228,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 75,
+        "meaningStrength": 90,
+        "meaningDensity": 80,
+        "learningPotential": 90,
+        "recommendationScore": 82.75,
+        "tema": "Adab Menuntut Ilmu",
+        "alasanRekomendasi": "Sangat relevan untuk konteks media sosial saat ini di mana perdebatan sering mengalahkan pengamalan ilmu.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-manair-239",
+      "kitabId": "kitab-manair-alisad",
+      "urutanBank": 17,
+      "teksArab": "يُـحْـيِـيـنَـا إِنْ عِـشْـنَـا عَـلَـى الإِسْـلَامِ ... وَالـسُّـنَّـةِ الـغَـرَّاءِ بِـالـدَّوَامِ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Semoga Dia menghidupkan kami jika kami hidup di atas Islam, dan sunnah yang cemerlang ini untuk selamanya.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-hamzah-alfathi",
+      "tagIds": [
+        "tag-aqidah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Manā'ir al-Is'ād Nazhmu Lum'at al-I'tiqād",
+        "halamanPdf": 13,
+        "bagianBab": "Khatimah (Penutup)",
+        "nomorSumber": 239,
+        "catatan": null
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 85,
+        "meaningStrength": 100,
+        "meaningDensity": 85,
+        "learningPotential": 95,
+        "recommendationScore": 90.75,
+        "tema": "Doa & Harapan",
+        "alasanRekomendasi": "Bait penutup yang sempurna untuk program hafalan, memberikan kesimpulan spiritual bagi seluruh isi kitab.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    }
+  ],
+  "tag": [
+    {
+      "id": "tag-syair",
+      "nama": "Syair",
+      "slug": "syair",
+      "deskripsi": null
+    },
+    {
+      "id": "tag-aqidah",
+      "nama": "Aqidah",
+      "slug": "aqidah",
+      "deskripsi": "Bait bertema tauhid/teologi Islam."
+    },
+    {
+      "id": "tag-adab",
+      "nama": "Adab",
+      "slug": "adab",
+      "deskripsi": "Bait bertema etika/akhlak."
+    },
+    {
+      "id": "tag-hari-akhir",
+      "nama": "Hari Akhir",
+      "slug": "hari-akhir",
+      "deskripsi": "Bait bertema eskatologi: kiamat, telaga, surga, dsb."
+    }
+  ],
+  "series": []
+}

@@ -1,0 +1,3146 @@
+{
+  "_keterangan": "Manifest tunggal untuk halaman Alat JAZMI. Edit di sini untuk mengubah komposisi kategori (pindah/ubah 'kategori' pada entri tools, atau tambah/kurangi entri kategori_meta) -- halaman /alat/ dan /alat/<slug>/ akan menyesuaikan otomatis saat dimuat, tanpa perlu membangun ulang HTML.",
+  "akses_default": "login",
+  "kategori_meta": [
+    {
+      "slug": "fisika",
+      "nama": "Fisika",
+      "deskripsi": "Simulasi dan kalkulator fenomena fisika klasik hingga kuantum — gerak, gelombang, medan, dan termodinamika."
+    },
+    {
+      "slug": "astronomi-dan-kosmologi",
+      "nama": "Astronomi & Kosmologi",
+      "deskripsi": "Alat peraga benda langit, mekanika orbit, dan skala alam semesta."
+    },
+    {
+      "slug": "biologi-evolusi-dan-kesehatan",
+      "nama": "Biologi, Evolusi & Kesehatan",
+      "deskripsi": "Model biologi, evolusi, dan fisiologi tubuh manusia yang disederhanakan jadi alat interaktif."
+    },
+    {
+      "slug": "matematika-dan-sains-komputasi",
+      "nama": "Matematika & Sains Komputasi",
+      "deskripsi": "Visualisasi konsep matematika dan algoritma komputasi dasar."
+    },
+    {
+      "slug": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "nama": "Sejarah Sains, Peradaban & Tokoh Klasik",
+      "deskripsi": "Penjelajahan tokoh dan capaian sains klasik lintas peradaban."
+    },
+    {
+      "slug": "sains-bumi-iklim-dan-geografi",
+      "nama": "Sains Bumi, Iklim & Geografi",
+      "deskripsi": "Model iklim, geografi, dan proses kebumian."
+    },
+    {
+      "slug": "komputer-kriptografi-dan-keamanan-siber",
+      "nama": "Komputer, Kriptografi & Keamanan Siber",
+      "deskripsi": "Demonstrasi konsep komputer, kriptografi, dan keamanan siber."
+    },
+    {
+      "slug": "ekonomi-dan-ilmu-sosial",
+      "nama": "Ekonomi & Ilmu Sosial",
+      "deskripsi": "Simulasi konsep ekonomi dan dinamika ilmu sosial."
+    },
+    {
+      "slug": "bahasa-dan-linguistik",
+      "nama": "Bahasa & Linguistik",
+      "deskripsi": "Alat bantu eksplorasi bahasa dan struktur linguistik."
+    },
+    {
+      "slug": "fikih-muamalah-dan-ibadah",
+      "nama": "Fikih Muamalah & Ibadah",
+      "deskripsi": "Kalkulator dan alat bantu praktik fikih muamalah serta ibadah harian."
+    },
+    {
+      "slug": "navigasi-dan-ilmu-bahari",
+      "nama": "Navigasi & Ilmu Bahari",
+      "deskripsi": "Alat navigasi klasik dan pengetahuan kebaharian."
+    },
+    {
+      "slug": "kimia",
+      "nama": "Kimia",
+      "deskripsi": "Model reaksi dan konsep kimia dasar."
+    },
+    {
+      "slug": "elektronika-dan-mesin-bersejarah",
+      "nama": "Elektronika & Mesin Bersejarah",
+      "deskripsi": "Simulasi rangkaian elektronika dan mesin-mesin bersejarah."
+    },
+    {
+      "slug": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "nama": "Edukasi Anak & Alat Bermain-Sambil-Belajar",
+      "deskripsi": "Alat bermain sambil belajar yang dirancang ramah anak."
+    },
+    {
+      "slug": "filsafat-epistemologi-dan-kesadaran",
+      "nama": "Filsafat, Epistemologi & Kesadaran",
+      "deskripsi": "Eksplorasi interaktif gagasan filsafat, epistemologi, dan kesadaran."
+    },
+    {
+      "slug": "arsitektur-dan-rekayasa-struktur",
+      "nama": "Arsitektur & Rekayasa Struktur",
+      "deskripsi": "Kalkulator analisis struktur dan rekayasa bangunan."
+    },
+    {
+      "slug": "psikologi-kognisi-dan-metakognisi",
+      "nama": "Psikologi, Kognisi & Metakognisi",
+      "deskripsi": "Alat bantu memahami psikologi, kognisi, dan metakognisi."
+    },
+    {
+      "slug": "sains-tata-boga-dan-dapur",
+      "nama": "Sains Tata Boga & Dapur",
+      "deskripsi": "Kalkulator rasio dan sains di balik proses memasak."
+    },
+    {
+      "slug": "kerajinan-seni-geometri-dan-kaligrafi-islam",
+      "nama": "Kerajinan, Seni Geometri & Kaligrafi Islam",
+      "deskripsi": "Generator pola geometri dan kaligrafi Islam."
+    },
+    {
+      "slug": "olahraga-bela-diri-dan-ilmu-bertahan-hidup",
+      "nama": "Olahraga, Bela Diri & Ilmu Bertahan Hidup",
+      "deskripsi": "Panduan dan laboratorium olahraga, bela diri, dan bertahan hidup."
+    },
+    {
+      "slug": "alat-utilitas-digital-praktis",
+      "nama": "Alat Utilitas Digital Praktis",
+      "deskripsi": "Utilitas digital praktis untuk kebutuhan sehari-hari."
+    }
+  ],
+  "tools": [
+    {
+      "file": "arus-ac-dc-fisika-sejarah.html",
+      "kategori": "fisika",
+      "judul": "arus ac dc fisika sejarah"
+    },
+    {
+      "file": "atom-mikroba-gagasan-pembuktian.html",
+      "kategori": "fisika",
+      "judul": "atom mikroba gagasan pembuktian"
+    },
+    {
+      "file": "bandul-sederhana.html",
+      "kategori": "fisika",
+      "judul": "bandul sederhana"
+    },
+    {
+      "file": "cermin-ibnul-haitsam.html",
+      "kategori": "fisika",
+      "judul": "cermin ibnul haitsam"
+    },
+    {
+      "file": "cermin-programmer.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "cermin programmer"
+    },
+    {
+      "file": "de-broglie-kuantisasi-bohr.html",
+      "kategori": "fisika",
+      "judul": "de broglie kuantisasi bohr"
+    },
+    {
+      "file": "debye-osilasi-plasma.html",
+      "kategori": "fisika",
+      "judul": "debye osilasi plasma"
+    },
+    {
+      "file": "desibel-intensitas-suara.html",
+      "kategori": "fisika",
+      "judul": "desibel intensitas suara"
+    },
+    {
+      "file": "diffusion-simulator.html",
+      "kategori": "fisika",
+      "judul": "diffusion simulator"
+    },
+    {
+      "file": "double-pendulum-chaos (plus C).html",
+      "kategori": "fisika",
+      "judul": "double pendulum chaos (plus C)"
+    },
+    {
+      "file": "double-pendulum-chaos.html",
+      "kategori": "fisika",
+      "judul": "double pendulum chaos"
+    },
+    {
+      "file": "efek-compton.html",
+      "kategori": "fisika",
+      "judul": "efek compton"
+    },
+    {
+      "file": "efek-doppler.html",
+      "kategori": "fisika",
+      "judul": "efek doppler"
+    },
+    {
+      "file": "efek-fotolistrik.html",
+      "kategori": "fisika",
+      "judul": "efek fotolistrik"
+    },
+    {
+      "file": "efek-kupu-kupu.html",
+      "kategori": "fisika",
+      "judul": "efek kupu kupu"
+    },
+    {
+      "file": "emc2-kesetaraan-massa-energi.html",
+      "kategori": "fisika",
+      "judul": "emc2 kesetaraan massa energi"
+    },
+    {
+      "file": "energi-tak-mengalir-di-kawat.html",
+      "kategori": "fisika",
+      "judul": "energi tak mengalir di kawat"
+    },
+    {
+      "file": "entropi-mikrostate.html",
+      "kategori": "fisika",
+      "judul": "entropi mikrostate"
+    },
+    {
+      "file": "faktorial-kartu.html",
+      "kategori": "fisika",
+      "judul": "faktorial kartu"
+    },
+    {
+      "file": "field-visualizer.html",
+      "kategori": "fisika",
+      "judul": "field visualizer"
+    },
+    {
+      "file": "fisika-gelombang-tsunami.html",
+      "kategori": "fisika",
+      "judul": "fisika gelombang tsunami"
+    },
+    {
+      "file": "fisika-klasik-vs-kuantum.html",
+      "kategori": "fisika",
+      "judul": "fisika klasik vs kuantum"
+    },
+    {
+      "file": "gelombang-berdiri-senar.html",
+      "kategori": "fisika",
+      "judul": "gelombang berdiri senar"
+    },
+    {
+      "file": "gema-pantulan-bunyi.html",
+      "kategori": "fisika",
+      "judul": "gema pantulan bunyi"
+    },
+    {
+      "file": "gerak-peluru.html",
+      "kategori": "fisika",
+      "judul": "gerak peluru"
+    },
+    {
+      "file": "heat-transfer-lab.html",
+      "kategori": "fisika",
+      "judul": "heat transfer lab",
+      "akses": "publik"
+    },
+    {
+      "file": "hukum-coulomb-medan-listrik.html",
+      "kategori": "fisika",
+      "judul": "hukum coulomb medan listrik"
+    },
+    {
+      "file": "hukum-gas-ideal-diagram-pv.html",
+      "kategori": "fisika",
+      "judul": "hukum gas ideal diagram pv"
+    },
+    {
+      "file": "hukum-kuadrat-terbalik (gaya listrik dan gaya gravitasi).html",
+      "kategori": "fisika",
+      "judul": "hukum kuadrat terbalik (gaya listrik dan gaya gravitasi)"
+    },
+    {
+      "file": "hukum-malus.html",
+      "kategori": "fisika",
+      "judul": "hukum malus"
+    },
+    {
+      "file": "interferensi-celah-ganda-difraksi.html",
+      "kategori": "fisika",
+      "judul": "interferensi celah ganda difraksi"
+    },
+    {
+      "file": "interferensi-celah-ganda.html",
+      "kategori": "fisika",
+      "judul": "interferensi celah ganda"
+    },
+    {
+      "file": "interferensi-film-tipis.html",
+      "kategori": "fisika",
+      "judul": "interferensi film tipis"
+    },
+    {
+      "file": "jazmi-pesawat-terbang.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "jazmi pesawat terbang"
+    },
+    {
+      "file": "kalkulator-efisiensi-lampu-pijar.html",
+      "kategori": "fisika",
+      "judul": "kalkulator efisiensi lampu pijar"
+    },
+    {
+      "file": "kalkulator-kandela-cahaya.html",
+      "kategori": "fisika",
+      "judul": "kalkulator kandela cahaya"
+    },
+    {
+      "file": "kalkulator-kedalaman-semu.html",
+      "kategori": "fisika",
+      "judul": "kalkulator kedalaman semu"
+    },
+    {
+      "file": "kalkulator-resistor-led.html",
+      "kategori": "fisika",
+      "judul": "kalkulator resistor led"
+    },
+    {
+      "file": "kalkulator-rpm-rcf.html",
+      "kategori": "fisika",
+      "judul": "kalkulator rpm rcf"
+    },
+    {
+      "file": "kalkulator-waktu-difusi.html",
+      "kategori": "fisika",
+      "judul": "kalkulator waktu difusi"
+    },
+    {
+      "file": "kalkulator-warna-logam-panas.html",
+      "kategori": "fisika",
+      "judul": "kalkulator warna logam panas"
+    },
+    {
+      "file": "kamera-obscura-ibnul-haitsam.html",
+      "kategori": "fisika",
+      "judul": "kamera obscura ibnul haitsam"
+    },
+    {
+      "file": "karet-gelang-regangan.html",
+      "kategori": "fisika",
+      "judul": "karet gelang regangan"
+    },
+    {
+      "file": "katalog-besaran-turunan.html",
+      "kategori": "fisika",
+      "judul": "katalog besaran turunan"
+    },
+    {
+      "file": "kehidupan-entropi.html",
+      "kategori": "fisika",
+      "judul": "kehidupan entropi",
+      "akses": "publik"
+    },
+    {
+      "file": "kenapa-selalu-kaca.html",
+      "kategori": "fisika",
+      "judul": "kenapa selalu kaca"
+    },
+    {
+      "file": "kerumitan-yang-teratur.html",
+      "kategori": "fisika",
+      "judul": "kerumitan yang teratur"
+    },
+    {
+      "file": "kesetimbangan-statika.html",
+      "kategori": "fisika",
+      "judul": "kesetimbangan statika"
+    },
+    {
+      "file": "kisi-difraksi-n-celah.html",
+      "kategori": "fisika",
+      "judul": "kisi difraksi n celah"
+    },
+    {
+      "file": "kufic-cermin-d4.html",
+      "kategori": "kerajinan-seni-geometri-dan-kaligrafi-islam",
+      "judul": "kufic cermin d4"
+    },
+    {
+      "file": "kurva-pendinginan.html",
+      "kategori": "fisika",
+      "judul": "kurva pendinginan"
+    },
+    {
+      "file": "layangan-bunyi.html",
+      "kategori": "fisika",
+      "judul": "layangan bunyi"
+    },
+    {
+      "file": "lensa-tipis.html",
+      "kategori": "fisika",
+      "judul": "lensa tipis"
+    },
+    {
+      "file": "lighthouse-range.html",
+      "kategori": "fisika",
+      "judul": "lighthouse range"
+    },
+    {
+      "file": "lsystem-plant.html",
+      "kategori": "fisika",
+      "judul": "lsystem plant"
+    },
+    {
+      "file": "lup-perbesaran-sudut.html",
+      "kategori": "fisika",
+      "judul": "lup perbesaran sudut"
+    },
+    {
+      "file": "mata-manusia.html",
+      "kategori": "fisika",
+      "judul": "mata manusia"
+    },
+    {
+      "file": "mata-refraksi-ibnul-haitsam.html",
+      "kategori": "fisika",
+      "judul": "mata refraksi ibnul haitsam"
+    },
+    {
+      "file": "mesin-mesin-ajaib-2.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "mesin mesin ajaib 2"
+    },
+    {
+      "file": "mesin-mesin-ajaib-3.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "mesin mesin ajaib 3",
+      "akses": "publik"
+    },
+    {
+      "file": "model-atom-bohr-spektrum.html",
+      "kategori": "fisika",
+      "judul": "model atom bohr spektrum"
+    },
+    {
+      "file": "momentum-sudut-rotasi.html",
+      "kategori": "fisika",
+      "judul": "momentum sudut rotasi"
+    },
+    {
+      "file": "neraca-qaffan-al-isfizari.html",
+      "kategori": "fisika",
+      "judul": "neraca qaffan al isfizari"
+    },
+    {
+      "file": "particle-in-a-box.html",
+      "kategori": "fisika",
+      "judul": "particle in a box"
+    },
+    {
+      "file": "partikel-dalam-kotak.html",
+      "kategori": "fisika",
+      "judul": "partikel dalam kotak"
+    },
+    {
+      "file": "peluruhan-radioaktif-waktu-paruh.html",
+      "kategori": "fisika",
+      "judul": "peluruhan radioaktif waktu paruh"
+    },
+    {
+      "file": "pembiasan-cahaya.html",
+      "kategori": "fisika",
+      "judul": "pembiasan cahaya"
+    },
+    {
+      "file": "pendinginan-newton-rc.html",
+      "kategori": "fisika",
+      "judul": "pendinginan newton rc"
+    },
+    {
+      "file": "pendinginan-newton.html",
+      "kategori": "fisika",
+      "judul": "pendinginan newton"
+    },
+    {
+      "file": "penjaga-manuskrip.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "penjaga manuskrip"
+    },
+    {
+      "file": "penjelajah-dimensi.html",
+      "kategori": "fisika",
+      "judul": "penjelajah dimensi"
+    },
+    {
+      "file": "perlakuan-panas-metalurgi.html",
+      "kategori": "fisika",
+      "judul": "perlakuan panas metalurgi"
+    },
+    {
+      "file": "persamaan-helmholtz-erlangga.html",
+      "kategori": "fisika",
+      "judul": "persamaan helmholtz erlangga"
+    },
+    {
+      "file": "perubahan-fase.html",
+      "kategori": "fisika",
+      "judul": "perubahan fase"
+    },
+    {
+      "file": "peta-besaran-turunan.html",
+      "kategori": "fisika",
+      "judul": "peta besaran turunan"
+    },
+    {
+      "file": "peta-gelombang-marshall.html",
+      "kategori": "fisika",
+      "judul": "peta gelombang marshall"
+    },
+    {
+      "file": "potensial-listrik-energi-potensial.html",
+      "kategori": "fisika",
+      "judul": "potensial listrik energi potensial"
+    },
+    {
+      "file": "potensial-penghenti.html",
+      "kategori": "fisika",
+      "judul": "potensial penghenti"
+    },
+    {
+      "file": "prinsip-mekanika-almuradi.html",
+      "kategori": "fisika",
+      "judul": "prinsip mekanika almuradi"
+    },
+    {
+      "file": "prng-lab (mudah).html",
+      "kategori": "fisika",
+      "judul": "prng lab (mudah)"
+    },
+    {
+      "file": "pusat-massa-dua-benda.html",
+      "kategori": "fisika",
+      "judul": "pusat massa dua benda"
+    },
+    {
+      "file": "queue-simulator.html",
+      "kategori": "fisika",
+      "judul": "queue simulator"
+    },
+    {
+      "file": "radiasi-benda-hitam.html",
+      "kategori": "fisika",
+      "judul": "radiasi benda hitam"
+    },
+    {
+      "file": "rahasia-bunyi.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "rahasia bunyi"
+    },
+    {
+      "file": "rahasia-cahaya.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "rahasia cahaya"
+    },
+    {
+      "file": "resonansi-botol.html",
+      "kategori": "fisika",
+      "judul": "resonansi botol"
+    },
+    {
+      "file": "segregasi-karbida.html",
+      "kategori": "fisika",
+      "judul": "segregasi karbida"
+    },
+    {
+      "file": "siklus-carnot-efisiensi.html",
+      "kategori": "fisika",
+      "judul": "siklus carnot efisiensi"
+    },
+    {
+      "file": "simulasi-tumbaga-quimbaya.html",
+      "kategori": "fisika",
+      "judul": "simulasi tumbaga quimbaya"
+    },
+    {
+      "file": "simulator-dispersi-cahaya.html",
+      "kategori": "fisika",
+      "judul": "simulator dispersi cahaya"
+    },
+    {
+      "file": "simulator-doppler.html",
+      "kategori": "fisika",
+      "judul": "simulator doppler"
+    },
+    {
+      "file": "simulator-ionosfer.html",
+      "kategori": "fisika",
+      "judul": "simulator ionosfer",
+      "akses": "publik"
+    },
+    {
+      "file": "simulator-magnetic-beads.html",
+      "kategori": "fisika",
+      "judul": "simulator magnetic beads",
+      "akses": "publik"
+    },
+    {
+      "file": "simulator-michelson-morley.html",
+      "kategori": "fisika",
+      "judul": "simulator michelson morley"
+    },
+    {
+      "file": "simulator-millikan-oil-drop.html",
+      "kategori": "fisika",
+      "judul": "simulator millikan oil drop"
+    },
+    {
+      "file": "simulator-pelangi-halo-ibn-haytham.html",
+      "kategori": "fisika",
+      "judul": "simulator pelangi halo ibn haytham"
+    },
+    {
+      "file": "simulator-radiasi-benda-hitam.html",
+      "kategori": "fisika",
+      "judul": "simulator radiasi benda hitam"
+    },
+    {
+      "file": "simulator-refraksi-snell.html",
+      "kategori": "fisika",
+      "judul": "simulator refraksi snell"
+    },
+    {
+      "file": "simulator-resolusi-mikroskop.html",
+      "kategori": "fisika",
+      "judul": "simulator resolusi mikroskop"
+    },
+    {
+      "file": "spektrum-elektromagnetik.html",
+      "kategori": "fisika",
+      "judul": "spektrum elektromagnetik"
+    },
+    {
+      "file": "string-laboratory.html",
+      "kategori": "fisika",
+      "judul": "string laboratory"
+    },
+    {
+      "file": "suara-tidak-berjalan-sendirian.html",
+      "kategori": "fisika",
+      "judul": "suara tidak berjalan sendirian",
+      "akses": "publik"
+    },
+    {
+      "file": "suhu-warna-cahaya.html",
+      "kategori": "fisika",
+      "judul": "suhu warna cahaya"
+    },
+    {
+      "file": "tekanan-pascal.html",
+      "kategori": "fisika",
+      "judul": "tekanan pascal"
+    },
+    {
+      "file": "teknologi-peluncur-roket-islam-klasik.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "teknologi peluncur roket islam klasik"
+    },
+    {
+      "file": "termodinamika-kehidupan.html",
+      "kategori": "fisika",
+      "judul": "termodinamika kehidupan"
+    },
+    {
+      "file": "tes-nyala-api.html",
+      "kategori": "fisika",
+      "judul": "tes nyala api"
+    },
+    {
+      "file": "timeline-kaca-pembesar-hingga-virus.html",
+      "kategori": "fisika",
+      "judul": "timeline kaca pembesar hingga virus"
+    },
+    {
+      "file": "titik-didih-air.html",
+      "kategori": "fisika",
+      "judul": "titik didih air"
+    },
+    {
+      "file": "titik-panas-microwave.html",
+      "kategori": "fisika",
+      "judul": "titik panas microwave"
+    },
+    {
+      "file": "tunneling-kuantum.html",
+      "kategori": "fisika",
+      "judul": "tunneling kuantum"
+    },
+    {
+      "file": "warna-cahaya-putih.html",
+      "kategori": "fisika",
+      "judul": "warna cahaya putih",
+      "akses": "publik"
+    },
+    {
+      "file": "alam-semesta-pas-1.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "alam semesta pas 1"
+    },
+    {
+      "file": "analemma.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "analemma"
+    },
+    {
+      "file": "andai-satelit-tak-ada.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "andai satelit tak ada"
+    },
+    {
+      "file": "antikythera.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "antikythera"
+    },
+    {
+      "file": "arah-kiblat-dua-metode.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "arah kiblat dua metode"
+    },
+    {
+      "file": "aryabhata-gerhana.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "aryabhata gerhana"
+    },
+    {
+      "file": "astrolab-kalender-gigi.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "astrolab kalender gigi"
+    },
+    {
+      "file": "astrolab-universal.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "astrolab universal"
+    },
+    {
+      "file": "astronomi-tanpa-tabel.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "astronomi tanpa tabel"
+    },
+    {
+      "file": "atlas-konstanta-alam-semesta.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "atlas konstanta alam semesta"
+    },
+    {
+      "file": "atmosfer-ibnul-haitsam.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "atmosfer ibnul haitsam"
+    },
+    {
+      "file": "automata-al-khazini.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "automata al khazini"
+    },
+    {
+      "file": "balon-mengembang.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "balon mengembang"
+    },
+    {
+      "file": "berkas-cahaya-newgrange.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "berkas cahaya newgrange"
+    },
+    {
+      "file": "beruang-besar-kecil.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "beruang besar kecil"
+    },
+    {
+      "file": "bidang-galaksi.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "bidang galaksi"
+    },
+    {
+      "file": "diagram-hr.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "diagram hr"
+    },
+    {
+      "file": "eksperimen-busur-sinjar.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "eksperimen busur sinjar"
+    },
+    {
+      "file": "el-castillo-kukulkan.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "el castillo kukulkan"
+    },
+    {
+      "file": "equinox-solstice.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "equinox solstice"
+    },
+    {
+      "file": "garis-garis-langit.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "garis garis langit"
+    },
+    {
+      "file": "generator-astrolab-biasa.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "generator astrolab biasa"
+    },
+    {
+      "file": "generator-girih.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "generator girih"
+    },
+    {
+      "file": "generator-jam-matahari.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "generator jam matahari"
+    },
+    {
+      "file": "generator-rubu-mujayyab.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "generator rubu mujayyab"
+    },
+    {
+      "file": "generator-syair-geometris-auto.html",
+      "kategori": "kerajinan-seni-geometri-dan-kaligrafi-islam",
+      "judul": "generator syair geometris auto"
+    },
+    {
+      "file": "geometri-suci-ptolemy.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "geometri suci ptolemy"
+    },
+    {
+      "file": "gravity-laboratory.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "gravity laboratory",
+      "akses": "publik"
+    },
+    {
+      "file": "great-year-presesi.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "great year presesi"
+    },
+    {
+      "file": "heliacal-rising.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "heliacal rising"
+    },
+    {
+      "file": "hukum-hubble-ekspansi.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "hukum hubble ekspansi"
+    },
+    {
+      "file": "hukum-kepler-orbit-elips.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "hukum kepler orbit elips"
+    },
+    {
+      "file": "hukum-kuadrat-terbalik (kecerahan tampak dan jarak).html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "hukum kuadrat terbalik (kecerahan tampak dan jarak)"
+    },
+    {
+      "file": "instrumen-arah-kiblat.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "instrumen arah kiblat"
+    },
+    {
+      "file": "kalender-alam.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalender alam",
+      "akses": "publik"
+    },
+    {
+      "file": "kalender-cerita-kosmos.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalender cerita kosmos"
+    },
+    {
+      "file": "kalender-hijriah-masehi.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalender hijriah masehi"
+    },
+    {
+      "file": "kalender-maya-interaktif.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalender maya interaktif"
+    },
+    {
+      "file": "kalender-maya.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalender maya"
+    },
+    {
+      "file": "kalender-mekanik-albiruni.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalender mekanik albiruni"
+    },
+    {
+      "file": "kalender-romawi-simulator.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalender romawi simulator"
+    },
+    {
+      "file": "kalkulator-arah-kiblat.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalkulator arah kiblat"
+    },
+    {
+      "file": "kalkulator-embun-es-radiatif.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalkulator embun es radiatif"
+    },
+    {
+      "file": "kalkulator-fase-bulan.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalkulator fase bulan"
+    },
+    {
+      "file": "kalkulator-refraksi-matahari-terbenam.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalkulator refraksi matahari terbenam"
+    },
+    {
+      "file": "kalkulator-warna-panas-matahari.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kalkulator warna panas matahari"
+    },
+    {
+      "file": "katalog-instrumen-astronomi.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "katalog instrumen astronomi"
+    },
+    {
+      "file": "keajaiban-halaman-rumah.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "keajaiban halaman rumah"
+    },
+    {
+      "file": "kebun-waktu.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "kebun waktu",
+      "akses": "publik"
+    },
+    {
+      "file": "kecepatan-lepas.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kecepatan lepas"
+    },
+    {
+      "file": "kejujuran-radius-albiruni.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kejujuran radius albiruni"
+    },
+    {
+      "file": "kenapa-segini.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "kenapa segini"
+    },
+    {
+      "file": "kepler-law-explorer.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kepler law explorer"
+    },
+    {
+      "file": "kepler-newton-rantai-teori.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kepler newton rantai teori"
+    },
+    {
+      "file": "klasifikasi-waktu.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "klasifikasi waktu",
+      "akses": "publik"
+    },
+    {
+      "file": "kompas-matahari-viking.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "kompas matahari viking"
+    },
+    {
+      "file": "kronobiologi-tubuh-langit.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "kronobiologi tubuh langit"
+    },
+    {
+      "file": "lima-sistem-pengobatan-tradisional.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "lima sistem pengobatan tradisional"
+    },
+    {
+      "file": "long-count-maya.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "long count maya",
+      "akses": "publik"
+    },
+    {
+      "file": "lubang-aubrey.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "lubang aubrey"
+    },
+    {
+      "file": "menara-gaocheng.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "menara gaocheng"
+    },
+    {
+      "file": "menghitung-mundur-hijrah.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "menghitung mundur hijrah"
+    },
+    {
+      "file": "metode-jarak-bulan.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "metode jarak bulan"
+    },
+    {
+      "file": "navigasi-bintang-kutub.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "navigasi bintang kutub"
+    },
+    {
+      "file": "navigasi-kalender-austronesia (dark).html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "navigasi kalender austronesia (dark)"
+    },
+    {
+      "file": "navigasi-kalender-austronesia.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "navigasi kalender austronesia"
+    },
+    {
+      "file": "navigasi-matahari-pelaut.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "navigasi matahari pelaut"
+    },
+    {
+      "file": "nbody-simulasi.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "nbody simulasi"
+    },
+    {
+      "file": "observatorium-chankillo.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "observatorium chankillo"
+    },
+    {
+      "file": "pasang-surut-masyarakat-bahari.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "pasang surut masyarakat bahari"
+    },
+    {
+      "file": "pasang-surut.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "pasang surut"
+    },
+    {
+      "file": "pembanding-zij.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "pembanding zij"
+    },
+    {
+      "file": "peta-bintang-hoover-dam.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "peta bintang hoover dam"
+    },
+    {
+      "file": "phenological-calendar.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "phenological calendar"
+    },
+    {
+      "file": "presesi-nabta-playa.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "presesi nabta playa"
+    },
+    {
+      "file": "pusat-massa.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "pusat massa"
+    },
+    {
+      "file": "roda-ekliptika.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "roda ekliptika"
+    },
+    {
+      "file": "roda-hari.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "roda hari"
+    },
+    {
+      "file": "roda-musim.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "roda musim"
+    },
+    {
+      "file": "ruang-rasa.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "ruang rasa"
+    },
+    {
+      "file": "samrat-yantra.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "samrat yantra"
+    },
+    {
+      "file": "seasonal-star-markers.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "seasonal star markers"
+    },
+    {
+      "file": "setinggi-satu-tombak.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "setinggi satu tombak"
+    },
+    {
+      "file": "siklus-ganzhi.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "siklus ganzhi"
+    },
+    {
+      "file": "siklus-saros.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "siklus saros"
+    },
+    {
+      "file": "simulator-astrolab-biasa.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "simulator astrolab biasa"
+    },
+    {
+      "file": "simulator-fai-zawal.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "simulator fai zawal"
+    },
+    {
+      "file": "simulator-jendela-pasang-surut.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "simulator jendela pasang surut"
+    },
+    {
+      "file": "simulator-kalender-445.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "simulator kalender 445"
+    },
+    {
+      "file": "simulator-loran-gps.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "simulator loran gps"
+    },
+    {
+      "file": "simulator-orbit.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "simulator orbit"
+    },
+    {
+      "file": "simulator-overlap-zona-waktu.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "simulator overlap zona waktu",
+      "akses": "publik"
+    },
+    {
+      "file": "simulator-rubu-mujayyab.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "simulator rubu mujayyab",
+      "akses": "publik"
+    },
+    {
+      "file": "skala-alam-semesta.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "skala alam semesta"
+    },
+    {
+      "file": "skala-desibel.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "skala desibel"
+    },
+    {
+      "file": "skala-magnitudo-bintang.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "skala magnitudo bintang"
+    },
+    {
+      "file": "spektrum-epistemologis.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "spektrum epistemologis"
+    },
+    {
+      "file": "star-finder.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "star finder"
+    },
+    {
+      "file": "stonehenge.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "stonehenge"
+    },
+    {
+      "file": "suhu-warna-cahaya-1.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "suhu warna cahaya 1"
+    },
+    {
+      "file": "taqi-al-din-jam.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "taqi al din jam"
+    },
+    {
+      "file": "taqialdin-kalender-mekanik.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "taqialdin kalender mekanik"
+    },
+    {
+      "file": "teleskop-sederhana.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "teleskop sederhana"
+    },
+    {
+      "file": "tiga-cara-mengukur-tinggi.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "tiga cara mengukur tinggi"
+    },
+    {
+      "file": "tiga-fajar.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "tiga fajar"
+    },
+    {
+      "file": "tongkat-falak-multifungsi.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "tongkat falak multifungsi"
+    },
+    {
+      "file": "volvel-fase-bulan.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "volvel fase bulan"
+    },
+    {
+      "file": "waktu-jarak-pendidikan-anak.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "waktu jarak pendidikan anak"
+    },
+    {
+      "file": "waraqah-tabula-rasa-lab.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "waraqah tabula rasa lab",
+      "akses": "publik"
+    },
+    {
+      "file": "adaptasi-vs-lompatan-spesies.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "adaptasi vs lompatan spesies"
+    },
+    {
+      "file": "anhara-ad-dam-simulator.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "anhara ad dam simulator"
+    },
+    {
+      "file": "atlas-konstanta-biologi.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "atlas konstanta biologi"
+    },
+    {
+      "file": "batas-kecerdasan-hewan.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "batas kecerdasan hewan"
+    },
+    {
+      "file": "darah-ginjal-limpa-limfatik.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "darah ginjal limpa limfatik"
+    },
+    {
+      "file": "darah-yang-dikeluarkan-manfaat-dan-paradoks.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "darah yang dikeluarkan manfaat dan paradoks"
+    },
+    {
+      "file": "debye-air-garam.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "debye air garam"
+    },
+    {
+      "file": "eksplorasi-lisis-degradasi.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "eksplorasi lisis degradasi"
+    },
+    {
+      "file": "fase-dingin-habbatussauda.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "fase dingin habbatussauda"
+    },
+    {
+      "file": "fisiologi-pemotongan-leher.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "fisiologi pemotongan leher"
+    },
+    {
+      "file": "genetika-epistemik.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "genetika epistemik"
+    },
+    {
+      "file": "gerakan-harian-sirkulasi.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "gerakan harian sirkulasi"
+    },
+    {
+      "file": "informasi-dan-makna.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "informasi dan makna"
+    },
+    {
+      "file": "jendela-tidur-tekanan-terjaga.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "jendela tidur tekanan terjaga"
+    },
+    {
+      "file": "kalkulator-kecanduan.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "kalkulator kecanduan"
+    },
+    {
+      "file": "kalkulator-kemurnian-asam-nukleat.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "kalkulator kemurnian asam nukleat"
+    },
+    {
+      "file": "kalkulator-protokol-ekstraksi.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "kalkulator protokol ekstraksi"
+    },
+    {
+      "file": "kalkulator-skala-prep.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "kalkulator skala prep"
+    },
+    {
+      "file": "kalkulator-wetlab-dasar.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "kalkulator wetlab dasar",
+      "akses": "publik"
+    },
+    {
+      "file": "kasturi-rusa.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "kasturi rusa"
+    },
+    {
+      "file": "kenapa-bukan-literal-habbatussauda.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "kenapa bukan literal habbatussauda"
+    },
+    {
+      "file": "kesamaan-manusia-primata.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "kesamaan manusia primata"
+    },
+    {
+      "file": "ketahanan-rumah-tangga.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "ketahanan rumah tangga"
+    },
+    {
+      "file": "kikkuli-laboratorium.html",
+      "kategori": "olahraga-bela-diri-dan-ilmu-bertahan-hidup",
+      "judul": "kikkuli laboratorium",
+      "akses": "publik"
+    },
+    {
+      "file": "kopi-gaya-hidup.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "kopi gaya hidup"
+    },
+    {
+      "file": "limfatik-jalan-pulang-kebaikan-darah.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "limfatik jalan pulang kebaikan darah"
+    },
+    {
+      "file": "mikroevolusi-bakteri-virus.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "mikroevolusi bakteri virus"
+    },
+    {
+      "file": "mikroevolusi-vs-makroevolusi.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "mikroevolusi vs makroevolusi"
+    },
+    {
+      "file": "modul-pelatihan-hewan-pemburu.html",
+      "kategori": "olahraga-bela-diri-dan-ilmu-bertahan-hidup",
+      "judul": "modul pelatihan hewan pemburu",
+      "akses": "publik"
+    },
+    {
+      "file": "paradoks-bootstrap.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "paradoks bootstrap"
+    },
+    {
+      "file": "pencernaan-risiko-metabolik.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "pencernaan risiko metabolik"
+    },
+    {
+      "file": "pendalaman-radiokarbon.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "pendalaman radiokarbon"
+    },
+    {
+      "file": "penentuan-haid-adah.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "penentuan haid adah"
+    },
+    {
+      "file": "peta-bahaya-bisa.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "peta bahaya bisa"
+    },
+    {
+      "file": "peta-penyakit-autoimun.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "peta penyakit autoimun"
+    },
+    {
+      "file": "peta-penyakit-genetik.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "peta penyakit genetik"
+    },
+    {
+      "file": "peta-penyakit-metabolik.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "peta penyakit metabolik"
+    },
+    {
+      "file": "peta-reseptor-obat.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "peta reseptor obat"
+    },
+    {
+      "file": "pulau-keseimbangan.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "pulau keseimbangan"
+    },
+    {
+      "file": "rokok-tembakau.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "rokok tembakau"
+    },
+    {
+      "file": "satu-istilah-asam-urat-rematik.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "satu istilah asam urat rematik"
+    },
+    {
+      "file": "satu-istilah-banyak-kemungkinan.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "satu istilah banyak kemungkinan"
+    },
+    {
+      "file": "simulasi-hirudoterapi.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulasi hirudoterapi"
+    },
+    {
+      "file": "simulasi-pulau-waktu-adaptasi.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulasi pulau waktu adaptasi"
+    },
+    {
+      "file": "simulasi-usus-nyeri-terkoreksi.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulasi usus nyeri terkoreksi"
+    },
+    {
+      "file": "simulasi-usus-nyeri.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulasi usus nyeri"
+    },
+    {
+      "file": "simulator-angka-lab.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulator angka lab"
+    },
+    {
+      "file": "simulator-difusi-tumor.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulator difusi tumor"
+    },
+    {
+      "file": "simulator-endotoxin-lal.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulator endotoxin lal",
+      "akses": "publik"
+    },
+    {
+      "file": "simulator-evolusi-sederhana.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulator evolusi sederhana"
+    },
+    {
+      "file": "simulator-fenol-kloroform.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulator fenol kloroform",
+      "akses": "publik"
+    },
+    {
+      "file": "simulator-kontak-oral-cairan.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulator kontak oral cairan"
+    },
+    {
+      "file": "simulator-meja-kerja-dna.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulator meja kerja dna",
+      "akses": "publik"
+    },
+    {
+      "file": "simulator-meja-kerja-plasmid.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulator meja kerja plasmid"
+    },
+    {
+      "file": "simulator-meja-kerja-rna-trizol.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulator meja kerja rna trizol",
+      "akses": "publik"
+    },
+    {
+      "file": "simulator-meja-kerja-tanah.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulator meja kerja tanah"
+    },
+    {
+      "file": "simulator-neuroplastisitas.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "simulator neuroplastisitas"
+    },
+    {
+      "file": "sirkulasi-darah-nosisepsi.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "sirkulasi darah nosisepsi"
+    },
+    {
+      "file": "sistem-tubuh-21.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "sistem tubuh 21"
+    },
+    {
+      "file": "skala-tubuh-manusia.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "skala tubuh manusia"
+    },
+    {
+      "file": "starter-beranak-pinak.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "starter beranak pinak"
+    },
+    {
+      "file": "tubuh-melebihi-ukuran.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "tubuh melebihi ukuran",
+      "akses": "publik"
+    },
+    {
+      "file": "tubuh-membangun-ulang.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "tubuh membangun ulang"
+    },
+    {
+      "file": "tubuh-menjaga-diam-diam.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "tubuh menjaga diam diam"
+    },
+    {
+      "file": "yuqsa-bima-in-wahid.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "yuqsa bima in wahid"
+    },
+    {
+      "file": "zoom-in-kuesioner.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "zoom in kuesioner"
+    },
+    {
+      "file": "4713-sm-tiga-siklus.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "4713 sm tiga siklus"
+    },
+    {
+      "file": "aco-lab.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "aco lab"
+    },
+    {
+      "file": "asah-logika.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "asah logika"
+    },
+    {
+      "file": "cetak-dan-mainkan.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "cetak dan mainkan"
+    },
+    {
+      "file": "data-analyzer-visualizer.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "data analyzer visualizer"
+    },
+    {
+      "file": "data-analyzer.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "data analyzer"
+    },
+    {
+      "file": "game-of-life.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "game of life"
+    },
+    {
+      "file": "generator-syair-geometris.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "generator syair geometris"
+    },
+    {
+      "file": "gerbang-logika-adder.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "gerbang logika adder"
+    },
+    {
+      "file": "jazmi-detektor-argumen.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "jazmi detektor argumen"
+    },
+    {
+      "file": "jazmi-kombinator-fallacy.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "jazmi kombinator fallacy"
+    },
+    {
+      "file": "jazmi-latihan-berulang.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "jazmi latihan berulang"
+    },
+    {
+      "file": "jazmi-makna-universal.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "jazmi makna universal",
+      "akses": "publik"
+    },
+    {
+      "file": "jazmi-sebelum-bait-al-hikmah.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "jazmi sebelum bait al hikmah"
+    },
+    {
+      "file": "jazmi-tauhid-dua-tiga.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "jazmi tauhid dua tiga"
+    },
+    {
+      "file": "jejak-padang-pasir.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "jejak padang pasir"
+    },
+    {
+      "file": "kalkulator-statistik-deskriptif.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "kalkulator statistik deskriptif"
+    },
+    {
+      "file": "kebun-bilangan.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "kebun bilangan",
+      "akses": "publik"
+    },
+    {
+      "file": "kompleksitas-sel-pertama.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "kompleksitas sel pertama"
+    },
+    {
+      "file": "konverter-latex-unicode.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "konverter latex unicode"
+    },
+    {
+      "file": "laboratorium-algoritma-alam.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "laboratorium algoritma alam"
+    },
+    {
+      "file": "logika-sebelum-baitulhikmah.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "logika sebelum baitulhikmah"
+    },
+    {
+      "file": "mandelbrot-explorer.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "mandelbrot explorer"
+    },
+    {
+      "file": "mesin-aturan-rule-engine.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "mesin aturan rule engine"
+    },
+    {
+      "file": "modul-pintar-restyled.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "modul pintar restyled"
+    },
+    {
+      "file": "monte-carlo-pi.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "monte carlo pi"
+    },
+    {
+      "file": "papan-galton.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "papan galton"
+    },
+    {
+      "file": "penanggalan-karbon14.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "penanggalan karbon14"
+    },
+    {
+      "file": "pesantren-siklus.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "pesantren siklus"
+    },
+    {
+      "file": "phi-lab.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "phi lab",
+      "akses": "publik"
+    },
+    {
+      "file": "pohon-nasab-bahasa-mesin.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "pohon nasab bahasa mesin"
+    },
+    {
+      "file": "pohon-sanad.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "pohon sanad"
+    },
+    {
+      "file": "radioactive-decay-lab.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "radioactive decay lab"
+    },
+    {
+      "file": "random-walk.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "random walk"
+    },
+    {
+      "file": "sandi-navajo.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "sandi navajo"
+    },
+    {
+      "file": "simulasi-roda-leibniz.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "simulasi roda leibniz"
+    },
+    {
+      "file": "simulator-mesin-turing.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "simulator mesin turing"
+    },
+    {
+      "file": "sorting-visualizer.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "sorting visualizer"
+    },
+    {
+      "file": "tally-quipu.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "tally quipu"
+    },
+    {
+      "file": "timeline-teori-bukti.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "timeline teori bukti"
+    },
+    {
+      "file": "al-kindi-suyuf.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "al kindi suyuf"
+    },
+    {
+      "file": "aljazari-sifon-seruling.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "aljazari sifon seruling"
+    },
+    {
+      "file": "andai-ibn-firnas.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "andai ibn firnas"
+    },
+    {
+      "file": "automata-helenistik.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "automata helenistik"
+    },
+    {
+      "file": "banu-musa.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "banu musa",
+      "akses": "publik"
+    },
+    {
+      "file": "eksperimen-ruang-hampa-alfarabi.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "eksperimen ruang hampa alfarabi"
+    },
+    {
+      "file": "jam-air-archimedes.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "jam air archimedes",
+      "akses": "publik"
+    },
+    {
+      "file": "jam-air-ridwan-al-saati.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "jam air ridwan al saati"
+    },
+    {
+      "file": "jam-gajah-aljazari.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "jam gajah aljazari"
+    },
+    {
+      "file": "jam-istana-aljazari.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "jam istana aljazari"
+    },
+    {
+      "file": "jazmi-mesin-mobil.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "jazmi mesin mobil"
+    },
+    {
+      "file": "jazmi-mesin-motor.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "jazmi mesin motor"
+    },
+    {
+      "file": "jazmi-saring-dan-berikan.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "jazmi saring dan berikan"
+    },
+    {
+      "file": "jazmi-teknik-pembelokan-makna.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "jazmi teknik pembelokan makna"
+    },
+    {
+      "file": "kalkulator-densitas-pyknometer.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "kalkulator densitas pyknometer",
+      "akses": "publik"
+    },
+    {
+      "file": "kalkulator-kekerabatan-nasab.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "kalkulator kekerabatan nasab"
+    },
+    {
+      "file": "kalkulator-warisan-faraidh.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "kalkulator warisan faraidh",
+      "akses": "publik"
+    },
+    {
+      "file": "karakuri-jepang.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "karakuri jepang"
+    },
+    {
+      "file": "khalid-ibn-yazid-alkimia.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "khalid ibn yazid alkimia"
+    },
+    {
+      "file": "komparator-teknologi-komunikasi.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "komparator teknologi komunikasi",
+      "akses": "publik"
+    },
+    {
+      "file": "kriptografi-al-kindi.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "kriptografi al kindi"
+    },
+    {
+      "file": "menara-su-song.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "menara su song"
+    },
+    {
+      "file": "mizan-al-hikam-khayyam.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "mizan al hikam khayyam"
+    },
+    {
+      "file": "neraca-alami-al-razi.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "neraca alami al razi"
+    },
+    {
+      "file": "peta-automata-perbandingan.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "peta automata perbandingan"
+    },
+    {
+      "file": "peta-ulama.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "peta ulama"
+    },
+    {
+      "file": "piston-aljazari-mesin-uap.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "piston aljazari mesin uap"
+    },
+    {
+      "file": "piston-aljazari.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "piston aljazari"
+    },
+    {
+      "file": "pohon-nasab-interaktif-diperbaiki.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "pohon nasab interaktif diperbaiki"
+    },
+    {
+      "file": "pompa-hidrolik-taqi-al-din.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "pompa hidrolik taqi al din"
+    },
+    {
+      "file": "proyeksi-albiruni-nicolosi.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "proyeksi albiruni nicolosi"
+    },
+    {
+      "file": "proyeksi-globular-albiruni.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "proyeksi globular albiruni"
+    },
+    {
+      "file": "radius-bumi-albiruni.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "radius bumi albiruni"
+    },
+    {
+      "file": "rekayasa-terjadwal-al-jazari.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "rekayasa terjadwal al jazari"
+    },
+    {
+      "file": "sandi-vigenere.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "sandi vigenere"
+    },
+    {
+      "file": "simulasi-siklus-kepemimpinan.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "simulasi siklus kepemimpinan"
+    },
+    {
+      "file": "taksonomi-proses-gabungan.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "taksonomi proses gabungan"
+    },
+    {
+      "file": "tawakal.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "tawakal"
+    },
+    {
+      "file": "tiga-piramida-giza.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "tiga piramida giza"
+    },
+    {
+      "file": "trisection-albiruni.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "trisection albiruni"
+    },
+    {
+      "file": "afar-triangle-dua-wajah.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "afar triangle dua wajah"
+    },
+    {
+      "file": "air-tak-pernah-pergi.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "air tak pernah pergi"
+    },
+    {
+      "file": "andai-pegunungan-australia.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "andai pegunungan australia",
+      "akses": "publik"
+    },
+    {
+      "file": "atacama-inversi-suhu.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "atacama inversi suhu"
+    },
+    {
+      "file": "batu-yang-terus-berubah.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "batu yang terus berubah"
+    },
+    {
+      "file": "coriolis-siklogenesis.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "coriolis siklogenesis"
+    },
+    {
+      "file": "distorsi-mercator.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "distorsi mercator"
+    },
+    {
+      "file": "evolusi-klimatologi-meteorologi.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "evolusi klimatologi meteorologi"
+    },
+    {
+      "file": "indeks-panas-titik-embun.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "indeks panas titik embun"
+    },
+    {
+      "file": "interpreter-di-alam.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "interpreter di alam"
+    },
+    {
+      "file": "kabar-lebih-cepat-dari-badai.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "kabar lebih cepat dari badai"
+    },
+    {
+      "file": "kerangka-kekacauan-klimatologi.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "kerangka kekacauan klimatologi",
+      "akses": "publik"
+    },
+    {
+      "file": "kurva-catenary-lengkungan.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "kurva catenary lengkungan"
+    },
+    {
+      "file": "meteorologi-ansambel.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "meteorologi ansambel"
+    },
+    {
+      "file": "meteorologi-dinamik.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "meteorologi dinamik"
+    },
+    {
+      "file": "meteorologi-fisis.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "meteorologi fisis"
+    },
+    {
+      "file": "meteorologi-numerik-nwp.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "meteorologi numerik nwp"
+    },
+    {
+      "file": "meteorologi-sinoptik.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "meteorologi sinoptik"
+    },
+    {
+      "file": "monsun-asia-selatan.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "monsun asia selatan"
+    },
+    {
+      "file": "perbandingan-empat-aliran-meteorologi.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "perbandingan empat aliran meteorologi"
+    },
+    {
+      "file": "peta-etnomedis.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "peta etnomedis"
+    },
+    {
+      "file": "peta-filsuf-dunia.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "peta filsuf dunia"
+    },
+    {
+      "file": "proyeksi-peta.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "proyeksi peta",
+      "akses": "publik"
+    },
+    {
+      "file": "salju-efek-danau.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "salju efek danau"
+    },
+    {
+      "file": "skala-richter.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "skala richter"
+    },
+    {
+      "file": "sulawesi-pulau-dirakit.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "sulawesi pulau dirakit"
+    },
+    {
+      "file": "sungai-terbang-evapotranspirasi.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "sungai terbang evapotranspirasi"
+    },
+    {
+      "file": "tempat-ekstrem-bumi.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "tempat ekstrem bumi"
+    },
+    {
+      "file": "urjuzah-ibnu-sina-meteorologi.html",
+      "kategori": "sains-bumi-iklim-dan-geografi",
+      "judul": "urjuzah ibnu sina meteorologi"
+    },
+    {
+      "file": "analisis-kata-sandi.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "analisis kata sandi"
+    },
+    {
+      "file": "apa-itu-rule-engine-untuk-awam.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "apa itu rule engine untuk awam"
+    },
+    {
+      "file": "avalanche-hash.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "avalanche hash"
+    },
+    {
+      "file": "brute-vs-kamus.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "brute vs kamus"
+    },
+    {
+      "file": "cek-izin-aplikasi.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "cek izin aplikasi"
+    },
+    {
+      "file": "cyber-kill-chain.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "cyber kill chain"
+    },
+    {
+      "file": "demo-rsa.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "demo rsa"
+    },
+    {
+      "file": "deteksi-phishing.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "deteksi phishing"
+    },
+    {
+      "file": "jazmi-anatomi-komputer.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "jazmi anatomi komputer"
+    },
+    {
+      "file": "kompresor-pdf.html",
+      "kategori": "alat-utilitas-digital-praktis",
+      "judul": "kompresor pdf"
+    },
+    {
+      "file": "konverter-sistem-bilangan.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "konverter sistem bilangan"
+    },
+    {
+      "file": "path-traversal.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "path traversal"
+    },
+    {
+      "file": "pengecek-header-keamanan.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "pengecek header keamanan"
+    },
+    {
+      "file": "pisah-gabung-pdf.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "pisah gabung pdf",
+      "akses": "publik"
+    },
+    {
+      "file": "playground-cipher.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "playground cipher",
+      "akses": "publik"
+    },
+    {
+      "file": "playground-cors.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "playground cors"
+    },
+    {
+      "file": "prng-lab.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "prng lab"
+    },
+    {
+      "file": "qr-quishing-checker.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "qr quishing checker"
+    },
+    {
+      "file": "referensi-perintah-linux.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "referensi perintah linux"
+    },
+    {
+      "file": "rosetta-kode.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "rosetta kode"
+    },
+    {
+      "file": "rule-engine-mini.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "rule engine mini"
+    },
+    {
+      "file": "turing-mini.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "turing mini"
+    },
+    {
+      "file": "visualisasi-tls-handshake.html",
+      "kategori": "komputer-kriptografi-dan-keamanan-siber",
+      "judul": "visualisasi tls handshake"
+    },
+    {
+      "file": "cournot-bertrand.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "cournot bertrand"
+    },
+    {
+      "file": "jam-utang-dunia.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "jam utang dunia"
+    },
+    {
+      "file": "lelang-winners-curse.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "lelang winners curse"
+    },
+    {
+      "file": "malthus-vs-logistik.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "malthus vs logistik"
+    },
+    {
+      "file": "mlm-lab-gabungan.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "mlm lab gabungan"
+    },
+    {
+      "file": "neraca-peradaban.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "neraca peradaban"
+    },
+    {
+      "file": "permintaan-penawaran-elastisitas.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "permintaan penawaran elastisitas"
+    },
+    {
+      "file": "simulator-dilema-kerjasama.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator dilema kerjasama"
+    },
+    {
+      "file": "simulator-dilema-tahanan.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator dilema tahanan",
+      "akses": "publik"
+    },
+    {
+      "file": "simulator-efek-bullwhip.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator efek bullwhip"
+    },
+    {
+      "file": "simulator-eksternalitas.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator eksternalitas",
+      "akses": "publik"
+    },
+    {
+      "file": "simulator-ekuilibrium-pasar.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator ekuilibrium pasar"
+    },
+    {
+      "file": "simulator-elastisitas.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator elastisitas"
+    },
+    {
+      "file": "simulator-emas-uang-kertas.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator emas uang kertas"
+    },
+    {
+      "file": "simulator-inflasi-deflasi.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator inflasi deflasi"
+    },
+    {
+      "file": "simulator-kurva-kuznets-lingkungan.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator kurva kuznets lingkungan"
+    },
+    {
+      "file": "simulator-kurva-laffer.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator kurva laffer"
+    },
+    {
+      "file": "simulator-kurva-phillips.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator kurva phillips"
+    },
+    {
+      "file": "simulator-model-cobweb.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator model cobweb"
+    },
+    {
+      "file": "simulator-nilai-waktu-uang.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator nilai waktu uang"
+    },
+    {
+      "file": "simulator-pengganda-fiskal.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator pengganda fiskal"
+    },
+    {
+      "file": "simulator-sales-vs-mlm.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator sales vs mlm"
+    },
+    {
+      "file": "simulator-tragedy-of-commons.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "simulator tragedy of commons"
+    },
+    {
+      "file": "aksara-simbolik.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "aksara simbolik"
+    },
+    {
+      "file": "analisis-keterbacaan-teks.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "analisis keterbacaan teks"
+    },
+    {
+      "file": "embrio-quran-vs-yunani.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "embrio quran vs yunani"
+    },
+    {
+      "file": "ensiklopedia-aksara-dunia.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "ensiklopedia aksara dunia"
+    },
+    {
+      "file": "ensiklopedia-aksara.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "ensiklopedia aksara"
+    },
+    {
+      "file": "generator-ilal.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "generator ilal",
+      "akses": "publik"
+    },
+    {
+      "file": "generator-logo-fusi-simbol-v2.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "generator logo fusi simbol v2"
+    },
+    {
+      "file": "generator-logo-fusi-simbol.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "generator logo fusi simbol"
+    },
+    {
+      "file": "generator-tashrif-arab.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "generator tashrif arab"
+    },
+    {
+      "file": "interpreter-bahasa-mesin.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "interpreter bahasa mesin"
+    },
+    {
+      "file": "kasus-vs-urutan.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "kasus vs urutan"
+    },
+    {
+      "file": "laboratorium-trilingual.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "laboratorium trilingual"
+    },
+    {
+      "file": "saffat-yaqbidn-terbang-burung.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "saffat yaqbidn terbang burung"
+    },
+    {
+      "file": "waraqah-tabula-rasa-syarah.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "waraqah tabula rasa syarah"
+    },
+    {
+      "file": "waraqah-tabula-rasa.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "waraqah tabula rasa"
+    },
+    {
+      "file": "air-membersihkan-diri-istihalah.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "air membersihkan diri istihalah",
+      "akses": "publik"
+    },
+    {
+      "file": "haji-umrah (panjang).html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "haji umrah (panjang)"
+    },
+    {
+      "file": "haji-umroh.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "haji umroh"
+    },
+    {
+      "file": "kalender-cetak (dark).html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "kalender cetak (dark)"
+    },
+    {
+      "file": "kalender-cetak.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "kalender cetak"
+    },
+    {
+      "file": "kalkulator-zakat-maal.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "kalkulator zakat maal"
+    },
+    {
+      "file": "konversi-masehi-hijriah.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "konversi masehi hijriah"
+    },
+    {
+      "file": "laboratorium-khiyar.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "laboratorium khiyar"
+    },
+    {
+      "file": "laboratorium-riba.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "laboratorium riba"
+    },
+    {
+      "file": "lorenz-gini-zakat.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "lorenz gini zakat"
+    },
+    {
+      "file": "pemetaan-akad-pesanan.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "pemetaan akad pesanan"
+    },
+    {
+      "file": "riba-vs-bagi-hasil.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "riba vs bagi hasil"
+    },
+    {
+      "file": "simulasi-zakat-ekonomi.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "simulasi zakat ekonomi"
+    },
+    {
+      "file": "zakat-ternak-pertanian.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "zakat ternak pertanian"
+    },
+    {
+      "file": "compass-deviation-variation.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "compass deviation variation"
+    },
+    {
+      "file": "composite-sailing.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "composite sailing"
+    },
+    {
+      "file": "course-to-steer.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "course to steer"
+    },
+    {
+      "file": "jam-pasir-digital.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "jam pasir digital",
+      "akses": "publik"
+    },
+    {
+      "file": "jarak-pandang-cakrawala.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "jarak pandang cakrawala"
+    },
+    {
+      "file": "jazmi-mesin-kapal.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "jazmi mesin kapal"
+    },
+    {
+      "file": "kamal-muson-navigasi.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "kamal muson navigasi"
+    },
+    {
+      "file": "kompas-bintang-zheng-he.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "kompas bintang zheng he"
+    },
+    {
+      "file": "kompas-kertas.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "kompas kertas"
+    },
+    {
+      "file": "navigasi-baringan-pelayaran-datar.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "navigasi baringan pelayaran datar"
+    },
+    {
+      "file": "navigasi-rhumb-greatcircle.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "navigasi rhumb greatcircle"
+    },
+    {
+      "file": "peta-rasa-nusantara.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "peta rasa nusantara"
+    },
+    {
+      "file": "simulator-baringan-navigasi.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "simulator baringan navigasi"
+    },
+    {
+      "file": "simulator-dinamika-sanad.html",
+      "kategori": "navigasi-dan-ilmu-bahari",
+      "judul": "simulator dinamika sanad",
+      "akses": "publik"
+    },
+    {
+      "file": "alkohol-fermentasi.html",
+      "kategori": "kimia",
+      "judul": "alkohol fermentasi"
+    },
+    {
+      "file": "enfleurage-simulasi.html",
+      "kategori": "kimia",
+      "judul": "enfleurage simulasi"
+    },
+    {
+      "file": "kalkulator-mol-molaritas.html",
+      "kategori": "kimia",
+      "judul": "kalkulator mol molaritas",
+      "akses": "publik"
+    },
+    {
+      "file": "kurva-energi-ikat-inti.html",
+      "kategori": "kimia",
+      "judul": "kurva energi ikat inti"
+    },
+    {
+      "file": "model-atom-bohr.html",
+      "kategori": "kimia",
+      "judul": "model atom bohr"
+    },
+    {
+      "file": "peluruhan-radioaktif.html",
+      "kategori": "kimia",
+      "judul": "peluruhan radioaktif"
+    },
+    {
+      "file": "simulator-pengenceran-universal.html",
+      "kategori": "kimia",
+      "judul": "simulator pengenceran universal",
+      "akses": "publik"
+    },
+    {
+      "file": "simulator-vitrifikasi.html",
+      "kategori": "kimia",
+      "judul": "simulator vitrifikasi"
+    },
+    {
+      "file": "skala-ph.html",
+      "kategori": "kimia",
+      "judul": "skala ph"
+    },
+    {
+      "file": "teknik-distilasi.html",
+      "kategori": "kimia",
+      "judul": "teknik distilasi"
+    },
+    {
+      "file": "timeline-penanggalan-arkeologi.html",
+      "kategori": "kimia",
+      "judul": "timeline penanggalan arkeologi"
+    },
+    {
+      "file": "volatilitas-relatif.html",
+      "kategori": "kimia",
+      "judul": "volatilitas relatif"
+    },
+    {
+      "file": "bagaimana-bit-tersimpan.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "bagaimana bit tersimpan"
+    },
+    {
+      "file": "bedah-perangkat-elektronik.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "bedah perangkat elektronik"
+    },
+    {
+      "file": "botol-botol-listrik.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "botol botol listrik"
+    },
+    {
+      "file": "jazmi-anatomi-hp.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "jazmi anatomi hp"
+    },
+    {
+      "file": "jazmi-mesin-uap-watt.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "jazmi mesin uap watt"
+    },
+    {
+      "file": "kendaraan-berat.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "kendaraan berat"
+    },
+    {
+      "file": "laboratorium-model-belajar.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "laboratorium model belajar"
+    },
+    {
+      "file": "mesin-mesin-ajaib.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "mesin mesin ajaib"
+    },
+    {
+      "file": "rangkaian-rc-kapasitor.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "rangkaian rc kapasitor"
+    },
+    {
+      "file": "roda-gigi-jam-taqi-al-din.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "roda gigi jam taqi al din"
+    },
+    {
+      "file": "simulator-rangkaian-listrik.html",
+      "kategori": "elektronika-dan-mesin-bersejarah",
+      "judul": "simulator rangkaian listrik",
+      "akses": "publik"
+    },
+    {
+      "file": "cocok-cocokan.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "cocok cocokan"
+    },
+    {
+      "file": "detektif-cilik.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "detektif cilik"
+    },
+    {
+      "file": "gelas-isi.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "gelas isi"
+    },
+    {
+      "file": "kubus-ruang.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "kubus ruang"
+    },
+    {
+      "file": "meteran-ajaib.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "meteran ajaib"
+    },
+    {
+      "file": "neraca-sentuh.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "neraca sentuh"
+    },
+    {
+      "file": "suhu-raba.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "suhu raba"
+    },
+    {
+      "file": "tebak-suaranya.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "tebak suaranya"
+    },
+    {
+      "file": "timbangan-komparatif.html",
+      "kategori": "psikologi-kognisi-dan-metakognisi",
+      "judul": "timbangan komparatif"
+    },
+    {
+      "file": "uang-sentuh.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "uang sentuh"
+    },
+    {
+      "file": "ubin-ajaib.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "ubin ajaib"
+    },
+    {
+      "file": "intentionality-test.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "intentionality test",
+      "akses": "publik"
+    },
+    {
+      "file": "jazmi-akar-kesalahan-bersama.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "jazmi akar kesalahan bersama"
+    },
+    {
+      "file": "jazmi-bukan-tentang-cara.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "jazmi bukan tentang cara"
+    },
+    {
+      "file": "klasifikasi-klaim-ilmiah.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "klasifikasi klaim ilmiah"
+    },
+    {
+      "file": "otak-dan-kesadaran.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "otak dan kesadaran"
+    },
+    {
+      "file": "peta-bertingkat-otak.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "peta bertingkat otak"
+    },
+    {
+      "file": "peta-domain-gangguan-jiwa.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "peta domain gangguan jiwa"
+    },
+    {
+      "file": "peta-sinyal.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "peta sinyal"
+    },
+    {
+      "file": "simulator-jurang-epistemik.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "simulator jurang epistemik"
+    },
+    {
+      "file": "analisis-balok-sederhana.html",
+      "kategori": "arsitektur-dan-rekayasa-struktur",
+      "judul": "analisis balok sederhana",
+      "akses": "publik"
+    },
+    {
+      "file": "analisis-rangka-batang.html",
+      "kategori": "arsitektur-dan-rekayasa-struktur",
+      "judul": "analisis rangka batang"
+    },
+    {
+      "file": "faktor-habibie-crack-propagation.html",
+      "kategori": "arsitektur-dan-rekayasa-struktur",
+      "judul": "faktor habibie crack propagation"
+    },
+    {
+      "file": "kalkulator-gempa-statik-ekivalen.html",
+      "kategori": "arsitektur-dan-rekayasa-struktur",
+      "judul": "kalkulator gempa statik ekivalen",
+      "akses": "publik"
+    },
+    {
+      "file": "kalkulator-lendutan-pelat.html",
+      "kategori": "arsitektur-dan-rekayasa-struktur",
+      "judul": "kalkulator lendutan pelat"
+    },
+    {
+      "file": "kalkulator-tekuk-kolom-euler.html",
+      "kategori": "arsitektur-dan-rekayasa-struktur",
+      "judul": "kalkulator tekuk kolom euler"
+    },
+    {
+      "file": "tahapan-pembangunan.html",
+      "kategori": "arsitektur-dan-rekayasa-struktur",
+      "judul": "tahapan pembangunan"
+    },
+    {
+      "file": "chip8-mini.html",
+      "kategori": "psikologi-kognisi-dan-metakognisi",
+      "judul": "chip8 mini"
+    },
+    {
+      "file": "ingat-cocokkan.html",
+      "kategori": "psikologi-kognisi-dan-metakognisi",
+      "judul": "ingat cocokkan",
+      "akses": "publik"
+    },
+    {
+      "file": "jazmi-kuis-diagnostik.html",
+      "kategori": "psikologi-kognisi-dan-metakognisi",
+      "judul": "jazmi kuis diagnostik"
+    },
+    {
+      "file": "jazmi-kuis-pembelokan-makna.html",
+      "kategori": "psikologi-kognisi-dan-metakognisi",
+      "judul": "jazmi kuis pembelokan makna"
+    },
+    {
+      "file": "vm-stack-mini.html",
+      "kategori": "psikologi-kognisi-dan-metakognisi",
+      "judul": "vm stack mini",
+      "akses": "publik"
+    },
+    {
+      "file": "zoom-in-kecemasan-bisikan.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "zoom in kecemasan bisikan"
+    },
+    {
+      "file": "zoom-in-kuesioner-asam-urat.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "zoom in kuesioner asam urat"
+    },
+    {
+      "file": "adonan-kismis-mengembang.html",
+      "kategori": "sains-tata-boga-dan-dapur",
+      "judul": "adonan kismis mengembang"
+    },
+    {
+      "file": "kalkulator-baker-percentage.html",
+      "kategori": "sains-tata-boga-dan-dapur",
+      "judul": "kalkulator baker percentage",
+      "akses": "publik"
+    },
+    {
+      "file": "kalkulator-brine-marinasi.html",
+      "kategori": "sains-tata-boga-dan-dapur",
+      "judul": "kalkulator brine marinasi"
+    },
+    {
+      "file": "kapan-siap-minum.html",
+      "kategori": "sains-tata-boga-dan-dapur",
+      "judul": "kapan siap minum"
+    },
+    {
+      "file": "lab-rasio-teknik-masak.html",
+      "kategori": "sains-tata-boga-dan-dapur",
+      "judul": "lab rasio teknik masak",
+      "akses": "publik"
+    },
+    {
+      "file": "simulator-maillard-karamelisasi.html",
+      "kategori": "sains-tata-boga-dan-dapur",
+      "judul": "simulator maillard karamelisasi"
+    },
+    {
+      "file": "anyaman-geometris.html",
+      "kategori": "kerajinan-seni-geometri-dan-kaligrafi-islam",
+      "judul": "anyaman geometris"
+    },
+    {
+      "file": "anyaman-knot.html",
+      "kategori": "kerajinan-seni-geometri-dan-kaligrafi-islam",
+      "judul": "anyaman knot",
+      "akses": "publik"
+    },
+    {
+      "file": "generator-kufic-persegi.html",
+      "kategori": "kerajinan-seni-geometri-dan-kaligrafi-islam",
+      "judul": "generator kufic persegi"
+    },
+    {
+      "file": "generator-pola-geometri-islam.html",
+      "kategori": "kerajinan-seni-geometri-dan-kaligrafi-islam",
+      "judul": "generator pola geometri islam",
+      "akses": "publik"
+    },
+    {
+      "file": "girih-substitusi-aperiodik.html",
+      "kategori": "kerajinan-seni-geometri-dan-kaligrafi-islam",
+      "judul": "girih substitusi aperiodik"
+    },
+    {
+      "file": "atlas-panah.html",
+      "kategori": "olahraga-bela-diri-dan-ilmu-bertahan-hidup",
+      "judul": "atlas panah"
+    },
+    {
+      "file": "laboratorium-beladiri.html",
+      "kategori": "olahraga-bela-diri-dan-ilmu-bertahan-hidup",
+      "judul": "laboratorium beladiri"
+    },
+    {
+      "file": "laboratorium-renang.html",
+      "kategori": "olahraga-bela-diri-dan-ilmu-bertahan-hidup",
+      "judul": "laboratorium renang"
+    },
+    {
+      "file": "converter.html",
+      "kategori": "alat-utilitas-digital-praktis",
+      "judul": "converter",
+      "akses": "publik"
+    },
+    {
+      "file": "generator-data-uji.html",
+      "kategori": "alat-utilitas-digital-praktis",
+      "judul": "generator data uji"
+    },
+    {
+      "file": "pemisah-audio-video.html",
+      "kategori": "alat-utilitas-digital-praktis",
+      "judul": "pemisah audio video"
+    },
+    {
+      "file": "kompresor-gambar.html",
+      "kategori": "alat-utilitas-digital-praktis",
+      "judul": "kompresor gambar"
+    },
+    {
+      "file": "papan-tulis-kelas.html",
+      "kategori": "alat-utilitas-digital-praktis",
+      "judul": "papan tulis kelas"
+    },
+    {
+      "file": "geometri-gerhana-aryabhatta.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "geometri gerhana aryabhatta"
+    },
+    {
+      "file": "kurir-cilik-antar-paket.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "kurir cilik antar paket"
+    },
+    {
+      "file": "regu-damkar-air-atau-gas.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "regu damkar air atau gas"
+    },
+    {
+      "file": "permainan-ngengat-api.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "permainan ngengat api"
+    },
+    {
+      "file": "pusat-komando-siaga.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "pusat komando siaga"
+    },
+    {
+      "file": "ekosistem-ilmu.html",
+      "kategori": "edukasi-anak-dan-alat-bermain-sambil-belajar",
+      "judul": "ekosistem ilmu"
+    },
+    {
+      "file": "kurir-kota-algoritma-semut.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "kurir kota algoritma semut"
+    },
+    {
+      "file": "ekosistem-ilmu-dewasa.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "ekosistem ilmu dewasa"
+    },
+    {
+      "file": "fiqh-12-madzhab.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "fiqh 12 madzhab"
+    },
+    {
+      "file": "mesin-mistikasi.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "mesin mistikasi"
+    },
+    {
+      "file": "rasi-teori.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "rasi teori"
+    },
+    {
+      "file": "syair-fiqh-saadi.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "syair fiqh saadi"
+    },
+    {
+      "file": "rihlah-perawi-hadits.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "rihlah perawi hadits"
+    },
+    {
+      "file": "nazhm-al-firaq.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "nazhm al firaq"
+    },
+    {
+      "file": "arjuzah-kawakib.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "arjuzah kawakib"
+    },
+    {
+      "file": "hawiyah-ikhtishar.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "hawiyah ikhtishar"
+    },
+    {
+      "file": "matan-falak-al-muqni-abu-muqri.html",
+      "kategori": "astronomi-dan-kosmologi",
+      "judul": "matan falak al muqni abu muqri"
+    },
+    {
+      "file": "mutun-balaghah.html",
+      "kategori": "bahasa-dan-linguistik",
+      "judul": "mutun balaghah"
+    },
+    {
+      "file": "dunia-dan-masa.html",
+      "kategori": "sejarah-sains-peradaban-dan-tokoh-klasik",
+      "judul": "dunia dan masa"
+    },
+    {
+      "file": "as-sullam-al-munawraq.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "as sullam al munawraq"
+    },
+    {
+      "file": "gajah-membagi-wilayah-layanan.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "gajah membagi wilayah layanan"
+    },
+    {
+      "file": "hiu-dan-rumah-mencari-lokasi-kios-terbaik.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "hiu dan rumah mencari lokasi kios terbaik"
+    },
+    {
+      "file": "cacing-api-cabang-kios-gso.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "cacing api cabang kios gso",
+      "akses": "publik"
+    },
+    {
+      "file": "lebah-survei-sumur-anggaran-terbatas.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "lebah survei sumur anggaran terbatas",
+      "akses": "publik"
+    },
+    {
+      "file": "lumba-lumba-mencari-kebocoran-pipa.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "lumba lumba mencari kebocoran pipa"
+    },
+    {
+      "file": "satpam-sensor-banjir-seleksi-negatif.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "satpam sensor banjir seleksi negatif"
+    },
+    {
+      "file": "serigala-abu-abu-memilih-lokasi-posko-bantuan.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "serigala abu abu memilih lokasi posko bantuan",
+      "akses": "publik"
+    },
+    {
+      "file": "alfiyah-matematika.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "alfiyah matematika"
+    },
+    {
+      "file": "pintu-dunia-angka.html",
+      "kategori": "matematika-dan-sains-komputasi",
+      "judul": "pintu dunia angka"
+    },
+    {
+      "file": "arjuzah-tasyrih.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "arjuzah tasyrih"
+    },
+    {
+      "file": "seratus-bait-tibb-ibn-syihnah.html",
+      "kategori": "biologi-evolusi-dan-kesehatan",
+      "judul": "seratus bait tibb ibn syihnah"
+    },
+    {
+      "file": "poros-kimia-unsur-syair-manisi.html",
+      "kategori": "kimia",
+      "judul": "poros kimia unsur syair manisi"
+    },
+    {
+      "file": "majma-surur.html",
+      "kategori": "fikih-muamalah-dan-ibadah",
+      "judul": "majma surur"
+    },
+    {
+      "file": "katalog-buku.html",
+      "kategori": "filsafat-epistemologi-dan-kesadaran",
+      "judul": "katalog buku"
+    }
+  ]
+}

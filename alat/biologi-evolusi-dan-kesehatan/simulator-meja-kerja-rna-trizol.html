@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Meja Kerja: Ekstraksi RNA TRIzol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B1614; --surface:#132420; --surface-2:#1A322B; --line:#274038;
+    --ink:#EAF2EF; --muted:#8FAFA3; --teal:#3FBF95; --blue:#5B9BD9;
+    --amber:#E5A439; --red:#E1614E;
+    --font-display:'Space Grotesk',sans-serif; --font-body:'IBM Plex Sans',sans-serif; --font-mono:'IBM Plex Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--font-body); line-height:1.55; padding-bottom:80px;}
+  .wrap{max-width:980px; margin:0 auto; padding:0 20px;}
+  h1,h2,h3{font-family:var(--font-display); font-weight:600; margin:0 0 12px;}
+  p{margin:0 0 14px; max-width:70ch;}
+  .muted{color:var(--muted);}
+  .mono{font-family:var(--font-mono);}
+  section{padding:44px 0; border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+
+  .hero{padding-top:44px;}
+  .hero-tag{font-family:var(--font-mono); font-size:13px; color:var(--teal); margin-bottom:10px;}
+  .hero h1{font-size:clamp(24px,4vw,36px); max-width:24ch; line-height:1.2;}
+  .hero p.lead{font-size:17px; color:var(--muted); max-width:60ch;}
+
+  .live-strip{position:sticky; top:0; z-index:10; background:rgba(11,22,20,0.97); backdrop-filter:blur(4px); border-bottom:1px solid var(--line); padding:12px 0;}
+  .live-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line);}
+  @media(min-width:640px){ .live-grid{grid-template-columns:repeat(5,1fr);} }
+  .live-kpi{background:var(--surface); padding:10px 12px;}
+  .live-kpi .val{font-family:var(--font-mono); font-size:15px; color:var(--teal);}
+  .live-kpi .lbl{font-size:10.5px; color:var(--muted);}
+
+  .warn-toggle{background:var(--surface-2); border:1px solid var(--amber); padding:14px 16px; margin-top:14px; display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+  .warn-toggle label{font-size:13px;}
+  .warn-toggle select{background:var(--bg); border:1px solid var(--amber); color:var(--ink); padding:7px 10px; font-family:var(--font-mono); font-size:13px;}
+
+  .step{background:var(--surface); border:1px solid var(--line); padding:22px; margin-bottom:16px; position:relative;}
+  .step-head{display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; flex-wrap:wrap; gap:8px;}
+  .step-title{display:flex; align-items:center; gap:10px;}
+  .step-num{font-family:var(--font-mono); font-size:12px; color:var(--teal); border:1px solid var(--teal); width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .step-title h3{font-size:15px; margin:0;}
+  .step-badge{font-family:var(--font-mono); font-size:11px; padding:3px 9px; border:1px solid var(--line); color:var(--muted);}
+  .step-badge.baik{border-color:var(--teal); color:var(--teal);}
+  .step-badge.waspada{border-color:var(--amber); color:var(--amber);}
+  .step-badge.buruk{border-color:var(--red); color:var(--red);}
+  .step-note{font-size:12.5px; color:var(--muted); margin-bottom:14px;}
+  .step-ctl{display:grid; grid-template-columns:1fr; gap:16px;}
+  @media(min-width:640px){ .step-ctl{grid-template-columns:repeat(2,1fr);} }
+  .field{display:flex; flex-direction:column; gap:6px;}
+  .field label{font-size:12.5px; color:var(--muted);}
+  input[type=range]{width:100%; accent-color:var(--teal);}
+  select{background:var(--bg); border:1px solid var(--line); color:var(--ink); padding:8px 9px; font-family:var(--font-mono); font-size:13px; width:100%;}
+  select:focus{outline:2px solid var(--teal); outline-offset:1px;}
+  .range-val{font-family:var(--font-mono); color:var(--teal); font-size:12.5px;}
+  .protokol-hint{font-family:var(--font-mono); font-size:10.5px; color:var(--muted); margin-top:2px;}
+
+  .sec-head{display:flex; align-items:baseline; gap:10px; margin-bottom:22px;}
+  .sec-num{font-family:var(--font-mono); font-size:13px; color:var(--teal);}
+
+  .kpis{display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); margin-top:10px; border:1px solid var(--line);}
+  @media(min-width:640px){ .kpis{grid-template-columns:repeat(4,1fr);} }
+  .kpi{background:var(--surface); padding:14px;}
+  .kpi .val{font-family:var(--font-mono); font-size:18px;}
+  .kpi .lbl{font-size:11.5px; color:var(--muted); margin-top:2px;}
+
+  .chart-wrap{background:var(--surface); border:1px solid var(--line); padding:20px; margin-top:20px;}
+  svg text{font-family:var(--font-mono); fill:var(--muted);}
+
+  .verdict-row{display:grid; grid-template-columns:1fr; gap:14px; margin-top:20px;}
+  @media(min-width:700px){ .verdict-row{grid-template-columns:repeat(3,1fr);} }
+  .verdict-card{border:1px solid var(--line); padding:16px; background:var(--surface);}
+  .verdict-card.baik{border-color:var(--teal);}
+  .verdict-card.waspada{border-color:var(--amber);}
+  .verdict-card.masalah{border-color:var(--red);}
+  .verdict-card .ratio-val{font-family:var(--font-mono); font-size:22px;}
+  .verdict-card.baik .ratio-val{color:var(--teal);}
+  .verdict-card.waspada .ratio-val{color:var(--amber);}
+  .verdict-card.masalah .ratio-val{color:var(--red);}
+  .verdict-card .label{font-family:var(--font-mono); font-size:10.5px; color:var(--muted);}
+  .verdict-card p{font-size:12.5px; margin-top:8px;}
+
+  .takeaway{background:var(--surface-2); border-left:3px solid var(--teal); padding:16px 18px; margin-top:20px; font-size:14px;}
+  .takeaway strong{color:var(--teal);}
+  .diagnosis{background:var(--surface-2); border-left:3px solid var(--amber); padding:16px 18px; margin-top:14px; font-size:13.5px;}
+  .diagnosis strong{color:var(--amber);}
+
+  .formula{background:var(--surface); border:1px solid var(--line); padding:16px 18px; font-family:var(--font-mono); font-size:12px; color:var(--teal); margin:14px 0; overflow-x:auto;}
+  ul.limits{padding-left:20px;}
+  ul.limits li{margin-bottom:10px; font-size:14px;}
+  .ref-list{list-style:none; padding:0; margin:0;}
+  .ref-list li{padding:12px 0; border-bottom:1px solid var(--line);}
+  .ref-list li:last-child{border-bottom:none;}
+  .ref-list .src{font-family:var(--font-mono); font-size:12px; color:var(--muted);}
+
+  footer{padding:40px 0 20px; text-align:center;}
+  footer p{margin:0; font-size:12px; color:var(--muted); max-width:none;}
+</style>
+</head>
+<body>
+
+<div class="live-strip">
+  <div class="wrap">
+    <div class="live-grid" id="liveStrip"></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="hero">
+    <div class="hero-tag">SIMULASI MEJA KERJA — EKSTRAKSI RNA TOTAL (METODE TRIzol)</div>
+    <h1>RNA punya musuh yang DNA tidak punya: waktu itu sendiri</h1>
+    <p class="lead">DNA cukup stabil — salah teknik biasanya cuma mengotori, bukan menghancurkan. RNA berbeda: enzim RNase ada di mana-mana (termasuk di kulit tangan Anda), dan begitu ia mulai mendegradasi RNA, prosesnya berjalan dalam hitungan menit. Simulator ini punya satu skor tambahan yang tidak ada di simulator DNA: <strong>integritas (RIN)</strong>.</p>
+
+    <div class="warn-toggle">
+      <label for="rnaseFree"><strong>Kondisi kerja sepanjang protokol:</strong></label>
+      <select id="rnaseFree">
+        <option value="bersih" selected>RNase-free (sarung tangan, RNaseZap, tips filter)</option>
+        <option value="standar">Standar (tanpa perlakuan khusus anti-RNase)</option>
+      </select>
+    </div>
+  </section>
+
+  <!-- LANGKAH 1 -->
+  <section id="s1">
+    <div class="step">
+      <div class="step-head">
+        <div class="step-title"><span class="step-num">1</span><h3>Homogenisasi Sampel</h3></div>
+        <span class="step-badge" id="badge1"></span>
+      </div>
+      <p class="step-note">1mL TRIzol per 50-100mg jaringan. Terlalu banyak jaringan relatif TRIzol = lisis tidak tuntas.</p>
+      <div class="step-ctl">
+        <div class="field">
+          <label>Jumlah jaringan per 1mL TRIzol (mg): <span class="range-val" id="v_rasio"></span></label>
+          <input type="range" id="rasio" min="20" max="300" step="10" value="80">
+          <span class="protokol-hint">protokol: 50-100mg</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANGKAH 2 -->
+  <section id="s2">
+    <div class="step">
+      <div class="step-head">
+        <div class="step-title"><span class="step-num">2</span><h3>Fase Pemisahan (Kloroform)</h3></div>
+        <span class="step-badge" id="badge2"></span>
+      </div>
+      <p class="step-note">Beda dari langkah lisis DNA: di sini vortex kuat justru <em>dibutuhkan</em> untuk membentuk emulsi yang baik.</p>
+      <div class="step-ctl">
+        <div class="field">
+          <label>Durasi vortex (detik): <span class="range-val" id="v_vortexDetik"></span></label>
+          <input type="range" id="vortexDetik" min="5" max="30" step="1" value="15">
+          <span class="protokol-hint">protokol: 15 detik, kuat</span>
+        </div>
+        <div class="field">
+          <label>Waktu inkubasi sebelum sentrifugasi (menit): <span class="range-val" id="v_waktuInkubasi1"></span></label>
+          <input type="range" id="waktuInkubasi1" min="1" max="10" step="0.5" value="2.5">
+          <span class="protokol-hint">protokol: 2-3 menit</span>
+        </div>
+        <div class="field">
+          <label>Kecepatan sentrifugasi (×g): <span class="range-val" id="v_rcf1"></span></label>
+          <input type="range" id="rcf1" min="1000" max="15000" step="500" value="12000">
+          <span class="protokol-hint">protokol: 12.000×g</span>
+        </div>
+        <div class="field">
+          <label>Durasi sentrifugasi (menit): <span class="range-val" id="v_waktu1"></span></label>
+          <input type="range" id="waktu1" min="1" max="20" step="1" value="15">
+          <span class="protokol-hint">protokol: 15 menit</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANGKAH 3 -->
+  <section id="s3">
+    <div class="step">
+      <div class="step-head">
+        <div class="step-title"><span class="step-num">3</span><h3>Pengambilan Fase Akuatik</h3></div>
+        <span class="step-badge" id="badge3"></span>
+      </div>
+      <p class="step-note">RNA ada di lapisan paling atas. Interphase (lapisan tengah putih) berisi DNA &amp; protein — memipet terlalu dekat ke situ demi yield lebih besar adalah sumber kontaminasi paling umum.</p>
+      <div class="step-ctl">
+        <div class="field">
+          <label>Gaya pengambilan fase</label>
+          <select id="gayaPengambilan">
+            <option value="aman" selected>Hati-hati (jauh dari interphase)</option>
+            <option value="agresif">Agresif (ambil sedekat mungkin ke interphase)</option>
+          </select>
+          <span class="protokol-hint">protokol: hindari pipet dari interphase</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANGKAH 4 -->
+  <section id="s4">
+    <div class="step">
+      <div class="step-head">
+        <div class="step-title"><span class="step-num">4</span><h3>Presipitasi Isopropanol</h3></div>
+        <span class="step-badge" id="badge4"></span>
+      </div>
+      <div class="step-ctl">
+        <div class="field">
+          <label>Waktu inkubasi (menit): <span class="range-val" id="v_waktuInkubasi2"></span></label>
+          <input type="range" id="waktuInkubasi2" min="1" max="30" step="1" value="10">
+          <span class="protokol-hint">protokol: 10 menit</span>
+        </div>
+        <div class="field">
+          <label>Kecepatan sentrifugasi (×g): <span class="range-val" id="v_rcf2"></span></label>
+          <input type="range" id="rcf2" min="1000" max="15000" step="500" value="12000">
+          <span class="protokol-hint">protokol: 12.000×g</span>
+        </div>
+        <div class="field">
+          <label>Durasi sentrifugasi (menit): <span class="range-val" id="v_waktu2"></span></label>
+          <input type="range" id="waktu2" min="1" max="20" step="1" value="10">
+          <span class="protokol-hint">protokol: 10 menit</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANGKAH 5 -->
+  <section id="s5">
+    <div class="step">
+      <div class="step-head">
+        <div class="step-title"><span class="step-num">5</span><h3>Pencucian Etanol 75%</h3></div>
+        <span class="step-badge" id="badge5"></span>
+      </div>
+      <div class="step-ctl">
+        <div class="field">
+          <label>Jumlah siklus pencucian: <span class="range-val" id="v_jumlahWash"></span></label>
+          <input type="range" id="jumlahWash" min="1" max="3" step="1" value="1">
+          <span class="protokol-hint">protokol: 1 kali</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LANGKAH 6 -->
+  <section id="s6">
+    <div class="step">
+      <div class="step-head">
+        <div class="step-title"><span class="step-num">6</span><h3>Pengeringan &amp; Resuspensi</h3></div>
+        <span class="step-badge" id="badge6"></span>
+      </div>
+      <p class="step-note">Titik rawan kedua: pellet RNA yang "over-dry" berubah jadi kaca yang sangat sulit larut kembali — protokol eksplisit memperingatkan ini.</p>
+      <div class="step-ctl">
+        <div class="field">
+          <label>Waktu pengeringan pellet (menit): <span class="range-val" id="v_waktuKering"></span></label>
+          <input type="range" id="waktuKering" min="0" max="25" step="1" value="7">
+          <span class="protokol-hint">protokol: 5-10 menit, jangan over-dry</span>
+        </div>
+        <div class="field">
+          <label>Suhu &amp; waktu inkubasi resuspensi (menit): <span class="range-val" id="v_waktuResuspensi"></span></label>
+          <input type="range" id="waktuResuspensi" min="0" max="15" step="1" value="10">
+          <span class="protokol-hint">protokol: 10 menit pada 55-60°C</span>
+        </div>
+        <div class="field">
+          <label>Suhu buffer resuspensi</label>
+          <select id="suhuResuspensi">
+            <option value="dingin">Suhu ruangan</option>
+            <option value="panas" selected>55-60°C</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Volume resuspensi (µL): <span class="range-val" id="v_volumeResuspensi"></span></label>
+          <input type="range" id="volumeResuspensi" min="10" max="200" step="5" value="40">
+          <span class="protokol-hint">protokol: 30-50µL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HASIL AKHIR -->
+  <section id="hasil">
+    <div class="sec-head"><span class="sec-num">07</span><h2>Hasil akhir</h2></div>
+    <div class="kpis" id="kpisFinal"></div>
+
+    <div class="chart-wrap">
+      <h3 style="font-size:14px; margin-bottom:10px;">Corong kehilangan</h3>
+      <svg id="funnel" viewBox="0 0 900 320" style="width:100%; height:auto;"></svg>
+    </div>
+
+    <div class="verdict-row">
+      <div class="verdict-card" id="cardA280">
+        <div class="label">A260/A280 simulasi</div>
+        <div class="ratio-val" id="ratioA280"></div>
+        <p id="textA280"></p>
+      </div>
+      <div class="verdict-card" id="cardA230">
+        <div class="label">A260/A230 simulasi</div>
+        <div class="ratio-val" id="ratioA230"></div>
+        <p id="textA230"></p>
+      </div>
+      <div class="verdict-card" id="cardRIN">
+        <div class="label">RIN simulasi (integritas)</div>
+        <div class="ratio-val" id="ratioRIN"></div>
+        <p id="textRIN"></p>
+      </div>
+    </div>
+
+    <div class="takeaway" id="takeaway"></div>
+    <div class="diagnosis" id="diagnosis"></div>
+  </section>
+
+  <section id="metode">
+    <div class="sec-head"><span class="sec-num">08</span><h2>Metode</h2></div>
+    <p>Yield dan kemurnian dihitung dengan pola funnel yang sama seperti simulator plasmid dalam seri ini. Yang baru adalah RIN, dihitung terpisah dan didominasi oleh satu variabel: apakah kondisi kerja RNase-free atau tidak, dikalikan dengan estimasi total waktu protokol berjalan.</p>
+    <div class="formula">RIN = 10 − penalti_waktu − penalti_over-dry
+penalti_waktu (RNase-free) = waktu_total × 0.01   (nyaris tidak berpengaruh)
+penalti_waktu (standar)    = waktu_total × 0.35   (degradasi cepat &amp; signifikan)</div>
+    <p>Ini sengaja dibuat sangat timpang antara dua kondisi kerja — karena itulah kenyataannya. RNase adalah enzim yang sangat stabil dan sulit dihancurkan (bahkan tahan autoklaf dalam kondisi tertentu); begitu terpapar, degradasi RNA berjalan jauh lebih cepat daripada degradasi DNA oleh kontaminan setara.</p>
+  </section>
+
+  <section id="batasan">
+    <div class="sec-head"><span class="sec-num">09</span><h2>Batasan</h2></div>
+    <ul class="limits">
+      <li><strong>RNA acuan (20.000ng) dan seluruh kurva efisiensi bersifat ilustratif</strong> — pola arah trade-off-nya nyata, angka presisinya tidak dikalibrasi dari data eksperimen.</li>
+      <li><strong>RIN sungguhan hanya bisa diukur dari elektroforesis kapiler (Bioanalyzer/TapeStation)</strong> — simulasi ini memberi intuisi arah, bukan pengganti pengukuran nyata.</li>
+      <li>Simulasi ini untuk membangun intuisi <em>kenapa RNA dianggap lebih rewel dari DNA</em> di laboratorium mana pun — bukan pengganti pelatihan atau SOP institusi.</li>
+    </ul>
+  </section>
+
+  <section id="referensi">
+    <div class="sec-head"><span class="sec-num">10</span><h2>Referensi</h2></div>
+    <ul class="ref-list">
+      <li>Urutan langkah, parameter, dan angka acuan diambil dari protokol ekstraksi RNA metode TRIzol dalam arsip Anda.
+        <div class="src">Arsip "Rincian Wet Lab Capability" milik pengguna</div>
+      </li>
+      <li>Konsep RNA Integrity Number (RIN) dari elektroforesis kapiler sebagai standar penilaian degradasi RNA.
+        <div class="src">Rujukan umum kontrol kualitas RNA</div>
+      </li>
+      <li>Prinsip stabilitas enzim RNase dan pentingnya teknik kerja RNase-free.
+        <div class="src">Rujukan umum biologi molekuler RNA</div>
+      </li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Simulasi edukasi urutan proses laboratorium — bukan pengganti pelatihan langsung atau SOP institusi.</p>
+  </footer>
+
+</div>
+
+<script>
+function gauss(x, peak, sigma){ return Math.exp(-((x-peak)**2)/(2*sigma*sigma)); }
+function clamp(v,lo,hi){ return Math.max(lo, Math.min(hi, v)); }
+function satur(rcf,waktu,k){ return clamp(1-Math.exp(-(k||0.00004)*rcf*waktu), 0, 0.98); }
+
+function badge(el, score){
+  el.textContent = (score*100).toFixed(0)+'%';
+  el.className = 'step-badge ' + (score>=0.85?'baik':score>=0.6?'waspada':'buruk');
+}
+
+function hitung(){
+  const rnaseFree = document.getElementById('rnaseFree').value === 'bersih';
+
+  const rasio = parseFloat(document.getElementById('rasio').value);
+  document.getElementById('v_rasio').textContent = rasio+' mg';
+  const skorHomogenisasi = gauss(rasio,75,45);
+  badge(document.getElementById('badge1'), skorHomogenisasi);
+
+  const vortexDetik = parseFloat(document.getElementById('vortexDetik').value);
+  const waktuInkubasi1 = parseFloat(document.getElementById('waktuInkubasi1').value);
+  const rcf1 = parseFloat(document.getElementById('rcf1').value);
+  const waktu1 = parseFloat(document.getElementById('waktu1').value);
+  document.getElementById('v_vortexDetik').textContent = vortexDetik+' detik';
+  document.getElementById('v_waktuInkubasi1').textContent = waktuInkubasi1+' menit';
+  document.getElementById('v_rcf1').textContent = rcf1.toLocaleString('id-ID')+'×g';
+  document.getElementById('v_waktu1').textContent = waktu1+' menit';
+  const skorFase = gauss(vortexDetik,15,8)*gauss(waktuInkubasi1,2.5,2)*satur(rcf1,waktu1);
+  badge(document.getElementById('badge2'), skorFase);
+
+  const gaya = document.getElementById('gayaPengambilan').value;
+  const yieldPengambilan = gaya==='aman' ? 0.93 : 1.0;
+  const kontamInterphase = gaya==='aman' ? 0.05 : 0.65;
+  badge(document.getElementById('badge3'), gaya==='aman'?0.9:0.5);
+
+  const waktuInkubasi2 = parseFloat(document.getElementById('waktuInkubasi2').value);
+  const rcf2 = parseFloat(document.getElementById('rcf2').value);
+  const waktu2 = parseFloat(document.getElementById('waktu2').value);
+  document.getElementById('v_waktuInkubasi2').textContent = waktuInkubasi2+' menit';
+  document.getElementById('v_rcf2').textContent = rcf2.toLocaleString('id-ID')+'×g';
+  document.getElementById('v_waktu2').textContent = waktu2+' menit';
+  const skorPresipitasi = (1-Math.exp(-0.25*waktuInkubasi2))*satur(rcf2,waktu2);
+  badge(document.getElementById('badge4'), skorPresipitasi);
+
+  const jumlahWash = parseInt(document.getElementById('jumlahWash').value);
+  document.getElementById('v_jumlahWash').textContent = jumlahWash+'×';
+  const kehilanganWash = jumlahWash*0.04;
+  const boostPurityWash = 1-Math.exp(-0.9*jumlahWash);
+  badge(document.getElementById('badge5'), Math.min(1,boostPurityWash+0.3));
+
+  const waktuKering = parseFloat(document.getElementById('waktuKering').value);
+  const waktuResuspensi = parseFloat(document.getElementById('waktuResuspensi').value);
+  const suhuResuspensi = document.getElementById('suhuResuspensi').value;
+  const volumeResuspensi = parseFloat(document.getElementById('volumeResuspensi').value);
+  document.getElementById('v_waktuKering').textContent = waktuKering+' menit';
+  document.getElementById('v_waktuResuspensi').textContent = waktuResuspensi+' menit';
+  document.getElementById('v_volumeResuspensi').textContent = volumeResuspensi+' µL';
+
+  const kontamEtanol = waktuKering<5 ? clamp((5-waktuKering)*0.15,0,0.8) : 0.05;
+  const recoveryOverDry = waktuKering>12 ? clamp(1-(waktuKering-12)*0.06,0.2,1) : 1;
+  const resuspensiEff = clamp((0.7 + (suhuResuspensi==='panas'?0.2:0) + 0.1*clamp(waktuResuspensi/10,0,1)) * recoveryOverDry, 0, 0.97);
+  badge(document.getElementById('badge6'), resuspensiEff);
+
+  const RNA_ACUAN = 20000;
+  const tahapan = [{nama:'RNA acuan (jaringan ideal)', sisa:RNA_ACUAN}];
+  let rna = RNA_ACUAN;
+  rna *= skorHomogenisasi; tahapan.push({nama:'Setelah homogenisasi', sisa:rna});
+  rna *= skorFase; tahapan.push({nama:'Setelah fase pemisahan', sisa:rna});
+  rna *= yieldPengambilan; tahapan.push({nama:'Setelah pengambilan fase akuatik', sisa:rna});
+  rna *= skorPresipitasi; tahapan.push({nama:'Setelah presipitasi isopropanol', sisa:rna});
+  rna *= (1-kehilanganWash); tahapan.push({nama:'Setelah pencucian etanol', sisa:rna});
+  rna *= resuspensiEff; tahapan.push({nama:'Setelah pengeringan & resuspensi (akhir)', sisa:rna});
+
+  const yieldAkhir = rna;
+  const konsentrasiAkhir = yieldAkhir/volumeResuspensi;
+
+  const simA280 = clamp(2.05 - kontamInterphase*0.4, 1.2, 2.15);
+  const simA230 = clamp(2.25 - (kontamEtanol*0.6 + (1-boostPurityWash)*0.4), 0.9, 2.35);
+
+  const waktuTotal = waktuInkubasi1+waktu1+waktuInkubasi2+waktu2+(jumlahWash*5)+waktuKering+waktuResuspensi;
+  const penaltiWaktu = rnaseFree ? waktuTotal*0.01 : waktuTotal*0.35;
+  const penaltiOverDry = waktuKering>15 ? (waktuKering-15)*0.1 : 0;
+  const RIN = clamp(10-penaltiWaktu-penaltiOverDry, 0, 10);
+
+  const kpis = document.getElementById('kpisFinal');
+  kpis.innerHTML = `
+    <div class="kpi"><div class="val">${yieldAkhir.toFixed(0)} ng</div><div class="lbl">total yield RNA</div></div>
+    <div class="kpi"><div class="val">${konsentrasiAkhir.toFixed(1)} ng/µL</div><div class="lbl">konsentrasi akhir</div></div>
+    <div class="kpi"><div class="val">${simA280.toFixed(2)}</div><div class="lbl">A260/A280 simulasi</div></div>
+    <div class="kpi"><div class="val">${RIN.toFixed(1)}</div><div class="lbl">RIN simulasi</div></div>
+  `;
+
+  document.getElementById('liveStrip').innerHTML = `
+    <div class="live-kpi"><div class="val">${yieldAkhir.toFixed(0)} ng</div><div class="lbl">yield</div></div>
+    <div class="live-kpi"><div class="val">${konsentrasiAkhir.toFixed(1)} ng/µL</div><div class="lbl">konsentrasi</div></div>
+    <div class="live-kpi"><div class="val">${simA280.toFixed(2)}</div><div class="lbl">A260/280</div></div>
+    <div class="live-kpi"><div class="val">${simA230.toFixed(2)}</div><div class="lbl">A260/230</div></div>
+    <div class="live-kpi"><div class="val">${RIN.toFixed(1)}/10</div><div class="lbl">RIN</div></div>
+  `;
+
+  renderFunnel(tahapan);
+
+  const st280 = simA280>=1.9?'baik':simA280>=1.7?'waspada':'masalah';
+  const st230 = simA230>=1.9?'baik':simA230>=1.6?'waspada':'masalah';
+  const stRIN = RIN>=8?'baik':RIN>=5?'waspada':'masalah';
+
+  document.getElementById('ratioA280').textContent = simA280.toFixed(2);
+  document.getElementById('cardA280').className = 'verdict-card '+st280;
+  document.getElementById('textA280').textContent = st280==='baik' ? 'Kontaminasi protein/genomik dari interphase terkendali.' : 'Kemungkinan sebagian materi dari interphase (protein/DNA genomik) ikut terambil.';
+
+  document.getElementById('ratioA230').textContent = simA230.toFixed(2);
+  document.getElementById('cardA230').className = 'verdict-card '+st230;
+  document.getElementById('textA230').textContent = st230==='baik' ? 'Sisa etanol/garam terkendali dengan baik.' : 'Kemungkinan sisa etanol residual — pellet mungkin kurang lama dikeringkan atau pencucian kurang siklus.';
+
+  document.getElementById('ratioRIN').textContent = RIN.toFixed(1)+'/10';
+  document.getElementById('cardRIN').className = 'verdict-card '+stRIN;
+  document.getElementById('textRIN').textContent = stRIN==='baik' ? 'Integritas sangat baik — layak untuk aplikasi sensitif seperti RNA-seq.' : (stRIN==='waspada' ? 'Integritas cukup untuk qPCR standar, mungkin kurang ideal untuk RNA-seq.' : 'Degradasi signifikan terdeteksi — kemungkinan besar akibat kontaminasi RNase selama proses.');
+
+  const pctAkhir = yieldAkhir/RNA_ACUAN*100;
+  let terbesarDrop=0, namaLangkah='';
+  for(let i=1;i<tahapan.length;i++){ const d=tahapan[i-1].sisa-tahapan[i].sisa; if(d>terbesarDrop){terbesarDrop=d; namaLangkah=tahapan[i].nama;} }
+  document.getElementById('takeaway').innerHTML = `<strong>Ringkasan:</strong> ${pctAkhir.toFixed(1)}% dari RNA acuan berhasil sampai ke tabung akhir (${yieldAkhir.toFixed(0)}ng, RIN ${RIN.toFixed(1)}/10). Titik kehilangan yield terbesar: "<strong>${namaLangkah}</strong>".`;
+
+  let saran=[];
+  if(!rnaseFree) saran.push('kondisi kerja tidak RNase-free adalah penyebab dominan turunnya RIN — ini biasanya jauh lebih berpengaruh daripada kesalahan teknis lain di seluruh protokol.');
+  if(gaya==='agresif') saran.push('pengambilan fase akuatik terlalu dekat interphase menaikkan kontaminasi protein/genomik.');
+  if(waktuKering>15) saran.push('pellet kemungkinan over-dry — sulit larut kembali secara sempurna saat resuspensi.');
+  if(waktuKering<3) saran.push('pellet mungkin belum cukup kering — sisa etanol bisa mengganggu reaksi enzimatik hilir.');
+  document.getElementById('diagnosis').innerHTML = saran.length>0 ? `<strong>Yang mungkin perlu diperbaiki:</strong> ${saran.join(' ')}` : `<strong>Tidak ada isu besar terdeteksi</strong> — kombinasi parameter Anda mendekati kondisi ideal.`;
+}
+
+function renderFunnel(tahapan){
+  const svg = document.getElementById('funnel');
+  const W=900, rowH=32, padL=250, padR=80, padT=16;
+  const H = padT + tahapan.length*rowH + 10;
+  svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+  const innerW = W-padL-padR;
+  const maxVal = tahapan[0].sisa;
+  let parts=[];
+  tahapan.forEach((t,i)=>{
+    const y = padT + i*rowH;
+    const w = innerW*(t.sisa/maxVal);
+    const pct = (t.sisa/maxVal*100);
+    const warna = pct>70?'#3FBF95':pct>40?'#E5A439':'#E1614E';
+    parts.push(`<text x="${padL-10}" y="${y+rowH*0.65}" font-size="10.5" text-anchor="end">${t.nama}</text>`);
+    parts.push(`<rect x="${padL}" y="${y+4}" width="${w.toFixed(1)}" height="${rowH-12}" fill="${warna}" opacity="0.85"/>`);
+    parts.push(`<text x="${padL+w+8}" y="${y+rowH*0.65}" font-size="10.5" fill="#EAF2EF">${pct.toFixed(0)}%</text>`);
+  });
+  svg.innerHTML = parts.join('');
+}
+
+document.querySelectorAll('input, select').forEach(el=>el.addEventListener('input', hitung));
+hitung();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

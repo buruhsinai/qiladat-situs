@@ -1,0 +1,48 @@
+{
+  "_catatan": "DATA DEMO — dibuat oleh C13 hanya untuk menguji struktur halaman Produk Sains. Bukan daftar produk resmi JAZMI dan bukan katalog yang tersedia untuk dibeli. Ganti dengan data nyata terverifikasi sebelum dipublikasikan.",
+  "status": "demo",
+  "produk": [
+    {
+      "id": "teleskop-pemula",
+      "kategori": "Alat Observasi",
+      "nama": "Teleskop Refraktor Pemula",
+      "ringkasan": "Teleskop ringkas untuk mengenal pengamatan langit malam pertama kali, cocok untuk keluarga.",
+      "catatan": "Contoh ilustratif — spesifikasi dan ketersediaan belum final."
+    },
+    {
+      "id": "mikroskop-saku",
+      "kategori": "Alat Observasi",
+      "nama": "Mikroskop Saku Portabel",
+      "ringkasan": "Alat sederhana untuk mengamati daun, serangga, dan benda kecil di sekitar rumah.",
+      "catatan": "Contoh ilustratif — spesifikasi dan ketersediaan belum final."
+    },
+    {
+      "id": "globe-edukasi",
+      "kategori": "Alat Peraga & Edukasi",
+      "nama": "Globe Edukasi Anak",
+      "ringkasan": "Globe dunia dengan label sederhana untuk mengenalkan geografi dan arah kepada anak.",
+      "catatan": "Contoh ilustratif — spesifikasi dan ketersediaan belum final."
+    },
+    {
+      "id": "kit-eksperimen-air",
+      "kategori": "Alat Peraga & Edukasi",
+      "nama": "Kit Eksperimen Sains Air",
+      "ringkasan": "Kumpulan bahan aman untuk eksperimen sederhana seputar sifat air bersama anak.",
+      "catatan": "Contoh ilustratif — spesifikasi dan ketersediaan belum final."
+    },
+    {
+      "id": "kompas-arah",
+      "kategori": "Alat Navigasi",
+      "nama": "Kompas Arah Portabel",
+      "ringkasan": "Kompas ringkas untuk membantu menentukan arah saat bepergian atau berkemah.",
+      "catatan": "Contoh ilustratif — spesifikasi dan ketersediaan belum final."
+    },
+    {
+      "id": "kalender-astronomi",
+      "kategori": "Cetak & Referensi",
+      "nama": "Kalender Astronomi Tahunan",
+      "ringkasan": "Kalender cetak berisi catatan fenomena langit sepanjang tahun secara umum.",
+      "catatan": "Contoh ilustratif — spesifikasi dan ketersediaan belum final."
+    }
+  ]
+}

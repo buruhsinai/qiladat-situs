@@ -1,0 +1,753 @@
+{
+  "_catatan": "DATASET PILOT #001b — Al-Mus'id bi-Syarh Adab al-Masjid. DIMIGRASIKAN ke SYAIR_SCHEMA.md v2 (final). Migrasi bersifat struktural: tidak ada bait/terjemahan/tag/series baru ditambahkan, tidak ada teks Arab atau status yang diubah. Satu entitas PENYAIR baru ditambahkan (penulis syarah) — informasi ini sudah ada di dataset lama (KITAB.catatan bebas), hanya dipindah ke field terstruktur (penulisSyarahId). Field lama (nomor, jenisSumber, penyairIdOverride, bagianBab/halamanPdf top-level) direstrukturisasi mengikuti v2 — lihat laporan migrasi.",
+  "kitab": [
+    {
+      "id": "kitab-almusid-adabalmasjid",
+      "judulArab": "المسعد بشرح آداب المسجد",
+      "judulLatin": "Al-Mus'id bi-Syarh Adab al-Masjid",
+      "penyairMatanId": "penyair-muhammad-mawlud-shinqiti",
+      "penulisSyarahId": "penyair-muhammad-alhasan-alkhadim",
+      "periode": "Tradisi keilmuan Shinqiti/Mauritania (periode spesifik matan tidak disebutkan dalam sumber)",
+      "jenis": "Nazm (puisi didaktik) — Fiqh & Adab, bahar Rajaz, disertai syarah prosa",
+      "jumlahBait": 46,
+      "sumber": "Hasil pembedahan/kurasi PDF kitab Al-Mus'id bi-Syarh Adab al-Masjid, disusun oleh pengelola JAZMI",
+      "status": "diseleksi",
+      "prioritas": "tinggi",
+      "catatan": "Kitab terdiri dari MATAN (Muhammad Mawlud) + SYARAH prosa (Muhammad al-Hasan al-Khadim, lihat penulisSyarahId) + kutipan Syahid dari penyair lain. Kitab tidak mencantumkan nomor bait eksplisit seperti Manair — nomorSumber pada bait di bawah bernilai null untuk seluruh matan/syahid kitab ini (lihat sumberReferensi tiap bait); urutanBank adalah urutan sekuensial berdasar halaman kemunculan pada bahan sumber. Dari 46 bait total menurut sumber (44 matan + 2 syahid), hanya 14 bait matan + 1 syahid yang disertai teks Arab eksplisit dalam bahan kurasi dan berhasil dimasukkan ke Bank — sisanya hanya disebut dalam statistik agregat sumber tanpa teks individual (lihat audit pilot). Dua skema ID pada bahan sumber (JAZMI-AM-0xx dan JAZMI-AM-RUxx) untuk sebagian bait yang sama sudah direkonsiliasi jadi satu entry per bait sejak dataset pilot — ID asal dicatat di sumberReferensi.catatan. 3 bait ditandai perlu verifikasi redaksi (halaman 21, 26, 28), 1 bait Syahid berstatus ditinjau."
+    }
+  ],
+  "penyair": [
+    {
+      "id": "penyair-muhammad-mawlud-shinqiti",
+      "namaArab": null,
+      "namaLatin": "Muhammad Mawlud bin Ahmad Fal al-Ya'qubi al-Shinqiti (dikenal sebagai \"Baba\")",
+      "periode": "Ulama tradisi Shinqiti/Mauritania (periode spesifik tidak disebutkan dalam sumber)",
+      "infoSingkat": null,
+      "catatan": "namaArab belum tersedia dalam bahan sumber — hanya transliterasi Latin yang diberikan. Field namaArab ditandai wajib pada SYAIR_SCHEMA.md namun datanya belum ada; lihat laporan pilot."
+    },
+    {
+      "id": "penyair-habib-alzayid",
+      "namaArab": null,
+      "namaLatin": "Habib bin al-Zayid",
+      "periode": null,
+      "infoSingkat": null,
+      "catatan": "Disebutkan sebagai penyair sumber kutipan (Syahid) dalam syarah kitab Al-Mus'id, halaman 25. Tidak ada informasi tambahan dalam bahan sumber — identitas belum diverifikasi lebih lanjut."
+    },
+    {
+      "id": "penyair-muhammad-alhasan-alkhadim",
+      "namaArab": null,
+      "namaLatin": "Syeikh Muhammad al-Hasan bin Ahmad al-Khadim",
+      "periode": null,
+      "infoSingkat": null,
+      "catatan": "Penulis syarah (penjelasan prosa) kitab Al-Mus'id bi-Syarh Adab al-Masjid — bukan penulis matan. Namanya sebelumnya hanya tercatat di teks bebas KITAB.catatan pada dataset pilot v1; dipindahkan ke entitas PENYAIR tersendiri saat migrasi v2 agar dapat dirujuk via KITAB.penulisSyarahId."
+    }
+  ],
+  "bait": [
+    {
+      "id": "bait-almusid-001",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 1,
+      "teksArab": "الْحَمْدُ للهِ الَّذِي ذَكَرَ مَا ... أَعَدَّ لِلْمُعَظِّمِينَ الْحُرَمَا",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Segala puji bagi Allah yang telah mengabarkan, apa yang Dia siapkan bagi mereka yang mengagungkan kehormatan (masjid).",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-adab",
+        "tag-masjid"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 9,
+        "bagianBab": "Muqaddimah",
+        "nomorSumber": null,
+        "catatan": "JAZMI-AM-001"
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 85,
+        "meaningStrength": 90,
+        "meaningDensity": 80,
+        "learningPotential": 85,
+        "recommendationScore": 86,
+        "tema": "Tauhid & Adab Dasar",
+        "alasanRekomendasi": "Bait pembuka yang merangkum tujuan utama menjaga adab masjid: mengagungkan apa yang Allah agungkan.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-almusid-002a",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 2,
+      "teksArab": "سَمِّ وَسَلِّمَنْ عَلَى النَّبِيِّ ... إِذَا دَخَلْتَ مَسْجِدًا وَحَيِّ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Ucapkanlah basmalah dan bershalawatlah atas Nabi, apabila engkau memasuki masjid, dan berilah penghormatan (dengan shalat tahiyatul masjid).",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-adab",
+        "tag-masjid"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": "9-10",
+        "bagianBab": "Masuk Masjid & Tahiyatul Masjid",
+        "nomorSumber": null,
+        "catatan": "JAZMI-AM-002 / JAZMI-AM-RU04"
+      },
+      "metadataKurasi": {
+        "textConfidence": 98,
+        "sourceConfidence": 100,
+        "literaryStrength": 90,
+        "meaningStrength": 95,
+        "meaningDensity": 95,
+        "learningPotential": 100,
+        "recommendationScore": 94,
+        "tema": "Sunnah Nabi",
+        "alasanRekomendasi": "Panduan praktis yang ringkas saat memasuki masjid.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "Bagian pertama dari bait ganda JAZMI-AM-002."
+    },
+    {
+      "id": "bait-almusid-002b",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 3,
+      "teksArab": "بِرَكْعَتَيْنِ أَوْ رُبَاعٍ سَبْحِلِ ... وَحَمْدِلَنْ وَكَبِّرَنْ وَهَلِّلِ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Dengan dua rakaat atau empat rakaat, bertasbihlah, bertahmidlah, bertakbirlah, dan bertahlillah.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-zikir",
+        "tag-masjid"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": "9-10",
+        "bagianBab": "Masuk Masjid & Tahiyatul Masjid",
+        "nomorSumber": null,
+        "catatan": "JAZMI-AM-002 / JAZMI-AM-RU01"
+      },
+      "metadataKurasi": {
+        "textConfidence": 98,
+        "sourceConfidence": 100,
+        "literaryStrength": 90,
+        "meaningStrength": 95,
+        "meaningDensity": 95,
+        "learningPotential": 100,
+        "recommendationScore": 94,
+        "tema": "Zikir Masjid",
+        "alasanRekomendasi": "Sangat ikonik dengan teknik Naht/akronim puitis (Sabhil, Hamdil, dst) yang memudahkan hafalan.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "Bagian kedua dari bait ganda JAZMI-AM-002. Catatan OCR: kata \"سبحل\" rawan terbaca salah sebagai \"Sajjal\"/\"Subul\" karena harakat rapat."
+    },
+    {
+      "id": "bait-almusid-003",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 4,
+      "teksArab": "وَقَدِّمِ الْيُمْنَى وَفَتْحَ أَبْوَابِ ... الرَّحْمَةِ اسْأَلِ الْكَرِيمَ الْوَهَّابِ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Dahulukanlah kaki kanan (saat masuk), dan mohonlah dibukakan pintu-pintu rahmat kepada Allah Yang Maha Mulia lagi Maha Pemberi.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-adab",
+        "tag-masjid"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 10,
+        "bagianBab": "Doa Masuk Masjid",
+        "nomorSumber": null,
+        "catatan": "JAZMI-AM-003"
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 80,
+        "meaningStrength": 90,
+        "meaningDensity": 85,
+        "learningPotential": 90,
+        "recommendationScore": 85,
+        "tema": "Adab Praktis",
+        "alasanRekomendasi": "Memadukan hukum fiqh (mendahului kaki kanan) dengan aspek spiritual (meminta rahmat).",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-almusid-ru08",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 5,
+      "teksArab": "لَا تَمْتَخِطْ فِيهِ وَبَصْقًا جَنِّبِ ... إِلَّا بَصِيْقَتَيْنِ بِالْمُخْصَبِ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Janganlah membuang ingus di dalam masjid, dan jauhilah meludah, kecuali ludah yang segera tertutup (oleh kain).",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-adab",
+        "tag-masjid",
+        "tag-fiqh"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 11,
+        "bagianBab": null,
+        "nomorSumber": null,
+        "catatan": "JAZMI-AM-RU08"
+      },
+      "metadataKurasi": {
+        "textConfidence": null,
+        "sourceConfidence": null,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Etika Kebersihan",
+        "alasanRekomendasi": "Menggunakan istilah fiqh klasik (Mukhshab) yang memperkaya kosakata.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "Hanya muncul pada skema penomoran RU (rekap final); tidak ada rincian skor numerik kurasi untuk bait ini pada bahan sumber."
+    },
+    {
+      "id": "bait-almusid-004a",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 6,
+      "teksArab": "نَزِّهْهُ عَنْ خَسِيسِ حِرْفَةٍ فَلَا ... تَخْصِفْ بِهِ نَعْلًا هُدِيْتَ لِلْعُلَى",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Sucikanlah masjid dari pekerjaan yang hina — janganlah menambal sandal di dalamnya, semoga engkau ditunjuki kepada kemuliaan.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-adab",
+        "tag-masjid",
+        "tag-fiqh"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 12,
+        "bagianBab": "Menjaga Kesucian Masjid dari Pekerjaan Dunia",
+        "nomorSumber": null,
+        "catatan": "JAZMI-AM-004 / JAZMI-AM-RU05"
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 82,
+        "meaningStrength": 95,
+        "meaningDensity": 90,
+        "learningPotential": 85,
+        "recommendationScore": 88,
+        "tema": "Etika Sosial & Tempat Suci",
+        "alasanRekomendasi": "Diksi \"Khasis\" dan \"Ula\" menciptakan kontras moral yang tajam.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "Bagian pertama dari bait ganda JAZMI-AM-004."
+    },
+    {
+      "id": "bait-almusid-004b",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 7,
+      "teksArab": "وَلَا تَخِطْ فِيهِ وَنَسْخًا اجْتَنِبْ ... بِأَجْرَةٍ أَوْ لِتَبِيعَ مَا كُتِبْ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Janganlah menjahit di dalam masjid, dan jauhilah menyalin naskah demi upah, atau untuk menjual apa yang telah ditulis.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-adab",
+        "tag-masjid",
+        "tag-fiqh"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 12,
+        "bagianBab": "Menjaga Kesucian Masjid dari Pekerjaan Dunia",
+        "nomorSumber": null,
+        "catatan": "JAZMI-AM-004"
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 82,
+        "meaningStrength": 95,
+        "meaningDensity": 90,
+        "learningPotential": 85,
+        "recommendationScore": 88,
+        "tema": "Etika Sosial & Tempat Suci",
+        "alasanRekomendasi": "Larangan spesifik: menjahit baju atau menyalin naskah demi upah di dalam masjid.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "Bagian kedua dari bait ganda JAZMI-AM-004."
+    },
+    {
+      "id": "bait-almusid-005",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 8,
+      "teksArab": "لِأَنَّهُ أُعِدَّ لِلتَّذَلُّلِ ... وَلِلتَّوَاضُعِ لِرَبِّكَ الْعَلِي",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Karena masjid disediakan untuk merendahkan diri, dan untuk bertawadhu kepada Rabbmu Yang Mahatinggi.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-adab",
+        "tag-masjid"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 15,
+        "bagianBab": "Tujuan Dibangunnya Masjid",
+        "nomorSumber": null,
+        "catatan": "JAZMI-AM-005 / JAZMI-AM-RU03"
+      },
+      "metadataKurasi": {
+        "textConfidence": 100,
+        "sourceConfidence": 100,
+        "literaryStrength": 85,
+        "meaningStrength": 100,
+        "meaningDensity": 90,
+        "learningPotential": 80,
+        "recommendationScore": 90,
+        "tema": "Filosofi Ibadah / Tasawuf-Akhlak",
+        "alasanRekomendasi": "Ini adalah \"ruh\" dari kitab ini — masjid adalah tempat menundukkan diri di hadapan Sang Pencipta.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-almusid-v3",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 9,
+      "teksArab": "حَلُّوا حَوَالَيْهَا وَإِنْ وَافَوْهَا ... مَعْمُورَةً بِالْهَذْرِ اجْتـووها",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": null,
+      "statusTerjemahan": "belum",
+      "status": "ditinjau",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-masjid"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 21,
+        "bagianBab": null,
+        "nomorSumber": null,
+        "catatan": "Perlu Verifikasi (daftar #3)"
+      },
+      "metadataKurasi": {
+        "textConfidence": null,
+        "sourceConfidence": null,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": null,
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "PERLU VERIFIKASI: kata terakhir \"اجتـووها\" (Ijtowooha) — visual PDF menunjukkan dua huruf Waw; kemungkinan besar bermakna \"menghindar/menjauh\", namun secara morfologi perlu dipastikan apakah \"Ijtahauha\" atau \"Ijtowooha\". Status ditinjau, bukan status publik."
+    },
+    {
+      "id": "bait-almusid-v1",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 10,
+      "teksArab": "وَالنِّيَّةَ الْزَمْ أَفْضَلَ الْعَمَلِ ... مَا قَدَّمْتَهُ جَا وَجَاءَ إِنَّمَا",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Berpegang teguhlah pada niat, karena ia adalah amal yang paling utama, sebagaimana telah disebutkan; dan telah datang pula (dalam riwayat): “Sesungguhnya setiap amal itu tergantung niatnya”.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-adab",
+        "tag-fiqh"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 26,
+        "bagianBab": null,
+        "nomorSumber": null,
+        "catatan": "Perlu Verifikasi (daftar #1)"
+      },
+      "metadataKurasi": {
+        "textConfidence": null,
+        "sourceConfidence": null,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": null,
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Kata جَا pada syatr pertama adalah جَاء dengan hamzah dibuang demi wazan (lazim dalam rajaz), berfungsi sebagai pembuka kutipan riwayat pada syatr kedua — bukan salah cetak. Diverifikasi bersama pengurus Bank Syair sebelum publikasi."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "PERLU VERIFIKASI: syatr kedua tampak tidak lengkap secara rima/wazan, atau ada kesalahan cetak pada kata \"جا\" (Ja). Perlu dibandingkan dengan naskah Adab al-Masjid versi mandiri. Status ditinjau, bukan status publik."
+    },
+    {
+      "id": "bait-almusid-v2",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 11,
+      "teksArab": "وَتَتَرَهَّبْ بِكَفِّكَ جَسُوا ... رَحْلَكَ عَنْ مَطْلُوبِ نَفْسٍ وَهَوَى",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": null,
+      "statusTerjemahan": "belum",
+      "status": "ditinjau",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-adab"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 28,
+        "bagianBab": null,
+        "nomorSumber": null,
+        "catatan": "Perlu Verifikasi (daftar #2)"
+      },
+      "metadataKurasi": {
+        "textConfidence": null,
+        "sourceConfidence": null,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": null,
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "PERLU VERIFIKASI: pembacaan kata \"جَسُوا\" (Jaswa) meragukan — syarah mengisyaratkan makna \"menahan diri\", namun bentukan katanya tidak lazim dalam rajaz. Status ditinjau, bukan status publik."
+    },
+    {
+      "id": "bait-almusid-006a",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 12,
+      "teksArab": "إِنْ عَظُمَ الْوَقْتُ أَوِ الْمَكَانُ ... عَظُمَتِ الطَّاعَةُ وَالْعِصْيَانُ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Apabila waktu atau tempat itu mulia, maka membesar pula nilai ketaatan dan kedurhakaan yang terjadi padanya.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-fiqh"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 30,
+        "bagianBab": "Penutup / Kaidah Umum",
+        "nomorSumber": null,
+        "catatan": "JAZMI-AM-006 / JAZMI-AM-RU02"
+      },
+      "metadataKurasi": {
+        "textConfidence": 95,
+        "sourceConfidence": 100,
+        "literaryStrength": 88,
+        "meaningStrength": 100,
+        "meaningDensity": 95,
+        "learningPotential": 90,
+        "recommendationScore": 94,
+        "tema": "Kaidah Syar'iyyah",
+        "alasanRekomendasi": "Kalimatnya sangat quotable, filosofis, dan mudah dihafal (ritme simetris).",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "Bagian pertama dari bait ganda JAZMI-AM-006."
+    },
+    {
+      "id": "bait-almusid-006b",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 13,
+      "teksArab": "يَعْظُمُ الأَجْرُ وَيَغْلُظُ الأَدَبْ ... عَلَى الَّذِي عَصَى وَيَرْبُوا مَا اكْتَسَبْ",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Pahala pun membesar, dan sanksi memberat bagi orang yang berbuat maksiat, serta berlipat apa yang ia peroleh.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-fiqh"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 30,
+        "bagianBab": "Penutup / Kaidah Umum",
+        "nomorSumber": null,
+        "catatan": "JAZMI-AM-006 / JAZMI-AM-RU06"
+      },
+      "metadataKurasi": {
+        "textConfidence": 95,
+        "sourceConfidence": 100,
+        "literaryStrength": 88,
+        "meaningStrength": 100,
+        "meaningDensity": 95,
+        "learningPotential": 90,
+        "recommendationScore": 94,
+        "tema": "Konsekuensi Amal",
+        "alasanRekomendasi": "Penjelasan logis atas kaitan antara tempat suci dan beratnya pelanggaran/pahala.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "Bagian kedua dari bait ganda JAZMI-AM-006."
+    },
+    {
+      "id": "bait-almusid-ru07",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 14,
+      "teksArab": "كَرَمَضَانَ مَثَلًا وَعَرَفَه ... وَكَالْمَسَاجِدِ وَكَالْمُزْدَلِفَه",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Seperti misalnya bulan Ramadhan, hari Arafah, demikian pula masjid-masjid, dan seperti Muzdalifah.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "matan",
+      "penyairId": "penyair-muhammad-mawlud-shinqiti",
+      "tagIds": [
+        "tag-fiqh"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 31,
+        "bagianBab": null,
+        "nomorSumber": null,
+        "catatan": "JAZMI-AM-RU07"
+      },
+      "metadataKurasi": {
+        "textConfidence": null,
+        "sourceConfidence": null,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Hierarki Kemuliaan",
+        "alasanRekomendasi": "Memberikan daftar perbandingan (analog) yang jelas bagi pelajar.",
+        "catatanVerifikasi": null
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "Hanya muncul pada skema penomoran RU (rekap final); tidak ada rincian skor numerik kurasi untuk bait ini pada bahan sumber."
+    },
+    {
+      "id": "bait-almusid-sy001",
+      "kitabId": "kitab-almusid-adabalmasjid",
+      "urutanBank": 15,
+      "teksArab": "دُخُولُ ذِي جَنَابَةٍ مُصَلَّى ... أَهْلُ الْعَمُودِ الْيَوْمَ لَنْ يُجَلَّا",
+      "syatrA": null,
+      "syatrB": null,
+      "terjemahan": "Masuknya orang yang sedang junub ke tempat shalat (mushalla) — bagi penduduk kemah (Badui) pada hari ini, hal itu tidak akan disingkap/dijelaskan hukumnya (dalam bait ini semata).",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "syahid",
+      "penyairId": "penyair-habib-alzayid",
+      "tagIds": [
+        "tag-masjid",
+        "tag-fiqh"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "Al-Mus'id bi-Syarh Adab al-Masjid",
+        "halamanPdf": 25,
+        "bagianBab": null,
+        "nomorSumber": null,
+        "catatan": "JAZMI-SY-001"
+      },
+      "metadataKurasi": {
+        "textConfidence": null,
+        "sourceConfidence": null,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": null,
+        "alasanRekomendasi": "Digunakan oleh penulis syarah untuk menjelaskan hukum orang junub masuk ke tempat shalat masyarakat badui.",
+        "catatanVerifikasi": "Bait syahid (kutipan sekunder dari penyair lain, Habib bin al-Zayid) yang dipakai penulis syarah untuk menjelaskan hukum orang junub masuk musala Badui. Dipublikasikan dengan catatan bahwa ini bukan matan utama kitab."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": "SYAHID — bukan karya penyair matan kitab ini (Muhammad Mawlud), melainkan kutipan dari penyair lain (Habib bin al-Zayid) yang dipakai penulis syarah sebagai penguat penjelasan. Diberi status ditinjau karena berupa kutipan sekunder, bukan matan utama, dan belum ada proses verifikasi lanjutan."
+    }
+  ],
+  "tag": [
+    {
+      "id": "tag-syair",
+      "nama": "Syair",
+      "slug": "syair",
+      "deskripsi": null
+    },
+    {
+      "id": "tag-fiqh",
+      "nama": "Fiqh",
+      "slug": "fiqh",
+      "deskripsi": "Bait bertema hukum praktis Islam."
+    },
+    {
+      "id": "tag-adab",
+      "nama": "Adab",
+      "slug": "adab",
+      "deskripsi": "Bait bertema etika/akhlak."
+    },
+    {
+      "id": "tag-masjid",
+      "nama": "Masjid",
+      "slug": "masjid",
+      "deskripsi": "Bait bertema adab/etika di dalam masjid."
+    },
+    {
+      "id": "tag-zikir",
+      "nama": "Zikir",
+      "slug": "zikir",
+      "deskripsi": "Bait bertema zikir/dzikir."
+    }
+  ],
+  "series": []
+}

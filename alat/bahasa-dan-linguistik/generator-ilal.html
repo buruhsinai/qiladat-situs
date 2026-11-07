@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Generator I'lal — Qiladat/JAZMI</title>
+<style>
+  :root{
+    --bg:#141210; --panel:#1c1916; --panel2:#211d19;
+    --gold:#c9a24b; --gold-soft:#8a7440; --text:#e8e0d0; --text-dim:#a89a80;
+    --line:#3a332a; --danger:#c25c4a; --ok:#6f9e6a; --blue:#6a91c2;
+    --r1:#e8956a; --r2:#8fc9e8; --r3:#a8d98a; --weak:#e8d05a;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:Georgia,'Times New Roman',serif;line-height:1.6;}
+  .container{max-width:900px;margin:0 auto;padding:24px 16px 60px;}
+  header{text-align:center;margin-bottom:26px;border-bottom:1px solid var(--line);padding-bottom:18px;}
+  header h1{font-size:1.45rem;color:var(--gold);margin:0 0 6px;}
+  header p{color:var(--text-dim);margin:0;font-size:0.9rem;font-style:italic;}
+  h2{color:var(--gold);font-size:1.08rem;margin:0 0 12px;display:flex;align-items:center;gap:8px;}
+  h2 .num{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;
+    border:1px solid var(--gold-soft);border-radius:50%;font-size:0.78rem;color:var(--gold);flex-shrink:0;}
+  h3{color:var(--gold);font-size:0.95rem;margin:14px 0 8px;}
+  section{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;margin-bottom:16px;}
+  p{margin:0 0 9px;font-size:0.92rem;} p:last-child{margin-bottom:0;}
+  .dim{color:var(--text-dim);font-size:0.84rem;}
+  ul{margin:6px 0;padding-left:20px;} li{margin-bottom:5px;font-size:0.9rem;}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;flex-wrap:wrap;}
+  input[type=text]{background:var(--panel2);border:1px solid var(--gold-soft);color:var(--text);
+    border-radius:6px;padding:9px 12px;font-family:'Traditional Arabic','Scheherazade New',serif;font-size:1.3rem;
+    text-align:center;width:90px;direction:rtl;}
+  select{background:var(--panel2);border:1px solid var(--gold-soft);color:var(--text);
+    border-radius:6px;padding:8px 10px;font-family:inherit;font-size:0.85rem;width:100%;}
+  button.primary{background:var(--gold-soft);color:#1a1712;padding:12px 18px;font-weight:bold;font-size:0.92rem;
+    width:100%;margin-top:10px;border:none;border-radius:8px;cursor:pointer;}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:0.82rem;margin-top:8px;}
+  .legend span{display:inline-flex;align-items:center;gap:5px;}
+  .legend i{width:12px;height:12px;border-radius:3px;display:inline-block;}
+  .arword{font-family:'Traditional Arabic','Scheherazade New',serif;font-size:1.6rem;direction:rtl;unicode-bidi:isolate;}
+  .r1{color:var(--r1);} .r2{color:var(--r2);} .r3{color:var(--r3);} .weak{color:var(--weak);font-weight:bold;}
+  .step-card{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:14px 16px;margin-bottom:12px;}
+  .step-card h4{color:var(--gold);font-size:0.88rem;margin:0 0 10px;}
+  .step-flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .step-box{text-align:center;}
+  .step-box .lbl{font-size:0.68rem;color:var(--text-dim);text-transform:uppercase;margin-bottom:4px;}
+  .arrow{color:var(--gold-soft);font-size:1.1rem;}
+  .rule-badge{background:rgba(201,162,75,0.12);border:1px solid var(--gold-soft);border-radius:6px;
+    padding:6px 10px;font-size:0.78rem;color:var(--gold);max-width:180px;}
+  .flag{background:rgba(194,92,74,0.1);border:1px solid var(--danger);border-radius:8px;padding:10px 12px;
+    font-size:0.85rem;margin-bottom:8px;color:var(--danger);}
+  .flag.info{background:rgba(106,145,194,0.1);border-color:var(--blue);color:var(--blue);}
+  .refs li{font-size:0.82rem;color:var(--text-dim);}
+  footer{text-align:center;color:var(--text-dim);font-size:0.76rem;margin-top:22px;}
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>Generator I'lal</h1>
+  <p>Langkah demi langkah: bagaimana huruf illah berubah — bukan cuma hasil akhirnya</p>
+</header>
+
+<section id="belajar">
+  <h2><span class="num">1</span>Belajar</h2>
+  <p>I'lal adalah perubahan fonologis yang dialami huruf illah (و ي ا) ketika berada dalam posisi tertentu — berbeda dari tashrif akar shahih yang murni penyisipan pola. Ada tiga kategori utama berdasarkan posisi huruf illah dalam akar:</p>
+  <ul>
+    <li><strong>Mitsal</strong> — huruf illah di posisi فاء الفعل (huruf pertama), mis. و-ع-د</li>
+    <li><strong>Ajwaf</strong> — huruf illah di posisi عين الفعل (huruf tengah), mis. ق-و-ل</li>
+    <li><strong>Naqish</strong> — huruf illah di posisi لام الفعل (huruf terakhir), mis. ر-م-ي</li>
+  </ul>
+  <p><strong>Wawasan yang jarang ditekankan:</strong> untuk Ajwaf, hasil akhir bentuk "أنا" (setelah huruf illah gugur) ditentukan oleh <em>bab mudhari'</em> (bab dhammah → dhammah, bab kasrah/fathah → kasrah) — BUKAN oleh identitas huruf asal (و atau ي). Buktinya: خَافَ (akar وَ) tetap menjadi خِفْتُ berkasrah, bukan خَفْتُ — padahal akarnya وَاوي. Sebaliknya untuk Naqish, justru identitas huruf asal (و atau ي) yang menentukan ejaan hasil akhir (دَعَوْتُ vs رَمَيْتُ) — pola yang justru berkebalikan dari Ajwaf. Kontras ini jarang dijelaskan eksplisit di kitab-kitab dasar.</p>
+</section>
+
+<section id="pertanyaan">
+  <h2><span class="num">2</span>Pertanyaan Ilmiah</h2>
+  <ul>
+    <li>Kaidah tunggal apa yang mendasari perubahan قَوَلَ menjadi قَالَ?</li>
+    <li>Kenapa kaidah yang sama tidak berlaku saat ditambah dhamir seperti تُ (قُلْتُ, bukan قَالْتُ)?</li>
+    <li>Apa yang membedakan huruf illah yang "gugur total" (mitsal, naqish saat jazm) dari yang "berubah bentuk" (ajwaf, naqish saat madhi)?</li>
+  </ul>
+</section>
+
+<section id="input">
+  <h2><span class="num">3</span>Pilih Kategori &amp; Akar</h2>
+  <div class="row">
+    <label style="width:100%;">Kategori Mu'tal</label>
+    <select id="kategori">
+      <option value="mitsal_w">Mitsal Wawi (huruf 1 = و)</option>
+      <option value="ajwaf" selected>Ajwaf (huruf 2 = و/ي)</option>
+      <option value="naqish">Naqish (huruf 3 = و/ي)</option>
+    </select>
+  </div>
+  <div id="rootInputs"></div>
+  <div id="babSelector"></div>
+  <div class="legend">
+    <span><i style="background:var(--r1);"></i>Huruf shahih</span>
+    <span><i style="background:var(--weak);"></i>Huruf illah / posisi terdampak</span>
+  </div>
+  <button class="primary" id="btnGenerate">Generate Langkah I'lal</button>
+  <div id="flags"></div>
+</section>
+
+<section id="hasil" style="display:none;">
+  <h2><span class="num">4</span>Hasil Langkah-demi-Langkah</h2>
+  <div id="stepsContainer"></div>
+</section>
+
+<section id="batasan">
+  <h2><span class="num">5</span>Batasan</h2>
+  <ul>
+    <li>Hanya mencakup satu huruf illah per akar (mitsal, ajwaf, naqish tunggal). Akar dengan DUA huruf illah sekaligus (لفيف مفروق/مقرون) tidak dicakup — kompleksitasnya berlipat karena dua i'lal berinteraksi.</li>
+    <li>Mudhari' hanya bentuk rafa' (huwa) dan bentuk jazm/amr terkait — bentuk manshub tidak ditampilkan.</li>
+    <li>Tabel 14-persona penuh (seperti pada Generator Tashrif untuk akar shahih) sengaja TIDAK ditampilkan di sini — bentuk-bentuk seperti هن/أنتن pada akar mu'tal punya kaidah tambahan yang belum cukup saya verifikasi silang untuk dijamin akurat. Fokus alat ini pada bentuk-bentuk inti yang polanya sudah terverifikasi kuat.</li>
+    <li>Ajwaf bab fathah untuk isim maf'ul jarang dipakai dalam praktik — sistem menampilkan catatan alih-alih memaksakan satu bentuk.</li>
+  </ul>
+</section>
+
+<section id="referensi">
+  <h2><span class="num">6</span>Referensi</h2>
+  <ul class="refs">
+    <li>Kaidah i'lal klasik (qalb, hadzf, taskin) — rujukan umum kitab-kitab sharf (Matn Bina', Al-Amtsilah Al-Tashrifiyyah, Nazham Al-Maqsud).</li>
+    <li>Verifikasi silang memakai kata-kata baku yang sangat dikenal: قال/يقول/قلت/قل، باع/يبيع/بعت/بع، خاف/يخاف/خفت/خف، نام/ينام/نمت/نم، دعا/يدعو/دعوت/ادعُ، رمى/يرمي/رميت/ارمِ، نسي/ينسى/نسيت.</li>
+  </ul>
+</section>
+
+<footer>Bagian dari Laboratorium Bahasa — Bank Ide Qiladat/JAZMI.</footer>
+</div>
+
+<script>
+(function(){
+  const $ = id => document.getElementById(id);
+  const F='\u064E', D='\u064F', K='\u0650', S='\u0652', SH='\u0651';
+
+  function rc(cls, ch){ return '<span class="'+cls+'">'+ch+'</span>'; }
+
+  const rootInputsEl = $('rootInputs');
+  const babSelectorEl = $('babSelector');
+
+  function renderInputs(){
+    const kat = $('kategori').value;
+    if (kat==='mitsal_w'){
+      rootInputsEl.innerHTML = `
+        <div class="row"><label>و (huruf 1, tetap)</label><input type="text" value="و" disabled></div>
+        <div class="row"><label>Huruf 2</label><input type="text" id="R2" value="ع"></div>
+        <div class="row"><label>Huruf 3</label><input type="text" id="R3" value="د"></div>`;
+      babSelectorEl.innerHTML = `<div class="row"><label style="width:100%;">Bab Mudhari'</label>
+        <select id="bab"><option value="kasra">يَفْعِلُ (kasrah) — mis. وَعَدَ يَعِدُ</option>
+        <option value="fatha">يَفْعَلُ (fathah) — mis. وَضَعَ يَضَعُ</option></select></div>`;
+    } else if (kat==='ajwaf'){
+      rootInputsEl.innerHTML = `
+        <div class="row"><label>Huruf 1</label><input type="text" id="R1" value="ق"></div>
+        <div class="row"><label>Huruf 2 (illah)</label>
+          <select id="weakType" style="width:90px;"><option value="و">و</option><option value="ي">ي</option></select></div>
+        <div class="row"><label>Huruf 3</label><input type="text" id="R3" value="ل"></div>`;
+      babSelectorEl.innerHTML = `<div class="row"><label style="width:100%;">Bab Mudhari'</label>
+        <select id="bab"><option value="damma">يَفْعُلُ (dhammah) — mis. قَالَ يَقُولُ</option>
+        <option value="kasra">يَفْعِلُ (kasrah) — mis. بَاعَ يَبِيعُ</option>
+        <option value="fatha">يَفْعَلُ (fathah) — mis. خَافَ يَخَافُ</option></select></div>`;
+    } else if (kat==='naqish'){
+      rootInputsEl.innerHTML = `
+        <div class="row"><label>Huruf 1</label><input type="text" id="R1" value="د"></div>
+        <div class="row"><label>Huruf 2</label><input type="text" id="R2" value="ع"></div>
+        <div class="row"><label>Huruf 3 (illah)</label>
+          <select id="weakType" style="width:90px;"><option value="و">و</option><option value="ي">ي</option></select></div>`;
+      babSelectorEl.innerHTML = `<div class="row"><label style="width:100%;">Pola Bab</label>
+        <select id="bab"><option value="A">فَعَى يَفْعُو — mis. دَعَا يَدْعُو</option>
+        <option value="B">فَعَى يَفْعِي — mis. رَمَى يَرْمِي</option>
+        <option value="C">فَعِيَ يَفْعَى — mis. نَسِيَ يَنْسَى</option></select></div>`;
+    }
+  }
+  $('kategori').addEventListener('change', renderInputs);
+  renderInputs();
+
+  function stepCard(title, steps){
+    let html = `<div class="step-card"><h4>${title}</h4><div class="step-flow">`;
+    steps.forEach((s,i)=>{
+      if (i>0) html += `<span class="arrow">→</span>`;
+      if (s.type==='word'){
+        html += `<div class="step-box"><div class="lbl">${s.label}</div><div class="arword">${s.value}</div></div>`;
+      } else if (s.type==='rule'){
+        html += `<div class="rule-badge">${s.value}</div>`;
+      }
+    });
+    html += `</div></div>`;
+    return html;
+  }
+
+  function generateMitsalWawi(R2,R3,bab){
+    const babVowelMudh = bab==='kasra'?K:F;
+    // Madhi: fully regular
+    const madhiHuwa = rc('weak','وَ')+R2+F+R3+F;
+    const madhiAna = rc('weak','وَ')+R2+F+R3+S+'تُ';
+    // Mudhari: waw dropped
+    const mudhMech = 'يَ'+rc('weak','وْ')+R2+babVowelMudh+R3+D;
+    const mudhFinal = 'يَ'+R2+babVowelMudh+R3+D;
+    const amr = R2+babVowelMudh+R3+S;
+    const ismFail = rc('weak','وَا')+R2+K+R3;
+    const ismMaful = rc('weak','مَوْ')+R2+D+R3;
+    return [
+      stepCard('الماضي (هو)', [
+        {type:'word', label:'Bentuk (tidak berubah)', value:madhiHuwa}
+      ]),
+      stepCard('الماضي (أنا) — tanpa perubahan', [
+        {type:'word', label:'Hasil', value:madhiAna}
+      ]),
+      stepCard('المضارع (هو)', [
+        {type:'word', label:'Bentuk mekanis', value:mudhMech},
+        {type:'rule', value:"القاعدة: الواو تُحذف من المضارع إذا كان على وزن يَفْعِلُ أو يَفْعَلُ"},
+        {type:'word', label:'Hasil', value:mudhFinal}
+      ]),
+      stepCard('الأمر (أنتَ) — tanpa hamzah washal', [
+        {type:'word', label:'Hasil', value:amr}
+      ]),
+      stepCard('اسم الفاعل / اسم المفعول — tetap reguler', [
+        {type:'word', label:'اسم الفاعل', value:ismFail},
+        {type:'word', label:'اسم المفعول', value:ismMaful}
+      ])
+    ].join('');
+  }
+
+  function generateAjwaf(R1,weak,R3,bab){
+    const babVowel = bab==='damma'?D:(bab==='kasra'?K:F);
+    const babLabel = bab==='damma'?'ضمة':(bab==='kasra'?'كسرة':'فتحة');
+    // Madhi huwa: mechanical then convert
+    const madhiMech = R1+F+rc('weak',weak)+F+R3+F;
+    const madhiFinal = R1+F+rc('weak','ا')+R3+F;
+    // Madhi ana: bab-determined vowel (damma->damma, kasra/fatha->kasra)
+    const anaVowel = bab==='damma'?D:K;
+    const madhiAna = R1+anaVowel+R3+S+'تُ';
+    // Mudhari huwa
+    const longVowelChar = bab==='damma'?'و':(bab==='kasra'?'ي':'ا');
+    const mudhFinal = 'يَ'+R1+babVowel+rc('weak',longVowelChar)+R3+D;
+    // Amr: hamzat wasl NOT needed (R1 already has bab vowel directly)
+    const amr = R1+babVowel+R3+S;
+    // Ism fail: hamzah replaces ain
+    const ismFail = R1+F+'ا'+rc('weak','ئ')+K+R3;
+    // Ism maful
+    let ismMaful;
+    if (bab==='damma') ismMaful = 'مَ'+R1+S+rc('weak','و')+D+R3;
+    else if (bab==='kasra') ismMaful = 'مَ'+R1+S+rc('weak','ي')+K+R3;
+    else ismMaful = '<span class="dim" style="font-size:0.8rem;">(jarang dipakai untuk bab fathah — konstruksi makna "yang ditakuti" dsb tidak umum, cek kamus)</span>';
+
+    return [
+      stepCard('الماضي (هو)', [
+        {type:'word', label:'Bentuk mekanis', value:madhiMech},
+        {type:'rule', value:"القاعدة: حرف العلة المتحرك المفتوح ما قبله يُقلب ألفا"},
+        {type:'word', label:'Hasil', value:madhiFinal}
+      ]),
+      stepCard('الماضي (أنا) — huruf illah gugur total (bukan sekadar kembali jadi و/ي)', [
+        {type:'word', label:'Bentuk awal', value:madhiFinal+'تُ (tidak valid — dua sukun bertemu)'},
+        {type:'rule', value:`القاعدة: يُحذف حرف العلة، وتُجعل فاء الفعل بحركة تدل على أصل الباب (باب الضمة→ضمة، غيره→كسرة). الباب di sini: ${babLabel}`},
+        {type:'word', label:'Hasil', value:madhiAna}
+      ]),
+      stepCard('المضارع (هو)', [
+        {type:'word', label:'Hasil (huruf mad sesuai bab)', value:mudhFinal}
+      ]),
+      stepCard('الأمر (أنتَ) — tanpa hamzah washal (huruf mad sudah gugur duluan di majzum)', [
+        {type:'word', label:'Bentuk majzum', value:'يَ'+R1+babVowel+R3+S+' (huruf mad gugur)'},
+        {type:'word', label:'Hasil (buang huruf mudhara\'ah)', value:amr}
+      ]),
+      stepCard("اسم الفاعل — عين الفعل يُقلب همزة", [
+        {type:'word', label:'Bentuk mekanis', value:R1+F+'ا'+weak+K+R3},
+        {type:'rule', value:'القاعدة: حرف العلة بين ألفين يُقلب همزة'},
+        {type:'word', label:'Hasil', value:ismFail}
+      ]),
+      stepCard('اسم المفعول', [
+        {type:'word', label:'Hasil (sesuai bab, satu huruf mad tersisa)', value:ismMaful}
+      ])
+    ].join('');
+  }
+
+  function generateNaqish(R1,R2,weak,bab){
+    // bab A: fatha madhi, damma mudhari; B: fatha madhi, kasra mudhari; C: kasra madhi, fatha mudhari
+    const convertsInMadhi = (bab==='A'||bab==='B');
+    const madhiR2Vowel = convertsInMadhi ? F : K;
+    const alifTulisan = weak==='و' ? 'ا' : 'ى';
+    const madhiMech = R1+F+R2+madhiR2Vowel+rc('weak',weak)+F;
+    const madhiFinal = convertsInMadhi ? (R1+F+R2+F+rc('weak',alifTulisan)) : (R1+F+R2+K+rc('weak',weak)+F);
+    // ana form
+    const anaR2Vowel = convertsInMadhi ? F : K;
+    const madhiAna = R1+F+R2+anaR2Vowel+rc('weak',weak)+S+'تُ';
+    // mudhari ending
+    let mudhEnding, mudhEndLabel;
+    if (bab==='A'){ mudhEnding = rc('weak','و'); mudhEndLabel='(dhammah pada huruf sebelumnya + wau mad)'; }
+    else if (bab==='B'){ mudhEnding = rc('weak','ي'); mudhEndLabel='(kasrah pada huruf sebelumnya + ya mad)'; }
+    else { mudhEnding = rc('weak','ى'); mudhEndLabel='(fathah pada huruf sebelumnya + alif maqshurah)'; }
+    const mudhCoreVowel = bab==='A'?D:(bab==='B'?K:F);
+    const mudhFinal = 'يَ'+R1+S+R2+mudhCoreVowel+mudhEnding;
+    // amr: drop weak letter entirely (jazm), hamzat wasl vowel = damma if bab A, else kasra
+    const hamzaVowel = bab==='A'?D:K;
+    const amr = 'ا'+hamzaVowel+R1+S+R2+mudhCoreVowel;
+    // ism fail: always manqush pattern (waw converts to ya if applicable, then tanwin)
+    const ismFail = R1+F+'ا'+R2+'\u064D'; // kasratan
+    // ism maful: idgham with root-identity vowel harmony
+    const mafVowel = weak==='و'?D:K;
+    const ismMaful = 'مَ'+R1+S+R2+mafVowel+rc('weak',weak+SH);
+
+    return [
+      stepCard('الماضي (هو)', [
+        {type:'word', label:'Bentuk mekanis', value:madhiMech},
+        {type:'rule', value: convertsInMadhi ? "القاعدة: حرف العلة المفتوح ما قبله يُقلب ألفا (يُكتب حسب أصله: و→ا، ي→ى)" : "القاعدة: لا قلب — ما قبله مكسور، فيبقى حرف العلة كما هو"},
+        {type:'word', label:'Hasil', value:madhiFinal}
+      ]),
+      stepCard('الماضي (أنا) — sesuai identitas huruf asal (bukan bab)', [
+        {type:'rule', value: `القاعدة: عند اتصال ضمير ساكن البدء، يعود حرف العلة إلى أصله (${weak})`},
+        {type:'word', label:'Hasil', value:madhiAna}
+      ]),
+      stepCard('المضارع (هو) '+mudhEndLabel, [
+        {type:'word', label:'Hasil', value:mudhFinal}
+      ]),
+      stepCard('الأمر (أنتَ) — huruf illah gugur total saat jazm', [
+        {type:'word', label:'Bentuk majzum', value:'يَ'+R1+S+R2+mudhCoreVowel+' (huruf illah dibuang)'},
+        {type:'word', label:'Hasil (+hamzah washal)', value:amr}
+      ]),
+      stepCard('اسم الفاعل — selalu وزن منقوص', [
+        {type:'word', label:'Hasil', value:ismFail}
+      ]),
+      stepCard('اسم المفعول — idgham, harkat sebelum huruf ganda mengikuti identitas huruf asal', [
+        {type:'word', label:'Hasil', value:ismMaful}
+      ])
+    ].join('');
+  }
+
+  function validateLetter(v){
+    return v && v.trim().length===1;
+  }
+
+  $('btnGenerate').addEventListener('click', ()=>{
+    const kat = $('kategori').value;
+    const flagsDiv = $('flags');
+    flagsDiv.innerHTML='';
+    let html='';
+
+    try{
+      if (kat==='mitsal_w'){
+        const R2=$('R2').value.trim(), R3=$('R3').value.trim();
+        if (!validateLetter(R2)||!validateLetter(R3)){ throw 'Isi huruf 2 dan 3 dengan satu huruf Arab masing-masing.'; }
+        html = generateMitsalWawi(rc('r2',R2), rc('r3',R3), $('bab').value);
+      } else if (kat==='ajwaf'){
+        const R1=$('R1').value.trim(), R3=$('R3').value.trim(), weak=$('weakType').value;
+        if (!validateLetter(R1)||!validateLetter(R3)){ throw 'Isi huruf 1 dan 3 dengan satu huruf Arab masing-masing.'; }
+        html = generateAjwaf(rc('r1',R1), weak, rc('r3',R3), $('bab').value);
+      } else {
+        const R1=$('R1').value.trim(), R2=$('R2').value.trim(), weak=$('weakType').value;
+        if (!validateLetter(R1)||!validateLetter(R2)){ throw 'Isi huruf 1 dan 2 dengan satu huruf Arab masing-masing.'; }
+        html = generateNaqish(rc('r1',R1), rc('r2',R2), weak, $('bab').value);
+      }
+      $('stepsContainer').innerHTML = html;
+      $('hasil').style.display='block';
+      $('hasil').scrollIntoView({behavior:'smooth'});
+    } catch(e){
+      flagsDiv.innerHTML = '<div class="flag">'+e+'</div>';
+      $('hasil').style.display='none';
+    }
+  });
+
+  $('btnGenerate').click();
+})();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

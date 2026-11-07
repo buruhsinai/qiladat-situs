@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Air yang Membersihkan Dirinya Sendiri</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Spectral:ital,wght@0,500;0,600;1,400&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#10131c; --panel:#1b2133; --line:#2a3149;
+    --sand:#ece3ce; --dim:#b9b2a0; --brass:#c9a24d; --brass-soft:#8a7038;
+    --star:#7f9fe8; --terra:#c1705a; --ok:#7fb88f; --warn:#d9a441;
+    --serif:'Spectral',Georgia,serif; --sans:'Work Sans',sans-serif; --mono:'JetBrains Mono',monospace; --arabic:'Amiri',serif;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:radial-gradient(ellipse 800px 500px at 20% -10%,rgba(127,159,232,.1),transparent 60%),var(--bg);
+    color:var(--sand);font-family:var(--sans);line-height:1.6;}
+  .wrap{max-width:840px;margin:0 auto;padding:0 20px 80px;}
+  .hero{padding:50px 20px 34px;text-align:center;border-bottom:1px solid var(--line);margin-bottom:38px;}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--star);
+    margin-bottom:16px;display:flex;align-items:center;justify-content:center;gap:10px;}
+  .eyebrow::before,.eyebrow::after{content:"";height:1px;width:28px;background:var(--star);opacity:.5;}
+  h1{font-family:var(--serif);font-weight:500;font-size:clamp(24px,5.2vw,36px);margin:0 0 12px;color:#f6efdd;}
+  h1 em{font-style:italic;color:var(--star);}
+  .lede{max-width:560px;margin:0 auto;color:var(--dim);font-size:15.5px;}
+  .arabic{font-family:var(--arabic);font-size:20px;color:var(--star);direction:rtl;margin:10px 0 4px;}
+  section{margin-bottom:44px;}
+  .sec-head{display:flex;align-items:baseline;gap:12px;margin-bottom:16px;}
+  .tag{font-family:var(--mono);font-size:11px;color:var(--star);border:1px solid var(--star);padding:3px 8px;border-radius:20px;white-space:nowrap;opacity:.9;}
+  h2{font-family:var(--serif);font-weight:500;font-size:21px;margin:0;color:#f2ead9;}
+  p{color:var(--dim);font-size:15px;}
+  strong{color:var(--sand);}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px 22px;}
+  .card+.card{margin-top:12px;}
+  .quote{border-left:3px solid var(--star);background:rgba(127,159,232,.07);padding:12px 16px;border-radius:0 6px 6px 0;margin:12px 0;}
+  .quote p{margin:0;font-style:italic;color:#c7d1ec;font-size:14px;}
+  .diagram{text-align:center;margin-bottom:14px;}
+  .diagram svg{max-width:100%;height:auto;}
+  .diagram-cap{font-size:13px;color:var(--dim);margin-top:8px;}
+
+  .sim{background:linear-gradient(180deg,#161b29,var(--panel));border:1px solid var(--line);border-radius:12px;padding:22px;}
+  .mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;}
+  @media(min-width:600px){.mode-grid{grid-template-columns:1fr 1fr 1fr;}}
+  .mode-btn{font-size:12.5px;font-weight:600;background:var(--bg);border:1px solid var(--line);color:var(--dim);
+    padding:12px 8px;border-radius:8px;cursor:pointer;text-align:center;line-height:1.3;}
+  .mode-btn.active{background:rgba(127,159,232,.15);border-color:var(--star);color:var(--star);}
+
+  .result-panel{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:20px;}
+  .result-row{padding:12px 0;border-bottom:1px dashed var(--line);}
+  .result-row:last-child{border-bottom:none;}
+  .rl{font-size:11.5px;color:var(--dim);font-family:var(--mono);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:6px;}
+  .rv{font-size:14.5px;line-height:1.6;color:var(--sand);}
+  .status-pill{display:inline-block;font-family:var(--mono);font-size:11px;padding:4px 11px;border-radius:20px;margin-bottom:8px;font-weight:600;}
+  .status-pill.sejati{background:rgba(127,184,143,.15);color:var(--ok);border:1px solid rgba(127,184,143,.4);}
+  .status-pill.diperdebatkan{background:rgba(217,164,65,.15);color:var(--warn);border:1px solid rgba(217,164,65,.4);}
+  .status-pill.bukan{background:rgba(193,112,90,.15);color:var(--terra);border:1px solid rgba(193,112,90,.4);}
+
+  .debate-box{background:linear-gradient(180deg,#1a1f30,var(--panel));border:1px solid var(--star);border-radius:12px;padding:22px;margin-top:14px;}
+  .debate-box h3{font-family:var(--serif);font-size:17px;color:var(--star);margin:0 0 10px;}
+  .view-row{display:flex;gap:12px;margin-top:12px;padding-top:12px;border-top:1px dashed var(--line);}
+  .view-row:first-of-type{border-top:none;padding-top:0;}
+  .view-label{flex-shrink:0;width:110px;font-family:var(--mono);font-size:11px;color:var(--dim);text-transform:uppercase;}
+  .view-text{font-size:14px;color:var(--dim);}
+
+  .formula{font-family:var(--mono);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:14px 16px;color:var(--sand);font-size:13.5px;overflow-x:auto;margin:10px 0;}
+  .formula .op{color:var(--star);}
+
+  .limit-list{list-style:none;padding:0;margin:0;}
+  .limit-list li{display:flex;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);font-size:14px;color:var(--dim);}
+  .limit-list li:last-child{border-bottom:none;}
+  .marker{color:var(--terra);font-family:var(--mono);flex-shrink:0;}
+
+  .ref-list{list-style:none;padding:0;margin:0;font-size:13px;}
+  .ref-list li{padding:9px 0;border-bottom:1px solid var(--line);color:var(--dim);}
+  .ref-list li:last-child{border-bottom:none;}
+  .src{color:var(--star);font-family:var(--mono);font-size:11px;}
+
+  footer{text-align:center;padding-top:26px;border-top:1px solid var(--line);color:#6b6656;font-size:12px;font-family:var(--mono);}
+
+  .lab{background:linear-gradient(180deg,#161b29,var(--panel));border:1px solid var(--star);border-radius:12px;padding:22px;}
+  .slider-grid{display:grid;grid-template-columns:1fr;gap:18px;margin-bottom:18px;}
+  @media(min-width:640px){.slider-grid{grid-template-columns:1fr 1fr;}}
+  .slider-field label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:11.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.03em;margin-bottom:8px;}
+  .slider-field label b{color:var(--star);font-family:var(--sans);text-transform:none;font-size:13px;}
+  .slider-field input[type=range]{width:100%;accent-color:var(--star);height:4px;background:var(--line);}
+  .slider-hint{font-size:11px;color:#6b6656;margin-top:4px;}
+  .chartbox{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px;margin-top:6px;}
+  .chartbox svg{width:100%;height:auto;display:block;}
+  .lab-verdict{margin-top:14px;padding:14px 16px;border-radius:8px;font-size:14px;line-height:1.55;}
+  .lab-verdict.ok{background:rgba(127,184,143,.12);border:1px solid rgba(127,184,143,.4);color:var(--ok);}
+  .lab-verdict.warn{background:rgba(217,164,65,.12);border:1px solid rgba(217,164,65,.4);color:var(--warn);}
+  .lab-verdict.bad{background:rgba(193,112,90,.12);border:1px solid rgba(193,112,90,.4);color:var(--terra);}
+  .lab-stats{display:flex;flex-wrap:wrap;gap:10px 26px;margin-top:12px;font-size:13px;color:var(--dim);}
+  .lab-stats b{color:var(--sand);font-family:var(--mono);}
+  .preset-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
+  .preset-btn{font-size:12px;background:var(--bg);border:1px solid var(--line);color:var(--dim);padding:8px 12px;border-radius:20px;cursor:pointer;}
+  .preset-btn:hover{border-color:var(--star);color:var(--star);}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="eyebrow">Laboratorium Fiqih &amp; Fisiologi</div>
+  <h1>Air yang<br><em>Membersihkan</em><br>Dirinya Sendiri</h1>
+  <div class="arabic">اِسْتِحَالَة</div>
+  <p class="lede">Dari air diam yang berubah aroma, sampai spektrum istihalah yang mungkin jauh lebih luas pada air dibanding pada benda padat.</p>
+</div>
+
+<div class="wrap">
+
+  <section>
+    <div class="sec-head"><span class="tag">01 — Belajar</span><h2>Satu Pola, Banyak Bahasa</h2></div>
+    <div class="card">
+      <p>Dalam literatur fiqih, air yang lama tidak bergerak (dikenal sebagai <em>al-mā' ar-rākid</em>) disebut bisa mengalami perubahan bau atau rasa. Ini cuma satu contoh dari pola yang jauh lebih universal: <strong>gerak/pertukaran cenderung menjaga kualitas, sementara stagnasi cenderung merusaknya</strong> — pola yang juga muncul di sebuah syair masyhur (populer dinisbatkan kepada Imam Syafi'i, meski penisbatannya sendiri didiskusikan ahli sanad) yang membandingkan air diam yang menjadi keruh dengan air mengalir yang tetap jernih, sebagai perumpamaan untuk manfaat merantau dan bergerak.</p>
+      <p>Yang menarik: pola yang sama muncul di puisi <em>dan</em> di fiqih <em>dan</em> di sains modern — dan sains modern punya penjelasan kimiawi yang persis untuk fenomena ini.</p>
+      <div class="quote"><p>Air yang mengalir terus-menerus teraerasi oleh udara di permukaannya yang bergolak — oksigen terlarut terus terisi ulang, sehingga mikroba pengurai bekerja secara aerobik (tanpa bau). Air yang diam kehabisan oksigen terlarut, memaksa mikroba beralih ke penguraian anaerobik yang menghasilkan gas berbau seperti hidrogen sulfida dan metana.</p></div>
+      <p>Jadi "air mengalir tetap baik, air diam jadi rusak" bukan sekadar kiasan sastra — ada mekanisme kimia terukur di baliknya: <strong>ketersediaan oksigen terlarut</strong>.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="tag">02 — Pertanyaan Ilmiah</span><h2>Ke Mana "yang Negatif" Itu Pergi?</h2></div>
+    <div class="card">
+      <ol style="padding-left:20px;color:var(--dim);font-size:15px;">
+        <li style="margin-bottom:10px;"><strong>Apakah zat pengotor benar-benar hilang, atau cuma berubah bentuk/lokasi?</strong> Ini pembeda kunci antara istihalah sejati dan sekadar "penyamaran".</li>
+        <li style="margin-bottom:10px;"><strong>Apakah air sendiri yang berubah identitas, atau cuma pengotornya yang terurai sementara air tetap air?</strong></li>
+        <li style="margin-bottom:10px;"><strong>Kalau prosesnya bertahap dan lewat banyak jalur berbeda (bukan satu peristiwa tegas seperti pembakaran), apakah itu tetap dianggap transformasi yang sama?</strong></li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="tag">03 — Model</span><h2>Dua Nasib Berbeda</h2></div>
+    <div class="card diagram-wrap">
+      <svg viewBox="0 0 620 220" xmlns="http://www.w3.org/2000/svg">
+        <rect x="20" y="20" width="270" height="90" rx="10" fill="none" stroke="#7fb88f" stroke-width="1.5"/>
+        <text x="155" y="42" text-anchor="middle" font-family="Work Sans" font-size="12.5" fill="#7fb88f" font-weight="700">Mengalir — teraerasi</text>
+        <circle cx="60" cy="75" r="4" fill="#7fb88f" opacity="0.7"/><circle cx="90" cy="65" r="3" fill="#7fb88f" opacity="0.5"/>
+        <circle cx="120" cy="80" r="4" fill="#7fb88f" opacity="0.6"/>
+        <text x="200" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#8b8672">O₂ terisi ulang</text>
+        <text x="155" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#8b8672">penguraian aerobik, jernih</text>
+
+        <rect x="330" y="20" width="270" height="90" rx="10" fill="none" stroke="#c1705a" stroke-width="1.5"/>
+        <text x="465" y="42" text-anchor="middle" font-family="Work Sans" font-size="12.5" fill="#c1705a" font-weight="700">Diam — anaerobik</text>
+        <circle cx="400" cy="75" r="4" fill="#c1705a" opacity="0.3"/>
+        <text x="465" y="80" text-anchor="middle" font-family="JetBrains Mono" font-size="11" fill="#8b8672">O₂ habis</text>
+        <text x="465" y="100" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#8b8672">H₂S/metana, bau &amp; keruh</text>
+
+        <text x="310" y="160" text-anchor="middle" font-family="Work Sans" font-size="13" fill="#b9b2a0">Variabelnya bukan "diam vs mengalir" secara harfiah,</text>
+        <text x="310" y="180" text-anchor="middle" font-family="Work Sans" font-size="13" fill="#b9b2a0">tapi ketersediaan oksigen terlarut di dalamnya.</text>
+      </svg>
+      <div class="diagram-cap">Air deras yang tertutup rapat tanpa kontak udara bisa juga kehabisan oksigen — jadi "mengalir" hanyalah cara paling umum untuk menjaga aerasi, bukan syarat mutlak itu sendiri.</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="tag">04 — Eksplorasi</span><h2>Spektrum Istihalah pada Air</h2></div>
+    <p>Klasik: kotoran dibakar jadi abu/arang → istihalah, disepakati sebagian besar ulama (dengan beda pendapat soal detail abu vs arang). Pertanyaan Anda: apakah air punya jalur transformasi yang lebih beragam? Pilih salah satu mekanisme untuk melihat status fiqihnya.</p>
+
+    <div class="sim">
+      <div class="mode-grid" id="modeGrid">
+        <button class="mode-btn active" data-mode="bakar">Pembakaran<br><span style="opacity:.6;">(rujukan klasik)</span></button>
+        <button class="mode-btn" data-mode="dilusi">Pengenceran</button>
+        <button class="mode-btn" data-mode="evaporasi">Evaporasi–Kondensasi</button>
+        <button class="mode-btn" data-mode="aerasi">Reaerasi &amp; Biodegradasi</button>
+        <button class="mode-btn" data-mode="uv">Fotolisis UV Matahari</button>
+        <button class="mode-btn" data-mode="sedimentasi">Sedimentasi/Adsorpsi</button>
+      </div>
+
+      <div class="result-panel">
+        <div class="result-row">
+          <span class="rl">Penjelasan Sains</span>
+          <div class="rv" id="resSains">—</div>
+        </div>
+        <div class="result-row">
+          <span class="rl">Status Istihalah</span>
+          <div id="resStatus"><span class="status-pill" id="statusPill">—</span></div>
+          <div class="rv" id="resFiqih">—</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="tag">05 — Eksperimen</span><h2>Laboratorium: Geser Variabelnya Sendiri</h2></div>
+    <p>Diagram di bagian 03 dan mode "Reaerasi &amp; Biodegradasi" di atas menjelaskan <em>arahnya</em> secara kualitatif. Panel ini mengubahnya jadi model kuantitatif nyata — <strong>kurva sag oksigen Streeter-Phelps</strong>, model klasik kualitas air sungai sejak 1925 yang masih dipakai sampai sekarang. Geser tiap variabel dan lihat sendiri: pada kombinasi apa air tetap teraerasi terus, dan pada kombinasi apa ia jatuh ke ambang anaerobik (mulai berbau).</p>
+
+    <div class="lab">
+      <div class="preset-row">
+        <button class="preset-btn" data-preset="mengalir">🏞️ Sungai deras berjeram</button>
+        <button class="preset-btn" data-preset="lambat">🌊 Sungai tenang</button>
+        <button class="preset-btn" data-preset="diam">🪣 Air tergenang/diam</button>
+        <button class="preset-btn" data-preset="cemar">🏭 Diam + beban cemar tinggi</button>
+      </div>
+
+      <div class="slider-grid">
+        <div class="slider-field">
+          <label>Laju reaerasi k<sub>r</sub> — seberapa deras/bergolak air <b id="valKr">0.60</b> /hari</label>
+          <input type="range" id="kr" min="0.05" max="4" step="0.01" value="0.6">
+          <div class="slider-hint">Kecil = air nyaris diam · Besar = deras, berjeram, banyak kontak udara</div>
+        </div>
+        <div class="slider-field">
+          <label>Laju dekomposisi k<sub>d</sub> — seberapa cepat bahan organik terurai <b id="valKd">0.25</b> /hari</label>
+          <input type="range" id="kd" min="0.02" max="1.2" step="0.01" value="0.25">
+          <div class="slider-hint">Bergantung jenis &amp; jumlah mikroba pengurai yang aktif</div>
+        </div>
+        <div class="slider-field">
+          <label>Beban pencemar awal (BOD) L<sub>0</sub> <b id="valL0">30</b> mg/L</label>
+          <input type="range" id="l0" min="2" max="400" step="1" value="30">
+          <div class="slider-hint">Jumlah bahan organik yang harus diurai mikroba — makin tinggi, makin banyak oksigen yang "diminta"</div>
+        </div>
+        <div class="slider-field">
+          <label>Oksigen jenuh (suhu air) DO<sub>sat</sub> <b id="valDOsat">8.5</b> mg/L</label>
+          <input type="range" id="dosat" min="6" max="11" step="0.1" value="8.5">
+          <div class="slider-hint">Air hangat menampung lebih sedikit oksigen terlarut daripada air dingin</div>
+        </div>
+      </div>
+
+      <div class="chartbox">
+        <svg id="chart" viewBox="0 0 600 240" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+
+      <div class="lab-stats">
+        <div>Titik kritis: <b id="statTc">—</b> hari</div>
+        <div>DO minimum tercapai: <b id="statDOmin">—</b> mg/L</div>
+        <div>Sempat di bawah ambang 2 mg/L: <b id="statCross">—</b></div>
+      </div>
+
+      <div class="lab-verdict" id="labVerdict">—</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="debate-box">
+      <h3>Kasus Anda: Kencing Sedikit, Baunya Hilang Sendiri — Sudah Sucikah?</h3>
+      <p style="color:var(--dim);font-size:14px;margin-bottom:0;">Ini persis masalah fiqih yang dikenal sebagai <em>zawal at-taghayyur bi nafsihi</em> — hilangnya perubahan (bau/rasa/warna akibat najis) dengan sendirinya seiring waktu, tanpa ditambah air atau tindakan apa pun. Ulama berbeda pendapat:</p>
+      <div class="view-row">
+        <div class="view-label">Jumhur (mayoritas)</div>
+        <div class="view-text">Air tetap dihukumi najis. Hilangnya tanda (bau/rasa) tidak berarti hilangnya <em>substansi</em> najis itu sendiri — bisa jadi ia masih ada dalam bentuk yang tak lagi terdeteksi indera.</div>
+      </div>
+      <div class="view-row">
+        <div class="view-label">Ibn Taimiyah &amp; Ibn Qayyim</div>
+        <div class="view-text">Begitu perubahan (illat kenajisannya) hilang dengan sendirinya, air kembali suci — penalarannya mirip istihalah: tanda yang menjadi identitas "ternajisi" sudah sirna, seolah air kembali ke wujud asalnya.</div>
+      </div>
+      <p style="margin-top:14px;font-size:12.5px;color:#8b8672;">Ini bukan soal siapa yang benar — dua penalaran ini muncul dari cara berbeda memandang apakah "yang tak terdeteksi" sama dengan "yang tidak ada".</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="tag">06 — Metode</span><h2>Kerangka Pembeda Sederhana</h2></div>
+    <div class="card">
+      <div class="formula">JIKA identitas/nama substansi berubah total → <span class="op">ISTIHALAH</span><br>JIKA cuma posisi/konsentrasi berubah, substansi sama → <span class="op">BUKAN istihalah</span> (dilusi, intiqal, izalah)<br>JIKA tandanya hilang tapi substansi diperdebatkan ada/tidak → <span class="op">WILAYAH ZAWAL AT-TAGHAYYUR</span></div>
+      <p>Kerangka ini bukan rumus fiqih resmi — ini penyederhanaan saya untuk membantu memetakan enam mekanisme di atas, supaya terlihat pola bedanya.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="tag">07 — Batasan</span><h2>Yang Perlu Diingat Keras-Keras</h2></div>
+    <div class="card">
+      <ul class="limit-list">
+        <li><span class="marker">—</span> Ini bukan fatwa. Klasifikasi "istihalah sejati / diperdebatkan / bukan" adalah penyederhanaan edukatif lintas madzhab, bukan tarjih hukum.</li>
+        <li><span class="marker">—</span> Bahkan rujukan klasik (pembakaran kotoran) sendiri diperdebatkan detailnya: Hanafi menerima api sebagai penyuci, Syafi'i dan Hanbali menolak api sebagai penyuci (bahkan menganggap abu dan asapnya tetap najis), Maliki membedakan abu (suci) dari asap (najis), dan sebagian rujukan lain membedakan abu (istihalah sempurna) dari arang (dianggap belum benar-benar berubah wujud).</li>
+        <li><span class="marker">—</span> Sains reaerasi/oksigen terlarut berlaku jelas pada skala sungai atau badan air terbuka — pada wadah kecil tertutup, mekanismenya bisa sangat berbeda atau nyaris tidak berjalan sama sekali.</li>
+        <li><span class="marker">—</span> Simulator kurva Streeter-Phelps di bagian 05 mengasumsikan k<sub>r</sub> dan k<sub>d</sub> konstan sepanjang waktu dan air tercampur merata (satu titik pengukuran mewakili seluruh badan air) — sungai nyata punya variasi suhu, kedalaman, dan aliran yang membuat angka aktual berbeda dari kurva model ini. Ambang 2 mg/L yang dipakai sebagai penanda "mulai kritis" juga penyederhanaan ilustratif, bukan baku mutu resmi yang berlaku universal.</li>
+        <li><span class="marker">—</span> Syair tentang air mengalir yang saya singgung di bagian Belajar sengaja tidak saya kutip baitnya — hanya temanya — karena aturan saya sendiri soal karya sastra berhak cipta/puisi, dan karena penisbatannya kepada Imam Syafi'i sendiri didiskusikan ahli sanad, bukan hal yang pasti.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="tag">08 — Referensi</span><h2>Sumber</h2></div>
+    <div class="card">
+      <ul class="ref-list">
+        <li><span class="src">Al-Islam.org / WikiShia</span> — definisi istihalah &amp; contoh-contohnya lintas mazhab Ja'fari.</li>
+        <li><span class="src">Oxford Academic — Shariah and the Halal Industry</span> — prinsip istihalah sebagai transformasi substansi.</li>
+        <li><span class="src">Muhammad Jawad Mughniyya — al-Fiqh 'ala al-Madhahib al-Khamsah</span> — perbandingan pandangan Hanafi/Syafi'i/Hanbali/Maliki/Ja'fari soal api &amp; istihalah.</li>
+        <li><span class="src">Water Detective / IOP Conference Series</span> — mekanisme self-purification sungai: reaerasi, dekomposisi aerobik vs anaerobik, kurva Streeter-Phelps.</li>
+        <li><span class="src">Islamic Portal</span> — metodologi penelusuran sanad untuk penisbatan syair kepada ulama klasik.</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>Laboratorium Fiqih &amp; Fisiologi — bagian dari Bank Alat JAZMI/Qiladat</footer>
+</div>
+
+<script>
+  const data = {
+    bakar: {
+      sains: 'Pembakaran memutus ikatan kimia asli secara total — komponen organik terurai jadi senyawa mineral (abu) yang komposisi kimianya sama sekali berbeda dari bahan asal.',
+      status: 'sejati', statusLabel: 'ISTIHALAH SEJATI (mayoritas sepakat, detail diperdebatkan)',
+      fiqih: 'Rujukan klasik istihalah. Tapi bahkan di sini ulama berbeda soal batasnya: abu vs arang, dan apakah api sendiri yang menyucikan atau istihalah-nya.'
+    },
+    dilusi: {
+      sains: 'Konsentrasi zat pengotor menurun karena volume air bertambah — tapi secara molekul, zat itu masih ada, hanya tersebar lebih jarang.',
+      status: 'bukan', statusLabel: 'BUKAN ISTIHALAH',
+      fiqih: 'Ini masuk kategori fiqih yang berbeda (hukum air banyak/qullatain) — bukan transformasi substansi, karena identitas kimiawi zat pengotor tidak berubah sama sekali.'
+    },
+    evaporasi: {
+      sains: 'Air berubah wujud cair→gas→cair (siklus penguapan-kondensasi). Sebagian besar zat terlarut/pengotor tidak ikut menguap dan tertinggal — air yang mengembun kembali secara fisik lebih murni.',
+      status: 'diperdebatkan', statusLabel: 'DIPERDEBATKAN — istihalah menurut sebagian, bukan menurut yang lain',
+      fiqih: 'Sebagian rujukan fiqih (termasuk beberapa dalam tradisi Ja\'fari) secara eksplisit menyebut "air najis menguap jadi uap lalu jadi air lagi" sebagai istihalah. Pandangan lain menilai ini cuma pemisahan fisik (mirip distilasi/filtrasi) karena air (H₂O) tidak pernah berubah identitas — hanya dipisahkan dari pengotornya.'
+    },
+    aerasi: {
+      sains: 'Air yang bergolak menyerap oksigen dari udara; oksigen ini dipakai mikroba untuk menguraikan zat organik secara aerobik menjadi CO₂ dan air — tanpa gas berbau.',
+      status: 'bukan', statusLabel: 'BUKAN ISTIHALAH AIR',
+      fiqih: 'Air tetap air — yang berubah adalah zat organik pengotornya (terurai oleh mikroba). Ini mekanisme penghilangan/penguraian pengotor (izalah), bukan transformasi identitas air itu sendiri.'
+    },
+    uv: {
+      sains: 'Radiasi ultraviolet matahari merusak DNA/RNA mikroorganisme patogen, menonaktifkannya. Ini metode nyata yang direkomendasikan WHO untuk disinfeksi darurat (SODIS) — botol PET bening dijemur 6+ jam.',
+      status: 'bukan', statusLabel: 'BUKAN ISTIHALAH',
+      fiqih: 'Ini pembunuhan mikroorganisme, bukan transformasi substansi kimiawi. Air dan kandungan kimianya secara umum tidak berubah identitas hanya karena disinari UV.'
+    },
+    sedimentasi: {
+      sains: 'Partikel tersuspensi mengendap karena gravitasi, atau menempel (teradsorpsi) ke permukaan tanah/pasir/sedimen — air jadi jernih karena partikelnya berpindah tempat.',
+      status: 'bukan', statusLabel: 'BUKAN ISTIHALAH',
+      fiqih: 'Ini kategori "intiqal" (perpindahan tempat) — zat pengotor tidak hilang atau berubah wujud, cuma pindah dari air ke sedimen.'
+    }
+  };
+
+  const buttons = document.querySelectorAll('.mode-btn');
+  function render(mode){
+    const d = data[mode];
+    document.getElementById('resSains').textContent = d.sains;
+    document.getElementById('resFiqih').textContent = d.fiqih;
+    const pill = document.getElementById('statusPill');
+    pill.textContent = d.statusLabel;
+    pill.className = 'status-pill ' + d.status;
+  }
+  buttons.forEach(b => b.addEventListener('click', () => {
+    buttons.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    render(b.dataset.mode);
+  }));
+  render('bakar');
+
+  // === Laboratorium: kurva sag oksigen Streeter-Phelps ===
+  const krEl = document.getElementById('kr');
+  const kdEl = document.getElementById('kd');
+  const l0El = document.getElementById('l0');
+  const dosatEl = document.getElementById('dosat');
+  const HORIZON = 15; // hari
+
+  function deficit(t, kr, kd, L0, D0){
+    if(Math.abs(kr-kd) < 1e-6) kd = kr - 1e-6; // hindari pembagian nol
+    return (kd*L0)/(kr-kd) * (Math.exp(-kd*t) - Math.exp(-kr*t)) + D0*Math.exp(-kr*t);
+  }
+
+  function hitungKritis(kr, kd, L0, D0){
+    if(Math.abs(kr-kd) < 1e-6) kd = kr - 1e-6;
+    const inner = (kr/kd) * (1 - (D0*(kr-kd))/(kd*L0));
+    if(inner <= 0) return null;
+    const tc = (1/(kr-kd)) * Math.log(inner);
+    if(!isFinite(tc) || tc < 0) return null;
+    return tc;
+  }
+
+  function gambarChart(){
+    const kr = parseFloat(krEl.value);
+    const kd = parseFloat(kdEl.value);
+    const L0 = parseFloat(l0El.value);
+    const DOsat = parseFloat(dosatEl.value);
+    const D0 = 0; // asumsi air mulai dari kondisi jenuh oksigen
+
+    document.getElementById('valKr').textContent = kr.toFixed(2);
+    document.getElementById('valKd').textContent = kd.toFixed(2);
+    document.getElementById('valL0').textContent = L0.toFixed(0);
+    document.getElementById('valDOsat').textContent = DOsat.toFixed(1);
+
+    const N = 120;
+    let pts = [];
+    let doMin = DOsat, doMinT = 0;
+    let crossed = false, crossT = null;
+    for(let i=0;i<=N;i++){
+      const t = (i/N)*HORIZON;
+      const D = deficit(t, kr, kd, L0, D0);
+      const DO = Math.max(0, DOsat - D);
+      pts.push([t, DO]);
+      if(DO < doMin){ doMin = DO; doMinT = t; }
+      if(DO < 2 && !crossed){ crossed = true; crossT = t; }
+    }
+
+    // svg mapping
+    const W=600,H=240,padL=42,padR=14,padT=14,padB=30;
+    const yMax = Math.max(DOsat, 9);
+    function px(t){ return padL + (t/HORIZON)*(W-padL-padR); }
+    function py(v){ return (H-padB) - (v/yMax)*(H-padT-padB); }
+
+    let path = pts.map((p,i)=> (i===0?'M':'L') + px(p[0]).toFixed(1) + ',' + py(p[1]).toFixed(1)).join(' ');
+
+    let svg = `<line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#2a3149"/>
+      <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H-padB}" stroke="#2a3149"/>`;
+
+    // ambang 2 mg/L garis putus
+    const y2 = py(2);
+    svg += `<line x1="${padL}" y1="${y2}" x2="${W-padR}" y2="${y2}" stroke="#c1705a" stroke-width="1" stroke-dasharray="4,4"/>
+      <text x="${W-padR}" y="${y2-5}" fill="#c1705a" font-size="10" text-anchor="end" font-family="JetBrains Mono">ambang 2 mg/L</text>`;
+
+    // garis DOsat
+    const y0 = py(DOsat);
+    svg += `<line x1="${padL}" y1="${y0}" x2="${W-padR}" y2="${y0}" stroke="#7fb88f" stroke-width="1" stroke-dasharray="2,3" opacity="0.5"/>`;
+
+    // sumbu label
+    [0,5,10,15].forEach(t=>{
+      const x = px(t);
+      svg += `<text x="${x}" y="${H-padB+16}" fill="#8b8672" font-size="10" text-anchor="middle" font-family="JetBrains Mono">${t}h</text>`;
+    });
+    [0,2,4,6,8].forEach(v=>{
+      if(v<=yMax){
+        const y = py(v);
+        svg += `<text x="${padL-6}" y="${y+3}" fill="#8b8672" font-size="10" text-anchor="end" font-family="JetBrains Mono">${v}</text>`;
+      }
+    });
+
+    svg += `<path d="${path}" fill="none" stroke="#7f9fe8" stroke-width="2.5"/>`;
+
+    // titik minimum
+    const mx = px(doMinT), my = py(doMin);
+    svg += `<circle cx="${mx}" cy="${my}" r="4" fill="#d9a441"/>
+      <text x="${mx}" y="${my-10}" fill="#d9a441" font-size="10" text-anchor="middle" font-family="JetBrains Mono">min ${doMin.toFixed(2)} mg/L</text>`;
+
+    document.getElementById('chart').innerHTML = svg;
+
+    document.getElementById('statTc').textContent = doMinT.toFixed(2);
+    document.getElementById('statDOmin').textContent = doMin.toFixed(2);
+    document.getElementById('statCross').textContent = crossed ? ('ya, sejak hari ke-' + crossT.toFixed(2)) : 'tidak, tetap di atas ambang';
+
+    const verdict = document.getElementById('labVerdict');
+    if(doMin >= 5){
+      verdict.className = 'lab-verdict ok';
+      verdict.innerHTML = `Dengan variabel ini, oksigen terlarut tidak pernah turun drastis (minimum ${doMin.toFixed(2)} mg/L) — reaerasi cukup cepat mengimbangi konsumsi oksigen oleh mikroba. Air tetap dalam kondisi aerobik: dalam kerangka bagian 01, ini pola "mengalir/teraerasi" yang menjaga kualitas, bukan pola yang mengarah ke istihalah lewat pembusukan anaerobik.`;
+    } else if(doMin >= 2){
+      verdict.className = 'lab-verdict warn';
+      verdict.innerHTML = `Oksigen terlarut turun cukup dalam (minimum ${doMin.toFixed(2)} mg/L pada hari ke-${doMinT.toFixed(1)}) tapi belum menembus ambang kritis 2 mg/L — kondisi tertekan, mendekati batas, tapi kemungkinan belum cukup untuk memicu bau anaerobik yang jelas.`;
+    } else {
+      verdict.className = 'lab-verdict bad';
+      verdict.innerHTML = `Oksigen terlarut anjlok di bawah ambang 2 mg/L mulai hari ke-${crossT.toFixed(1)} (minimum ${doMin.toFixed(2)} mg/L) — pada titik ini mikroba pengurai kemungkinan besar beralih ke jalur anaerobik, menghasilkan gas berbau seperti pada air yang "diam lama" di bagian 01. Coba naikkan k<sub>r</sub> (reaerasi) atau turunkan L₀ (beban pencemar) untuk melihat apa yang sebenarnya perlu berubah supaya ini tidak terjadi.`;
+    }
+  }
+
+  [krEl,kdEl,l0El,dosatEl].forEach(el => el.addEventListener('input', gambarChart));
+
+  const presets = {
+    mengalir: {kr:3.2, kd:0.2, l0:25, dosat:8.5},
+    lambat:   {kr:0.9, kd:0.25, l0:30, dosat:8.5},
+    diam:     {kr:0.15, kd:0.3, l0:35, dosat:8.5},
+    cemar:    {kr:0.15, kd:0.4, l0:180, dosat:7.5}
+  };
+  document.querySelectorAll('.preset-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const p = presets[btn.dataset.preset];
+      krEl.value = p.kr; kdEl.value = p.kd; l0El.value = p.l0; dosatEl.value = p.dosat;
+      gambarChart();
+    });
+  });
+
+  gambarChart();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

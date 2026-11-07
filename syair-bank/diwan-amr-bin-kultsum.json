@@ -1,0 +1,1590 @@
+{
+  "_catatan": "BANK DIWAN #001 — 'Amr bin Kultsum (4 qasidah dari aldiwan.net). Dibuat & difinalkan 24 Okt 2026 (T1). Seluruh 32 bait berstatus 'dipublikasikan'; tidak ada yang tersisa 'ditinjau'. Bait yang meragukan dengan sengaja TIDAK diserap (urutanBank 22, 23, 25, 26, 27, 30, 31, 32, 33, 35, 37, 38, 42, 43, 44, 46, 47) karena proyek tidak bermaksud menyerap seluruh bait qasidah. Nomor urutanBank/id sengaja tidak dirapatkan. Harakat mengikuti aldiwan; terjemahan Indonesia disusun sendiri. Skor kurasi dikosongkan. jenis 'pilihan-diwan' = usulan v2.1.",
+  "kitab": [
+    {
+      "id": "kitab-diwan-amr-muallaqah",
+      "judulArab": "أَلاَ هُبِّي بِصَحْنِكِ فَاصْبَحِينَا",
+      "judulLatin": "Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+      "penyairMatanId": "penyair-amr-bin-kultsum",
+      "penulisSyarahId": null,
+      "periode": "Era Jahiliyah",
+      "jenis": "Qasidah (diwan) — pilihan dari aldiwan.net",
+      "jumlahBait": null,
+      "sumber": "aldiwan.net — https://www.aldiwan.net/poem311.html",
+      "status": "diseleksi",
+      "prioritas": "sedang",
+      "catatan": "Qasidah panjang (Mu'allaqah); dalam paket ini hanya bait pilihan. Jumlah total bait belum dihitung. Bait di bank: 15."
+    },
+    {
+      "id": "kitab-diwan-amr-ajmau-suhbati",
+      "judulArab": "أَأَجْمَعُ صُحْبَتِي سَحَرَ ارْتِحَالا",
+      "judulLatin": "A-Ajma'u Shuhbatī Sahara Irtihālā",
+      "penyairMatanId": "penyair-amr-bin-kultsum",
+      "penulisSyarahId": null,
+      "periode": "Era Jahiliyah",
+      "jenis": "Qasidah (diwan) — pilihan dari aldiwan.net",
+      "jumlahBait": null,
+      "sumber": "aldiwan.net — https://www.aldiwan.net/poem302.html",
+      "status": "diseleksi",
+      "prioritas": "sedang",
+      "catatan": "Qasidah pendek, semua baris halaman dimasukkan. Bait di bank: 7."
+    },
+    {
+      "id": "kitab-diwan-amr-andzartu",
+      "judulArab": "أَنْذَرْتُ أَعْدَائِي غَدَا",
+      "judulLatin": "Andzartu A'dā'ī Ghadā",
+      "penyairMatanId": "penyair-amr-bin-kultsum",
+      "penulisSyarahId": null,
+      "periode": "Era Jahiliyah",
+      "jenis": "Qasidah (diwan) — pilihan dari aldiwan.net",
+      "jumlahBait": null,
+      "sumber": "aldiwan.net — https://www.aldiwan.net/poem315.html",
+      "status": "diseleksi",
+      "prioritas": "sedang",
+      "catatan": "Qasidah pendek; sebagian kata terbelah antara dua syatr (tadwir), lihat catatan per bait. Bait di bank: 4."
+    },
+    {
+      "id": "kitab-diwan-amr-layajzi",
+      "judulArab": "لِيَجْزِ اللَّهُ مِنْ جُشَمِ بْنِ بَكْرٍ",
+      "judulLatin": "Li-Yajzi Allāhu min Jusyami bni Bakr",
+      "penyairMatanId": "penyair-amr-bin-kultsum",
+      "penulisSyarahId": null,
+      "periode": "Era Jahiliyah",
+      "jenis": "Qasidah (diwan) — pilihan dari aldiwan.net",
+      "jumlahBait": null,
+      "sumber": "aldiwan.net — https://www.aldiwan.net/poem278.html",
+      "status": "diseleksi",
+      "prioritas": "sedang",
+      "catatan": "Qasidah pendek, semua baris halaman dimasukkan. Bait di bank: 6."
+    }
+  ],
+  "penyair": [
+    {
+      "id": "penyair-amr-bin-kultsum",
+      "namaArab": "عمرو بن كلثوم",
+      "namaLatin": "'Amr bin Kultsum (at-Taghlibi)",
+      "periode": "Era Jahiliyah",
+      "infoSingkat": null,
+      "catatan": "Atribusi tiap qasidah mengikuti aldiwan.net; belum diverifikasi ke sumber lain."
+    }
+  ],
+  "bait": [
+    {
+      "id": "bait-diwan-amr-bin-kultsum-001",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 1,
+      "teksArab": "أَلاَ هُبِّي بِصَحْنِكِ فَاصْبَحِينَا ... وَلاَ تُبْقِي خُمُورَ الأَنْدَرِينَا",
+      "syatrA": "أَلاَ هُبِّي بِصَحْنِكِ فَاصْبَحِينَا",
+      "syatrB": "وَلاَ تُبْقِي خُمُورَ الأَنْدَرِينَا",
+      "terjemahan": "Bangunlah, wahai kekasih, dengan cawan besarmu, hidangkan kami minuman pagi, dan jangan sisakan khamar al-Andarin.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Pembuka Mu'allaqah",
+        "nomorSumber": 1,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Pembuka Mu'allaqah",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Bait pembuka yang sangat terkenal.; Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-002",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 2,
+      "teksArab": "صَبَنْتِ الكَأْسَ عَنَّا أُمَّ عَمْرٍو ... وَكَانَ الكَأْسُ مَجْرَاهَا اليَمِينَا",
+      "syatrA": "صَبَنْتِ الكَأْسَ عَنَّا أُمَّ عَمْرٍو",
+      "syatrB": "وَكَانَ الكَأْسُ مَجْرَاهَا اليَمِينَا",
+      "terjemahan": "Engkau menahan cawan itu dari kami, wahai Ummu 'Amr, padahal arah edarannya semestinya ke kanan.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Adab majelis (jahiliyah)",
+        "nomorSumber": 2,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Adab majelis (jahiliyah)",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-003",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 3,
+      "teksArab": "وَمَا شَرُّ الثَّلاَثَةِ أُمَّ عَمْرٍو ... بِصَاحِبِكِ الَّذِي لاَ تَصْبَحِينَا",
+      "syatrA": "وَمَا شَرُّ الثَّلاَثَةِ أُمَّ عَمْرٍو",
+      "syatrB": "بِصَاحِبِكِ الَّذِي لاَ تَصْبَحِينَا",
+      "terjemahan": "Dan bukanlah yang terburuk dari tiga orang itu, wahai Ummu 'Amr, kawanmu yang tidak engkau beri minum pagi.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Adab majelis (jahiliyah)",
+        "nomorSumber": 3,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Adab majelis (jahiliyah)",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Diputuskan pengelola (Abang) 24 Okt 2026: terima; makna rujukan (mis. 'tiga orang', 'Banu Abina') tidak perlu dilacak."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-004",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 4,
+      "teksArab": "قِفِي قَبْلَ التَّفَرُّقِ يَا ظَعِينَا ... نُخَبِّرْكِ اليَقِينَ وَتُخْبِرِينَا",
+      "syatrA": "قِفِي قَبْلَ التَّفَرُّقِ يَا ظَعِينَا",
+      "syatrB": "نُخَبِّرْكِ اليَقِينَ وَتُخْبِرِينَا",
+      "terjemahan": "Berhentilah sebelum kita berpisah, wahai perempuan dalam sekedup; kami kabari engkau yang pasti, dan engkau pun kabari kami.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-rindu"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Rindu & perpisahan",
+        "nomorSumber": 4,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Rindu & perpisahan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-005",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 5,
+      "teksArab": "قِفِي نَسْأَلْكِ هَلْ أَحْدَثْتِ صَرْماً ... لِوَشْكِ البَيْنِ أَمْ خُنْتِ الأَمِينَا",
+      "syatrA": "قِفِي نَسْأَلْكِ هَلْ أَحْدَثْتِ صَرْماً",
+      "syatrB": "لِوَشْكِ البَيْنِ أَمْ خُنْتِ الأَمِينَا",
+      "terjemahan": "Berhentilah, kami hendak bertanya: apakah engkau memutus hubungan karena perpisahan sudah dekat, atau engkau mengkhianati orang yang amanah?",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-rindu"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Rindu & perpisahan",
+        "nomorSumber": 5,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Rindu & perpisahan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-006",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 6,
+      "teksArab": "وَإِنَّا سَوْفَ تُدْرِكُنَا المَنَايَا ... مُقَدَّرَةً لَنَا وَمُقَدِّرِينَا",
+      "syatrA": "وَإِنَّا سَوْفَ تُدْرِكُنَا المَنَايَا",
+      "syatrB": "مُقَدَّرَةً لَنَا وَمُقَدِّرِينَا",
+      "terjemahan": "Sesungguhnya kita pasti akan dijemput ajal; ia telah ditetapkan atas kita, dan kita pun termasuk yang ditetapkan (untuk mati).",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-hikmah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Kematian pasti datang",
+        "nomorSumber": 6,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Kematian pasti datang",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Diputuskan pengelola (Abang) 24 Okt 2026: terima; makna rujukan (mis. 'tiga orang', 'Banu Abina') tidak perlu dilacak. Terjemahan 'muqaddirina' mengikuti pembacaan pengelola: kami sendiri yang ditakdirkan mati."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-007",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 7,
+      "teksArab": "أَلاَ لاَ يَجْهَلَنْ أَحَدٌ عَلَيْنَا ... فَنَجْهَلَ فَوْقَ جَهْلِ الجَاهِلِينَا",
+      "syatrA": "أَلاَ لاَ يَجْهَلَنْ أَحَدٌ عَلَيْنَا",
+      "syatrB": "فَنَجْهَلَ فَوْقَ جَهْلِ الجَاهِلِينَا",
+      "terjemahan": "Ingatlah, jangan seorang pun berlaku bodoh terhadap kami, sebab kami akan membalas dengan kebodohan melebihi kebodohan orang-orang yang bodoh.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-fakhr",
+        "tag-hikmah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Harga diri & balasan",
+        "nomorSumber": 7,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Harga diri & balasan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Bait paling masyhur dari Mu'allaqah; kata 'jahl' di sini = kekerasan/kebengisan, bukan kebodohan semata.; Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-008",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 8,
+      "teksArab": "بِأَيِّ مَشِيئَةٍ عَمْرَو بْنَ هِنْدٍ ... نَكُونُ لِقَيْلِكُمْ فِيهَا قَطِينَا",
+      "syatrA": "بِأَيِّ مَشِيئَةٍ عَمْرَو بْنَ هِنْدٍ",
+      "syatrB": "نَكُونُ لِقَيْلِكُمْ فِيهَا قَطِينَا",
+      "terjemahan": "Atas kehendak apa, wahai 'Amr bin Hind, kami harus menjadi pelayan bagi wakil-wakil kalian?",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-fakhr"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Menolak tunduk",
+        "nomorSumber": 8,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Menolak tunduk",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Diterima 24 Okt 2026 atas mandat pengelola; teks aman, harakat mengikuti aldiwan."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-009",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 9,
+      "teksArab": "تَهَدَّدُنَا وَتُوعِدُنَا رُوَيْداً ... مَتَى كُنَّا لأُمِّكَ مَقْتَوِينَا",
+      "syatrA": "تَهَدَّدُنَا وَتُوعِدُنَا رُوَيْداً",
+      "syatrB": "مَتَى كُنَّا لأُمِّكَ مَقْتَوِينَا",
+      "terjemahan": "Engkau mengancam dan menggertak kami? Pelan-pelan! Sejak kapan kami menjadi abdi ibumu?",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-fakhr"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Menolak tunduk",
+        "nomorSumber": 9,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Menolak tunduk",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-010",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 10,
+      "teksArab": "وَنَحْنُ التَّارِكُونَ لِمَا سَخِطْنَا ... وَنَحْنُ الآخِذُونَ لِمَا رَضِينَا",
+      "syatrA": "وَنَحْنُ التَّارِكُونَ لِمَا سَخِطْنَا",
+      "syatrB": "وَنَحْنُ الآخِذُونَ لِمَا رَضِينَا",
+      "terjemahan": "Kamilah yang meninggalkan apa yang kami benci, dan kamilah yang mengambil apa yang kami ridai.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-fakhr"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Kemandirian kabilah",
+        "nomorSumber": 10,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Kemandirian kabilah",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-011",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 11,
+      "teksArab": "وَكُنَّا الأَيْمَنِينَ إِذَا التَقَيْنَا ... وَكَانَ الأَيْسَرِينَ بَنُو أَبِينَا",
+      "syatrA": "وَكُنَّا الأَيْمَنِينَ إِذَا التَقَيْنَا",
+      "syatrB": "وَكَانَ الأَيْسَرِينَ بَنُو أَبِينَا",
+      "terjemahan": "Kami berada di sayap kanan ketika bertemu (musuh), dan di sayap kiri adalah saudara-saudara seayah kami.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-fakhr",
+        "tag-hamasah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Kebanggaan kabilah",
+        "nomorSumber": 11,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Kebanggaan kabilah",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Diputuskan pengelola (Abang) 24 Okt 2026: terima; makna rujukan (mis. 'tiga orang', 'Banu Abina') tidak perlu dilacak."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-012",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 12,
+      "teksArab": "وَنَحْنُ الحَاكِمُونَ إِذَا أُطِعْنَا ... وَنَحْنُ العَازِمُونَ إِذَا عُصِينَا",
+      "syatrA": "وَنَحْنُ الحَاكِمُونَ إِذَا أُطِعْنَا",
+      "syatrB": "وَنَحْنُ العَازِمُونَ إِذَا عُصِينَا",
+      "terjemahan": "Kamilah yang memutuskan perkara bila ditaati, dan kamilah yang bertekad keras bila dibangkang.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-fakhr"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Kebanggaan kabilah",
+        "nomorSumber": 12,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Kebanggaan kabilah",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-013",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 13,
+      "teksArab": "بِأَنَّا المُطْعِمُونَ إِذَا قَدَرْنَا ... وَأَنَّا المُهْلِكُونَ إِذَا ابْتُلِينَا",
+      "syatrA": "بِأَنَّا المُطْعِمُونَ إِذَا قَدَرْنَا",
+      "syatrB": "وَأَنَّا المُهْلِكُونَ إِذَا ابْتُلِينَا",
+      "terjemahan": "Bahwa kami memberi makan ketika mampu, dan kami membinasakan ketika diuji.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-fakhr"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Kebanggaan kabilah",
+        "nomorSumber": 13,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Kebanggaan kabilah",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-014",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 14,
+      "teksArab": "مَلأْنَا البَرَّ حَتَّى ضَاقَ عَنَّا ... وَظَهْرَ البَحْرِ نَمْلَؤُهُ سَفِينَا",
+      "syatrA": "مَلأْنَا البَرَّ حَتَّى ضَاقَ عَنَّا",
+      "syatrB": "وَظَهْرَ البَحْرِ نَمْلَؤُهُ سَفِينَا",
+      "terjemahan": "Kami penuhi daratan hingga sesak bagi kami, dan permukaan lautan pun kami penuhi dengan kapal-kapal.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-fakhr"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Kebanggaan kabilah",
+        "nomorSumber": 14,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Kebanggaan kabilah",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-015",
+      "kitabId": "kitab-diwan-amr-muallaqah",
+      "urutanBank": 15,
+      "teksArab": "إِذَا بَلَغَ الفِطَامَ لَنَا صَبِيٌّ ... تَخِرُّ لَهُ الجَبَابِرُ سَاجِدِينَا",
+      "syatrA": "إِذَا بَلَغَ الفِطَامَ لَنَا صَبِيٌّ",
+      "syatrB": "تَخِرُّ لَهُ الجَبَابِرُ سَاجِدِينَا",
+      "terjemahan": "Apabila bayi kami telah disapih, para penguasa zalim tersungkur sujud kepadanya.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-fakhr"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Alā Hubbī bi-Shahnika fa-Ashbahīnā (Mu'allaqah 'Amr bin Kultsum) — pilihan",
+        "halamanPdf": null,
+        "bagianBab": "Penutup Mu'allaqah",
+        "nomorSumber": 15,
+        "catatan": "URL: https://www.aldiwan.net/poem311.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Penutup Mu'allaqah",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Bait penutup yang sangat terkenal.; Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-016",
+      "kitabId": "kitab-diwan-amr-ajmau-suhbati",
+      "urutanBank": 16,
+      "teksArab": "أَأَجْمَعُ صُحْبَتِي سَحَرَ ارْتِحَالاَ ... وَلَمْ أَشْعُرْ بِبَيْنٍ مِنْكِ هَالاَ",
+      "syatrA": "أَأَجْمَعُ صُحْبَتِي سَحَرَ ارْتِحَالاَ",
+      "syatrB": "وَلَمْ أَشْعُرْ بِبَيْنٍ مِنْكِ هَالاَ",
+      "terjemahan": "Apakah akan kukumpulkan sahabat-sahabatku di waktu sahur untuk berangkat, sementara aku tak menyadari perpisahan darimu, wahai Hala?",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-rindu"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — A-Ajma'u Shuhbatī Sahara Irtihālā",
+        "halamanPdf": null,
+        "bagianBab": "Rindu & perpisahan",
+        "nomorSumber": 1,
+        "catatan": "URL: https://www.aldiwan.net/poem302.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Rindu & perpisahan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "'Hala' dibaca sebagai nama perempuan (lihat bait berikutnya).; Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-017",
+      "kitabId": "kitab-diwan-amr-ajmau-suhbati",
+      "urutanBank": 17,
+      "teksArab": "وَلَمْ أَرَ مِثْلَ هَالَةَ فِي مَعَدٍّ ... تُشَبِّهُ حُسْنَهَا إِلاَّ الهِلاَلاَ",
+      "syatrA": "وَلَمْ أَرَ مِثْلَ هَالَةَ فِي مَعَدٍّ",
+      "syatrB": "تُشَبِّهُ حُسْنَهَا إِلاَّ الهِلاَلاَ",
+      "terjemahan": "Aku tak pernah melihat yang seperti Hala di kalangan Ma'add; keindahannya tak serupa dengan apa pun kecuali bulan sabit.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-rindu"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — A-Ajma'u Shuhbatī Sahara Irtihālā",
+        "halamanPdf": null,
+        "bagianBab": "Rindu & perpisahan",
+        "nomorSumber": 2,
+        "catatan": "URL: https://www.aldiwan.net/poem302.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Rindu & perpisahan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-018",
+      "kitabId": "kitab-diwan-amr-ajmau-suhbati",
+      "urutanBank": 18,
+      "teksArab": "أَلاَ أَبْلِغْ بَنِي جُشَمِ بْنِ بَكْرٍ ... وَتَغْلِبَ كُلَّهَا نَبَأً حِلاَلاَ",
+      "syatrA": "أَلاَ أَبْلِغْ بَنِي جُشَمِ بْنِ بَكْرٍ",
+      "syatrB": "وَتَغْلِبَ كُلَّهَا نَبَأً حِلاَلاَ",
+      "terjemahan": "Sampaikanlah kepada Bani Jusyam bin Bakr dan seluruh Taghlib sebuah kabar (yang pasti berlaku).",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-hamasah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — A-Ajma'u Shuhbatī Sahara Irtihālā",
+        "halamanPdf": null,
+        "bagianBab": "Kabar kemenangan",
+        "nomorSumber": 3,
+        "catatan": "URL: https://www.aldiwan.net/poem302.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Kabar kemenangan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Diputuskan pengelola (Abang) 24 Okt 2026: terima; makna rujukan (mis. 'tiga orang', 'Banu Abina') tidak perlu dilacak. 'nabaan hilala' dinilai tidak bermasalah oleh pengelola."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-019",
+      "kitabId": "kitab-diwan-amr-ajmau-suhbati",
+      "urutanBank": 19,
+      "teksArab": "بِأَنَّ المَاجِدَ القَرْمَ ابْنَ عَمْرٍو ... غَدَاةَ نَطَاعِ قَدْ صَدَقَ القِتَالاَ",
+      "syatrA": "بِأَنَّ المَاجِدَ القَرْمَ ابْنَ عَمْرٍو",
+      "syatrB": "غَدَاةَ نَطَاعِ قَدْ صَدَقَ القِتَالاَ",
+      "terjemahan": "Bahwa pemuka yang mulia, putra 'Amr, pada pagi hari Natha' telah bersungguh-sungguh dalam pertempuran.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-hamasah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — A-Ajma'u Shuhbatī Sahara Irtihālā",
+        "halamanPdf": null,
+        "bagianBab": "Kabar kemenangan",
+        "nomorSumber": 4,
+        "catatan": "URL: https://www.aldiwan.net/poem302.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Kabar kemenangan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-020",
+      "kitabId": "kitab-diwan-amr-ajmau-suhbati",
+      "urutanBank": 20,
+      "teksArab": "كَتِيبَتُهُ مُلَمْلَمَةٌ رَدَاحٌ ... إِذَا يَرْمُونَهَا تُنْبِي النِّبَالاَ",
+      "syatrA": "كَتِيبَتُهُ مُلَمْلَمَةٌ رَدَاحٌ",
+      "syatrB": "إِذَا يَرْمُونَهَا تُنْبِي النِّبَالاَ",
+      "terjemahan": "Pasukannya padat berhimpun lagi besar; ketika mereka dipanah, anak-anak panah itu terpental.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-hamasah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — A-Ajma'u Shuhbatī Sahara Irtihālā",
+        "halamanPdf": null,
+        "bagianBab": "Keberanian pasukan",
+        "nomorSumber": 5,
+        "catatan": "URL: https://www.aldiwan.net/poem302.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Keberanian pasukan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-021",
+      "kitabId": "kitab-diwan-amr-ajmau-suhbati",
+      "urutanBank": 21,
+      "teksArab": "جَزَى اللَّهُ الأَغَرَّ يَزِيدَ خَيْراً ... وَلَقَّاهُ المَسَرَّةَ وَالجَمَالاَ",
+      "syatrA": "جَزَى اللَّهُ الأَغَرَّ يَزِيدَ خَيْراً",
+      "syatrB": "وَلَقَّاهُ المَسَرَّةَ وَالجَمَالاَ",
+      "terjemahan": "Semoga Allah membalas al-Agharr Yazid dengan kebaikan dan mempertemukannya dengan kegembiraan serta keindahan.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-pujian"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — A-Ajma'u Shuhbatī Sahara Irtihālā",
+        "halamanPdf": null,
+        "bagianBab": "Doa & pujian",
+        "nomorSumber": 6,
+        "catatan": "URL: https://www.aldiwan.net/poem302.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Doa & pujian",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-024",
+      "kitabId": "kitab-diwan-amr-ajmau-suhbati",
+      "urutanBank": 24,
+      "teksArab": "يَزِيدُ يُقَدِّمُ الشَّقْرَاءَ حَتَّى ... يُرَوِّي صَدْرَهَا الأَسَلَ النِّهَالاَ",
+      "syatrA": "يَزِيدُ يُقَدِّمُ الشَّقْرَاءَ حَتَّى",
+      "syatrB": "يُرَوِّي صَدْرَهَا الأَسَلَ النِّهَالاَ",
+      "terjemahan": "Yazid memajukan kuda syaqra'-nya hingga dadanya 'terminumkan' oleh tombak-tombak yang haus.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-hamasah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — A-Ajma'u Shuhbatī Sahara Irtihālā",
+        "halamanPdf": null,
+        "bagianBab": "Keberanian pasukan",
+        "nomorSumber": 9,
+        "catatan": "URL: https://www.aldiwan.net/poem302.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Keberanian pasukan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-028",
+      "kitabId": "kitab-diwan-amr-andzartu",
+      "urutanBank": 28,
+      "teksArab": "كَمْ مِنْ عَدُوٍّ جَاهِدٍ ... بِالشَّرِّ لَوْ يَسْطِيعُ شَرَّا",
+      "syatrA": "كَمْ مِنْ عَدُوٍّ جَاهِدٍ",
+      "syatrB": "بِالشَّرِّ لَوْ يَسْطِيعُ شَرَّا",
+      "terjemahan": "Betapa banyak musuh yang bersungguh-sungguh berbuat jahat seandainya ia sanggup.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-hikmah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Andzartu A'dā'ī Ghadā",
+        "halamanPdf": null,
+        "bagianBab": "Menghadapi pengumpat",
+        "nomorSumber": 4,
+        "catatan": "URL: https://www.aldiwan.net/poem315.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Menghadapi pengumpat",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-029",
+      "kitabId": "kitab-diwan-amr-andzartu",
+      "urutanBank": 29,
+      "teksArab": "يَغْتَابُ عِرْضِي غَائِباً ... فَإِذَا تَلاَقَيْنَا اقْشَعَرَّا",
+      "syatrA": "يَغْتَابُ عِرْضِي غَائِباً",
+      "syatrB": "فَإِذَا تَلاَقَيْنَا اقْشَعَرَّا",
+      "terjemahan": "Ia mengumpat kehormatanku saat aku tak ada, tetapi ketika kami bertemu ia gemetar.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-hikmah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Andzartu A'dā'ī Ghadā",
+        "halamanPdf": null,
+        "bagianBab": "Menghadapi pengumpat",
+        "nomorSumber": 5,
+        "catatan": "URL: https://www.aldiwan.net/poem315.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Menghadapi pengumpat",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-034",
+      "kitabId": "kitab-diwan-amr-andzartu",
+      "urutanBank": 34,
+      "teksArab": "وَالرَّافِعِينَ بِنَاءَهُمْ ... فَتَرَاهُ أَشْمَخَ مُشْمَخِرَّا",
+      "syatrA": "وَالرَّافِعِينَ بِنَاءَهُمْ",
+      "syatrB": "فَتَرَاهُ أَشْمَخَ مُشْمَخِرَّا",
+      "terjemahan": "Mereka yang meninggikan bangunan (kemuliaan) mereka, hingga engkau lihat menjulang tinggi.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-fakhr"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Andzartu A'dā'ī Ghadā",
+        "halamanPdf": null,
+        "bagianBab": "Kebanggaan kabilah",
+        "nomorSumber": 10,
+        "catatan": "URL: https://www.aldiwan.net/poem315.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Kebanggaan kabilah",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-036",
+      "kitabId": "kitab-diwan-amr-andzartu",
+      "urutanBank": 36,
+      "teksArab": "وَالمُطْعِمِينَ لَدَى الشِّتَاءِ ... سَدَائِفاً مِنَ النِّيبِ غُرَّا",
+      "syatrA": "وَالمُطْعِمِينَ لَدَى الشِّتَاءِ",
+      "syatrB": "سَدَائِفاً مِنَ النِّيبِ غُرَّا",
+      "terjemahan": "Mereka yang memberi makan di musim dingin potongan-potongan punuk unta betina yang putih bersih.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-fakhr"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Andzartu A'dā'ī Ghadā",
+        "halamanPdf": null,
+        "bagianBab": "Kedermawanan",
+        "nomorSumber": 12,
+        "catatan": "URL: https://www.aldiwan.net/poem315.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Kedermawanan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Diterima 24 Okt 2026 atas mandat pengelola; teks aman, harakat mengikuti aldiwan."
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-039",
+      "kitabId": "kitab-diwan-amr-layajzi",
+      "urutanBank": 39,
+      "teksArab": "لِيَجْزِ اللَّهُ مِنْ جُشَمِ بْنِ بَكْرٍ ... فَوَارِسَ نَجْدَةٍ خَيْرَ الجَزَاءِ",
+      "syatrA": "لِيَجْزِ اللَّهُ مِنْ جُشَمِ بْنِ بَكْرٍ",
+      "syatrB": "فَوَارِسَ نَجْدَةٍ خَيْرَ الجَزَاءِ",
+      "terjemahan": "Semoga Allah membalas Bani Jusyam bin Bakr, para penunggang kuda yang sigap menolong, dengan balasan terbaik.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-pujian"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Li-Yajzi Allāhu min Jusyami bni Bakr",
+        "halamanPdf": null,
+        "bagianBab": "Doa & pujian",
+        "nomorSumber": 1,
+        "catatan": "URL: https://www.aldiwan.net/poem278.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Doa & pujian",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-040",
+      "kitabId": "kitab-diwan-amr-layajzi",
+      "urutanBank": 40,
+      "teksArab": "بِمَا حَامَوْا عَلَيَّ غَدَاةَ دَارَتْ ... بِوَادِي الأَخْرَمَيْنِ رَحَى صُدَاءِ",
+      "syatrA": "بِمَا حَامَوْا عَلَيَّ غَدَاةَ دَارَتْ",
+      "syatrB": "بِوَادِي الأَخْرَمَيْنِ رَحَى صُدَاءِ",
+      "terjemahan": "Atas pembelaan mereka kepadaku pada pagi ketika penggilingan perang Shuda' berputar di lembah al-Akhramain.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-pujian",
+        "tag-hamasah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Li-Yajzi Allāhu min Jusyami bni Bakr",
+        "halamanPdf": null,
+        "bagianBab": "Doa & pujian",
+        "nomorSumber": 2,
+        "catatan": "URL: https://www.aldiwan.net/poem278.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Doa & pujian",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-041",
+      "kitabId": "kitab-diwan-amr-layajzi",
+      "urutanBank": 41,
+      "teksArab": "بِضَرْبٍ تَشْخَصُ الأَبْصَارُ مِنْهُ ... وَطَعْنٍ مِثْلِ أَفْرَاغِ الدِّلاَءِ",
+      "syatrA": "بِضَرْبٍ تَشْخَصُ الأَبْصَارُ مِنْهُ",
+      "syatrB": "وَطَعْنٍ مِثْلِ أَفْرَاغِ الدِّلاَءِ",
+      "terjemahan": "Dengan tebasan yang membuat mata terbelalak, dan tikaman (yang darahnya) seperti timba yang dituangkan.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-hamasah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Li-Yajzi Allāhu min Jusyami bni Bakr",
+        "halamanPdf": null,
+        "bagianBab": "Medan perang",
+        "nomorSumber": 3,
+        "catatan": "URL: https://www.aldiwan.net/poem278.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Medan perang",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-045",
+      "kitabId": "kitab-diwan-amr-layajzi",
+      "urutanBank": 45,
+      "teksArab": "فَأَطْعَنُهُ وَقُلْتُ لَهُ خُذَنَّهَا ... مُشَوَّهَةً تَجِيسُ بِالدِّمَاءِ",
+      "syatrA": "فَأَطْعَنُهُ وَقُلْتُ لَهُ خُذَنَّهَا",
+      "syatrB": "مُشَوَّهَةً تَجِيسُ بِالدِّمَاءِ",
+      "terjemahan": "Maka kutikam dia seraya berkata, 'Terimalah!', tikaman yang mengerikan, menyembur darah.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-hamasah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Li-Yajzi Allāhu min Jusyami bni Bakr",
+        "halamanPdf": null,
+        "bagianBab": "Medan perang",
+        "nomorSumber": 7,
+        "catatan": "URL: https://www.aldiwan.net/poem278.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Medan perang",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-048",
+      "kitabId": "kitab-diwan-amr-layajzi",
+      "urutanBank": 48,
+      "teksArab": "وَأُبْنَا بِالهِجَانِ مُرْدَفَاتٍ ... خَطَبْنَاهُنَّ بِالأُسُلِ الظِّمَاءِ",
+      "syatrA": "وَأُبْنَا بِالهِجَانِ مُرْدَفَاتٍ",
+      "syatrB": "خَطَبْنَاهُنَّ بِالأُسُلِ الظِّمَاءِ",
+      "terjemahan": "Kami pulang membawa unta-unta putih bagus yang berboncengan, yang kami 'lamar' dengan tombak-tombak yang haus.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-hamasah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Li-Yajzi Allāhu min Jusyami bni Bakr",
+        "halamanPdf": null,
+        "bagianBab": "Pulang membawa rampasan",
+        "nomorSumber": 10,
+        "catatan": "URL: https://www.aldiwan.net/poem278.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Pulang membawa rampasan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    },
+    {
+      "id": "bait-diwan-amr-bin-kultsum-049",
+      "kitabId": "kitab-diwan-amr-layajzi",
+      "urutanBank": 49,
+      "teksArab": "وَقُدْنَا مِنْهُمُ سَرَوَاتِ قَوْمٍ ... كَجُرْبِ الإِبِلِ تُطْلَى بِالهِنَاءِ",
+      "syatrA": "وَقُدْنَا مِنْهُمُ سَرَوَاتِ قَوْمٍ",
+      "syatrB": "كَجُرْبِ الإِبِلِ تُطْلَى بِالهِنَاءِ",
+      "terjemahan": "Kami tuntun para pemuka suatu kaum dari mereka, bagai unta-unta berkudis yang dilumuri tar.",
+      "statusTerjemahan": "ada",
+      "status": "dipublikasikan",
+      "jenis": "pilihan-diwan",
+      "penyairId": "penyair-amr-bin-kultsum",
+      "tagIds": [
+        "tag-syair",
+        "tag-jahiliyah",
+        "tag-hamasah"
+      ],
+      "seriesIds": [],
+      "sumberReferensi": {
+        "sumber": "aldiwan.net — Li-Yajzi Allāhu min Jusyami bni Bakr",
+        "halamanPdf": null,
+        "bagianBab": "Pulang membawa rampasan",
+        "nomorSumber": 11,
+        "catatan": "URL: https://www.aldiwan.net/poem278.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+      },
+      "metadataKurasi": {
+        "textConfidence": 85,
+        "sourceConfidence": 70,
+        "literaryStrength": null,
+        "meaningStrength": null,
+        "meaningDensity": null,
+        "learningPotential": null,
+        "recommendationScore": null,
+        "tema": "Pulang membawa rampasan",
+        "alasanRekomendasi": null,
+        "catatanVerifikasi": "Verifikasi: transkripsi dicek ulang terhadap gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber"
+      },
+      "outputTerkait": {
+        "artikelId": null,
+        "audioUrl": null,
+        "videoUrl": null,
+        "gambarUrl": null,
+        "halamanDetail": null
+      },
+      "catatan": null
+    }
+  ],
+  "tag": [
+    {
+      "id": "tag-syair",
+      "nama": "Syair",
+      "slug": "syair",
+      "deskripsi": null
+    },
+    {
+      "id": "tag-jahiliyah",
+      "nama": "Jahiliyah",
+      "slug": "jahiliyah",
+      "deskripsi": "Bait dari penyair era Jahiliyah."
+    },
+    {
+      "id": "tag-fakhr",
+      "nama": "Fakhr",
+      "slug": "fakhr",
+      "deskripsi": "Bait kebanggaan diri/kabilah."
+    },
+    {
+      "id": "tag-hamasah",
+      "nama": "Hamasah",
+      "slug": "hamasah",
+      "deskripsi": "Bait keberanian dan medan perang."
+    },
+    {
+      "id": "tag-hikmah",
+      "nama": "Hikmah",
+      "slug": "hikmah",
+      "deskripsi": "Bait berisi pelajaran hidup."
+    },
+    {
+      "id": "tag-rindu",
+      "nama": "Rindu",
+      "slug": "rindu",
+      "deskripsi": "Bait bertema rindu dan perpisahan."
+    },
+    {
+      "id": "tag-pujian",
+      "nama": "Pujian",
+      "slug": "pujian",
+      "deskripsi": "Bait pujian dan doa kepada seseorang."
+    }
+  ],
+  "series": []
+}

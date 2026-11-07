@@ -1,0 +1,126 @@
+/* =========================================================
+   JAZMI — Dien · Pendidikan (halaman induk Ponpes & Daring)
+   pendidikan.css
+   Tidak ada mekanisme import lintas file CSS di situs ini —
+   token :root disediakan lewat ../../css/style.css yang ditautkan
+   lebih dulu di index.html; file ini hanya menambah komponen baru
+   (breadcrumb, aksen nav, hub-grid/hub-card) mengikuti pola yang
+   sudah dipakai di kesehatan/kesehatan.css & dien/dien.css.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Breadcrumb (disalin dari kesehatan.css — belum ada di style.css)
+   --------------------------------------------------------- */
+.breadcrumb {
+  border-bottom: 1px solid var(--line-soft);
+}
+.breadcrumb-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+}
+.breadcrumb a { color: var(--ink-soft); font-weight: 600; }
+.breadcrumb a:hover { color: var(--emerald-deep); }
+.breadcrumb-sep { color: var(--ink-faint); }
+.breadcrumb [aria-current="page"] { color: var(--emerald-deep); font-weight: 600; }
+
+/* =========================================================
+   AKSEN 3 RANAH INTI — Dien · Kesehatan · Sains
+   (blok identik di semua CSS yang mendefinisikan .primary-nav a —
+   lihat komentar sama di dien.css/kesehatan.css/sains.css dst.)
+   ========================================================= */
+.primary-nav a[data-domain] { font-weight: 600; position: relative; }
+.primary-nav a[data-domain]::before {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 7px;
+  vertical-align: middle;
+  background: currentColor;
+}
+.primary-nav a[data-domain="dien"]        { color: #0F3D2E; }
+.primary-nav a[data-domain="kesehatan"]   { color: #1F5C5C; }
+.primary-nav a[data-domain="sains"]       { color: #2E4374; }
+.primary-nav a[data-domain].is-active { text-decoration: underline; text-underline-offset: 5px; }
+
+.footer-nav a[data-domain] { font-weight: 600; }
+.footer-nav a[data-domain="dien"]      { color: #0F3D2E; }
+.footer-nav a[data-domain="kesehatan"] { color: #1F5C5C; }
+.footer-nav a[data-domain="sains"]     { color: #2E4374; }
+
+/* =========================================================
+   HUB — dua/tiga kartu pilihan cabang (halaman induk
+   seperti Pendidikan, dan dipakai ulang oleh Pendidikan)
+   ========================================================= */
+.hub-grid {
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: 1fr;
+  margin-top: 1.25rem;
+}
+@media (min-width: 640px) {
+  .hub-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.hub-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.75rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--emerald);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  transition: transform 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+.hub-card:hover {
+  transform: translateY(-3px);
+  border-top-color: var(--brass);
+}
+.hub-card-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--emerald-deep);
+}
+.hub-card-title {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--emerald-deep);
+}
+.hub-card-desc { font-size: 0.95rem; color: var(--ink-soft); margin: 0; flex-grow: 1; }
+.hub-card-link { font-size: 0.85rem; font-weight: 700; color: var(--emerald-deep); }
+.hub-card:hover .hub-card-link { color: var(--brass); }
+
+/* C19 — mobile navigation, disamakan dengan dien.css/kesehatan.css */
+@media (max-width: 860px) {
+  .primary-nav {
+    min-height: calc(100vh - 4.1rem);
+    padding: 1.5rem var(--gutter) 3rem;
+    background: var(--surface);
+    border-top: 2px solid var(--brass-line);
+    box-shadow: var(--shadow-soft);
+  }
+  .primary-nav ul { gap: 0.35rem; }
+  .primary-nav a {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    padding: 1rem 0.9rem;
+    font-size: 1.38rem;
+  }
+  .primary-nav a.is-active {
+    background: var(--bg-alt);
+    border-left: 3px solid var(--brass);
+    padding-left: calc(0.9rem - 3px);
+  }
+}

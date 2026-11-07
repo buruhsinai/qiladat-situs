@@ -1,0 +1,42 @@
+{
+  "_catatan": "DATA DEMO — dibuat oleh C13 hanya untuk menguji struktur halaman Media Sains. Bukan daftar media resmi JAZMI dan belum tentu tersedia untuk diakses. Ganti dengan data nyata terverifikasi sebelum dipublikasikan.",
+  "status": "demo",
+  "media": [
+    {
+      "id": "buku-pengantar-falak",
+      "tipe": "Buku & PDF",
+      "judul": "Pengantar Ilmu Falak untuk Pemula",
+      "ringkasan": "Bahan bacaan ringkas yang mengenalkan dasar ilmu falak dalam bahasa yang mudah dipahami."
+    },
+    {
+      "id": "pdf-modul-eksperimen",
+      "tipe": "Buku & PDF",
+      "judul": "Modul Eksperimen Sains Rumahan",
+      "ringkasan": "Kumpulan panduan eksperimen sederhana yang dapat dipraktikkan bersama keluarga di rumah."
+    },
+    {
+      "id": "video-mengenal-rasi-bintang",
+      "tipe": "Video",
+      "judul": "Mengenal Rasi Bintang",
+      "ringkasan": "Penjelasan bergambar tentang cara mengenali beberapa rasi bintang yang umum diamati."
+    },
+    {
+      "id": "video-cara-pakai-teleskop",
+      "tipe": "Video",
+      "judul": "Cara Menggunakan Teleskop Sederhana",
+      "ringkasan": "Panduan langkah demi langkah merakit dan mengarahkan teleskop untuk pengamatan pertama."
+    },
+    {
+      "id": "audio-kajian-alam-semesta",
+      "tipe": "Audio",
+      "judul": "Kajian Singkat: Alam Semesta dalam Perspektif Ilmu",
+      "ringkasan": "Penjelasan lisan ringkas yang dapat didengarkan sambil beraktivitas."
+    },
+    {
+      "id": "visual-peta-langit",
+      "tipe": "Visual & Bahan Ajar",
+      "judul": "Peta Langit Musiman",
+      "ringkasan": "Diagram visual sederhana untuk membantu mengenali posisi benda langit menurut musim."
+    }
+  ]
+}

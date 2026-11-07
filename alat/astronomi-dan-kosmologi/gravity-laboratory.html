@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gravity Laboratory — Hukum Newton</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0B0F1E;--panel:#141A30;--ink:#E8E6F5;--soft:#9C9DC4;--electron:#4FD8E0;--plasma:#B26BFF;--line:#2A3158;
+        --good:#3FA66B;--warn:#D9A441;--bad:#D9564A;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.55;}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px 60px;}
+  h1{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;margin:32px 0 6px;background:linear-gradient(90deg,var(--electron),var(--plasma));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  p.lede{color:var(--soft);margin:0 0 20px;max-width:640px;}
+  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
+  button{font-family:'Space Grotesk',sans-serif;background:var(--panel);border:1px solid var(--line);color:var(--ink);padding:8px 14px;border-radius:6px;font-size:0.8rem;cursor:pointer;}
+  button.active{background:var(--electron);color:#0B0F1E;border-color:var(--electron);}
+  button.chip{padding:6px 10px;font-size:0.74rem;}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:20px;margin-top:6px;}
+  .field{margin:14px 0;}
+  .field label{display:block;font-size:0.82rem;color:var(--soft);margin-bottom:6px;}
+  .field input[type=range]{width:100%;accent-color:var(--electron);}
+  .value{font-family:'JetBrains Mono',monospace;color:var(--electron);font-weight:600;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  @media (max-width:600px){.grid2{grid-template-columns:1fr;}}
+  #canvas-holder{position:relative;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#10152A;margin-top:14px;}
+  canvas{display:block;width:100%;}
+  .result{text-align:center;background:#1B2340;border-radius:8px;padding:18px;margin-top:14px;}
+  .result .n{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:700;color:var(--electron);}
+  .result .l{font-size:0.72rem;color:var(--soft);margin-top:4px;}
+  .status-line{text-align:center;font-size:0.85rem;color:var(--soft);margin-top:10px;}
+  .limits{background:#241B0F;border:1px solid #5A4A1E;border-radius:8px;padding:18px;margin-top:20px;font-size:0.85rem;color:#E0C98A;}
+  footer{color:var(--soft);font-size:0.78rem;text-align:center;margin-top:30px;}
+  a{color:var(--electron);}
+  .hidden{display:none;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Gravity Laboratory</h1>
+  <p class="lede">Fondasi dasar sebelum orbit dan sistem planet: hukum gravitasi Newton, satu formula yang sama untuk apel jatuh maupun galaksi berputar.</p>
+
+  <div class="toolbar">
+    <button class="active" id="mode-dua">① Dua Benda (Hukum Newton)</button>
+    <button id="mode-tiga">② Tiga Benda (Kacau)</button>
+    <button id="mode-planet">③ Sistem Planet</button>
+  </div>
+
+  <!-- MODE 1 -->
+  <div id="panel-dua" class="panel">
+    <div class="grid2">
+      <div>
+        <div class="field">
+          <label>Massa A — <span class="value" id="ma-val"></span> kg</label>
+          <input type="range" id="ma-slider" min="0" max="30" step="0.1" value="24.78">
+          <div class="toolbar" style="margin-top:6px;">
+            <button class="chip" data-set="ma" data-v="70">Manusia (70kg)</button>
+            <button class="chip" data-set="ma" data-v="7.35e22">Bulan</button>
+            <button class="chip" data-set="ma" data-v="5.97e24">Bumi</button>
+            <button class="chip" data-set="ma" data-v="1.989e30">Matahari</button>
+          </div>
+        </div>
+        <div class="field">
+          <label>Massa B — <span class="value" id="mb-val"></span> kg</label>
+          <input type="range" id="mb-slider" min="0" max="30" step="0.1" value="4.86">
+          <div class="toolbar" style="margin-top:6px;">
+            <button class="chip" data-set="mb" data-v="70">Manusia (70kg)</button>
+            <button class="chip" data-set="mb" data-v="7.35e22">Bulan</button>
+            <button class="chip" data-set="mb" data-v="5.97e24">Bumi</button>
+            <button class="chip" data-set="mb" data-v="1.989e30">Matahari</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="field">
+          <label>Jarak (pusat ke pusat) — <span class="value" id="r-val"></span> m</label>
+          <input type="range" id="r-slider" min="0" max="12" step="0.05" value="7.6">
+          <div class="toolbar" style="margin-top:6px;">
+            <button class="chip" data-set="r" data-v="6.37e6">Radius Bumi</button>
+            <button class="chip" data-set="r" data-v="3.84e8">Bumi–Bulan</button>
+            <button class="chip" data-set="r" data-v="1.496e11">Bumi–Matahari</button>
+          </div>
+        </div>
+        <div class="result">
+          <div class="n" id="force-result">—</div>
+          <div class="l">GAYA TARIK-MENARIK (F = Gm₁m₂/r²)</div>
+        </div>
+      </div>
+    </div>
+    <div id="canvas-holder"><canvas id="canvas-dua" width="820" height="200"></canvas></div>
+  </div>
+
+  <!-- MODE 2 -->
+  <div id="panel-tiga" class="panel hidden">
+    <p style="color:var(--soft);font-size:0.88rem;">Tiga massa saling tarik-menarik sekaligus — tidak ada solusi rapi untuk sistem ini, hanya bisa dihitung langkah demi langkah. Gerakannya sangat sensitif terhadap kondisi awal: inilah asal mula istilah "masalah tiga benda".</p>
+    <div class="toolbar">
+      <button id="btn-tiga-play">▶ Jalankan</button>
+      <button id="btn-tiga-random">🎲 Acak Ulang</button>
+      <label style="font-size:0.8rem;color:var(--soft);display:flex;align-items:center;gap:6px;">Kecepatan <input type="range" id="tiga-speed" min="0.2" max="2.5" step="0.1" value="1" style="width:100px;accent-color:var(--electron);"></label>
+    </div>
+    <div id="canvas-holder2" class="panel" style="padding:0;"><canvas id="canvas-tiga" width="820" height="460"></canvas></div>
+  </div>
+
+  <!-- MODE 3 -->
+  <div id="panel-planet" class="panel hidden">
+    <p style="color:var(--soft);font-size:0.88rem;">Satu bintang di pusat, hingga 3 planet mengelilinginya. Atur jarak awal dan kecepatan tangensial tiap planet (sebagai kelipatan kecepatan orbit sirkular) — lalu lihat apakah orbitnya melingkar, elips, atau justru lepas ke luar angkasa.</p>
+    <div id="planet-controls"></div>
+    <div class="toolbar">
+      <button id="btn-planet-play">▶ Jalankan</button>
+      <button id="btn-planet-reset">↺ Reset Orbit</button>
+    </div>
+    <div id="canvas-holder3" class="panel" style="padding:0;"><canvas id="canvas-planet" width="820" height="460"></canvas></div>
+  </div>
+
+  <div class="limits">
+    ⚠ Mode ② dan ③ memakai satuan simulasi (bukan kg/meter/detik sungguhan) dan G disederhanakan agar gerakannya terlihat jelas dalam beberapa detik — gravitasi nyata jauh lebih lambat efeknya pada skala ini. Mode ① memakai satuan SI sungguhan (Newton, kg, meter) sesuai hukum Newton yang sebenarnya.
+  </div>
+
+  <footer>JAZMI — Modul Sains · Gravity Laboratory · Pintu masuk ke simulasi N-body</footer>
+</div>
+
+<script>
+(function(){
+  const Gsi=6.674e-11;
+
+  /* ================= MODE 1: DUA BENDA ================= */
+  const maSlider=document.getElementById('ma-slider');
+  const mbSlider=document.getElementById('mb-slider');
+  const rSlider=document.getElementById('r-slider');
+  const maVal=document.getElementById('ma-val');
+  const mbVal=document.getElementById('mb-val');
+  const rVal=document.getElementById('r-val');
+  const forceResult=document.getElementById('force-result');
+  const canvasDua=document.getElementById('canvas-dua');
+  const ctxDua=canvasDua.getContext('2d');
+
+  function fmtSci(x){
+    if(x===0) return '0';
+    const exp=Math.floor(Math.log10(Math.abs(x)));
+    const mant=x/Math.pow(10,exp);
+    return mant.toFixed(2)+'×10^'+exp;
+  }
+  function expToVal(sliderVal){ return Math.pow(10, sliderVal); }
+  function valToExp(v){ return Math.log10(v); }
+
+  function renderDua(){
+    const ma=expToVal(parseFloat(maSlider.value));
+    const mb=expToVal(parseFloat(mbSlider.value));
+    const r=expToVal(parseFloat(rSlider.value));
+    maVal.textContent=fmtSci(ma);
+    mbVal.textContent=fmtSci(mb);
+    rVal.textContent=fmtSci(r);
+    const F=Gsi*ma*mb/(r*r);
+    forceResult.textContent=fmtSci(F)+' N';
+
+    ctxDua.clearRect(0,0,820,200);
+    ctxDua.fillStyle='#10152A'; ctxDua.fillRect(0,0,820,200);
+    const cx1=280, cx2=540, cy=100;
+    const rad1=14+6*Math.min(6,valToExp(ma)/6);
+    const rad2=14+6*Math.min(6,valToExp(mb)/6);
+    ctxDua.beginPath(); ctxDua.arc(cx1,cy,rad1,0,7); ctxDua.fillStyle='#FF6B6B'; ctxDua.fill();
+    ctxDua.beginPath(); ctxDua.arc(cx2,cy,rad2,0,7); ctxDua.fillStyle='#4FA8E0'; ctxDua.fill();
+    ctxDua.fillStyle='#E8E6F5'; ctxDua.font='12px Inter'; ctxDua.textAlign='center';
+    ctxDua.fillText('A',cx1,cy+4); ctxDua.fillText('B',cx2,cy+4);
+
+    const logF=Math.log10(Math.max(F,1e-30));
+    const arrowLen=Math.max(10,Math.min(80, (logF+20)*4));
+    ctxDua.strokeStyle='#D9A441'; ctxDua.fillStyle='#D9A441'; ctxDua.lineWidth=3;
+    drawArrow(ctxDua, cx1+rad1+6, cy-20, cx1+rad1+6+arrowLen, cy-20);
+    drawArrow(ctxDua, cx2-rad2-6, cy+20, cx2-rad2-6-arrowLen, cy+20);
+    ctxDua.font='10px JetBrains Mono'; ctxDua.fillStyle='#9C9DC4';
+    ctxDua.fillText('F pada A →', cx1+rad1+6+arrowLen/2, cy-28);
+    ctxDua.fillText('← F pada B', cx2-rad2-6-arrowLen/2, cy+34);
+  }
+  function drawArrow(c,x1,y1,x2,y2){
+    c.beginPath(); c.moveTo(x1,y1); c.lineTo(x2,y2); c.stroke();
+    const ang=Math.atan2(y2-y1,x2-x1), len=8;
+    c.beginPath(); c.moveTo(x2,y2);
+    c.lineTo(x2-len*Math.cos(ang-0.4), y2-len*Math.sin(ang-0.4));
+    c.lineTo(x2-len*Math.cos(ang+0.4), y2-len*Math.sin(ang+0.4));
+    c.closePath(); c.fill();
+  }
+  [maSlider,mbSlider,rSlider].forEach(el=> el.addEventListener('input', renderDua));
+  document.querySelectorAll('button.chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const target=btn.dataset.set, v=parseFloat(btn.dataset.v);
+      const exp=valToExp(v);
+      if(target==='ma') maSlider.value=exp;
+      if(target==='mb') mbSlider.value=exp;
+      if(target==='r') rSlider.value=exp;
+      renderDua();
+    });
+  });
+  renderDua();
+
+  /* ================= SHARED N-BODY ENGINE ================= */
+  const SOFTEN=12;
+  function computeAccel(bodies){
+    const acc=bodies.map(()=>({ax:0,ay:0}));
+    for(let i=0;i<bodies.length;i++){
+      for(let j=0;j<bodies.length;j++){
+        if(i===j) continue;
+        const dx=bodies[j].x-bodies[i].x, dy=bodies[j].y-bodies[i].y;
+        const r2=dx*dx+dy*dy+SOFTEN*SOFTEN;
+        const r=Math.sqrt(r2);
+        const f=bodies[j].m/(r2*r);
+        acc[i].ax+=f*dx; acc[i].ay+=f*dy;
+      }
+    }
+    return acc;
+  }
+  function stepVerlet(bodies, G, dt){
+    const acc0=computeAccel(bodies).map(a=>({ax:a.ax*G,ay:a.ay*G}));
+    bodies.forEach((b,i)=>{
+      b.vx += acc0[i].ax*dt/2; b.vy += acc0[i].ay*dt/2;
+      b.x += b.vx*dt; b.y += b.vy*dt;
+    });
+    const acc1=computeAccel(bodies).map(a=>({ax:a.ax*G,ay:a.ay*G}));
+    bodies.forEach((b,i)=>{
+      b.vx += acc1[i].ax*dt/2; b.vy += acc1[i].ay*dt/2;
+      if(!b.trail) b.trail=[];
+      b.trail.push([b.x,b.y]);
+      if(b.trail.length>400) b.trail.shift();
+    });
+  }
+  function drawBodies(ctx, bodies){
+    bodies.forEach(b=>{
+      if(b.trail && b.trail.length>1){
+        ctx.beginPath();
+        ctx.moveTo(b.trail[0][0],b.trail[0][1]);
+        for(let k=1;k<b.trail.length;k++) ctx.lineTo(b.trail[k][0],b.trail[k][1]);
+        ctx.strokeStyle=b.color+'55'; ctx.lineWidth=1.4; ctx.stroke();
+      }
+    });
+    bodies.forEach(b=>{
+      ctx.beginPath();
+      ctx.arc(b.x,b.y,b.r,0,Math.PI*2);
+      ctx.fillStyle=b.color; ctx.fill();
+    });
+  }
+
+  /* ================= MODE 2: TIGA BENDA ================= */
+  const canvasTiga=document.getElementById('canvas-tiga');
+  const ctxTiga=canvasTiga.getContext('2d');
+  let bodiesTiga=[], tigaRunning=false, tigaSpeed=1;
+  const G_TIGA=1;
+
+  function randomTiga(){
+    const colors=['#FF6B6B','#4FA8E0','#7FD9A0'];
+    bodiesTiga=[];
+    for(let i=0;i<3;i++){
+      bodiesTiga.push({
+        x: 250+Math.random()*320, y: 130+Math.random()*220,
+        vx:(Math.random()-0.5)*1.6, vy:(Math.random()-0.5)*1.6,
+        m: 350+Math.random()*500,
+        r: 8, color: colors[i], trail:[]
+      });
+    }
+  }
+  function renderTiga(){
+    ctxTiga.clearRect(0,0,820,460);
+    ctxTiga.fillStyle='#10152A'; ctxTiga.fillRect(0,0,820,460);
+    drawBodies(ctxTiga, bodiesTiga);
+  }
+  function loopTiga(){
+    if(!tigaRunning) return;
+    for(let s=0;s<2;s++) stepVerlet(bodiesTiga, G_TIGA, 0.5*tigaSpeed);
+    renderTiga();
+    requestAnimationFrame(loopTiga);
+  }
+  document.getElementById('btn-tiga-random').addEventListener('click', ()=>{ randomTiga(); renderTiga(); });
+  document.getElementById('btn-tiga-play').addEventListener('click', function(){
+    tigaRunning=!tigaRunning;
+    this.textContent = tigaRunning ? '❙❙ Jeda' : '▶ Jalankan';
+    if(tigaRunning) loopTiga();
+  });
+  document.getElementById('tiga-speed').addEventListener('input', (e)=> tigaSpeed=parseFloat(e.target.value));
+  randomTiga(); renderTiga();
+
+  /* ================= MODE 3: SISTEM PLANET ================= */
+  const canvasPlanet=document.getElementById('canvas-planet');
+  const ctxPlanet=canvasPlanet.getContext('2d');
+  const planetControlsDiv=document.getElementById('planet-controls');
+  const G_PLANET=1;
+  const STAR_MASS=4000;
+  const NUM_PLANETS=3;
+  let planetParams=[
+    {dist:100, velMult:1.0},
+    {dist:160, velMult:1.0},
+    {dist:220, velMult:1.0}
+  ];
+  let bodiesPlanet=[], planetRunning=false;
+  const planetColors=['#FF6B6B','#7FD9A0','#D9A441'];
+
+  function buildPlanetControls(){
+    let html='';
+    for(let i=0;i<NUM_PLANETS;i++){
+      html+='<div class="grid2" style="margin-bottom:10px;">'+
+        '<div class="field" style="margin:4px 0;"><label>Planet '+(i+1)+' — jarak awal: <span class="value" id="pd-val-'+i+'">'+planetParams[i].dist+'</span> px</label>'+
+        '<input type="range" id="pd-slider-'+i+'" min="60" max="280" step="5" value="'+planetParams[i].dist+'"></div>'+
+        '<div class="field" style="margin:4px 0;"><label>Kecepatan tangensial: <span class="value" id="pv-val-'+i+'">'+planetParams[i].velMult.toFixed(2)+'</span>× sirkular</label>'+
+        '<input type="range" id="pv-slider-'+i+'" min="0" max="1.6" step="0.02" value="'+planetParams[i].velMult+'"></div>'+
+        '</div>';
+    }
+    planetControlsDiv.innerHTML=html;
+    for(let i=0;i<NUM_PLANETS;i++){
+      document.getElementById('pd-slider-'+i).addEventListener('input', e=>{
+        planetParams[i].dist=parseFloat(e.target.value);
+        document.getElementById('pd-val-'+i).textContent=planetParams[i].dist;
+      });
+      document.getElementById('pv-slider-'+i).addEventListener('input', e=>{
+        planetParams[i].velMult=parseFloat(e.target.value);
+        document.getElementById('pv-val-'+i).textContent=planetParams[i].velMult.toFixed(2);
+      });
+    }
+  }
+  function resetPlanets(){
+    const cx=410, cy=230;
+    bodiesPlanet=[{x:cx,y:cy,vx:0,vy:0,m:STAR_MASS,r:14,color:'#FFD86B',trail:[]}];
+    planetParams.forEach((p,i)=>{
+      const vCirc=Math.sqrt(G_PLANET*STAR_MASS/p.dist);
+      const v=vCirc*p.velMult;
+      bodiesPlanet.push({
+        x:cx+p.dist, y:cy, vx:0, vy:v,
+        m:6, r:6, color:planetColors[i], trail:[]
+      });
+    });
+  }
+  function renderPlanet(){
+    ctxPlanet.clearRect(0,0,820,460);
+    ctxPlanet.fillStyle='#10152A'; ctxPlanet.fillRect(0,0,820,460);
+    drawBodies(ctxPlanet, bodiesPlanet);
+  }
+  function loopPlanet(){
+    if(!planetRunning) return;
+    for(let s=0;s<2;s++) stepVerlet(bodiesPlanet, G_PLANET, 0.4);
+    renderPlanet();
+    requestAnimationFrame(loopPlanet);
+  }
+  document.getElementById('btn-planet-play').addEventListener('click', function(){
+    planetRunning=!planetRunning;
+    this.textContent = planetRunning ? '❙❙ Jeda' : '▶ Jalankan';
+    if(planetRunning) loopPlanet();
+  });
+  document.getElementById('btn-planet-reset').addEventListener('click', ()=>{
+    planetRunning=false;
+    document.getElementById('btn-planet-play').textContent='▶ Jalankan';
+    resetPlanets(); renderPlanet();
+  });
+  buildPlanetControls();
+  resetPlanets();
+  renderPlanet();
+
+  /* ================= MODE SWITCH ================= */
+  const modeDua=document.getElementById('mode-dua');
+  const modeTiga=document.getElementById('mode-tiga');
+  const modePlanet=document.getElementById('mode-planet');
+  const panelDua=document.getElementById('panel-dua');
+  const panelTiga=document.getElementById('panel-tiga');
+  const panelPlanet=document.getElementById('panel-planet');
+
+  function switchMode(target){
+    [modeDua,modeTiga,modePlanet].forEach(b=>b.classList.remove('active'));
+    [panelDua,panelTiga,panelPlanet].forEach(p=>p.classList.add('hidden'));
+    target.btn.classList.add('active');
+    target.panel.classList.remove('hidden');
+  }
+  modeDua.addEventListener('click', ()=> switchMode({btn:modeDua,panel:panelDua}));
+  modeTiga.addEventListener('click', ()=> switchMode({btn:modeTiga,panel:panelTiga}));
+  modePlanet.addEventListener('click', ()=> switchMode({btn:modePlanet,panel:panelPlanet}));
+})();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

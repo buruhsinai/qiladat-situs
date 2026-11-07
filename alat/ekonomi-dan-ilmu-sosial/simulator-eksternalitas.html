@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Eksternalitas — Kegagalan Pasar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12151a; --bg-panel:#1a1e25; --bg-panel-2:#20242c; --line:#2c313b;
+    --text:#e9e6df; --text-dim:#9aa1ad;
+    --gold:#c9a24b; --gold-soft:#e3c988;
+    --ok:#4f9c94; --warn:#e3766a; --blue:#5b8fc9; --purple:#9b7fc9;
+    --font-display:"Fraunces",serif; --font-body:"Karla",sans-serif; --font-mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{padding:56px 20px 40px;text-align:center;border-bottom:1px solid var(--line);
+    background:radial-gradient(ellipse at 50% 0%, rgba(155,127,201,0.10), transparent 60%);}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--purple);margin-bottom:14px;}
+  h1{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,5vw,40px);margin:0 0 12px;}
+  .subtitle{color:var(--text-dim);font-size:15px;max-width:640px;margin:0 auto;}
+  section{padding:36px 0;border-bottom:1px solid var(--line);} section:last-of-type{border-bottom:none;}
+  h2{font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--gold-soft);margin:0 0 6px;display:flex;align-items:baseline;gap:10px;}
+  h2 .num{font-family:var(--font-mono);font-size:13px;color:var(--text-dim);font-weight:400;}
+  p{font-size:15.5px;} p.dim{color:var(--text-dim);font-size:14px;}
+  ul{padding-left:20px;} li{margin-bottom:6px;font-size:14.5px;}
+
+  .panel{background:var(--bg-panel);border:1px solid var(--line);border-radius:10px;padding:24px;}
+  .mode-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
+  .mode-btn{background:var(--bg-panel-2);border:1px solid var(--line);color:var(--text-dim);
+    padding:10px 15px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;}
+  .mode-btn.active{border-color:var(--purple);color:#c9b8e8;background:rgba(155,127,201,0.10);}
+
+  .tax-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px;}
+  .tax-btn{background:var(--bg-panel-2);border:1px solid var(--line);color:var(--text-dim);
+    padding:8px 13px;border-radius:8px;font-size:12.5px;font-weight:600;cursor:pointer;}
+  .tax-btn.active{border-color:var(--gold);color:var(--gold-soft);background:rgba(201,162,75,0.08);}
+
+  .controls-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px;}
+  .field label{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text-dim);margin-bottom:6px;font-family:var(--font-mono);text-transform:uppercase;}
+  .field label .val{color:var(--gold-soft);}
+  .field input[type=range]{width:100%;accent-color:var(--blue);}
+
+  svg.chart{width:100%;height:auto;display:block;background:var(--bg-panel-2);border-radius:8px;border:1px solid var(--line);}
+  .results{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:16px;}
+  .result-card{background:var(--bg-panel-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;}
+  .result-card .l{font-family:var(--font-mono);font-size:10.5px;color:var(--text-dim);text-transform:uppercase;}
+  .result-card .v{font-family:var(--font-display);font-size:19px;color:var(--gold-soft);}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:12.5px;color:var(--text-dim);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:14px;height:14px;border-radius:3px;display:inline-block;}
+  .insight-box{margin-top:16px;background:var(--bg-panel-2);border:1px dashed var(--gold);border-radius:8px;padding:14px 18px;font-size:14px;color:var(--text);}
+  .insight-box b{color:var(--gold-soft);}
+
+  .benefit-list{display:grid;gap:10px;}
+  .benefit-item{background:var(--bg-panel);border:1px solid var(--line);border-radius:8px;padding:14px 18px;}
+  .benefit-item .btitle{font-weight:700;color:var(--gold-soft);font-size:15px;margin-bottom:4px;}
+  .limit-item{background:var(--bg-panel);border:1px solid var(--line);border-left:3px solid var(--warn);
+    padding:12px 16px;border-radius:6px;margin-bottom:8px;font-size:14.5px;color:var(--text-dim);}
+  table.refs{width:100%;border-collapse:collapse;font-size:14px;}
+  table.refs td{padding:8px 4px;border-bottom:1px solid var(--line);color:var(--text-dim);vertical-align:top;}
+  table.refs td:first-child{color:var(--text);width:32%;font-weight:600;}
+  footer{text-align:center;padding:36px 20px 10px;color:var(--text-dim);font-size:12.5px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="eyebrow">Ilmu Ekonomi Murni · Mikroekonomi &amp; Kegagalan Pasar</div>
+  <h1>Simulator Eksternalitas</h1>
+  <p class="subtitle">Pabrik yang mencemari sungai tidak membayar untuk air yang rusak. Pengendara yang menambah kemacetan tidak membayar untuk waktu orang lain yang terbuang. Geser "keparahan eksternalitas" dan "pajak koreksi", lalu lihat sendiri kenapa pasar bebas — tanpa intervensi — akan selalu memproduksi TERLALU BANYAK dari sesuatu yang punya biaya tersembunyi bagi pihak ketiga.</p>
+</header>
+
+<div class="wrap">
+
+  <section id="belajar">
+    <h2><span class="num">01</span> Belajar</h2>
+    <p>Dalam pasar sederhana, produsen hanya memperhitungkan <strong>biaya privat</strong> (bahan baku, upah, sewa) yang tercermin dalam kurva <strong>Marginal Private Cost (MPC)</strong> — inilah kurva penawaran biasa. Tapi sebagian aktivitas ekonomi menimbulkan biaya tambahan yang ditanggung pihak yang <em>tidak ikut bertransaksi</em>: warga yang menghirup udara tercemar, pengendara lain yang terjebak macet lebih lama. Biaya yang "bocor" ke pihak ketiga ini disebut <strong>eksternalitas negatif</strong>.</p>
+    <p>Kalau biaya privat digabung dengan biaya eksternal ini, hasilnya adalah <strong>Marginal Social Cost (MSC)</strong> — biaya sesungguhnya bagi masyarakat secara keseluruhan:</p>
+    <p style="font-family:var(--font-mono);font-size:14px;color:var(--gold-soft);text-align:center;">MSC = MPC + MEC &nbsp; (MEC = Marginal External Cost)</p>
+    <p>Karena produsen &amp; konsumen di pasar hanya "melihat" MPC — bukan MSC — mereka bertransaksi sampai titik yang <strong>lebih banyak</strong> dari yang sebenarnya baik bagi masyarakat. Inilah definisi teknis "kegagalan pasar" (market failure) untuk kasus eksternalitas negatif: harga pasar berbohong tentang biaya sebenarnya.</p>
+  </section>
+
+  <section id="pertanyaan">
+    <h2><span class="num">02</span> Pertanyaan Ilmiah</h2>
+    <p class="dim" style="font-style:italic;">Kalau eksternalitas itu nyata dan terukur, kenapa pasar tidak otomatis menyesuaikan harganya sendiri? Berapa persis jumlah produksi yang "terlalu banyak" itu — dan siapa yang menanggung selisihnya? Kalau pemerintah memungut pajak untuk mengoreksinya (pajak Pigovian), berapa besar pajak yang tepat — dan kenapa pajak yang terlalu kecil atau terlalu besar sama-sama menciptakan kerugian baru?</p>
+  </section>
+
+  <section id="eksplorasi">
+    <h2><span class="num">03</span> Eksplorasi &amp; Perhitungan</h2>
+    <div class="panel">
+
+      <div class="mode-row" id="modeRow">
+        <button class="mode-btn active" data-mode="pabrik">Polusi Pabrik</button>
+        <button class="mode-btn" data-mode="jalan">Kemacetan Jalan</button>
+      </div>
+
+      <div class="controls-row">
+        <div class="field"><label>Harga Tertinggi Diminati (a) <span class="val" id="vA">200</span></label><input type="range" id="inA" min="100" max="300" step="5" value="200"></div>
+        <div class="field"><label>Kepekaan Permintaan (b) <span class="val" id="vB">1.0</span></label><input type="range" id="inB" min="0.3" max="2" step="0.1" value="1.0"></div>
+        <div class="field"><label>Biaya Privat Dasar (c) <span class="val" id="vC">20</span></label><input type="range" id="inC" min="0" max="80" step="5" value="20"></div>
+        <div class="field"><label>Kenaikan Biaya Privat (d) <span class="val" id="vD">0.6</span></label><input type="range" id="inD" min="0.1" max="1.5" step="0.1" value="0.6"></div>
+        <div class="field"><label>Keparahan Eksternalitas (e) <span class="val" id="vE">0.8</span></label><input type="range" id="inE" min="0" max="2" step="0.1" value="0.8"></div>
+      </div>
+
+      <div class="tax-row" id="taxRow">
+        <button class="tax-btn active" data-t="0">Tanpa Pajak</button>
+        <button class="tax-btn" data-t="optimal">Pajak Pigovian Optimal</button>
+        <button class="tax-btn" data-t="over">Pajak Berlebihan (2×)</button>
+        <button class="tax-btn" data-t="under">Pajak Kurang (0.4×)</button>
+      </div>
+      <div class="controls-row" style="margin-bottom:6px;">
+        <div class="field"><label>Pajak Koreksi per Unit (t) <span class="val" id="vT">0</span></label><input type="range" id="inT" min="0" max="120" step="1" value="0"></div>
+      </div>
+
+      <svg class="chart" id="svgExt" viewBox="0 0 620 420"></svg>
+      <div class="legend">
+        <span><span class="swatch" style="background:#5b8fc9"></span> Permintaan (D)</span>
+        <span><span class="swatch" style="background:#4f9c94"></span> Biaya Privat + Pajak (MPC+t)</span>
+        <span><span class="swatch" style="background:#e3766a"></span> Biaya Sosial (MSC)</span>
+        <span><span class="swatch" style="background:rgba(227,118,106,0.35)"></span> Kerugian Bersih (DWL)</span>
+      </div>
+
+      <div class="results" id="resultsGrid"></div>
+      <div class="insight-box" id="insightBox"></div>
+    </div>
+  </section>
+
+  <section id="manfaat">
+    <h2><span class="num">04</span> Manfaat &amp; Kegunaan</h2>
+    <div class="benefit-list">
+      <div class="benefit-item"><div class="btitle">Memahami logika pajak karbon &amp; cukai polusi</div>Menjelaskan secara matematis kenapa pajak karbon bukan "hukuman", melainkan cara memaksa produsen melihat biaya sosial yang selama ini gratis bagi mereka.</div>
+      <div class="benefit-item"><div class="btitle">Memahami tarif jalan berbayar (congestion pricing)</div>Skema seperti ERP Singapura atau ganjil-genap pada dasarnya adalah pajak Pigovian untuk kemacetan — memaksa pengendara menghitung biaya waktu orang lain yang mereka timbulkan.</div>
+      <div class="benefit-item"><div class="btitle">Menjelaskan kenapa "besaran pajak yang tepat" itu sulit</div>Simulator menunjukkan pajak yang salah besaran — terlalu kecil ATAU terlalu besar — sama-sama menciptakan kerugian bersih (deadweight loss), bukan hanya "tidak ada pajak" yang bermasalah.</div>
+      <div class="benefit-item"><div class="btitle">Dasar untuk memahami cap-and-trade</div>Setelah paham pajak Pigovian, sistem kuota emisi yang bisa diperdagangkan (cap-and-trade) lebih mudah dipahami sebagai pendekatan alternatif menuju kuantitas sosial optimal yang sama.</div>
+    </div>
+  </section>
+
+  <section id="batasan">
+    <h2><span class="num">05</span> Batasan</h2>
+    <div class="limit-item">Model ini memakai kurva permintaan &amp; biaya <strong>linear</strong> untuk kejelasan visual. Di dunia nyata kurva-kurva ini jarang benar-benar lurus, terutama pada kuantitas ekstrem.</div>
+    <div class="limit-item">Simulator ini <strong>tidak</strong> memodelkan solusi Coase (Ronald Coase, 1960): bila biaya negosiasi rendah dan hak milik jelas, pihak-pihak yang terlibat bisa saja tawar-menawar sendiri menuju hasil efisien tanpa pajak pemerintah sama sekali.</div>
+    <div class="limit-item">Nilai "Keparahan Eksternalitas (e)" dalam simulator ini adalah <strong>input yang Anda tentukan sendiri</strong> lewat slider. Di dunia nyata, mengukur biaya eksternal secara akurat (misalnya harga rupiah untuk satu ton karbon, atau satu menit waktu terbuang di kemacetan) adalah salah satu masalah paling sulit &amp; diperdebatkan dalam ekonomi lingkungan.</div>
+    <div class="limit-item">Model ini statis (satu periode) — tidak menghitung efek dinamis seperti inovasi teknologi bersih yang muncul justru karena adanya pajak eksternalitas dalam jangka panjang.</div>
+    <div class="limit-item">Eksternalitas <strong>positif</strong> (misalnya vaksinasi, pendidikan) bekerja dengan logika kebalikan (pasar memproduksi terlalu sedikit, butuh subsidi) — tidak dicakup dalam simulator ini yang fokus pada eksternalitas negatif.</div>
+  </section>
+
+  <section id="referensi">
+    <h2><span class="num">06</span> Referensi</h2>
+    <table class="refs">
+      <tr><td>A.C. Pigou — <em>The Economics of Welfare</em> (1920)</td><td>Sumber asli konsep pajak koreksi eksternalitas (Pigovian tax)</td></tr>
+      <tr><td>Ronald Coase — <em>The Problem of Social Cost</em> (1960)</td><td>Kritik &amp; alternatif: negosiasi swasta bisa menggantikan pajak bila biaya transaksi rendah</td></tr>
+      <tr><td>Mankiw — <em>Principles of Economics</em>, bab Eksternalitas</td><td>Kerangka standar MPC/MSC/MEC yang dipakai dalam simulator ini</td></tr>
+      <tr><td>OECD / World Bank — Laporan Carbon Pricing</td><td>Data &amp; praktik penerapan pajak karbon di berbagai negara sebagai studi kasus nyata</td></tr>
+    </table>
+  </section>
+
+</div>
+
+<footer>Simulator edukasi ilmu ekonomi mikro murni — kerangka eksternalitas &amp; kegagalan pasar.</footer>
+
+<script>
+(function(){
+  const el = id => document.getElementById(id);
+  const state = { a:200, b:1.0, c:20, d:0.6, e:0.8, t:0, mode:'pabrik' };
+
+  const labels = {
+    pabrik: { qty:'Unit Produksi', price:'Harga per Unit', ext:'Polusi', unit:'unit' },
+    jalan:  { qty:'Jumlah Kendaraan', price:'Biaya Perjalanan (indeks)', ext:'Kemacetan', unit:'kendaraan' }
+  };
+
+  const inA=el('inA'), inB=el('inB'), inC=el('inC'), inD=el('inD'), inE=el('inE'), inT=el('inT');
+  [inA,inB,inC,inD,inE].forEach(inp=>inp.addEventListener('input', ()=>{
+    state.a=+inA.value; state.b=+inB.value; state.c=+inC.value; state.d=+inD.value; state.e=+inE.value;
+    recompute();
+  }));
+  inT.addEventListener('input', ()=>{
+    state.t = +inT.value;
+    document.querySelectorAll('.tax-btn').forEach(b=>b.classList.remove('active'));
+    recompute();
+  });
+
+  document.querySelectorAll('.mode-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      state.mode = btn.dataset.mode;
+      recompute();
+    });
+  });
+
+  document.querySelectorAll('.tax-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('.tax-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const {a,b,c,d,e} = state;
+      const Qs = (a-c)/(b+d+e);
+      const tOpt = e*Qs;
+      let t;
+      if(btn.dataset.t==='0') t=0;
+      else if(btn.dataset.t==='optimal') t=tOpt;
+      else if(btn.dataset.t==='over') t=tOpt*2;
+      else if(btn.dataset.t==='under') t=tOpt*0.4;
+      state.t = Math.max(0, Math.min(120, t));
+      inT.value = state.t;
+      recompute();
+    });
+  });
+
+  function num(n,dec){ return Number(n.toFixed(dec===undefined?1:dec)); }
+
+  function recompute(){
+    const {a,b,c,d,e,t} = state;
+    const L = labels[state.mode];
+
+    const Qm = Math.max(0.01,(a-c)/(b+d));                 // market eq, no tax
+    const Qs = Math.max(0.01,(a-c)/(b+d+e));                // social optimum
+    const Qt = Math.max(0.01,(a-c-t)/(b+d));                // eq with tax t
+
+    const tOpt = e*Qs;
+    const DWL = q => 0.5*(b+d+e)*Math.pow(q-Qs,2);
+    const extCost = q => 0.5*e*q*q;
+
+    function Dp(q){ return a-b*q; }
+    function MPCp(q){ return c+d*q; }
+    function MSCp(q){ return c+(d+e)*q; }
+
+    const Qmax = Math.max(Qm,Qs,Qt)*1.25;
+    const Pmax = Math.max(a, MSCp(Qmax))*1.05;
+
+    const W=620,H=420, padL=55,padR=20,padT=20,padB=44;
+    const plotW=W-padL-padR, plotH=H-padT-padB;
+    const sx = plotW/Qmax, sy = plotH/Pmax;
+    function pt(q,p){ return [padL+q*sx, H-padB-p*sy]; }
+
+    function line(fn,color,dash){
+      let pts=[];
+      for(let i=0;i<=40;i++){ const q=Qmax*i/40; pts.push(pt(q,Math.max(0,fn(q))).join(',')); }
+      return `<polyline points="${pts.join(' ')}" fill="none" stroke="${color}" stroke-width="2.5" ${dash?'stroke-dasharray="'+dash+'"':''}/>`;
+    }
+
+    let svg='';
+    svg += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H-padB}" stroke="#3a4150" stroke-width="1"/>`;
+    svg += `<line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#3a4150" stroke-width="1"/>`;
+    svg += `<text x="${W-padR}" y="${H-padB+18}" fill="#9aa1ad" font-size="11" text-anchor="end" font-family="JetBrains Mono, monospace">${L.qty}</text>`;
+    svg += `<text x="${padL-8}" y="${padT+4}" fill="#9aa1ad" font-size="11" text-anchor="end" font-family="JetBrains Mono, monospace">${L.price}</text>`;
+
+    // DWL shaded triangle between D and MSC from min(Qs,Qt) to max(Qs,Qt)
+    const qLo = Math.min(Qs,Qt), qHi = Math.max(Qs,Qt);
+    let tri=[];
+    for(let i=0;i<=20;i++){ const q=qLo+(qHi-qLo)*i/20; tri.push(pt(q,Math.max(0,MSCp(q))).join(',')); }
+    for(let i=20;i>=0;i--){ const q=qLo+(qHi-qLo)*i/20; tri.push(pt(q,Math.max(0,Dp(q))).join(',')); }
+    if(qHi-qLo>0.05) svg += `<polygon points="${tri.join(' ')}" fill="rgba(227,118,106,0.30)" stroke="none"/>`;
+
+    svg += line(Dp,'#5b8fc9');
+    svg += line(q=>MPCp(q)+t,'#4f9c94');
+    svg += line(MSCp,'#e3766a');
+
+    // vertical markers
+    function vline(q,color,label){
+      const p1=pt(q,0), p2=pt(q,Pmax*0.98);
+      return `<line x1="${p1[0]}" y1="${p1[1]}" x2="${p2[0]}" y2="${p2[1]}" stroke="${color}" stroke-width="1" stroke-dasharray="3,3"/>
+        <text x="${p1[0]}" y="${H-padB+30}" fill="${color}" font-size="10.5" text-anchor="middle" font-family="JetBrains Mono, monospace">${label}</text>`;
+    }
+    svg += vline(Qs,'#e3766a','Qs');
+    svg += vline(Qt,'#4f9c94', t>0.5?'Qt':'Qm');
+
+    el('svgExt').innerHTML = svg;
+
+    const dwlNow = DWL(Qt);
+    const extNow = extCost(Qt);
+    const extAtMarket = extCost(Qm);
+
+    const results = [
+      {l:'Kuantitas Pasar Bebas (Qm)', v: num(Qm,1)+' '+L.unit},
+      {l:'Kuantitas Sosial Optimal (Qs)', v: num(Qs,1)+' '+L.unit},
+      {l:'Kuantitas dgn Pajak Sekarang (Qt)', v: num(Qt,1)+' '+L.unit},
+      {l:'Pajak Pigovian Optimal (t*)', v: num(tOpt,1)},
+      {l:'Total Biaya '+L.ext+' Saat Ini', v: num(extNow,1)},
+      {l:'Kerugian Bersih Sekarang (DWL)', v: num(dwlNow,1)},
+    ];
+    el('resultsGrid').innerHTML = results.map(r=>`<div class="result-card"><div class="l">${r.l}</div><div class="v">${r.v}</div></div>`).join('');
+
+    let insight;
+    if(t < 0.5){
+      insight = `Tanpa intervensi sama sekali, pasar berhenti di Qm=${num(Qm,1)} — LEBIH BESAR dari kuantitas sosial optimal Qs=${num(Qs,1)}. Selisih ${num(Qm-Qs,1)} ${L.unit} ini murni terjadi karena produsen &amp; konsumen tidak pernah melihat biaya ${L.ext.toLowerCase()} yang mereka timbulkan pada pihak ketiga. Kerugian bersih (DWL) akibat kelebihan produksi ini: <b>${num(dwlNow,1)}</b>.`;
+    } else if(Math.abs(Qt-Qs) < 0.15){
+      insight = `Pajak sebesar t=${num(t,1)} ini nyaris tepat sama dengan Pajak Pigovian Optimal (t*=${num(tOpt,1)}). Kuantitas pasar bergeser persis ke Qs=${num(Qs,1)} — DWL turun mendekati <b>nol</b>. Inilah esensi pajak Pigovian: bukan menghukum produksi, tapi memaksa harga pasar "berkata jujur" tentang biaya sosial sesungguhnya.`;
+    } else if(Qt > Qs){
+      insight = `Pajak t=${num(t,1)} ini LEBIH KECIL dari pajak optimal (t*=${num(tOpt,1)}) — koreksinya kurang. Kuantitas masih berhenti di Qt=${num(Qt,1)}, di atas Qs=${num(Qs,1)}. Masih ada kerugian bersih sebesar <b>${num(dwlNow,1)}</b> karena sebagian biaya ${L.ext.toLowerCase()} tetap belum tertutup.`;
+    } else {
+      insight = `Pajak t=${num(t,1)} ini LEBIH BESAR dari pajak optimal (t*=${num(tOpt,1)}) — koreksinya berlebihan. Kuantitas turun ke Qt=${num(Qt,1)}, DI BAWAH Qs=${num(Qs,1)}. Sekarang justru terjadi UNDERPRODUKSI — transaksi yang sebenarnya masih menguntungkan masyarakat (secara sosial) batal terjadi. Kerugian bersih baru muncul sebesar <b>${num(dwlNow,1)}</b> — bukti bahwa "lebih banyak pajak" tidak selalu "lebih baik".`;
+    }
+    el('insightBox').innerHTML = insight;
+
+    el('vA').textContent=a; el('vB').textContent=num(b,1); el('vC').textContent=c; el('vD').textContent=num(d,1);
+    el('vE').textContent=num(e,1); el('vT').textContent=num(t,1);
+  }
+
+  recompute();
+})();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

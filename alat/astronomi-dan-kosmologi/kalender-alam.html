@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalender Alam — Heliacal, Bintang Musiman &amp; Fenologi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F1E6; --bg-deep:#EAE2CC;
+    --ink:#20293A; --ink-soft:#5A6270;
+    --dawn:#2E3A59; --amber:#E08E45; --leaf:#4F7942;
+    --line:#d9d0b4;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6;}
+  h1,h2,h3,.display{font-family:'Crimson Pro',serif;color:var(--ink);margin:0;}
+  .wrap{max-width:1100px;margin:0 auto;padding:40px 22px 90px;}
+
+  header.hero{padding-bottom:24px;border-bottom:1.5px solid var(--line);margin-bottom:30px;}
+  header.hero h1{font-size:2.1rem;font-weight:700;max-width:26ch;}
+  header.hero p{margin:10px 0 0;color:var(--ink-soft);max-width:72ch;font-size:1rem;}
+  .badge-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+  .badge{font-size:0.78rem;padding:4px 10px;border-radius:20px;border:1px solid var(--line);color:var(--ink-soft);background:#fff;}
+
+  .type-tabs{display:flex;gap:2px;margin-bottom:28px;border-bottom:1.5px solid var(--line);}
+  .type-tabs button{
+    font-family:'Crimson Pro',serif;font-size:1.08rem;font-weight:600;background:none;border:none;
+    padding:11px 18px;cursor:pointer;color:var(--ink-soft);border-bottom:3px solid transparent;
+  }
+  .type-tabs button.active{color:var(--ink);}
+  .type-tabs button:nth-child(1).active{border-bottom-color:var(--dawn);}
+  .type-tabs button:nth-child(2).active{border-bottom-color:var(--amber);}
+  .type-tabs button:nth-child(3).active{border-bottom-color:var(--leaf);}
+
+  .type-panel{display:none;}
+  .type-panel.active{display:block;}
+
+  section{margin-bottom:38px;}
+  section > h2{font-size:1.35rem;font-weight:700;margin-bottom:6px;}
+  section > .lead{color:var(--ink-soft);margin-bottom:16px;max-width:74ch;font-size:0.95rem;}
+
+  .panel{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px 22px;}
+  .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media (max-width:760px){.grid-2{grid-template-columns:1fr;}}
+
+  .field{margin-bottom:15px;}
+  .field label{display:flex;justify-content:space-between;font-size:0.85rem;color:var(--ink-soft);margin-bottom:6px;}
+  .field label .val{font-weight:700;font-variant-numeric:tabular-nums;}
+  .field input[type=range]{width:100%;}
+  .field select, .field input[type=number]{
+    width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:4px;
+    background:#fff;font-family:'Inter',sans-serif;font-size:0.92rem;color:var(--ink);
+  }
+
+  .result-box{margin-top:8px;padding:16px 18px;border-radius:8px;color:#fff;}
+  .result-box .big{font-family:'Crimson Pro',serif;font-size:1.6rem;font-weight:700;}
+  .result-box .small{font-size:0.82rem;opacity:0.85;margin-top:2px;}
+
+  svg.chart{width:100%;height:auto;}
+  .chart-wrap{background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px;}
+
+  .callout{background:#fff;border:1px solid var(--line);border-left:4px solid var(--ink-soft);border-radius:6px;padding:15px 18px;font-size:0.88rem;color:var(--ink-soft);margin-top:14px;}
+  .callout p{margin:0 0 6px;} .callout p:last-child{margin-bottom:0;}
+
+  .month-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:10px;}
+  .month-cell{
+    padding:10px 4px;text-align:center;border-radius:5px;font-size:0.78rem;
+    background:var(--bg-deep);color:var(--ink-soft);border:1px solid var(--line);
+  }
+  .month-cell.visible{background:var(--amber);color:#fff;font-weight:600;border-color:var(--amber);}
+
+  .pheno-form{display:flex;gap:8px;flex-wrap:wrap;align-items:end;margin-bottom:14px;}
+  .pheno-form .field{margin-bottom:0;flex:1;min-width:120px;}
+  .pheno-form button{
+    padding:8px 16px;background:var(--leaf);color:#fff;border:none;border-radius:5px;
+    font-family:'Inter',sans-serif;font-weight:600;cursor:pointer;height:38px;
+  }
+  .wheel-row{display:grid;grid-template-columns:80px repeat(12,1fr);gap:2px;align-items:center;margin-bottom:4px;font-size:0.72rem;}
+  .wheel-row .mname{color:var(--ink-soft);text-align:right;padding-right:6px;}
+  .wheel-cell{height:20px;border-radius:2px;background:var(--bg-deep);}
+  .wheel-header{display:grid;grid-template-columns:80px repeat(12,1fr);gap:2px;font-size:0.68rem;color:var(--ink-soft);margin-bottom:4px;}
+  .wheel-header div{text-align:center;}
+  .remove-btn{background:none;border:none;color:#b5432f;cursor:pointer;font-size:0.72rem;margin-left:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>Kalender Alam</h1>
+    <p>Tiga cara berbeda membaca waktu tanpa jam modern — dari kemunculan satu bintang di fajar, pola bintang untuk arah &amp; musim, hingga tanda kehidupan yang tak butuh angka sama sekali. Tiap jenis diberi contoh perhitungan hidup yang bisa Anda otak-atik parameternya.</p>
+    <div class="badge-row">
+      <span class="badge">Astronomi Posisi</span>
+      <span class="badge">Navigasi Tradisional</span>
+      <span class="badge">Fenologi</span>
+      <span class="badge">Simulator Interaktif</span>
+    </div>
+  </header>
+
+  <div class="type-tabs">
+    <button class="active" data-t="helio">I. Heliacal Rising</button>
+    <button data-t="star">II. Seasonal Star Markers</button>
+    <button data-t="pheno">III. Phenological Calendar</button>
+  </div>
+
+  <!-- ================= I. HELIACAL RISING ================= -->
+  <div class="type-panel active" id="panel-helio">
+    <section>
+      <h2>Kemunculan Heliakal (Heliacal Rising)</h2>
+      <p class="lead">Momen sebuah bintang, setelah "hilang" karena terlalu dekat dengan Matahari, muncul kembali sekilas di ufuk timur sesaat sebelum fajar menenggelamkannya. Contoh klasik: terbit heliakal Sirius menandai awal tahun bagi Mesir kuno.</p>
+      <div class="panel">
+        <div class="grid-2">
+          <div>
+            <div class="field">
+              <label>Bintang</label>
+              <select id="h-star"></select>
+            </div>
+            <div class="field">
+              <label>Lintang pengamat (°, + utara) <span class="val" id="v-hlat">-6.2</span></label>
+              <input type="range" id="h-lat" min="-60" max="60" step="0.1" value="-6.2">
+            </div>
+            <div class="field">
+              <label>Bujur pengamat (°, + timur) <span class="val" id="v-hlon">106.8</span></label>
+              <input type="range" id="h-lon" min="-180" max="180" step="0.1" value="106.8">
+            </div>
+            <div class="field">
+              <label>Tahun</label>
+              <input type="number" id="h-year" value="2026" min="1900" max="2100">
+            </div>
+            <div class="field">
+              <label>Ambang selisih waktu terbit (arcus visionis, menit) <span class="val" id="v-hthresh">50</span></label>
+              <input type="range" id="h-thresh" min="15" max="90" step="1" value="50">
+            </div>
+          </div>
+          <div>
+            <div class="result-box" style="background:var(--dawn)">
+              <div class="small">Estimasi tanggal terbit heliakal</div>
+              <div class="big" id="h-result">—</div>
+              <div class="small" id="h-detail"></div>
+            </div>
+            <div class="chart-wrap" style="margin-top:12px">
+              <svg class="chart" id="svg-helio" viewBox="0 0 420 200"></svg>
+            </div>
+          </div>
+        </div>
+        <div class="callout">
+          <p><strong>Cara hitung:</strong> setiap hari, saya bandingkan jam terbit Matahari dengan jam terbit bintang di lokasi &amp; tahun yang Anda pilih. Karena bintang terbit ±4 menit lebih awal tiap hari dibanding Matahari, selisihnya (Δt) membesar sepanjang tahun. Begitu Δt melewati ambang "arcus visionis" yang Anda atur, itulah perkiraan hari bintang tersebut mulai terlihat lagi sesaat sebelum fajar.</p>
+          <p><strong>Batasan:</strong> ini pendekatan selisih-waktu yang disederhanakan — belum memasukkan ekstingsi atmosfer, kecerlangan bintang, atau kondisi langit riil. Ambang arcus visionis sesungguhnya bervariasi per bintang (bintang lebih terang butuh Δt lebih kecil) — geser sendiri untuk melihat efeknya.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= II. SEASONAL STAR MARKERS ================= -->
+  <div class="type-panel" id="panel-star">
+    <section>
+      <h2>Penanda Musim Berbasis Bintang</h2>
+      <p class="lead">Bukan satu titik presisi — melainkan pola bintang yang dipakai sebagai kompas arah sekaligus penanda jendela musim. Contoh: Bintang Tujuh/Kartika (Pleiades/Matariki) menandai awal musim tanam di banyak tradisi.</p>
+      <div class="panel">
+        <div class="grid-2">
+          <div>
+            <div class="field">
+              <label>Bintang / asterisma</label>
+              <select id="s-star"></select>
+            </div>
+            <div class="field">
+              <label>Lintang pengamat (°) <span class="val" id="v-slat">-6.2</span></label>
+              <input type="range" id="s-lat" min="-60" max="60" step="0.1" value="-6.2">
+            </div>
+            <div class="result-box" style="background:var(--amber)">
+              <div class="small">Azimut terbit / terbenam (kompas bintang)</div>
+              <div class="big" id="s-azimuth">—</div>
+              <div class="small">Diukur dari Utara, searah jarum jam</div>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <svg class="chart" id="svg-compass" viewBox="0 0 260 260"></svg>
+          </div>
+        </div>
+        <div class="callout">
+          <p>Azimut terbit/terbenam suatu bintang <strong>tidak berubah sepanjang tahun</strong> untuk lintang yang sama — inilah yang membuatnya jadi kompas alami yang bisa diandalkan navigator, berbeda dari heliacal rising yang sangat terikat tanggal.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="font-size:1.15rem">Kalender Tampak Bulanan</h2>
+      <p class="lead">Apakah bintang ini tampak di langit senja pada tiap bulan, pada jam tertentu setelah Matahari terbenam?</p>
+      <div class="panel">
+        <div class="field" style="max-width:340px">
+          <label>Jam setelah Matahari terbenam <span class="val" id="v-soffset">1.5</span></label>
+          <input type="range" id="s-offset" min="0" max="4" step="0.25" value="1.5">
+        </div>
+        <div class="month-grid" id="month-grid"></div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ================= III. PHENOLOGICAL CALENDAR ================= -->
+  <div class="type-panel" id="panel-pheno">
+    <section>
+      <h2>Kalender Fenologi — Tanda Kehidupan Tanpa Angka</h2>
+      <p class="lead">Tidak memakai posisi langit sama sekali — murni tanda kehidupan lokal: bunga mekar, burung datang, serangga muncul. Sangat lokal, tidak otomatis berlaku di tempat lain.</p>
+      <div class="panel">
+        <div class="pheno-form">
+          <div class="field"><label>Nama tanda</label><input type="text" id="p-name" placeholder="mis. pohon flamboyan berbunga"></div>
+          <div class="field"><label>Bulan mulai</label><select id="p-start"></select></div>
+          <div class="field"><label>Bulan akhir</label><select id="p-end"></select></div>
+          <button onclick="addPheno()">+ Tambah</button>
+        </div>
+        <div class="wheel-header" id="wheel-header"></div>
+        <div id="wheel-out"></div>
+        <div class="callout"><p>Susun kalender fenologi lokal Anda sendiri di atas — murni pengamatan, tanpa angka atau perhitungan apa pun. Bandingkan dengan model di bawah untuk melihat <em>mengapa</em> tanda-tanda semacam ini cenderung berulang tiap tahun pada rentang waktu yang mirip.</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2 style="font-size:1.15rem">Model Ilustratif: Growing Degree Days (GDD)</h2>
+      <p class="lead">Model sains di balik pola fenologi: banyak tanda hayati (mekar bunga, munculnya serangga) berkorelasi dengan akumulasi panas, bukan tanggal kalender itu sendiri.</p>
+      <div class="panel">
+        <div class="grid-2">
+          <div>
+            <div class="field">
+              <label>Suhu rata-rata tahunan (°C) <span class="val" id="v-tmean">27</span></label>
+              <input type="range" id="p-tmean" min="10" max="35" step="0.5" value="27">
+            </div>
+            <div class="field">
+              <label>Amplitudo musiman (°C) <span class="val" id="v-tamp">3</span></label>
+              <input type="range" id="p-tamp" min="0" max="15" step="0.5" value="3">
+            </div>
+            <div class="field">
+              <label>Suhu dasar / ambang aktif (°C) <span class="val" id="v-tbase">15</span></label>
+              <input type="range" id="p-tbase" min="0" max="25" step="0.5" value="15">
+            </div>
+            <div class="field">
+              <label>Target GDD kumulatif untuk tanda muncul <span class="val" id="v-gtarget">300</span></label>
+              <input type="range" id="p-gtarget" min="50" max="1500" step="10" value="300">
+            </div>
+          </div>
+          <div>
+            <div class="result-box" style="background:var(--leaf)">
+              <div class="small">Perkiraan hari tanda muncul (sejak 1 Jan)</div>
+              <div class="big" id="p-result">—</div>
+            </div>
+            <div class="chart-wrap" style="margin-top:12px">
+              <svg class="chart" id="svg-gdd" viewBox="0 0 420 190"></svg>
+            </div>
+          </div>
+        </div>
+        <div class="callout">
+          <p><strong>Batasan:</strong> model suhu di sini sinusoidal sederhana (bukan data cuaca riil), dan banyak tanda fenologi sesungguhnya juga dipengaruhi curah hujan, panjang siang, kelembapan — bukan suhu semata. Ini sekadar ilustrasi mengapa pola musiman cenderung berulang pada rentang waktu yang mirip tiap tahun.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+</div>
+
+<script>
+const D2R = Math.PI/180, R2D = 180/Math.PI;
+const toRad = d => d*D2R, toDeg = r => r*R2D;
+const norm360 = d => { d = d % 360; return d<0 ? d+360 : d; };
+const clamp = (v,lo,hi) => Math.max(lo, Math.min(hi, v));
+
+const STAR_CATALOG = [
+  {name:"Sirius",            ra: 101.287, dec: -16.716},
+  {name:"Pleiades (Kartika/Matariki)", ra: 56.75,  dec:  24.12},
+  {name:"Canopus",           ra:  95.988, dec: -52.696},
+  {name:"Antares",           ra: 247.352, dec: -26.432},
+  {name:"Vega",              ra: 279.234, dec:  38.784},
+  {name:"Crux/Acrux (Salib Selatan)", ra: 186.650, dec: -63.099},
+  {name:"Arcturus",          ra: 213.915, dec:  19.182},
+  {name:"Aldebaran",         ra:  68.980, dec:  16.509},
+  {name:"Betelgeuse",        ra:  88.793, dec:   7.407}
+];
+
+function julianDay(date){
+  const Y = date.getUTCFullYear();
+  let M = date.getUTCMonth()+1;
+  const D = date.getUTCDate() + (date.getUTCHours() + date.getUTCMinutes()/60)/24;
+  let y=Y, m=M;
+  if(m<=2){ y-=1; m+=12; }
+  const A = Math.floor(y/100);
+  const B = 2 - A + Math.floor(A/4);
+  return Math.floor(365.25*(y+4716)) + Math.floor(30.6001*(m+1)) + D + B - 1524.5;
+}
+
+function sunEquatorial(jd){
+  const T = (jd-2451545.0)/36525;
+  const L0 = norm360(280.46646 + 36000.76983*T + 0.0003032*T*T);
+  const M  = norm360(357.52911 + 35999.05029*T - 0.0001537*T*T);
+  const C = (1.914602 - 0.004817*T - 0.000014*T*T)*Math.sin(toRad(M))
+          + (0.019993 - 0.000101*T)*Math.sin(toRad(2*M))
+          + 0.000289*Math.sin(toRad(3*M));
+  const trueLong = L0 + C;
+  const omega = 125.04 - 1934.136*T;
+  const lambda = trueLong - 0.00569 - 0.00478*Math.sin(toRad(omega));
+  const eps0 = 23 + 26/60 + 21.448/3600 - (46.8150*T + 0.00059*T*T - 0.001813*T*T*T)/3600;
+  const eps = eps0 + 0.00256*Math.cos(toRad(omega));
+  const raRad = Math.atan2(Math.cos(toRad(eps))*Math.sin(toRad(lambda)), Math.cos(toRad(lambda)));
+  const dec = toDeg(Math.asin(Math.sin(toRad(eps))*Math.sin(toRad(lambda))));
+  return {ra: norm360(toDeg(raRad)), dec};
+}
+
+function gmstDeg(jd){
+  const T = (jd-2451545.0)/36525;
+  const gmst = 280.46061837 + 360.98564736629*(jd-2451545.0) + 0.000387933*T*T - (T*T*T)/38710000;
+  return norm360(gmst);
+}
+
+function equatorialToHorizontal(raDeg, decDeg, latDeg, lstDeg){
+  const H = (function(d){ d=norm360(d); return d>180?d-360:d; })(lstDeg - raDeg);
+  const Hr = toRad(H), decr = toRad(decDeg), latr = toRad(latDeg);
+  const sinAlt = Math.sin(decr)*Math.sin(latr) + Math.cos(decr)*Math.cos(latr)*Math.cos(Hr);
+  const alt = toDeg(Math.asin(clamp(sinAlt,-1,1)));
+  const y = Math.sin(Hr);
+  const x = Math.cos(Hr)*Math.sin(latr) - Math.tan(decr)*Math.cos(latr);
+  const az = norm360(toDeg(Math.atan2(y,x)) + 180);
+  return {alt, az};
+}
+
+// returns UT hours (0-24) of rise(true)/set(false) event, or null if never happens
+function eventUT(raDeg, decDeg, latDeg, lonDeg, jd0, altTargetDeg, rising){
+  const latr = toRad(latDeg), decr = toRad(decDeg);
+  const cosH0 = (Math.sin(toRad(altTargetDeg)) - Math.sin(latr)*Math.sin(decr)) / (Math.cos(latr)*Math.cos(decr));
+  if(cosH0 < -1 || cosH0 > 1) return null;
+  const H0 = toDeg(Math.acos(clamp(cosH0,-1,1)));
+  const H = rising ? -H0 : H0;
+  const lstTarget = norm360(raDeg + H);
+  const requiredGMST = norm360(lstTarget - lonDeg);
+  const gmst0 = gmstDeg(jd0);
+  const delta = norm360(requiredGMST - gmst0);
+  return delta/360.98564736629*24;
+}
+
+function el(tag,attrs){
+  const e = document.createElementNS("http://www.w3.org/2000/svg", tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+
+/* ---------- populate star selects ---------- */
+['h-star','s-star'].forEach(id => {
+  const sel = document.getElementById(id);
+  STAR_CATALOG.forEach((s,i) => {
+    const o = document.createElement('option');
+    o.value = i; o.textContent = s.name;
+    sel.appendChild(o);
+  });
+});
+
+/* ================= I. HELIACAL ================= */
+function computeHeliacal(){
+  const star = STAR_CATALOG[document.getElementById('h-star').value];
+  const lat = parseFloat(document.getElementById('h-lat').value);
+  const lon = parseFloat(document.getElementById('h-lon').value);
+  const year = parseInt(document.getElementById('h-year').value,10);
+  const thresh = parseFloat(document.getElementById('h-thresh').value);
+  document.getElementById('v-hlat').textContent = lat.toFixed(1);
+  document.getElementById('v-hlon').textContent = lon.toFixed(1);
+  document.getElementById('v-hthresh').textContent = thresh;
+
+  const jdJan1 = julianDay(new Date(Date.UTC(year,0,1)));
+  const deltas = [];
+  let foundDay = null;
+  for(let d=0; d<366; d++){
+    const jd0 = jdJan1 + d;
+    const sun = sunEquatorial(jd0);
+    const sunRise = eventUT(sun.ra, sun.dec, lat, lon, jd0, -0.833, true);
+    const starRise = eventUT(star.ra, star.dec, lat, lon, jd0, 0, true);
+    let dt = null;
+    if(sunRise!==null && starRise!==null){
+      let diff = ((sunRise - starRise + 12) % 24 + 24) % 24 - 12;
+      dt = diff*60;
+    }
+    deltas.push(dt);
+    if(foundDay===null && dt!==null && d>0 && deltas[d-1]!==null && deltas[d-1]<thresh && dt>=thresh){
+      foundDay = d;
+    }
+  }
+
+  if(star.dec > 90-Math.abs(lat) || star.dec < -(90-Math.abs(lat))){
+    // rough circumpolar / never-rises check already partly handled by eventUT null
+  }
+
+  const resultEl = document.getElementById('h-result');
+  const detailEl = document.getElementById('h-detail');
+  if(foundDay!==null){
+    const dateObj = new Date(Date.UTC(year,0,1));
+    dateObj.setUTCDate(dateObj.getUTCDate()+foundDay);
+    resultEl.textContent = dateObj.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+    detailEl.textContent = `${star.name} mulai terlihat sebelum fajar sekitar tanggal ini`;
+  } else {
+    resultEl.textContent = 'Tidak ditemukan';
+    detailEl.textContent = 'Bintang ini mungkin sirkumpolar atau tidak pernah terbit/tenggelam di lintang ini, atau tak melewati ambang yang dipilih sepanjang tahun.';
+  }
+
+  // chart
+  const svg = document.getElementById('svg-helio');
+  svg.innerHTML='';
+  const W=420,H=200,padL=34,padR=10,padT=12,padB=22;
+  const plotW=W-padL-padR, plotH=H-padT-padB;
+  const valid = deltas.filter(v=>v!==null);
+  const maxV = Math.max(...valid, thresh)+20, minV = Math.min(...valid,0)-20;
+  const xFor = i => padL+(i/365)*plotW;
+  const yFor = v => padT+plotH-((v-minV)/(maxV-minV))*plotH;
+
+  svg.appendChild(el('line',{x1:padL,y1:padT,x2:padL,y2:padT+plotH,stroke:'#d9d0b4'}));
+  svg.appendChild(el('line',{x1:padL,y1:padT+plotH,x2:padL+plotW,y2:padT+plotH,stroke:'#d9d0b4'}));
+  const ty = yFor(thresh);
+  svg.appendChild(el('line',{x1:padL,y1:ty,x2:padL+plotW,y2:ty,stroke:'#E08E45','stroke-dasharray':'4,3'}));
+
+  let path=''; let started=false;
+  deltas.forEach((v,i)=>{
+    if(v===null){ started=false; return; }
+    path += (started?'L':'M') + ` ${xFor(i).toFixed(1)} ${yFor(v).toFixed(1)} `;
+    started=true;
+  });
+  svg.appendChild(el('path',{d:path.trim(), fill:'none', stroke:'#2E3A59','stroke-width':1.8}));
+
+  if(foundDay!==null){
+    svg.appendChild(el('circle',{cx:xFor(foundDay), cy:yFor(deltas[foundDay]), r:4, fill:'#E08E45'}));
+  }
+  ['Jan','Apr','Jul','Okt'].forEach((lab,i)=>{
+    const dpos = i*91;
+    const t = el('text',{x:xFor(dpos), y:padT+plotH+14, 'font-size':8, fill:'#5A6270'});
+    t.textContent = lab; svg.appendChild(t);
+  });
+}
+['h-star','h-lat','h-lon','h-year','h-thresh'].forEach(id => document.getElementById(id).addEventListener('input', computeHeliacal));
+
+/* ================= II. STAR MARKERS ================= */
+function computeStarCompass(){
+  const star = STAR_CATALOG[document.getElementById('s-star').value];
+  const lat = parseFloat(document.getElementById('s-lat').value);
+  document.getElementById('v-slat').textContent = lat.toFixed(1);
+
+  const latr = toRad(lat), decr = toRad(star.dec);
+  const cosH0 = -Math.tan(latr)*Math.tan(decr);
+  const svg = document.getElementById('svg-compass');
+  svg.innerHTML='';
+  const cx=130, cy=130, R=100;
+  svg.appendChild(el('circle',{cx,cy,r:R, fill:'#fbf8ee', stroke:'#d9d0b4', 'stroke-width':1.5}));
+  [['U',0],['T',90],['S',180],['B',270]].forEach(([lab,az])=>{
+    const a = toRad(az-90);
+    const t = el('text',{x:cx+(R+14)*Math.cos(a), y:cy+(R+14)*Math.sin(a),'text-anchor':'middle','dominant-baseline':'middle','font-size':12,fill:'#20293A','font-family':'Crimson Pro, serif','font-weight':700});
+    t.textContent=lab; svg.appendChild(t);
+  });
+
+  if(cosH0 < -1 || cosH0 > 1){
+    document.getElementById('s-azimuth').textContent = cosH0 < -1 ? 'Sirkumpolar (tak pernah tenggelam)' : 'Tak pernah terbit di lintang ini';
+    return;
+  }
+  const H0 = toDeg(Math.acos(clamp(cosH0,-1,1)));
+  const raiseLST = norm360(star.ra - H0);
+  const setLST = norm360(star.ra + H0);
+  const riseAz = equatorialToHorizontal(star.ra, star.dec, lat, raiseLST).az;
+  const setAz = equatorialToHorizontal(star.ra, star.dec, lat, setLST).az;
+  document.getElementById('s-azimuth').textContent = `terbit ${riseAz.toFixed(1)}°, terbenam ${setAz.toFixed(1)}°`;
+
+  [[riseAz,'#E08E45','Terbit'],[setAz,'#2E3A59','Terbenam']].forEach(([az,color,label])=>{
+    const a = toRad(az-90);
+    const x=cx+R*Math.cos(a), y=cy+R*Math.sin(a);
+    svg.appendChild(el('line',{x1:cx,y1:cy,x2:x,y2:y,stroke:color,'stroke-width':1.5,'stroke-dasharray':'3,2'}));
+    svg.appendChild(el('circle',{cx:x,cy:y,r:5,fill:color}));
+    const t = el('text',{x:x, y:y-9,'text-anchor':'middle','font-size':9,fill:color,'font-weight':700});
+    t.textContent = label; svg.appendChild(t);
+  });
+}
+['s-star','s-lat'].forEach(id => document.getElementById(id).addEventListener('input', ()=>{computeStarCompass(); computeMonthGrid();}));
+
+function computeMonthGrid(){
+  const star = STAR_CATALOG[document.getElementById('s-star').value];
+  const lat = parseFloat(document.getElementById('s-lat').value);
+  const lon = parseFloat(document.getElementById('h-lon').value) || 106.8;
+  const offset = parseFloat(document.getElementById('s-offset').value);
+  document.getElementById('v-soffset').textContent = offset.toFixed(2);
+
+  const MONTHS = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+  const grid = document.getElementById('month-grid');
+  grid.innerHTML='';
+  MONTHS.forEach((m,i) => {
+    const jd0 = julianDay(new Date(Date.UTC(2026, i, 15)));
+    const sun = sunEquatorial(jd0);
+    const sunset = eventUT(sun.ra, sun.dec, lat, lon, jd0, -0.833, false);
+    const cell = document.createElement('div');
+    cell.className = 'month-cell';
+    if(sunset!==null){
+      const evalUT = sunset + offset;
+      const lstDeg = norm360(gmstDeg(jd0) + evalUT*15.04107 + lon);
+      const aa = equatorialToHorizontal(star.ra, star.dec, lat, lstDeg);
+      if(aa.alt > 0) cell.classList.add('visible');
+    }
+    cell.textContent = m;
+    grid.appendChild(cell);
+  });
+}
+document.getElementById('s-offset').addEventListener('input', computeMonthGrid);
+
+/* ================= III. PHENOLOGY ================= */
+const MONTHS_ID = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+['p-start','p-end'].forEach(id => {
+  const sel = document.getElementById(id);
+  MONTHS_ID.forEach((m,i) => {
+    const o = document.createElement('option'); o.value=i; o.textContent=m;
+    sel.appendChild(o);
+  });
+  if(id==='p-end') sel.value = 1;
+});
+
+const PHENO_ENTRIES = [];
+const PHENO_COLORS = ['#4F7942','#E08E45','#2E3A59','#8C4A22','#5F7A6B','#B08D3E'];
+
+function addPheno(){
+  const name = document.getElementById('p-name').value.trim();
+  if(!name) return;
+  const start = parseInt(document.getElementById('p-start').value,10);
+  const end = parseInt(document.getElementById('p-end').value,10);
+  PHENO_ENTRIES.push({name, start, end, color: PHENO_COLORS[PHENO_ENTRIES.length % PHENO_COLORS.length]});
+  document.getElementById('p-name').value='';
+  renderWheel();
+}
+
+function renderWheel(){
+  const header = document.getElementById('wheel-header');
+  header.innerHTML = '<div></div>' + MONTHS_ID.map(m=>`<div>${m}</div>`).join('');
+  const out = document.getElementById('wheel-out');
+  out.innerHTML = '';
+  PHENO_ENTRIES.forEach((entry, idx) => {
+    const row = document.createElement('div');
+    row.className = 'wheel-row';
+    let cellsHTML = '';
+    for(let m=0;m<12;m++){
+      let active;
+      if(entry.start<=entry.end) active = (m>=entry.start && m<=entry.end);
+      else active = (m>=entry.start || m<=entry.end);
+      cellsHTML += `<div class="wheel-cell" style="background:${active?entry.color:'#EAE2CC'}"></div>`;
+    }
+    row.innerHTML = `<div class="mname">${entry.name}<button class="remove-btn" onclick="removePheno(${idx})">✕</button></div>${cellsHTML}`;
+    out.appendChild(row);
+  });
+}
+function removePheno(idx){ PHENO_ENTRIES.splice(idx,1); renderWheel(); }
+
+function computeGDD(){
+  const tmean = parseFloat(document.getElementById('p-tmean').value);
+  const tamp = parseFloat(document.getElementById('p-tamp').value);
+  const tbase = parseFloat(document.getElementById('p-tbase').value);
+  const target = parseFloat(document.getElementById('p-gtarget').value);
+  document.getElementById('v-tmean').textContent = tmean.toFixed(1);
+  document.getElementById('v-tamp').textContent = tamp.toFixed(1);
+  document.getElementById('v-tbase').textContent = tbase.toFixed(1);
+  document.getElementById('v-gtarget').textContent = target;
+
+  let cum = 0; const series = []; let foundDay=null;
+  for(let d=1; d<=365; d++){
+    const T = tmean + tamp*Math.sin(2*Math.PI*(d-80)/365);
+    const gdd = Math.max(0, T-tbase);
+    cum += gdd;
+    series.push(cum);
+    if(foundDay===null && cum>=target) foundDay=d;
+  }
+
+  const resEl = document.getElementById('p-result');
+  if(foundDay!==null){
+    const dateObj = new Date(Date.UTC(2026,0,1));
+    dateObj.setUTCDate(dateObj.getUTCDate()+foundDay-1);
+    resEl.textContent = dateObj.toLocaleDateString('id-ID',{day:'numeric',month:'long'}) + ` (hari ke-${foundDay})`;
+  } else {
+    resEl.textContent = 'Tidak tercapai dalam 1 tahun';
+  }
+
+  const svg = document.getElementById('svg-gdd');
+  svg.innerHTML='';
+  const W=420,H=190,padL=40,padR=10,padT=12,padB=22;
+  const plotW=W-padL-padR, plotH=H-padT-padB;
+  const maxV = Math.max(...series, target)*1.05;
+  const xFor = i => padL+(i/364)*plotW;
+  const yFor = v => padT+plotH-(v/maxV)*plotH;
+
+  svg.appendChild(el('line',{x1:padL,y1:padT,x2:padL,y2:padT+plotH,stroke:'#d9d0b4'}));
+  svg.appendChild(el('line',{x1:padL,y1:padT+plotH,x2:padL+plotW,y2:padT+plotH,stroke:'#d9d0b4'}));
+  const ty = yFor(target);
+  svg.appendChild(el('line',{x1:padL,y1:ty,x2:padL+plotW,y2:ty,stroke:'#E08E45','stroke-dasharray':'4,3'}));
+  const path = series.map((v,i)=>`${i===0?'M':'L'} ${xFor(i).toFixed(1)} ${yFor(v).toFixed(1)}`).join(' ');
+  svg.appendChild(el('path',{d:path, fill:'none', stroke:'#4F7942','stroke-width':2}));
+  if(foundDay!==null){
+    svg.appendChild(el('circle',{cx:xFor(foundDay-1), cy:yFor(series[foundDay-1]), r:4, fill:'#E08E45'}));
+  }
+}
+['p-tmean','p-tamp','p-tbase','p-gtarget'].forEach(id => document.getElementById(id).addEventListener('input', computeGDD));
+
+/* ================= tabs ================= */
+document.querySelectorAll('.type-tabs button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.type-tabs button').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.type-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.t).classList.add('active');
+  });
+});
+
+/* init */
+computeHeliacal();
+computeStarCompass();
+computeMonthGrid();
+renderWheel();
+computeGDD();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

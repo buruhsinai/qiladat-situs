@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title id="pageTitle">Produk Kesehatan — Kesehatan — JAZMI</title>
+<meta name="description" id="pageDescription" content="Produk kesehatan pilihan JAZMI — herbal, alat kesehatan, dan suplemen yang disusun dalam bingkai adab dan hikmah.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="produk-media.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (disalin persis dari kontrak C01, 6.1) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" class="is-active" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= BREADCRUMB (dinamis: Kesehatan / Produk & Media / [nama produk]) ================= -->
+  <nav class="breadcrumb" aria-label="Jejak navigasi">
+    <div class="section-inner breadcrumb-inner" id="breadcrumbInner">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page" id="breadcrumbCurrent">Produk</span>
+    </div>
+  </nav>
+
+  <!-- ================= STATE: MEMUAT ================= -->
+  <section class="section" id="stateLoading">
+    <div class="section-inner">
+      <p class="data-empty-note">Memuat data produk…</p>
+    </div>
+  </section>
+
+  <!-- ================= STATE: GAGAL MEMUAT DATA ================= -->
+  <section class="section" id="stateError" hidden>
+    <div class="section-inner state-fallback">
+      <p class="domain-eyebrow">Gangguan</p>
+      <h1 class="domain-title">Data Produk Belum Dapat Dimuat</h1>
+      <p class="domain-desc">Terjadi kendala saat memuat data produk. Coba muat ulang halaman ini beberapa saat lagi.</p>
+      <a href="/kesehatan/" class="btn btn-outline">Kembali ke Kesehatan</a>
+    </div>
+  </section>
+
+  <!-- ================= STATE: DETAIL TIDAK DITEMUKAN ================= -->
+  <section class="section" id="stateNotFound" hidden>
+    <div class="section-inner state-fallback">
+      <p class="domain-eyebrow">404</p>
+      <h1 class="domain-title">Produk Tidak Ditemukan</h1>
+      <p class="domain-desc">Produk yang Anda cari mungkin sudah dipindahkan atau tautannya tidak tepat.</p>
+      <a href="produk.html" class="btn btn-outline">Lihat Semua Produk</a>
+    </div>
+  </section>
+
+  <!-- ================= STATE: DAFTAR PRODUK ================= -->
+  <div id="stateList" hidden>
+
+    <section class="domain-hero">
+      <div class="section-inner domain-hero-inner">
+        <p class="domain-eyebrow">Kesehatan — Produk &amp; Media</p>
+        <h1 class="domain-title">Produk Kesehatan</h1>
+        <p class="domain-desc">Herbal, alat kesehatan, dan suplemen pilihan yang dihimpun sebagai bagian dari menjaga amanah kesehatan tubuh — disusun dalam bingkai adab dan hikmah JAZMI.</p>
+        <nav class="subnav" aria-label="Navigasi Produk dan Media">
+          <a href="produk.html" class="is-active">Produk</a>
+          <a href="media.html">Media</a>
+        </nav>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="daftar-heading">
+      <div class="section-inner">
+        <div class="section-head">
+          <p class="section-eyebrow">Jelajahi</p>
+          <h2 class="section-title" id="daftar-heading">Daftar Produk</h2>
+          <p class="section-desc">Saring berdasarkan kategori, atau cari nama produk yang Anda inginkan.</p>
+        </div>
+
+        <div class="controls-bar">
+          <div class="filter-bar" id="filterBar" role="group" aria-label="Saring produk berdasarkan kategori">
+            <!-- diisi JavaScript -->
+          </div>
+          <label class="search-field" for="searchInput">
+            <span class="sr-only">Cari produk</span>
+            <input type="search" id="searchInput" placeholder="Cari nama produk…" autocomplete="off">
+          </label>
+        </div>
+
+        <p class="filter-status" id="filterStatus" aria-live="polite"><!-- diisi JavaScript --></p>
+
+        <div class="product-grid" id="productGrid">
+          <!-- diisi JavaScript -->
+        </div>
+
+        <p class="data-empty-note" id="emptyState" hidden>Tidak ada produk yang cocok dengan pencarian atau filter Anda.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ================= STATE: DETAIL PRODUK ================= -->
+  <article id="stateDetail" hidden>
+
+    <div class="section-inner detail-back-wrap">
+      <a href="produk.html" class="back-link">← Kembali ke Produk</a>
+    </div>
+
+    <section class="identity">
+      <div class="identity-inner">
+        <p class="identity-eyebrow" id="produkCategory">&nbsp;</p>
+        <h1 class="identity-title" id="produkName">&nbsp;</h1>
+        <p class="demo-badge" id="produkDemoBadge" hidden>Data Demo</p>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="produkName">
+      <div class="section-inner detail-inner">
+
+        <div class="detail-block">
+          <h2 class="detail-block-title">Ringkasan</h2>
+          <p id="produkSummary"></p>
+        </div>
+
+        <div class="detail-block">
+          <h2 class="detail-block-title">Penjelasan</h2>
+          <div id="produkBody"><!-- diisi JavaScript --></div>
+        </div>
+
+        <div class="detail-block" id="produkReferenceBlock" hidden>
+          <h2 class="detail-block-title">Sumber / Referensi</h2>
+          <ul id="produkReferenceList"></ul>
+        </div>
+
+        <div class="detail-block" id="produkTerapiBlock" hidden>
+          <h2 class="detail-block-title">Terapi Terkait</h2>
+          <ul class="relation-list" id="produkTerapiList"></ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= ARTIKEL TERKAIT (sistem global — hanya ditampilkan jika data relasi nyata tersedia) ================= -->
+    <section class="section section-alt" id="relatedArticlesSection" hidden>
+      <div class="section-inner">
+        <div class="section-head">
+          <p class="section-eyebrow">Baca Lebih Lanjut</p>
+          <h2 class="section-title">Artikel Terkait</h2>
+        </div>
+        <ol class="article-list" id="relatedArticlesList">
+          <!-- diisi JavaScript, mengarah ke sistem Artikel global -->
+        </ol>
+      </div>
+    </section>
+
+    <div class="section-inner detail-bottom-nav">
+      <a href="produk.html" class="btn btn-outline">← Kembali ke Produk</a>
+    </div>
+
+  </article>
+
+</main>
+
+<!-- ================= FOOTER (disalin persis dari HOME, path disesuaikan) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/artikel/">Artikel</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah.</p>
+  </div>
+</footer>
+
+<script src="produk-media.js"></script>
+</body>
+</html>

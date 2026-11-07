@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Produk Sains — Sains — JAZMI</title>
+<meta name="description" content="Produk Sains JAZMI — alat, bahan, dan perlengkapan seputar sains yang dipilih dan disusun JAZMI, dalam bingkai ilmiah yang manusiawi.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="produk-media.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (disalin persis dari kontrak C01, 6.1) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" class="is-active" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= BREADCRUMB ================= -->
+  <nav class="breadcrumb" aria-label="Jejak navigasi">
+    <div class="section-inner breadcrumb-inner">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page">Produk</span>
+    </div>
+  </nav>
+
+  <!-- ================= HERO PRODUK SAINS ================= -->
+  <section class="domain-hero">
+    <div class="section-inner domain-hero-inner">
+      <p class="domain-eyebrow">Sains — Produk</p>
+      <h1 class="domain-title">Produk Sains</h1>
+      <p class="domain-desc">Alat, bahan, dan perlengkapan seputar sains yang dipilih JAZMI untuk menemani pengamatan, pembelajaran, dan rasa ingin tahu — bukan katalog belanja, melainkan bagian dari ekosistem pengetahuan Sains JAZMI.</p>
+    </div>
+  </section>
+
+  <!-- ================= 01 — RAGAM PRODUK (statis, informatif) ================= -->
+  <section class="section" aria-labelledby="ragam-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">01 — Ragam</p>
+        <h2 class="section-title" id="ragam-heading">Jenis Produk yang Dihimpun</h2>
+        <p class="section-desc">Empat ragam produk yang menjadi fokus JAZMI di ranah Sains.</p>
+      </div>
+
+      <div class="ragam-grid">
+        <article class="ragam-card">
+          <h3 class="ragam-card-title">Alat Observasi</h3>
+          <p class="ragam-card-desc">Teleskop, mikroskop, dan alat bantu pengamatan sederhana untuk menjelajahi alam.</p>
+        </article>
+
+        <article class="ragam-card">
+          <h3 class="ragam-card-title">Alat Peraga &amp; Edukasi</h3>
+          <p class="ragam-card-desc">Globe, kit eksperimen, dan bahan peraga untuk belajar sains bersama keluarga.</p>
+        </article>
+
+        <article class="ragam-card">
+          <h3 class="ragam-card-title">Alat Navigasi</h3>
+          <p class="ragam-card-desc">Kompas arah dan alat bantu penunjuk yang berkaitan dengan ilmu falak sehari-hari.</p>
+        </article>
+
+        <article class="ragam-card">
+          <h3 class="ragam-card-title">Cetak &amp; Referensi</h3>
+          <p class="ragam-card-desc">Kalender astronomi, peta langit, dan bahan referensi cetak seputar sains.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 02 — PRODUK PILIHAN (dinamis, data demo via fetch) ================= -->
+  <section class="section section-alt" aria-labelledby="pilihan-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">02 — Pilihan</p>
+        <h2 class="section-title" id="pilihan-heading">Produk Pilihan</h2>
+        <p class="section-desc">Beberapa contoh produk yang mewakili ragam di atas. Daftar lengkap sedang disusun.</p>
+      </div>
+
+      <p class="demo-badge">Data Demo — contoh sementara, bukan produk resmi yang tersedia untuk dibeli</p>
+
+      <p class="data-empty-note" id="produkStateLoading">Memuat produk sains…</p>
+      <p class="data-empty-note" id="produkStateError" hidden>Data produk belum dapat dimuat. Coba muat ulang halaman ini beberapa saat lagi.</p>
+      <p class="data-empty-note" id="produkStateEmpty" hidden>Belum ada produk yang dapat ditampilkan saat ini.</p>
+
+      <div class="produk-grid" id="produkGrid" hidden>
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 03 — HUBUNGAN (relasi ke Media & Artikel) ================= -->
+  <section class="section" aria-labelledby="relasi-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">03 — Jelajahi Lebih Lanjut</p>
+        <h2 class="section-title" id="relasi-heading">Terkait Produk Sains</h2>
+        <p class="section-desc">Produk Sains adalah bagian dari ekosistem pengetahuan Sains JAZMI yang lebih luas.</p>
+      </div>
+
+      <div class="relasi-block">
+        <a class="btn btn-outline" href="media.html">Jelajahi Media Sains →</a>
+        <a class="btn btn-outline" href="/artikel/">Baca Artikel Sains →</a>
+        <a class="btn btn-outline" href="/sains/">Kembali ke Sains →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER (disalin persis dari HOME, path disesuaikan) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/artikel/">Artikel</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah.</p>
+  </div>
+</footer>
+
+<script src="produk-media.js"></script>
+</body>
+</html>

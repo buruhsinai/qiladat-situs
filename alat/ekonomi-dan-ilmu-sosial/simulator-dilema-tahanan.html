@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Dilema Tahanan — Persaingan Usaha</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#12151a; --bg-panel:#1a1e25; --bg-panel-2:#20242c; --line:#2c313b;
+    --text:#e9e6df; --text-dim:#9aa1ad;
+    --gold:#c9a24b; --gold-soft:#e3c988;
+    --ok:#4f9c94; --warn:#e3766a; --blue:#5b8fc9; --purple:#9b7fc9;
+    --font-display:"Fraunces",serif; --font-body:"Karla",sans-serif; --font-mono:"JetBrains Mono",monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;}
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{padding:56px 20px 40px;text-align:center;border-bottom:1px solid var(--line);
+    background:radial-gradient(ellipse at 50% 0%, rgba(91,143,201,0.10), transparent 60%);}
+  .eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);margin-bottom:14px;}
+  h1{font-family:var(--font-display);font-weight:600;font-size:clamp(26px,5vw,40px);margin:0 0 12px;}
+  .subtitle{color:var(--text-dim);font-size:15px;max-width:640px;margin:0 auto;}
+  section{padding:36px 0;border-bottom:1px solid var(--line);} section:last-of-type{border-bottom:none;}
+  h2{font-family:var(--font-display);font-weight:600;font-size:22px;color:var(--gold-soft);margin:0 0 6px;display:flex;align-items:baseline;gap:10px;}
+  h2 .num{font-family:var(--font-mono);font-size:13px;color:var(--text-dim);font-weight:400;}
+  h3{font-family:var(--font-display);font-weight:600;font-size:16.5px;color:var(--text);margin:22px 0 10px;}
+  p{font-size:15.5px;} p.dim{color:var(--text-dim);font-size:14px;}
+  ul{padding-left:20px;} li{margin-bottom:6px;font-size:14.5px;}
+
+  .panel{background:var(--bg-panel);border:1px solid var(--line);border-radius:10px;padding:24px;}
+  .controls-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:18px;}
+  .field label{display:flex;justify-content:space-between;font-size:12.5px;color:var(--text-dim);margin-bottom:6px;font-family:var(--font-mono);text-transform:uppercase;}
+  .field label .val{color:var(--gold-soft);}
+  .field input[type=range]{width:100%;accent-color:var(--blue);}
+
+  .pd-status{font-family:var(--font-mono);font-size:12.5px;padding:8px 14px;border-radius:8px;margin-bottom:16px;display:inline-block;}
+  .pd-ok{background:rgba(79,156,148,0.12);color:var(--ok);border:1px solid rgba(79,156,148,0.4);}
+  .pd-bad{background:rgba(227,118,106,0.12);color:var(--warn);border:1px solid rgba(227,118,106,0.4);}
+
+  table.matrix{width:100%;border-collapse:collapse;margin:14px 0 22px;font-size:14px;}
+  table.matrix th{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;color:var(--text-dim);padding:8px;text-align:center;}
+  table.matrix td{border:1px solid var(--line);padding:16px 10px;text-align:center;background:var(--bg-panel-2);border-radius:4px;position:relative;}
+  table.matrix td.hl{background:rgba(201,162,75,0.14);border-color:var(--gold);}
+  table.matrix .cellA{color:var(--blue);font-weight:700;font-size:16px;}
+  table.matrix .cellB{color:var(--purple);font-weight:700;font-size:16px;}
+  table.matrix .corner{background:transparent;border:none;}
+
+  .strategy-row{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:20px;}
+  .strategy-col{flex:1;min-width:220px;}
+  .strategy-col .stitle{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
+  .choice-row{display:flex;gap:8px;}
+  .choice-btn{flex:1;background:var(--bg-panel-2);border:1px solid var(--line);color:var(--text-dim);
+    padding:12px 8px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;}
+  .choice-btn.active-coop{border-color:var(--ok);color:var(--ok);background:rgba(79,156,148,0.10);}
+  .choice-btn.active-def{border-color:var(--warn);color:var(--warn);background:rgba(227,118,106,0.10);}
+
+  .payout-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+  .payout-card{background:var(--bg-panel-2);border:1px solid var(--line);border-radius:8px;padding:14px;text-align:center;}
+  .payout-card .l{font-family:var(--font-mono);font-size:11px;color:var(--text-dim);text-transform:uppercase;}
+  .payout-card .v{font-family:var(--font-display);font-size:26px;margin-top:4px;}
+  .payout-card.A .v{color:var(--blue);} .payout-card.B .v{color:var(--purple);}
+
+  .insight-box{margin-top:16px;background:var(--bg-panel-2);border:1px dashed var(--gold);border-radius:8px;padding:14px 18px;font-size:14px;color:var(--text);}
+  .insight-box b{color:var(--gold-soft);}
+
+  select.strat-select{width:100%;background:var(--bg-panel-2);color:var(--text);border:1px solid var(--line);
+    border-radius:8px;padding:10px;font-size:13.5px;font-family:var(--font-body);}
+
+  svg.chart{width:100%;height:auto;display:block;background:var(--bg-panel-2);border-radius:8px;border:1px solid var(--line);margin-top:14px;}
+  .legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:12.5px;color:var(--text-dim);}
+  .legend span{display:inline-flex;align-items:center;gap:6px;}
+  .swatch{width:14px;height:14px;border-radius:3px;display:inline-block;}
+
+  .results{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-top:16px;}
+  .result-card{background:var(--bg-panel-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;}
+  .result-card .l{font-family:var(--font-mono);font-size:10.5px;color:var(--text-dim);text-transform:uppercase;}
+  .result-card .v{font-family:var(--font-display);font-size:19px;color:var(--gold-soft);}
+
+  .benefit-list{display:grid;gap:10px;}
+  .benefit-item{background:var(--bg-panel);border:1px solid var(--line);border-radius:8px;padding:14px 18px;}
+  .benefit-item .btitle{font-weight:700;color:var(--gold-soft);font-size:15px;margin-bottom:4px;}
+  .limit-item{background:var(--bg-panel);border:1px solid var(--line);border-left:3px solid var(--warn);
+    padding:12px 16px;border-radius:6px;margin-bottom:8px;font-size:14.5px;color:var(--text-dim);}
+  table.refs{width:100%;border-collapse:collapse;font-size:14px;}
+  table.refs td{padding:8px 4px;border-bottom:1px solid var(--line);color:var(--text-dim);vertical-align:top;}
+  table.refs td:first-child{color:var(--text);width:32%;font-weight:600;}
+  footer{text-align:center;padding:36px 20px 10px;color:var(--text-dim);font-size:12.5px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="eyebrow">Ilmu Ekonomi Murni · Teori Permainan (Game Theory)</div>
+  <h1>Simulator Dilema Tahanan</h1>
+  <p class="subtitle">Dua perusahaan sama-sama untung besar kalau kompak menjaga harga tinggi. Tapi masing-masing juga tergoda banting harga diam-diam demi rebut pasar lawan. Atur besaran untung-rugi, lalu lihat kenapa dua pihak yang sama-sama RASIONAL bisa berakhir memilih pilihan yang justru merugikan keduanya.</p>
+</header>
+
+<div class="wrap">
+
+  <section id="belajar">
+    <h2><span class="num">01</span> Belajar</h2>
+    <p>Dalam persaingan usaha, dua perusahaan sering menghadapi pilihan yang sama: <strong>menjaga harga tinggi (kerja sama diam-diam)</strong> atau <strong>banting harga (khianat/defect)</strong> demi merebut pelanggan lawan. Struktur permainan ini disebut <strong>Dilema Tahanan (Prisoner's Dilemma)</strong>, dan ditentukan oleh empat nilai hasil (payoff):</p>
+    <ul>
+      <li><strong>R (Reward)</strong> — untung yang didapat kalau KEDUANYA menjaga harga tinggi.</li>
+      <li><strong>T (Temptation)</strong> — untung besar kalau ANDA banting harga sementara lawan tetap menjaga harga tinggi (Anda merebut pelanggannya).</li>
+      <li><strong>S (Sucker)</strong> — kerugian kalau ANDA menjaga harga tinggi sementara lawan diam-diam banting harga (pelanggan Anda direbut).</li>
+      <li><strong>P (Punishment)</strong> — untung kecil (perang harga) kalau KEDUANYA sama-sama banting harga.</li>
+    </ul>
+    <p>Sebuah permainan baru disebut Dilema Tahanan sejati kalau urutannya: <strong>T &gt; R &gt; P &gt; S</strong>. Urutan inilah yang menciptakan paradoksnya: rasional secara individu untuk banting harga (karena T&gt;R dan P&gt;S, apapun pilihan lawan), tapi hasil kolektifnya (P,P) lebih buruk bagi KEDUANYA dibanding kalau sama-sama kompak (R,R).</p>
+  </section>
+
+  <section id="pertanyaan">
+    <h2><span class="num">02</span> Pertanyaan Ilmiah</h2>
+    <p class="dim" style="font-style:italic;">Kalau menjaga harga tinggi bersama-sama jelas lebih menguntungkan untuk KEDUA perusahaan, kenapa keduanya tetap berakhir berperang harga? Apa yang disebut "strategi dominan", dan kenapa mengikuti strategi dominan bisa membuat kedua pihak lebih buruk secara kolektif? Apakah hasil ini berubah kalau kedua perusahaan berinteraksi berulang kali — bukan hanya satu kali transaksi?</p>
+  </section>
+
+  <section id="eksplorasi">
+    <h2><span class="num">03</span> Eksplorasi &amp; Perhitungan</h2>
+    <div class="panel">
+
+      <h3>A. Susun Matriks Untung-Rugi</h3>
+      <div class="controls-row">
+        <div class="field"><label>R — Sama-sama Harga Tinggi <span class="val" id="vR">50</span></label><input type="range" id="inR" min="0" max="100" step="1" value="50"></div>
+        <div class="field"><label>T — Anda Banting, Lawan Tidak <span class="val" id="vT">80</span></label><input type="range" id="inT" min="0" max="120" step="1" value="80"></div>
+        <div class="field"><label>P — Sama-sama Banting Harga <span class="val" id="vP">20</span></label><input type="range" id="inP" min="0" max="100" step="1" value="20"></div>
+        <div class="field"><label>S — Anda Tidak, Lawan Banting <span class="val" id="vS">5</span></label><input type="range" id="inS" min="-20" max="80" step="1" value="5"></div>
+      </div>
+      <div id="pdStatus"></div>
+
+      <table class="matrix" id="matrixTable"></table>
+
+      <h3>B. Coba Satu Ronde — Pilih Strategi Kedua Pihak</h3>
+      <div class="strategy-row">
+        <div class="strategy-col">
+          <div class="stitle" style="color:var(--blue);">Perusahaan A</div>
+          <div class="choice-row" id="choiceA">
+            <button class="choice-btn" data-p="A" data-c="coop">Jaga Harga Tinggi</button>
+            <button class="choice-btn" data-p="A" data-c="def">Banting Harga</button>
+          </div>
+        </div>
+        <div class="strategy-col">
+          <div class="stitle" style="color:var(--purple);">Perusahaan B</div>
+          <div class="choice-row" id="choiceB">
+            <button class="choice-btn" data-p="B" data-c="coop">Jaga Harga Tinggi</button>
+            <button class="choice-btn" data-p="B" data-c="def">Banting Harga</button>
+          </div>
+        </div>
+      </div>
+      <div class="payout-cards">
+        <div class="payout-card A"><div class="l">Untung Perusahaan A</div><div class="v" id="payA">–</div></div>
+        <div class="payout-card B"><div class="l">Untung Perusahaan B</div><div class="v" id="payB">–</div></div>
+      </div>
+      <div class="insight-box" id="insightBox"></div>
+
+      <h3>C. Ulangi Berkali-kali — Apakah Kerja Sama Bisa Muncul?</h3>
+      <p class="dim">Robert Axelrod (1984) menemukan: kalau permainan diulang berkali-kali dan kedua pihak SALING INGAT langkah lawan sebelumnya, kerja sama bisa bertahan lewat strategi balas-membalas (Tit-for-Tat) — berbeda total dari permainan satu-kali-langsung-selesai di atas.</p>
+      <div class="controls-row">
+        <div class="field"><label style="text-transform:none;">Strategi Perusahaan A</label>
+          <select class="strat-select" id="stratA">
+            <option value="coop">Selalu Jaga Harga Tinggi</option>
+            <option value="def">Selalu Banting Harga</option>
+            <option value="tft" selected>Tit-for-Tat (balas langkah lawan sebelumnya)</option>
+            <option value="rand">Acak</option>
+          </select>
+        </div>
+        <div class="field"><label style="text-transform:none;">Strategi Perusahaan B</label>
+          <select class="strat-select" id="stratB">
+            <option value="coop">Selalu Jaga Harga Tinggi</option>
+            <option value="def" selected>Selalu Banting Harga</option>
+            <option value="tft">Tit-for-Tat (balas langkah lawan sebelumnya)</option>
+            <option value="rand">Acak</option>
+          </select>
+        </div>
+        <div class="field"><label>Jumlah Ronde <span class="val" id="vN">30</span></label><input type="range" id="inN" min="5" max="60" step="1" value="30"></div>
+      </div>
+
+      <svg class="chart" id="svgIter" viewBox="0 0 620 320"></svg>
+      <div class="legend">
+        <span><span class="swatch" style="background:#5b8fc9"></span> Kumulatif Untung A</span>
+        <span><span class="swatch" style="background:#9b7fc9"></span> Kumulatif Untung B</span>
+      </div>
+      <div class="results" id="iterResults"></div>
+    </div>
+  </section>
+
+  <section id="manfaat">
+    <h2><span class="num">04</span> Manfaat &amp; Kegunaan</h2>
+    <div class="benefit-list">
+      <div class="benefit-item"><div class="btitle">Memahami perang harga di pasar oligopoli</div>Menjelaskan kenapa maskapai penerbangan, SPBU berdekatan, atau operator seluler sering terjebak perang harga meski semua pihak sadar itu mengurangi laba industri secara keseluruhan.</div>
+      <div class="benefit-item"><div class="btitle">Memahami kerapuhan kartel (mis. OPEC)</div>Kartel yang sepakat membatasi produksi pada dasarnya mencoba mempertahankan hasil (R,R). Simulator menunjukkan kenapa kesepakatan semacam itu rawan runtuh — selalu ada godaan T untuk diam-diam produksi lebih banyak dari kuota.</div>
+      <div class="benefit-item"><div class="btitle">Menjelaskan kenapa reputasi &amp; interaksi berulang penting</div>Bagian C menunjukkan secara numerik temuan Axelrod: dalam permainan berulang, strategi Tit-for-Tat sering mengungguli strategi selalu-khianat dalam jangka panjang — dasar ilmiah kenapa "nama baik" bernilai ekonomi nyata.</div>
+      <div class="benefit-item"><div class="btitle">Dasar memahami regulasi anti-monopoli</div>Menjelaskan kenapa regulator mengizinkan (bahkan kadang membutuhkan) persaingan harga — karena tanpa persaingan, dua "musuh" bisa diam-diam berperilaku seperti kartel yang merugikan konsumen.</div>
+    </div>
+  </section>
+
+  <section id="batasan">
+    <h2><span class="num">05</span> Batasan</h2>
+    <div class="limit-item">Model ini hanya melibatkan <strong>dua pemain</strong>. Pasar nyata sering punya banyak pesaing sekaligus (oligopoli n-pemain), yang mengubah dinamika kerja sama secara signifikan.</div>
+    <div class="limit-item">Nilai payoff (R, T, P, S) di sini adalah <strong>angka tetap yang Anda tentukan sendiri</strong> — dunia nyata penuh ketidakpastian permintaan, biaya, dan reaksi pesaing yang sulit diringkas jadi satu angka pasti.</div>
+    <div class="limit-item">Strategi pada bagian C (Selalu Kooperasi, Selalu Khianat, Tit-for-Tat, Acak) hanyalah empat dari puluhan strategi yang pernah diuji dalam turnamen Axelrod — simulator ini tidak mencakup strategi yang lebih canggih (misal: Tit-for-Tat pemaaf, atau strategi berbasis pembelajaran).</div>
+    <div class="limit-item">Dalam banyak yurisdiksi, kesepakatan eksplisit antar-perusahaan untuk menjaga harga tinggi bersama (kolusi) adalah <strong>ilegal</strong> menurut hukum anti-monopoli — simulator ini murni menjelaskan logika ekonominya, bukan menyarankan praktik semacam itu.</div>
+    <div class="limit-item">Permainan berulang dalam simulator ini berakhir pada ronde tetap yang diketahui kedua pihak sejak awal. Secara teori (backward induction), kalau jumlah ronde terakhir diketahui pasti, insentif berkhianat di ronde terakhir bisa "menjalar mundur" — kerumitan ini disederhanakan di sini.</div>
+  </section>
+
+  <section id="referensi">
+    <h2><span class="num">06</span> Referensi</h2>
+    <table class="refs">
+      <tr><td>John von Neumann &amp; Oskar Morgenstern — <em>Theory of Games and Economic Behavior</em> (1944)</td><td>Fondasi matematis teori permainan modern</td></tr>
+      <tr><td>John Nash — konsep Nash Equilibrium (1950)</td><td>Dasar formal kenapa (Banting, Banting) menjadi titik keseimbangan meski bukan hasil terbaik bersama</td></tr>
+      <tr><td>Robert Axelrod — <em>The Evolution of Cooperation</em> (1984)</td><td>Sumber temuan Tit-for-Tat &amp; kerja sama dalam permainan berulang, dipakai pada Bagian C</td></tr>
+      <tr><td>Gibbons — <em>A Primer in Game Theory</em></td><td>Kerangka standar payoff matrix &amp; strategi dominan yang dipakai dalam simulator ini</td></tr>
+    </table>
+  </section>
+
+</div>
+
+<footer>Simulator edukasi ilmu ekonomi mikro murni — kerangka teori permainan &amp; Dilema Tahanan.</footer>
+
+<script>
+(function(){
+  const el = id => document.getElementById(id);
+  const state = { R:50, T:80, P:20, S:5, choiceA:null, choiceB:null, stratA:'tft', stratB:'def', n:30 };
+
+  const inR=el('inR'), inT=el('inT'), inP=el('inP'), inS=el('inS'), inN=el('inN');
+  [inR,inT,inP,inS].forEach(inp=>inp.addEventListener('input', ()=>{
+    state.R=+inR.value; state.T=+inT.value; state.P=+inP.value; state.S=+inS.value;
+    renderMatrix(); updateRoundPayout(); runIteration();
+  }));
+
+  document.querySelectorAll('#choiceA .choice-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#choiceA .choice-btn').forEach(b=>b.classList.remove('active-coop','active-def'));
+      btn.classList.add(btn.dataset.c==='coop'?'active-coop':'active-def');
+      state.choiceA = btn.dataset.c;
+      updateRoundPayout();
+    });
+  });
+  document.querySelectorAll('#choiceB .choice-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      document.querySelectorAll('#choiceB .choice-btn').forEach(b=>b.classList.remove('active-coop','active-def'));
+      btn.classList.add(btn.dataset.c==='coop'?'active-coop':'active-def');
+      state.choiceB = btn.dataset.c;
+      updateRoundPayout();
+    });
+  });
+
+  el('stratA').addEventListener('change', ()=>{ state.stratA = el('stratA').value; runIteration(); });
+  el('stratB').addEventListener('change', ()=>{ state.stratB = el('stratB').value; runIteration(); });
+  inN.addEventListener('input', ()=>{ state.n = +inN.value; runIteration(); });
+
+  function payout(choiceA, choiceB){
+    const {R,T,P,S} = state;
+    if(choiceA==='coop' && choiceB==='coop') return [R,R];
+    if(choiceA==='coop' && choiceB==='def')  return [S,T];
+    if(choiceA==='def'  && choiceB==='coop') return [T,S];
+    return [P,P];
+  }
+
+  function renderMatrix(){
+    const {R,T,P,S} = state;
+    const isPD = (T>R && R>P && P>S);
+    el('pdStatus').innerHTML = isPD
+      ? `<span class="pd-status pd-ok">✓ Susunan T&gt;R&gt;P&gt;S TERPENUHI (T=${T} &gt; R=${R} &gt; P=${P} &gt; S=${S}) — ini Dilema Tahanan sejati.</span>`
+      : `<span class="pd-status pd-bad">✕ Susunan T&gt;R&gt;P&gt;S TIDAK terpenuhi (T=${T}, R=${R}, P=${P}, S=${S}) — dengan angka ini, permainan bukan lagi Dilema Tahanan sejati. Coba sesuaikan slider.</span>`;
+
+    el('matrixTable').innerHTML = `
+      <tr><td class="corner"></td><th colspan="2">Perusahaan B</th></tr>
+      <tr><th></th><th>Jaga Harga Tinggi</th><th>Banting Harga</th></tr>
+      <tr>
+        <th style="text-align:right;padding-right:10px;">Persh. A — Jaga Tinggi</th>
+        <td><span class="cellA">${R}</span> , <span class="cellB">${R}</span></td>
+        <td><span class="cellA">${S}</span> , <span class="cellB">${T}</span></td>
+      </tr>
+      <tr>
+        <th style="text-align:right;padding-right:10px;">Persh. A — Banting Harga</th>
+        <td><span class="cellA">${T}</span> , <span class="cellB">${S}</span></td>
+        <td><span class="cellA">${P}</span> , <span class="cellB">${P}</span></td>
+      </tr>`;
+    highlightCell();
+    el('vR').textContent=R; el('vT').textContent=T; el('vP').textContent=P; el('vS').textContent=S;
+  }
+
+  function highlightCell(){
+    const rows = el('matrixTable').querySelectorAll('tr');
+    document.querySelectorAll('table.matrix td').forEach(td=>td.classList.remove('hl'));
+    if(!state.choiceA || !state.choiceB) return;
+    const rowIdx = state.choiceA==='coop' ? 2 : 3;
+    const colIdx = state.choiceB==='coop' ? 0 : 1;
+    const row = rows[rowIdx];
+    if(row){ const tds = row.querySelectorAll('td'); if(tds[colIdx]) tds[colIdx].classList.add('hl'); }
+  }
+
+  function updateRoundPayout(){
+    highlightCell();
+    if(!state.choiceA || !state.choiceB){
+      el('payA').textContent='–'; el('payB').textContent='–'; el('insightBox').innerHTML='Pilih strategi kedua perusahaan di atas untuk melihat hasilnya.';
+      return;
+    }
+    const [pa,pb] = payout(state.choiceA, state.choiceB);
+    el('payA').textContent = pa; el('payB').textContent = pb;
+
+    const {R,T,P,S} = state;
+    let msg;
+    if(state.choiceA==='coop' && state.choiceB==='coop'){
+      msg = `Ini hasil TERBAIK bersama (R,R) = (${R},${R}). Tapi hasil ini TIDAK STABIL: masing-masing tergoda beralih ke Banting Harga karena T=${T} &gt; R=${R} — siapa pun yang berkhianat lebih dulu akan untung lebih besar.`;
+    } else if(state.choiceA==='def' && state.choiceB==='def'){
+      msg = `Ini <b>Nash Equilibrium</b> permainan satu ronde: (P,P) = (${P},${P}). Tak satu pun pihak untung dengan beralih sendirian — tapi hasil ini lebih buruk bagi KEDUANYA dibanding kalau sama-sama menjaga harga tinggi (R,R)=(${R},${R}). Inilah inti paradoks Dilema Tahanan.`;
+    } else if(state.choiceA==='def'){
+      msg = `Perusahaan A "mengkhianati" B. A meraih untung besar T=${T}, sementara B tertinggal dengan S=${S}. Tapi posisi ini rentan — di ronde berikutnya B kemungkinan besar akan ikut Banting Harga untuk membalas.`;
+    } else {
+      msg = `Perusahaan B "mengkhianati" A. B meraih untung besar T=${T}, sementara A tertinggal dengan S=${S}.`;
+    }
+    el('insightBox').innerHTML = msg;
+  }
+
+  function decide(strategy, myLast, oppLast){
+    if(strategy==='coop') return 'coop';
+    if(strategy==='def') return 'def';
+    if(strategy==='rand') return Math.random()<0.5?'coop':'def';
+    if(strategy==='tft') return oppLast===null ? 'coop' : oppLast;
+    return 'coop';
+  }
+
+  function runIteration(){
+    const n = state.n;
+    let lastA=null, lastB=null, cumA=0, cumB=0;
+    let arrA=[], arrB=[], coopCountA=0, coopCountB=0;
+    for(let i=0;i<n;i++){
+      const cA = decide(state.stratA, lastA, lastB);
+      const cB = decide(state.stratB, lastB, lastA);
+      const [pa,pb] = payout(cA,cB);
+      cumA+=pa; cumB+=pb;
+      arrA.push(cumA); arrB.push(cumB);
+      if(cA==='coop') coopCountA++;
+      if(cB==='coop') coopCountB++;
+      lastA=cA; lastB=cB;
+    }
+
+    const W=620,H=320, padL=55,padR=20,padT=20,padB=36;
+    const plotW=W-padL-padR, plotH=H-padT-padB;
+    const maxVal = Math.max(...arrA, ...arrB, 1)*1.1;
+    const sx = plotW/(n-1||1), sy = plotH/maxVal;
+    function pt(i,v){ return [padL+i*sx, H-padB-v*sy]; }
+    function poly(arr,color){
+      const pts = arr.map((v,i)=>pt(i,v).join(',')).join(' ');
+      return `<polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2.5"/>`;
+    }
+    let svg='';
+    svg += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${H-padB}" stroke="#3a4150" stroke-width="1"/>`;
+    svg += `<line x1="${padL}" y1="${H-padB}" x2="${W-padR}" y2="${H-padB}" stroke="#3a4150" stroke-width="1"/>`;
+    svg += `<text x="${W-padR}" y="${H-padB+18}" fill="#9aa1ad" font-size="11" text-anchor="end" font-family="JetBrains Mono, monospace">ronde</text>`;
+    svg += `<text x="${padL-8}" y="${padT+4}" fill="#9aa1ad" font-size="11" text-anchor="end" font-family="JetBrains Mono, monospace">untung kumulatif</text>`;
+    svg += poly(arrA,'#5b8fc9');
+    svg += poly(arrB,'#9b7fc9');
+    el('svgIter').innerHTML = svg;
+
+    const results = [
+      {l:'Total Untung A', v: cumA},
+      {l:'Total Untung B', v: cumB},
+      {l:'Ronde Kooperasi A', v: coopCountA+'/'+n},
+      {l:'Ronde Kooperasi B', v: coopCountB+'/'+n},
+    ];
+    el('iterResults').innerHTML = results.map(r=>`<div class="result-card"><div class="l">${r.l}</div><div class="v">${r.v}</div></div>`).join('');
+    el('vN').textContent = n;
+  }
+
+  renderMatrix();
+  updateRoundPayout();
+  runIteration();
+})();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

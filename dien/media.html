@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media — Dien · JAZMI</title>
+<meta name="description" content="Media DIEN — perpustakaan buku, video, audio, dan gambar seputar pengetahuan DIEN di JAZMI (Jalinan Zamrud Islamiah).">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="media.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (kanonis C01 §6.1) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" class="is-active" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= BREADCRUMB ================= -->
+  <nav class="breadcrumb" aria-label="Jejak navigasi">
+    <div class="section-inner breadcrumb-inner">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <span class="breadcrumb-current" aria-current="page">Media</span>
+    </div>
+  </nav>
+
+  <!-- ================= JUDUL & PENGANTAR ================= -->
+  <section class="media-intro">
+    <div class="section-inner">
+      <p class="identity-eyebrow">Dien</p>
+      <h1 class="media-title">Media DIEN</h1>
+      <p class="media-desc">Perpustakaan buku, video, audio, dan gambar seputar pengetahuan DIEN — untuk dibaca, ditonton, didengarkan, dan dijelajahi. Sebagian karya tersimpan di platform luar seperti YouTube dan SoundCloud.</p>
+    </div>
+  </section>
+
+  <!-- ================= NAVIGASI JENIS MEDIA ================= -->
+  <nav class="media-jump" aria-label="Navigasi jenis media">
+    <div class="section-inner media-jump-inner">
+      <a href="#media-buku">Buku</a>
+      <a href="#media-video">Video</a>
+      <a href="#media-audio">Audio</a>
+      <a href="#media-gambar">Gambar</a>
+    </div>
+  </nav>
+
+  <!-- ================= BUKU ================= -->
+  <section class="section" id="media-buku" aria-labelledby="buku-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Baca</p>
+        <h2 class="section-title" id="buku-heading">Buku</h2>
+      </div>
+
+      <ul class="media-book-list" id="bukuList">
+        <!-- diisi JavaScript -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= VIDEO ================= -->
+  <section class="section section-alt" id="media-video" aria-labelledby="video-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Tonton</p>
+        <h2 class="section-title" id="video-heading">Video</h2>
+      </div>
+
+      <div class="video-grid" id="videoGrid">
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= AUDIO ================= -->
+  <section class="section" id="media-audio" aria-labelledby="audio-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Dengar</p>
+        <h2 class="section-title" id="audio-heading">Audio</h2>
+      </div>
+
+      <ul class="audio-list" id="audioList">
+        <!-- diisi JavaScript -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= GAMBAR ================= -->
+  <section class="section section-alt" id="media-gambar" aria-labelledby="gambar-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Jelajahi</p>
+        <h2 class="section-title" id="gambar-heading">Gambar</h2>
+      </div>
+
+      <div class="media-image-grid" id="gambarGrid">
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ARSIP KAJIAN (Modul / Rangkuman / Khutbah) ================= -->
+  <section class="section" id="media-arsip-kajian" aria-labelledby="arsip-kajian-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Rujuk</p>
+        <h2 class="section-title" id="arsip-kajian-heading">Arsip Bahan Kajian</h2>
+        <p class="section-desc">Modul, rangkuman, dan khutbah dari kajian DIEN dihimpun di Arsip Global JAZMI — tautannya bisa dibuka langsung dari sini.</p>
+      </div>
+
+      <nav class="hub-grid" aria-label="Tautan ke arsip bahan kajian">
+        <a class="hub-card" href="/arsip/modul/">
+          <span class="hub-card-tag">Modul</span>
+          <h3 class="hub-card-title">Modul</h3>
+          <p class="hub-card-desc">Bahan belajar terstruktur, disusun ulang menjadi modul yang bisa dipelajari mandiri.</p>
+          <span class="hub-card-link">Buka Modul →</span>
+        </a>
+
+        <a class="hub-card" href="/arsip/rangkuman/">
+          <span class="hub-card-tag">Rangkuman</span>
+          <h3 class="hub-card-title">Rangkuman</h3>
+          <p class="hub-card-desc">Ringkasan kajian — inti pembahasan dalam bentuk yang ringkas dan mudah dirujuk kembali.</p>
+          <span class="hub-card-link">Buka Rangkuman →</span>
+        </a>
+
+        <a class="hub-card" href="/arsip/khutbah/">
+          <span class="hub-card-tag">Khutbah</span>
+          <h3 class="hub-card-title">Khutbah</h3>
+          <p class="hub-card-desc">Naskah dan rekaman khutbah Jumat serta khutbah lain yang dihimpun JAZMI.</p>
+          <span class="hub-card-link">Buka Khutbah →</span>
+        </a>
+      </nav>
+
+      <p class="media-arsip-note">Jenis bahan lain akan ditambahkan ke Arsip menyusul.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER (kanonis C01 §6.1) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/artikel/">Artikel</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah. Dien: Media, versi produksi awal.</p>
+  </div>
+</footer>
+
+<script src="media.js"></script>
+</body>
+</html>

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Meja Kerja — Pemurnian Magnetic Beads</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F1E2B; --bench:#16283A; --panel:#1D3348; --ink:#E7EEF3; --ink-soft:#9BB0C0;
+    --blue:#2E7DB8; --blue-bright:#5CA8DA; --line:#2C4A63;
+    --good:#3FA66B; --warn:#D9A441; --bad:#D9564A; --steel:#7C8FA0;
+    --liquid:#CFE8F5; --bead:#3A2E1E; --magnet:#8A8F99;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{padding:44px 20px 30px;border-bottom:1px solid var(--line);}
+  .eyebrow{color:var(--blue-bright);font-size:0.85rem;margin:0 0 6px;font-weight:600;letter-spacing:0.02em;}
+  h1{font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 10px;font-weight:700;}
+  .lede{max-width:600px;color:var(--ink-soft);font-size:1rem;margin:0;}
+
+  .progress{display:flex;gap:4px;margin:24px auto 0;max-width:820px;padding:0 20px;}
+  .progress .seg{flex:1;height:4px;background:var(--line);border-radius:2px;}
+  .progress .seg.done{background:var(--blue-bright);}
+  .progress .seg.current{background:var(--good);}
+
+  .stage{padding:36px 0;}
+  .bench-row{display:grid;grid-template-columns:1fr 280px;gap:22px;margin-top:18px;}
+  @media (max-width:680px){.bench-row{grid-template-columns:1fr;}}
+
+  .bench{background:var(--bench);border:1px solid var(--line);border-radius:10px;padding:20px;min-height:300px;display:flex;align-items:center;justify-content:center;}
+  svg{display:block;max-width:100%;}
+
+  .side{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;}
+  .side h3{font-size:0.95rem;margin:0 0 10px;color:var(--blue-bright);}
+  .side p{font-size:0.85rem;color:var(--ink-soft);margin:0 0 12px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:0.78rem;color:var(--ink-soft);margin-bottom:5px;}
+  .field input[type=range]{width:100%;accent-color:var(--blue-bright);}
+  .field .value{font-family:'JetBrains Mono',monospace;color:var(--blue-bright);font-weight:600;}
+
+  button{font-family:'Space Grotesk',sans-serif;background:var(--blue);color:#fff;border:none;padding:10px 18px;border-radius:6px;font-size:0.85rem;cursor:pointer;font-weight:600;}
+  button:hover:not(:disabled){background:var(--blue-bright);}
+  button:disabled{opacity:0.35;cursor:not-allowed;}
+  button.choice{background:var(--panel);border:1px solid var(--line);color:var(--ink);}
+  button.choice.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+  .btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+
+  .protocol-title{font-size:1.15rem;font-weight:700;margin:0 0 4px;}
+  .protocol-note{color:var(--ink-soft);font-size:0.9rem;margin:0 0 4px;}
+  .timer-display{font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:var(--warn);text-align:center;margin-top:10px;}
+  .status-line{text-align:center;font-size:0.85rem;color:var(--ink-soft);margin-top:6px;}
+  .status-line.risk{color:var(--bad);}
+
+  .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+  .result-card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px;text-align:center;}
+  .result-card .n{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--blue-bright);}
+  .result-card .label{font-size:0.7rem;color:var(--ink-soft);margin-top:4px;}
+  .verdict{margin-top:18px;padding:16px 18px;border-radius:8px;font-size:0.95rem;}
+  .verdict.good{background:rgba(63,166,107,0.15);border:1px solid var(--good);color:#B8E6C8;}
+  .verdict.warn{background:rgba(217,164,65,0.15);border:1px solid var(--warn);color:#F0D9A0;}
+  .verdict.bad{background:rgba(217,86,74,0.15);border:1px solid var(--bad);color:#F2B8B2;}
+
+  footer{padding:26px 20px;text-align:center;color:var(--ink-soft);font-size:0.8rem;border-top:1px solid var(--line);}
+  a{color:var(--blue-bright);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">WET LAB TOOLS · Alat 005 — Simulasi Pengalaman</p>
+    <h1>Meja Kerja: Pemurnian Magnetic Beads</h1>
+    <p class="lede">Tanpa sentrifuga, tanpa fase cair yang harus dipisah dengan mata — di sini medan magnet yang bekerja. Tapi rasio beads dan waktu tunggu di rak magnet sama-sama jadi titik krusial baru.</p>
+  </div>
+</header>
+
+<div class="progress" id="progress"></div>
+<div class="wrap"><div class="stage" id="stage"></div></div>
+<footer>Wet Lab Tools · Simulasi konseptual untuk pembelajaran, bukan pengganti pelatihan laboratorium sungguhan</footer>
+
+<script>
+(function(){
+  const STAGE = document.getElementById('stage');
+  const PROGRESS = document.getElementById('progress');
+  const STEP_COUNT = 9;
+  let step=0;
+  let beadRatio=1.0;
+  let bindTime=8;
+  let magnetWait=2;
+  let washCount=2;
+  let dryTime=5;
+  let eluteVolume=40;
+
+  function renderProgress(){
+    PROGRESS.innerHTML='';
+    for(let i=0;i<STEP_COUNT;i++){
+      const seg=document.createElement('div');
+      seg.className='seg'+(i<step?' done':(i===step?' current':''));
+      PROGRESS.appendChild(seg);
+    }
+  }
+
+  function cutoffFromRatio(r){
+    // illustrative anchor points, linear interpolation
+    const anchors = [[0.4,1200],[0.6,900],[0.8,600],[1.0,400],[1.4,250],[1.8,100],[2.0,60]];
+    for(let i=0;i<anchors.length-1;i++){
+      if(r>=anchors[i][0] && r<=anchors[i+1][0]){
+        const [r0,c0]=anchors[i], [r1,c1]=anchors[i+1];
+        const t=(r-r0)/(r1-r0);
+        return Math.round(c0+t*(c1-c0));
+      }
+    }
+    return r<0.4?1200:60;
+  }
+
+  function tubeWithBeads(liquidH, beadPositions, magnetSide){
+    let dots='';
+    beadPositions.forEach(p=>{
+      dots += '<circle cx="'+p.x+'" cy="'+p.y+'" r="2.2" fill="var(--bead)"/>';
+    });
+    const magnet = magnetSide ? '<rect x="'+(magnetSide==='right'?134:52)+'" y="90" width="10" height="60" rx="2" fill="var(--magnet)"/><text x="'+(magnetSide==='right'?139:57)+'" y="86" text-anchor="middle" fill="#9BB0C0" font-size="8" font-family=\'JetBrains Mono\'>MAGNET</text>' : '';
+    return '<svg viewBox="0 0 200 260" width="170">'+
+      '<rect x="70" y="20" width="60" height="180" rx="10" fill="none" stroke="#7C8FA0" stroke-width="3"/>'+
+      '<clipPath id="cb"><rect x="72" y="22" width="56" height="176" rx="8"/></clipPath>'+
+      '<g clip-path="url(#cb)"><rect x="72" y="'+(198-liquidH)+'" width="56" height="'+liquidH+'" fill="var(--liquid)"/>'+dots+'</g>'+
+      magnet+'</svg>';
+  }
+
+  function randomBeadPositions(n, spread){
+    const arr=[];
+    for(let i=0;i<n;i++){
+      arr.push({x: 78+Math.random()*44, y: 60+Math.random()*130});
+    }
+    return arr;
+  }
+
+  function renderStep(){
+    renderProgress();
+    let html='';
+
+    if(step===0){
+      html+='<h2 class="protocol-title">Pemurnian dengan Magnetic Beads</h2>';
+      html+='<p class="protocol-note">Sampel DNA (mis. hasil PCR atau lisat sel) sudah siap. Teknik ini populer karena cepat dan mudah diotomatisasi — tapi menyimpan jebakan tersendiri: rasio beads yang salah bisa membuang fragmen yang justru Anda butuhkan.</p>';
+      html+='<div class="btn-row"><button id="btn-start">Mulai Protokol →</button></div>';
+    }
+    else if(step===1){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 1 — Tambahkan Magnetic Beads</h3>'+
+        '<p>Rasio volume beads terhadap sampel menentukan ukuran fragmen yang akan terikat. Rasio rendah → hanya fragmen besar yang terikat (lebih selektif, yield lebih rendah). Rasio tinggi → hampir semua fragmen terikat (yield tinggi, kurang selektif).</p>'+
+        '<div class="field"><label>Rasio beads:sampel — <span class="value" id="ratio-val">1.0×</span></label>'+
+        '<input type="range" id="ratio-slider" min="0.4" max="2.0" step="0.05" value="1.0"></div>'+
+        '<div class="status-line mono" id="cutoff-preview"></div>'+
+        '<div class="btn-row"><button id="btn-action">🧲 Tambahkan Beads &amp; Campur</button></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+    else if(step===2){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 2 — Inkubasi Binding</h3>'+
+        '<p>Beri waktu cukup agar asam nukleat benar-benar terikat pada permukaan beads sebelum dipisahkan.</p>'+
+        '<div class="field"><label>Waktu inkubasi — <span class="value" id="bind-time-val">8</span> menit</label>'+
+        '<input type="range" id="bind-time" min="1" max="15" step="1" value="8"></div>'+
+        '<div class="btn-row"><button id="btn-action">⏱ Inkubasi</button></div>'+
+        '<div class="timer-display" id="timer-display"></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+    else if(step===3){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 3 — Rak Magnet</h3>'+
+        '<p>Taruh tabung di rak magnet. Beads (berwarna gelap) akan bermigrasi dan menempel ke sisi tabung yang dekat magnet. <strong>Terlalu cepat mengambil supernatan berarti sebagian beads — dan DNA yang menempel padanya — ikut terbuang.</strong></p>'+
+        '<div class="field"><label>Waktu tunggu di magnet — <span class="value" id="magnet-wait-val">2.0</span> menit</label>'+
+        '<input type="range" id="magnet-wait" min="0.5" max="5" step="0.5" value="2"></div>'+
+        '<div class="btn-row"><button id="btn-action">🧲 Taruh di Rak Magnet</button></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+    else if(step===4){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 4 — Buang Supernatan</h3>'+
+        '<p>Pipet keluarkan cairan bening, sisakan gumpalan beads menempel di dinding tabung.</p>'+
+        '<div class="btn-row"><button id="btn-action">🧫 Buang Supernatan</button></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+    else if(step===5){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 5 — Cuci dengan Etanol 70%</h3>'+
+        '<p>Standar protokol mencuci beads dua kali tanpa mengganggu posisinya di magnet. Hanya satu kali pencucian menghemat waktu, tapi menyisakan lebih banyak garam/PEG.</p>'+
+        '<div class="btn-row">'+
+        '<button class="choice" data-wash="1">Cuci 1×</button>'+
+        '<button class="choice" data-wash="2">Cuci 2× (standar)</button>'+
+        '</div></div></div>';
+    }
+    else if(step===6){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 6 — Keringkan Beads</h3>'+
+        '<p>Sisa etanol perlu menguap sebelum elusi. Terlalu singkat → etanol ikut terbawa, menurunkan kemurnian. Terlalu lama → beads retak dan sulit melepaskan DNA saat elusi, menurunkan yield.</p>'+
+        '<div class="field"><label>Waktu pengeringan — <span class="value" id="dry-time-val">5</span> menit</label>'+
+        '<input type="range" id="dry-time" min="1" max="20" step="1" value="5"></div>'+
+        '<div class="btn-row"><button id="btn-action">💨 Keringkan</button></div>'+
+        '<div class="timer-display" id="timer-display"></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+    else if(step===7){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 7 — Elusi</h3>'+
+        '<p>Lepaskan tabung dari magnet, resuspensi beads dalam buffer elusi. Volume kecil → pekat, volume besar → encer.</p>'+
+        '<div class="field"><label>Volume elusi — <span class="value" id="elute-vol-val">40</span> µL</label>'+
+        '<input type="range" id="elute-vol" min="15" max="100" step="5" value="40"></div>'+
+        '<div class="btn-row"><button id="btn-action">🧬 Elusi</button></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+    else if(step===8){
+      const ratioYieldFrac = Math.min(1, beadRatio/1.8);
+      const bindScore = Math.min(1, bindTime/8);
+      const magnetScore = Math.min(1, magnetWait/2);
+      const magnetLossPenalty = (1-magnetScore)*0.4;
+      const washPenalty = washCount===1 ? 0.4 : 0;
+      let dryPenaltyPurity=0, dryPenaltyYield=0;
+      if(dryTime<2){ dryPenaltyPurity=0.35; }
+      if(dryTime>15){ dryPenaltyYield=0.3; }
+
+      const purity280 = Math.max(1.4, Math.min(1.9, 1.85 - Math.max(0,(beadRatio-1.8))*0.3));
+      const purity230 = Math.max(1.2, Math.min(2.2, 2.15 - washPenalty - dryPenaltyPurity));
+      const cutoff = cutoffFromRatio(beadRatio);
+
+      const baseYield = 5000 * ratioYieldFrac * bindScore * (1-magnetLossPenalty) * (1-dryPenaltyYield);
+      const finalConc = baseYield/eluteVolume;
+
+      let verdictClass='good', verdictText='Hasil bersih dengan yield wajar — beads dan protokol pemisahan magnetik bekerja sesuai rencana.';
+      if(magnetLossPenalty>0.2 || washPenalty>0 || purity230<1.8){
+        verdictClass = magnetLossPenalty>0.3 ? 'bad' : 'warn';
+        verdictText = magnetLossPenalty>0.3
+          ? 'Yield rendah — kemungkinan besar karena waktu tunggu di magnet terlalu singkat sehingga sebagian beads (dan DNA yang menempel) ikut terbuang bersama supernatan.'
+          : 'Hasil dapat dipakai tapi belum optimal — coba tambah jumlah pencucian etanol dan pastikan waktu tunggu di magnet cukup sebelum membuang supernatan.';
+      }
+
+      html+='<h2 class="protocol-title">Hasil Akhir</h2>';
+      html+='<div class="result-grid">'+
+        '<div class="result-card"><div class="n">'+finalConc.toFixed(1)+' ng/µL</div><div class="label">KONSENTRASI</div></div>'+
+        '<div class="result-card"><div class="n">'+purity280.toFixed(2)+'</div><div class="label">A260/A280</div></div>'+
+        '<div class="result-card"><div class="n">'+purity230.toFixed(2)+'</div><div class="label">A260/A230</div></div>'+
+        '<div class="result-card"><div class="n">≈'+cutoff+' bp</div><div class="label">CUTOFF UKURAN (ilustratif)</div></div>'+
+        '</div>';
+      html+='<div class="verdict '+verdictClass+'">'+verdictText+'</div>';
+      html+='<div class="btn-row"><button id="btn-restart">↺ Ulangi dari Awal</button></div>';
+    }
+
+    STAGE.innerHTML=html;
+    attach();
+  }
+
+  function nextBtn(target,label){
+    const nb=document.createElement('button');
+    nb.textContent=label||'Lanjut →';
+    document.querySelector('#stage .btn-row').appendChild(nb);
+    nb.addEventListener('click', ()=>{ step=target; renderStep(); });
+  }
+
+  function attach(){
+    if(step===0){
+      document.getElementById('btn-start').addEventListener('click', ()=>{ step=1; renderStep(); });
+    }
+    if(step===1){
+      document.getElementById('bench-vis').innerHTML = tubeWithBeads(90, []);
+      const slider=document.getElementById('ratio-slider'), val=document.getElementById('ratio-val'), cutoffP=document.getElementById('cutoff-preview');
+      function upd(){ val.textContent=parseFloat(slider.value).toFixed(2)+'×'; cutoffP.textContent='Perkiraan cutoff ukuran fragmen: ≈'+cutoffFromRatio(parseFloat(slider.value))+' bp ke atas yang terikat kuat'; }
+      slider.addEventListener('input', upd); upd();
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        beadRatio = parseFloat(slider.value);
+        const n = Math.round(10+beadRatio*15);
+        document.getElementById('bench-vis').innerHTML = tubeWithBeads(100, randomBeadPositions(n));
+        document.getElementById('status-line').textContent = 'Beads tersebar merata dalam larutan.';
+        nextBtn(2);
+      });
+    }
+    if(step===2){
+      document.getElementById('bench-vis').innerHTML = tubeWithBeads(100, randomBeadPositions(Math.round(10+beadRatio*15)));
+      const timeS=document.getElementById('bind-time'), timeVal=document.getElementById('bind-time-val');
+      timeS.addEventListener('input', ()=> timeVal.textContent=timeS.value);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        bindTime=parseInt(timeS.value,10);
+        let elapsed=0, dur=2000;
+        const iv=setInterval(()=>{
+          elapsed+=100;
+          document.getElementById('timer-display').textContent=Math.round((elapsed/dur)*bindTime)+' menit';
+          if(elapsed>=dur){
+            clearInterval(iv);
+            document.getElementById('status-line').textContent='Asam nukleat terikat pada permukaan beads.';
+            nextBtn(3);
+          }
+        },100);
+      });
+    }
+    if(step===3){
+      const n = Math.round(10+beadRatio*15);
+      document.getElementById('bench-vis').innerHTML = tubeWithBeads(100, randomBeadPositions(n));
+      const waitS=document.getElementById('magnet-wait'), waitVal=document.getElementById('magnet-wait-val');
+      waitS.addEventListener('input', ()=> waitVal.textContent=parseFloat(waitS.value).toFixed(1));
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        magnetWait=parseFloat(waitS.value);
+        const migrated = Math.min(1, magnetWait/2);
+        let t=0;
+        const iv=setInterval(()=>{
+          t++;
+          const positions=[];
+          const migratedCount = Math.round(n*Math.min(1,t/8)*migrated);
+          for(let i=0;i<migratedCount;i++) positions.push({x:126+Math.random()*4, y:70+Math.random()*110});
+          for(let i=migratedCount;i<n;i++) positions.push({x:78+Math.random()*40, y:60+Math.random()*130});
+          document.getElementById('bench-vis').innerHTML = tubeWithBeads(100, positions, 'right');
+          if(t>=8){
+            clearInterval(iv);
+            document.getElementById('status-line').textContent = migrated<0.7 ? 'Sebagian beads belum sempat menempel penuh ke magnet.' : 'Sebagian besar beads menempel rapat ke sisi magnet.';
+            nextBtn(4);
+          }
+        },120);
+      });
+    }
+    if(step===4){
+      const n=Math.round(10+beadRatio*15);
+      const migrated=Math.min(1,magnetWait/2);
+      const stuckCount = Math.round(n*migrated);
+      const positions=[]; for(let i=0;i<stuckCount;i++) positions.push({x:126+Math.random()*4,y:70+Math.random()*110});
+      document.getElementById('bench-vis').innerHTML = tubeWithBeads(100, positions, 'right');
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        document.getElementById('bench-vis').innerHTML = tubeWithBeads(0, positions, 'right');
+        document.getElementById('status-line').textContent = migrated<0.7 ? 'Supernatan dibuang — beads yang belum menempel penuh ikut terbawa keluar.' : 'Supernatan dibuang bersih, beads tertinggal menempel di dinding.';
+        nextBtn(5);
+      });
+    }
+    if(step===5){
+      const n=Math.round(10+beadRatio*15);
+      const migrated=Math.min(1,magnetWait/2);
+      const stuckCount=Math.round(n*migrated);
+      const positions=[]; for(let i=0;i<stuckCount;i++) positions.push({x:126+Math.random()*4,y:70+Math.random()*110});
+      document.getElementById('bench-vis').innerHTML = tubeWithBeads(0, positions, 'right');
+      document.querySelectorAll('[data-wash]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{ washCount=parseInt(btn.dataset.wash,10); step=6; renderStep(); });
+      });
+    }
+    if(step===6){
+      const n=Math.round(10+beadRatio*15);
+      const migrated=Math.min(1,magnetWait/2);
+      const stuckCount=Math.round(n*migrated);
+      const positions=[]; for(let i=0;i<stuckCount;i++) positions.push({x:126+Math.random()*4,y:70+Math.random()*110});
+      document.getElementById('bench-vis').innerHTML = tubeWithBeads(0, positions, 'right');
+      const dryS=document.getElementById('dry-time'), dryVal=document.getElementById('dry-time-val');
+      dryS.addEventListener('input', ()=> dryVal.textContent=dryS.value);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        dryTime=parseInt(dryS.value,10);
+        let elapsed=0, dur=1800;
+        const iv=setInterval(()=>{
+          elapsed+=100;
+          document.getElementById('timer-display').textContent=Math.round((elapsed/dur)*dryTime)+' menit';
+          if(elapsed>=dur){
+            clearInterval(iv);
+            let msg='Beads kering, siap dielusi.';
+            if(dryTime<2) msg='Beads masih sedikit basah — sisa etanol mungkin terbawa.';
+            if(dryTime>15) msg='Beads mengering cukup lama — permukaannya mulai retak.';
+            document.getElementById('status-line').textContent=msg;
+            nextBtn(7);
+          }
+        },100);
+      });
+    }
+    if(step===7){
+      const n=Math.round(10+beadRatio*15);
+      const migrated=Math.min(1,magnetWait/2);
+      const stuckCount=Math.round(n*migrated);
+      const positions=[]; for(let i=0;i<stuckCount;i++) positions.push({x:126+Math.random()*4,y:70+Math.random()*110});
+      document.getElementById('bench-vis').innerHTML = tubeWithBeads(0, positions, 'right');
+      const eluS=document.getElementById('elute-vol'), eluVal=document.getElementById('elute-vol-val');
+      eluS.addEventListener('input', ()=> eluVal.textContent=eluS.value);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        eluteVolume=parseInt(eluS.value,10);
+        document.getElementById('bench-vis').innerHTML = tubeWithBeads(20+eluteVolume*0.6, randomBeadPositions(Math.round(stuckCount*0.3)));
+        document.getElementById('status-line').textContent='Beads dilepas dari magnet, DNA larut kembali ke buffer elusi.';
+        nextBtn(8,'Taruh di Magnet &amp; Lihat Hasil →');
+      });
+    }
+    if(step===8){
+      document.getElementById('btn-restart').addEventListener('click', ()=>{
+        step=0; beadRatio=1.0; bindTime=8; magnetWait=2; washCount=2; dryTime=5; eluteVolume=40;
+        renderStep();
+      });
+    }
+  }
+
+  renderStep();
+})();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

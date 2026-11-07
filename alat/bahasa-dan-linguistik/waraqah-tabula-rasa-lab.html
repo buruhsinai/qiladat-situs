@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waraqah Tabula Rasa — Laboratorium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Karla:wght@400;500;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#efe7d3; --paper-deep:#e6dcc3; --ink:#251f19; --ink-soft:#5c4f40;
+    --indigo:#2e4159; --oxide:#9c3b2e; --gold:#a9812e; --gold-soft:#c9aa64;
+    --sage:#5c6b4f; --line:#c9bc9c; --off:#00000022;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{ margin:0; background:
+      radial-gradient(ellipse at 20% 0%, rgba(169,129,46,.06), transparent 55%),
+      radial-gradient(ellipse at 90% 30%, rgba(46,65,89,.05), transparent 50%), var(--paper);
+    color:var(--ink); font-family:'Karla',sans-serif; line-height:1.6; -webkit-font-smoothing:antialiased; }
+  .wrap{ max-width:780px; margin:0 auto; padding:0 22px; }
+
+  /* ---- App shell nav ---- */
+  .appbar{ position:sticky; top:0; z-index:50; background:rgba(239,231,211,.92); backdrop-filter:blur(6px);
+    border-bottom:1px solid var(--line); }
+  .appbar-inner{ max-width:780px; margin:0 auto; padding:10px 22px; display:flex; align-items:center; gap:14px; }
+  .appbar .brand{ font-family:'Fraunces',serif; font-weight:600; font-size:1.02rem; white-space:nowrap; }
+  .navlinks{ display:flex; gap:4px; overflow-x:auto; scrollbar-width:none; }
+  .navlinks::-webkit-scrollbar{ display:none; }
+  .navlinks a{ text-decoration:none; color:var(--ink-soft); font-size:.78rem; font-weight:700; padding:6px 10px;
+    border-radius:14px; white-space:nowrap; transition:.15s; }
+  .navlinks a:hover{ background:var(--off); color:var(--ink); }
+
+  header.hero{ padding:40px 0 6px; }
+  .kicker{ color:var(--gold); font-weight:700; font-size:.92rem; margin:0 0 6px; }
+  h1.title{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(1.8rem,6vw,2.5rem); line-height:1.08; margin:0 0 10px; }
+  .subtitle{ color:var(--ink-soft); font-size:1rem; max-width:58ch; margin:0 0 20px;}
+
+  section{ padding:40px 0; border-bottom:1px solid var(--line); scroll-margin-top:64px; }
+  section:last-of-type{ border-bottom:none; }
+  .eyebrow{ font-size:.78rem; color:var(--gold); font-weight:700; margin:0 0 6px; }
+  h2{ font-family:'Fraunces', serif; font-weight:600; font-size:1.55rem; margin:0 0 10px; }
+  p.lead{ color:var(--ink-soft); max-width:60ch; margin:0 0 20px; font-size:.96rem;}
+
+  .panel{ border:1px solid var(--line); border-radius:4px; background:#fffdf7cc; padding:20px; }
+  .field{ margin-bottom:16px; }
+  .field label{ display:block; font-size:.78rem; font-weight:700; color:var(--ink-soft); margin-bottom:6px; text-transform:uppercase; letter-spacing:.02em;}
+  select, .btnrow button{ font-family:'Karla',sans-serif; }
+  select{ width:100%; padding:9px 10px; border:1px solid var(--line); border-radius:4px; background:var(--paper); color:var(--ink); font-size:.9rem; }
+  select:disabled{ opacity:.45; }
+  .checkrow{ display:flex; align-items:center; gap:8px; font-size:.88rem; margin-top:4px; }
+  .checkrow input{ width:16px; height:16px; }
+  .grid2{ display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media(max-width:520px){ .grid2{ grid-template-columns:1fr; } }
+
+  .output-ar{ font-family:'Amiri',serif; direction:rtl; font-size:1.9rem; text-align:center;
+    background:var(--paper-deep); border-radius:4px; padding:22px 14px; min-height:64px; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:10px; margin:18px 0; }
+  .output-ar .part{ border-bottom:3px solid transparent; padding:2px 4px; }
+  .trace{ font-size:.86rem; }
+  .trace li{ margin-bottom:6px; color:var(--ink-soft); }
+  .trace b{ color:var(--ink); }
+
+  /* sliders */
+  .slider-block{ margin-bottom:20px; }
+  .slider-top{ display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; }
+  .slider-top .name{ font-size:.78rem; font-weight:700; color:var(--ink-soft); text-transform:uppercase; letter-spacing:.02em;}
+  .slider-top .val{ font-family:'Fraunces',serif; font-size:1.05rem; color:var(--gold); }
+  input[type=range]{ width:100%; -webkit-appearance:none; height:6px; border-radius:4px; background:var(--off); outline:none; }
+  input[type=range]::-webkit-slider-thumb{ -webkit-appearance:none; width:20px; height:20px; border-radius:50%;
+    background:var(--indigo); border:3px solid var(--paper); box-shadow:0 0 0 1px var(--indigo); cursor:pointer; }
+  input[type=range]::-moz-range-thumb{ width:20px; height:20px; border-radius:50%; background:var(--indigo); border:3px solid var(--paper); cursor:pointer; }
+  .steps{ display:flex; justify-content:space-between; font-size:.7rem; color:var(--ink-soft); margin-top:4px; }
+  .steps span{ flex:1; text-align:center; }
+  .steps span:first-child{ text-align:left; } .steps span:last-child{ text-align:right; }
+
+  .kasus-btns{ display:flex; gap:8px; margin-top:6px; }
+  .kasus-btns button{ flex:1; border:1px solid var(--line); background:transparent; padding:9px 6px; border-radius:6px;
+    font-weight:700; font-size:.82rem; cursor:pointer; color:var(--ink-soft); }
+  .kasus-btns button.active.raf{ background:var(--indigo); border-color:var(--indigo); color:#fff; }
+  .kasus-btns button.active.nas{ background:var(--gold); border-color:var(--gold); color:#fff; }
+  .kasus-btns button.active.jar{ background:var(--sage); border-color:var(--sage); color:#fff; }
+
+  .decl-display{ text-align:center; margin:18px 0; }
+  .decl-display .word{ font-family:'Amiri',serif; font-size:2.4rem; }
+  .decl-display .word.disabled{ color:var(--ink-soft); font-size:1.1rem; font-family:'Karla',sans-serif; font-style:italic; }
+  .decl-note{ background:var(--paper-deep); border-left:3px solid var(--gold); padding:10px 14px; border-radius:0 4px 4px 0; font-size:.86rem; color:var(--ink-soft); }
+
+  /* quiz */
+  .quiz-score{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+  .quiz-score .s{ font-family:'Fraunces',serif; font-size:1.3rem; }
+  .quiz-q{ font-family:'Amiri',serif; direction:rtl; font-size:1.7rem; text-align:center; background:var(--paper-deep); border-radius:4px; padding:20px 14px; margin-bottom:8px; }
+  .quiz-hint{ text-align:center; font-size:.84rem; color:var(--ink-soft); margin-bottom:16px; }
+  .quiz-opts{ display:flex; gap:10px; margin-bottom:14px; }
+  .quiz-opts button{ flex:1; border:1px solid var(--line); background:transparent; padding:14px 6px; border-radius:6px;
+    font-family:'Amiri',serif; font-size:1.4rem; cursor:pointer; color:var(--ink); }
+  .quiz-opts button.correct{ background:var(--sage); border-color:var(--sage); color:#fff; }
+  .quiz-opts button.wrong{ background:var(--oxide); border-color:var(--oxide); color:#fff; }
+  .quiz-feedback{ font-size:.88rem; color:var(--ink-soft); min-height:44px; margin-bottom:14px; }
+  .btn-primary{ background:var(--indigo); color:#fff; border:none; padding:10px 20px; border-radius:20px;
+    font-weight:700; font-size:.85rem; cursor:pointer; font-family:'Karla',sans-serif; }
+  .btn-primary:disabled{ opacity:.4; cursor:default; }
+
+  .naw-toggle{ display:flex; justify-content:center; gap:8px; margin-bottom:20px; flex-wrap:wrap;}
+  .naw-toggle button{ border:1px solid var(--line); background:transparent; padding:8px 14px; border-radius:20px; font-weight:700; font-size:.8rem; cursor:pointer; color:var(--ink-soft); }
+  .naw-toggle button.active{ background:var(--oxide); border-color:var(--oxide); color:#fff; }
+  .naw-sentence{ font-family:'Amiri',serif; direction:rtl; font-size:2rem; min-height:56px; display:flex; justify-content:center; gap:14px; align-items:center; flex-wrap:wrap; text-align:center;}
+  .naw-sentence .part{ border-bottom:3px solid transparent; padding:2px 6px; }
+  .naw-explain{ margin-top:14px; font-size:.88rem; color:var(--ink-soft); text-align:center; max-width:54ch; margin-left:auto; margin-right:auto;}
+
+  .ayat-grid{ display:grid; gap:10px; }
+  .ayat-card{ border:1px solid var(--line); border-radius:4px; background:#fffdf7cc; overflow:hidden; }
+  .ayat-head{ padding:14px 16px; cursor:pointer; display:flex; justify-content:space-between; align-items:center; gap:12px;}
+  .ayat-head .ar{ font-family:'Amiri',serif; direction:rtl; font-size:1.3rem; text-align:right; flex:1; }
+  .ayat-head .name{ font-size:.74rem; color:var(--ink-soft); white-space:nowrap; }
+  .ayat-body{ display:none; padding:0 16px 16px; border-top:1px dashed var(--line); }
+  .ayat-body.show{ display:block; }
+  .ayat-word{ display:inline-flex; flex-direction:column; align-items:center; margin:10px 8px 0 0; }
+  .ayat-word .ar{ font-family:'Amiri',serif; font-size:1.25rem; }
+  .ayat-word .lbl{ font-size:.62rem; color:#fff; padding:1px 6px; border-radius:8px; margin-top:4px; font-weight:700;}
+  .ayat-words{ display:flex; flex-wrap:wrap; direction:rtl; }
+  .ayat-note{ margin-top:12px; font-size:.84rem; color:var(--ink-soft); }
+  .plus{ font-size:1.2rem; color:var(--ink-soft); transition:.2s; } .ayat-head.open .plus{ transform:rotate(45deg); }
+
+  .typo-row{ margin-bottom:14px; }
+  .typo-label{ display:flex; justify-content:space-between; font-size:.82rem; margin-bottom:5px; }
+  .typo-track{ position:relative; height:9px; background:#00000010; border-radius:6px; }
+  .typo-zone{ position:absolute; top:-4px; bottom:-4px; background:rgba(169,129,46,.18); border-radius:6px; }
+  .typo-mark{ position:absolute; top:50%; transform:translate(-50%,-50%); width:14px; height:14px; border-radius:50%; background:var(--oxide); border:2px solid var(--paper); }
+  .typo-ends{ display:flex; justify-content:space-between; font-size:.7rem; color:var(--ink-soft); margin-top:3px;}
+
+  footer{ padding:36px 0 56px; text-align:center; }
+  footer p{ color:var(--ink-soft); font-size:.84rem; max-width:54ch; margin:0 auto 6px; }
+  .signoff{ font-size:.76rem; color:var(--line); margin-top:18px; }
+</style>
+</head>
+<body>
+
+<div class="appbar"><div class="appbar-inner">
+  <span class="brand">وَرَقَة</span>
+  <div class="navlinks">
+    <a href="#lab">Lab I'rab</a>
+    <a href="#deklinasi">Deklinasi</a>
+    <a href="#kuis">Kuis</a>
+    <a href="#nawasikh">Nawasikh</a>
+    <a href="#praktik">Praktik</a>
+    <a href="#tipologi">Tipologi</a>
+  </div>
+</div></div>
+
+<div class="wrap">
+  <header class="hero">
+    <p class="kicker">Waraqah Tabula Rasa — Laboratorium</p>
+    <h1 class="title">Bukan lagi lembar untuk dibaca —<br>tapi mesin untuk dicoba.</h1>
+    <p class="subtitle">Tiga alat di bawah ini benar-benar menghitung, bukan sekadar menampilkan. Ganti variabelnya, geser parameternya, dan lihat aturan nahwu bekerja sendiri di depan mata Anda.</p>
+  </header>
+
+  <section id="lab">
+    <p class="eyebrow">Mesin 1</p>
+    <h2>Lab I'rab — Rakit kalimatmu sendiri</h2>
+    <p class="lead">Pilih pola kalimat dan isi variabelnya. Sistem menghitung sendiri harakat mana yang benar untuk tiap kata, berdasarkan aturan yang sama dari halaman 1–4.</p>
+
+    <div class="panel">
+      <div class="field">
+        <label>Pola Kalimat</label>
+        <select id="polaSelect" onchange="onPolaChange()">
+          <option value="ismiyah">Jumlah Ismiyah (SVO — Mubtada/Khabar)</option>
+          <option value="filiyah">Jumlah Fi'liyah (VSO — Fi'il/Fa'il)</option>
+        </select>
+      </div>
+
+      <div class="grid2">
+        <div class="field" id="fiilField" style="display:none;">
+          <label>Fi'il (Kata Kerja)</label>
+          <select id="fiilSelect" onchange="runLab()"></select>
+        </div>
+        <div class="field">
+          <label id="subjekLabel">Mubtada</label>
+          <select id="subjekSelect" onchange="runLab()"></select>
+        </div>
+      </div>
+
+      <div class="grid2" id="khabarRow">
+        <div class="field">
+          <label>Jenis Khabar</label>
+          <select id="khabarTypeSelect" onchange="onKhabarTypeChange()">
+            <option value="isim">Isim Mufrad</option>
+            <option value="filiyah">Jumlah Fi'liyah (mini)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label id="khabarLabel">Pilih Khabar</label>
+          <select id="khabarSelect" onchange="runLab()"></select>
+        </div>
+      </div>
+
+      <div class="field" id="mafulField" style="display:none;">
+        <div class="checkrow"><input type="checkbox" id="mafulCheck" onchange="runLab()"><label style="margin:0; text-transform:none; font-weight:400;" for="mafulCheck">Tambah Maf'ul Bih (Objek)</label></div>
+        <select id="mafulSelect" onchange="runLab()" style="margin-top:8px; display:none;"></select>
+      </div>
+
+      <div class="field">
+        <label>Nawasikh (khusus Jumlah Ismiyah)</label>
+        <select id="nawasikhSelect" onchange="runLab()">
+          <option value="none">Tanpa Nawasikh</option>
+          <optgroup label="Keluarga Inna (Isim → Nashab)">
+            <option value="inna">إِنَّ (Inna)</option>
+            <option value="anna">أَنَّ (Anna)</option>
+            <option value="lakinna">لَكِنَّ (Lakinna)</option>
+          </optgroup>
+          <optgroup label="Keluarga Kana (Khabar → Nashab)">
+            <option value="kana">كَانَ (Kana)</option>
+            <option value="laisa">لَيْسَ (Laisa)</option>
+            <option value="ashbaha">أَصْبَحَ (Ashbaha)</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <div class="field">
+        <div class="checkrow"><input type="checkbox" id="jarrCheck" onchange="onJarrToggle()"><label style="margin:0; text-transform:none; font-weight:400;" for="jarrCheck">Tambah frasa Harf Jarr</label></div>
+        <div class="grid2" id="jarrFields" style="display:none; margin-top:8px;">
+          <select id="harfSelect" onchange="runLab()">
+            <option value="fi">فِي (di dalam)</option>
+            <option value="ila">إِلَى (ke)</option>
+            <option value="min">مِنَ (dari)</option>
+          </select>
+          <select id="jarrNounSelect" onchange="runLab()"></select>
+        </div>
+      </div>
+
+      <div class="output-ar" id="labOutput"></div>
+      <ul class="trace" id="labTrace"></ul>
+    </div>
+  </section>
+
+  <section id="deklinasi">
+    <p class="eyebrow">Mesin 2</p>
+    <h2>Generator Deklinasi — geser, lihat berubah</h2>
+    <p class="lead">Tiga penggeser: jenis kata, bentuk jumlah, dan kasus. Kombinasi yang tidak berlaku secara gramatikal akan ditandai, bukan dipaksakan.</p>
+
+    <div class="panel">
+      <div class="slider-block">
+        <div class="slider-top"><span class="name">Jenis Kata</span><span class="val" id="jenisVal"></span></div>
+        <input type="range" id="jenisSlider" min="0" max="5" value="0" step="1" oninput="runDeklinasi()">
+        <div class="steps"><span>Reguler M</span><span>Reguler F</span><span>Ghairu Munsharif</span><span>Manqush</span><span>Maqshur</span><span>Asma Khamsah</span></div>
+      </div>
+      <div class="slider-block">
+        <div class="slider-top"><span class="name">Bentuk Jumlah</span><span class="val" id="jumlahVal"></span></div>
+        <input type="range" id="jumlahSlider" min="0" max="3" value="0" step="1" oninput="runDeklinasi()">
+        <div class="steps"><span>Mufrad</span><span>Mutsanna</span><span>Jamak Salim</span><span>Jamak Taksir</span></div>
+      </div>
+      <div class="field">
+        <label>Kasus</label>
+        <div class="kasus-btns" id="kasusBtns">
+          <button class="active raf" data-k="raf" onclick="setKasus('raf')">Rafa'</button>
+          <button data-k="nas" onclick="setKasus('nas')">Nashab</button>
+          <button data-k="jar" onclick="setKasus('jar')">Jarr</button>
+        </div>
+      </div>
+      <div class="decl-display"><span class="word" id="declWord"></span></div>
+      <div class="decl-note" id="declNote"></div>
+    </div>
+  </section>
+
+  <section id="kuis">
+    <p class="eyebrow">Mesin 3</p>
+    <h2>Kuis I'rab</h2>
+    <p class="lead">Sepuluh soal acak. Tentukan harakat yang tepat untuk kata yang digarisbawahi, skor tersimpan selama sesi ini.</p>
+    <div class="panel">
+      <div class="quiz-score"><span>Skor</span><span class="s" id="quizScore">0 / 0</span></div>
+      <div class="quiz-q" id="quizQ"></div>
+      <p class="quiz-hint" id="quizHint"></p>
+      <div class="quiz-opts" id="quizOpts"></div>
+      <p class="quiz-feedback" id="quizFeedback"></p>
+      <button class="btn-primary" id="quizNext" onclick="nextQuiz()">Soal Berikutnya →</button>
+    </div>
+  </section>
+
+  <section id="nawasikh">
+    <p class="eyebrow">Referensi Cepat</p>
+    <h2>Nawasikh — sebelum dan sesudah</h2>
+    <p class="lead">Kalau ingin versi yang lebih santai daripada Lab I'rab di atas, ini toggle sederhananya.</p>
+    <div class="panel" style="text-align:center;">
+      <div class="naw-toggle">
+        <button class="active" onclick="setNaw('base', this)">Biasa</button>
+        <button onclick="setNaw('inna', this)">+ Inna</button>
+        <button onclick="setNaw('kana', this)">+ Kana</button>
+        <button onclick="setNaw('laisa', this)">+ Laisa</button>
+      </div>
+      <div class="naw-sentence" id="nawSentence"></div>
+      <p class="naw-explain" id="nawExplain"></p>
+    </div>
+  </section>
+
+  <section id="praktik">
+    <p class="eyebrow">Diuji pada yang Sudah Dihafal</p>
+    <h2>Praktik pada Ayat Pendek</h2>
+    <p class="lead">Ketuk untuk membongkar i'rabnya kata per kata.</p>
+    <div class="ayat-grid" id="ayatGrid"></div>
+  </section>
+
+  <section id="tipologi">
+    <p class="eyebrow">Kenapa "Tabula Rasa"?</p>
+    <h2>Titik tengah, di banyak sumbu sekaligus</h2>
+    <p class="lead">Arab konsisten berhenti di "zona ideal" — cukup ekspresif, tak berlebihan.</p>
+    <div id="typoChart"></div>
+  </section>
+
+  <footer>
+    <p>Edisi Laboratorium dari <em>Waraqah Tabula Rasa</em> — variabel dan parameter yang bisa diubah langsung, bukan cuma dibaca.</p>
+    <p class="signoff">qidalat.com · disusun bersama Claude</p>
+  </footer>
+</div>
+
+<script>
+/* ================= BANK DATA ================= */
+const nounBank = {
+  zaid:   { id:'زيد (m)',  raf:'زَيْدٌ',  nash:'زَيْدًا',  jar:'زَيْدٍ' },
+  hind:   { id:'هند (f)',  raf:'هِنْدٌ',  nash:'هِنْدًا',  jar:'هِنْدٍ' },
+  talib:  { id:'الطالب',   raf:'الطَّالِبُ', nash:'الطَّالِبَ', jar:'الطَّالِبِ' },
+  ustadz: { id:'الأستاذ',  raf:'الأُسْتَاذُ', nash:'الأُسْتَاذَ', jar:'الأُسْتَاذِ' },
+  khubz:  { id:'الخبز',    raf:'الْخُبْزُ', nash:'الْخُبْزَ', jar:'الْخُبْزِ' },
+  kitab:  { id:'الكتاب',   raf:'الْكِتَابُ', nash:'الْكِتَابَ', jar:'الْكِتَابِ' },
+  masjid: { id:'المسجد',   raf:'الْمَسْجِدُ', nash:'الْمَسْجِدَ', jar:'الْمَسْجِدِ' },
+  ibrahim:{ id:'إبراهيم (Ghairu Munsharif)', raf:'إِبْرَاهِيمُ', nash:'إِبْرَاهِيمَ', jar:'إِبْرَاهِيمَ' }
+};
+const fiilBank = {
+  dzahaba:{ id:'ذهب (pergi)', ar:'ذَهَبَ' },
+  jaa:    { id:'جاء (datang)', ar:'جَاءَ' },
+  kataba: { id:'كتب (menulis)', ar:'كَتَبَ' }
+};
+const khabarIsimBank = {
+  mujtahid:{ id:'مجتهد (bersungguh-sungguh)', raf:'مُجْتَهِدٌ', nash:'مُجْتَهِدًا' },
+  qaim:    { id:'قائم (berdiri)', raf:'قَائِمٌ', nash:'قَائِمًا' },
+  jamil:   { id:'جميل (indah)', raf:'جَمِيلٌ', nash:'جَمِيلًا' }
+};
+const nawasikhBank = {
+  inna:{ ar:'إِنَّ', fam:'inna' }, anna:{ ar:'أَنَّ', fam:'inna' }, lakinna:{ ar:'لَكِنَّ', fam:'inna' },
+  kana:{ ar:'كَانَ', fam:'kana' }, laisa:{ ar:'لَيْسَ', fam:'kana' }, ashbaha:{ ar:'أَصْبَحَ', fam:'kana' }
+};
+
+function fillSelect(sel, bank){ sel.innerHTML = Object.keys(bank).map(k=>`<option value="${k}">${bank[k].id}</option>`).join(''); }
+fillSelect(document.getElementById('subjekSelect'), nounBank);
+fillSelect(document.getElementById('fiilSelect'), fiilBank);
+fillSelect(document.getElementById('khabarSelect'), khabarIsimBank);
+fillSelect(document.getElementById('mafulSelect'), nounBank);
+fillSelect(document.getElementById('jarrNounSelect'), nounBank);
+document.getElementById('mafulSelect').value = 'khubz';
+document.getElementById('jarrNounSelect').value = 'masjid';
+
+/* ================= LAB I'RAB ================= */
+function onPolaChange(){
+  const isFiliyah = document.getElementById('polaSelect').value === 'filiyah';
+  document.getElementById('fiilField').style.display = isFiliyah ? 'block' : 'none';
+  document.getElementById('subjekLabel').textContent = isFiliyah ? "Fa'il" : 'Mubtada';
+  document.getElementById('khabarRow').style.display = isFiliyah ? 'none' : 'grid';
+  document.getElementById('mafulField').style.display = isFiliyah ? 'block' : 'none';
+  const nawSel = document.getElementById('nawasikhSelect');
+  nawSel.disabled = isFiliyah;
+  if(isFiliyah) nawSel.value = 'none';
+  runLab();
+}
+function onKhabarTypeChange(){
+  const type = document.getElementById('khabarTypeSelect').value;
+  const label = document.getElementById('khabarLabel');
+  const sel = document.getElementById('khabarSelect');
+  if(type === 'isim'){ label.textContent = 'Pilih Khabar'; fillSelect(sel, khabarIsimBank); }
+  else { label.textContent = "Pilih Fi'il (mini VSO)"; fillSelect(sel, fiilBank); }
+  runLab();
+}
+function onJarrToggle(){
+  document.getElementById('jarrFields').style.display = document.getElementById('jarrCheck').checked ? 'grid' : 'none';
+  runLab();
+}
+document.getElementById('mafulCheck').addEventListener('change', function(){
+  document.getElementById('mafulSelect').style.display = this.checked ? 'block' : 'none';
+  runLab();
+});
+
+function runLab(){
+  const pola = document.getElementById('polaSelect').value;
+  const trace = [];
+  let parts = [];
+
+  if(pola === 'filiyah'){
+    const fiil = fiilBank[document.getElementById('fiilSelect').value];
+    const fail = nounBank[document.getElementById('subjekSelect').value];
+    parts.push({t:fiil.ar, cls:''});
+    parts.push({t:fail.raf, cls:'role-S'});
+    trace.push(`<b>${fiil.id}</b> adalah Fi'il Madhi — bentuknya tetap (mabni), tidak berubah oleh kasus.`);
+    trace.push(`<b>${fail.id}</b> berperan sebagai Fa'il (jawaban dari "siapa yang melakukannya?") → <b>Rafa', damah</b>.`);
+    if(document.getElementById('mafulCheck').checked){
+      const maful = nounBank[document.getElementById('mafulSelect').value];
+      parts.push({t:maful.nash, cls:'role-O'});
+      trace.push(`<b>${maful.id}</b> ditambahkan sebagai Maf'ul Bih (Fadlah) → <b>Nashab, fathah</b>.`);
+    }
+  } else {
+    const nawKey = document.getElementById('nawasikhSelect').value;
+    const naw = nawKey !== 'none' ? nawasikhBank[nawKey] : null;
+    const subjek = nounBank[document.getElementById('subjekSelect').value];
+    const khabarType = document.getElementById('khabarTypeSelect').value;
+
+    if(naw){ parts.push({t:naw.ar, cls:''}); }
+
+    const subjekCase = (naw && naw.fam === 'inna') ? 'nash' : 'raf';
+    parts.push({t: subjek[subjekCase], cls: subjekCase==='raf' ? 'role-S' : 'role-O'});
+    if(naw){
+      trace.push(`Karena memakai <b>${naw.ar}</b> (keluarga ${naw.fam==='inna'?'Inna':'Kana'}), Mubtada asal (<b>${subjek.id}</b>) menjadi ${naw.fam==='inna' ? "Isim "+naw.ar+" → <b>Nashab, fathah</b>." : "tetap Isim "+naw.ar+" → <b>Rafa', damah</b>."}`);
+    } else {
+      trace.push(`<b>${subjek.id}</b> berperan sebagai Mubtada → <b>Rafa', damah</b>.`);
+    }
+
+    if(khabarType === 'isim'){
+      const khabar = khabarIsimBank[document.getElementById('khabarSelect').value];
+      const khabarCase = (naw && naw.fam === 'kana') ? 'nash' : 'raf';
+      parts.push({t: khabar[khabarCase], cls: khabarCase==='raf' ? 'role-S' : 'role-O'});
+      if(naw){
+        trace.push(`Khabar (<b>${khabar.id}</b>) ${naw.fam==='kana' ? "menjadi Khabar "+naw.ar+" → <b>Nashab, fathah</b>." : "tetap Rafa', damah, karena "+naw.ar+" tidak menyentuh Khabar."}`);
+      } else {
+        trace.push(`Khabar (<b>${khabar.id}</b>) → <b>Rafa', damah</b> — bentuk Isim Mufrad.`);
+      }
+    } else {
+      const fiil = fiilBank[document.getElementById('khabarSelect').value];
+      parts.push({t: fiil.ar, cls:''});
+      trace.push(`Khabar berupa Jumlah Fi'liyah mini (<b>${fiil.id}</b>) — fi'il ini mabni, tidak menerima tanda kasus apa pun, meski ${naw ? "ada "+naw.ar : "tanpa Nawasikh"}.`);
+    }
+  }
+
+  if(document.getElementById('jarrCheck').checked){
+    const harfMap = {fi:'فِي', ila:'إِلَى', min:'مِنَ'};
+    const harfKey = document.getElementById('harfSelect').value;
+    const jn = nounBank[document.getElementById('jarrNounSelect').value];
+    parts.push({t: harfMap[harfKey], cls:'role-J'});
+    parts.push({t: jn.jar, cls:'role-J'});
+    trace.push(`Harf Jarr <b>${harfMap[harfKey]}</b> mewajibkan <b>${jn.id}</b> berkasus Jarr, kasrah.`);
+  }
+
+  document.getElementById('labOutput').innerHTML = parts.map(p=>`<span class="part ${p.cls}" style="border-color:${
+    p.cls==='role-S'?'var(--indigo)': p.cls==='role-O'?'var(--gold)': p.cls==='role-J'?'var(--sage)':'transparent'
+  }; color:${p.cls==='role-S'?'var(--indigo)': p.cls==='role-O'?'var(--gold)': p.cls==='role-J'?'var(--sage)':'var(--ink)'}">${p.t}</span>`).join('');
+  document.getElementById('labTrace').innerHTML = trace.map(t=>`<li>${t}</li>`).join('');
+}
+onPolaChange();
+
+/* ================= DEKLINASI GENERATOR ================= */
+const jenisNames = ['Reguler Mudzakkar','Reguler Muannats','Ghairu Munsharif','Manqush','Maqshur','Asma Khamsah (mudhaf)'];
+const jumlahNames = ['Mufrad','Mutsanna','Jamak Salim','Jamak Taksir'];
+const deklinasiData = [
+  { /* regular m */
+    0:{raf:'زَيْدٌ',nash:'زَيْدًا',jar:'زَيْدٍ', word:'زيد'},
+    1:{raf:'زَيْدَاِن',nash:'زَيْدَيِن',jar:'زَيْدَيِن', word:'زيد'},
+    2:{raf:'زَيُدوَن',nash:'زَيِديَن',jar:'زَيِديَن', word:'زيد'},
+    3:null
+  },
+  { /* regular f */
+    0:{raf:'هِنْدٌ',nash:'هِنْدًا',jar:'هِنْدٍ', word:'هند'},
+    1:{raf:'هِنْدَاِن',nash:'هِنْدَيِن',jar:'هِنْدَيِن', word:'هند'},
+    2:{raf:'هِنَداُت',nash:'هِنَداِت',jar:'هِنَداِت', word:'هند'},
+    3:null
+  },
+  { /* ghairu munsharif */
+    0:{raf:'إِبْرَاهِيمُ',nash:'إِبْرَاهِيمَ',jar:'إِبْرَاهِيمَ', word:'إبراهيم'},
+    1:null, 2:null,
+    3:{raf:'مَسَاجِدُ',nash:'مَسَاجِدَ',jar:'مَسَاجِدَ', word:'مساجد'}
+  },
+  { /* manqush */
+    0:{raf:'قَاٍض',nash:'قَاِضًيا',jar:'قَاٍض', word:'قاض'},
+    1:null,2:null,3:null
+  },
+  { /* maqshur */
+    0:{raf:'ُمْصَطَفى',nash:'ُمْصَطَفى',jar:'ُمْصَطَفى', word:'مصطفى'},
+    1:null,2:null,3:null
+  },
+  { /* asma khamsah */
+    0:{raf:'أَُبو َزْيٍد',nash:'أَبَا َزْيٍد',jar:'أَِبي َزْيٍد', word:'أبو زيد'},
+    1:null,2:null,3:null
+  }
+];
+const deklinasiNotes = {
+  raf:{
+    0:"Rafa' isim mufrad reguler: damah.", 1:"Rafa' mutsanna: alif — tanda i'rab, bukan anomali.",
+    2:"Rafa' jamak salim: wau — tanda i'rab, bukan anomali.", 3:""
+  },
+  nas:{ 0:"Nashab reguler: fathah.", 1:"Nashab mutsanna: ya.", 2:"Nashab jamak salim mudzakkar: ya.", 3:"" },
+  jar:{ 0:"Jarr reguler: kasrah.", 1:"Jarr mutsanna: ya (sama seperti nashab).", 2:"Jarr jamak salim mudzakkar: ya (sama seperti nashab).", 3:"" }
+};
+function setKasus(k){
+  document.querySelectorAll('#kasusBtns button').forEach(b=>b.classList.remove('active','raf','nas','jar'));
+  const btn = document.querySelector(`#kasusBtns button[data-k="${k}"]`);
+  btn.classList.add('active', k);
+  window.currentKasus = k;
+  runDeklinasi();
+}
+window.currentKasus = 'raf';
+function runDeklinasi(){
+  const ji = +document.getElementById('jenisSlider').value;
+  const ju = +document.getElementById('jumlahSlider').value;
+  document.getElementById('jenisVal').textContent = jenisNames[ji];
+  document.getElementById('jumlahVal').textContent = jumlahNames[ju];
+  const cell = deklinasiData[ji][ju];
+  const wordEl = document.getElementById('declWord');
+  const noteEl = document.getElementById('declNote');
+  if(!cell){
+    wordEl.className = 'word disabled';
+    wordEl.textContent = `${jenisNames[ji]} tidak lazim dalam bentuk ${jumlahNames[ju]}.`;
+    noteEl.textContent = "Kombinasi ini tidak dipaksakan — dalam praktik kitab, kata seperti ini memang jarang atau tak pernah muncul dalam bentuk jumlah tersebut.";
+    return;
+  }
+  wordEl.className = 'word';
+  wordEl.textContent = cell[window.currentKasus];
+  let note = '';
+  if(ji===2){ note = window.currentKasus==='raf' ? "Ghairu Munsharif: Rafa' tetap damah, tapi tanpa tanwin." : "Ghairu Munsharif: Nashab dan Jarr sama-sama fathah, tanpa tanwin — 'berlagak' seperti fi'il."; }
+  else if(ji===3){ note = window.currentKasus==='nas' ? "Manqush: ya-nya muncul jelas dengan fathah saat Nashab." : "Manqush: ya tersembunyi; tandanya cukup 'diketahui di hati' (kasrah muqaddarah) pada Rafa' dan Jarr."; }
+  else if(ji===4){ note = "Maqshur: alif di akhir tidak pernah berubah di ketiga kasus — tandanya selalu tersembunyi."; }
+  else if(ji===5){ note = "Asma Khamsah hanya memakai wau–alif–ya sebagai tanda i'rab ketika ia mudhaf (bersandar ke kata lain, di sini 'Zaid')."; }
+  else { note = deklinasiNotes[window.currentKasus][ju] || ""; }
+  noteEl.textContent = note;
+}
+runDeklinasi();
+
+/* ================= KUIS ================= */
+const quizBank = [
+  {q:'ذَهَبَ ___ إِلَى الْمَدْرَسَةِ', hint:"Isi harakat akhir 'زيد' — perannya Fa'il.", word:'زيد', opts:['زَيْدُ','زَيْدَ','زَيْدِ'], correct:0, why:"Fa'il selalu Rafa' — damah."},
+  {q:'رَأَيْتُ ___', hint:"Isi harakat akhir 'الأستاذ' — perannya Maf'ul Bih.", word:'الأستاذ', opts:['الْأُسْتَاذُ','الْأُسْتَاذَ','الْأُسْتَاذِ'], correct:1, why:"Maf'ul Bih adalah Fadlah — Nashab, fathah."},
+  {q:'ذَهَبْتُ إِلَى ___', hint:"Isi harakat akhir 'المسجد' — setelah harf jarr 'ilaa'.", word:'المسجد', opts:['الْمَسْجِدُ','الْمَسْجِدَ','الْمَسْجِدِ'], correct:2, why:"Setelah Harf Jarr, wajib Jarr — kasrah."},
+  {q:'إِنَّ ___ مُجْتَهِدٌ', hint:"Isi harakat akhir 'الطالب' setelah Inna.", word:'الطالب', opts:['الطَّالِبُ','الطَّالِبَ','الطَّالِبِ'], correct:1, why:"Inna membalik Mubtada jadi Isim Inna — Nashab, fathah."},
+  {q:'كَانَ الطَّالِبُ ___', hint:"Isi harakat akhir 'مجتهد' sebagai Khabar Kana.", word:'مجتهد', opts:['مُجْتَهِدٌ','مُجْتَهِدًا','مُجْتَهِدٍ'], correct:1, why:"Kana membalik Khabar jadi Nashab, fathah."},
+  {q:'ذَهَبَ زَيْدٌ ___', hint:"Isi harakat akhir 'صباح' sebagai zharaf zaman.", word:'صباح', opts:['صَبَاحٌ','صَبَاحًا','صَبَاحٍ'], correct:1, why:"Zharaf zaman termasuk Fadlah — Nashab, fathah."},
+  {q:'جَاءَ الْأُسْتَاذُ ___', hint:"Isi harakat akhir 'زيد' sebagai Badal dari 'al-ustaadz'.", word:'زيد', opts:['زَيْدٌ','زَيْدًا','زَيْدٍ'], correct:0, why:"Badal mengikuti i'rab kata sebelumnya — di sini Rafa', karena al-ustaadz Rafa'."},
+  {q:'إِنَّ الْقَوْمَ قَامُوا إِلَّا ___', hint:"Isi harakat akhir 'زيد' sebagai Mustatsna.", word:'زيد', opts:['زَيْدٌ','زَيْدًا','زَيْدٍ'], correct:1, why:"Kata setelah Illaa (Mustatsna) masuk Fadlah — Nashab, fathah."},
+  {q:'قَرَأَ الطَّالِبُ ___', hint:"Isi harakat akhir 'الكتاب' sebagai Maf'ul Bih.", word:'الكتاب', opts:['الْكِتَابُ','الْكِتَابَ','الْكِتَابِ'], correct:1, why:"Maf'ul Bih — Fadlah, Nashab, fathah."},
+  {q:'فِي ___ كُتُبٌ كَثِيرَةٌ', hint:"Isi harakat akhir 'المسجد' setelah harf jarr 'fii'.", word:'المسجد', opts:['الْمَسْجِدُ','الْمَسْجِدَ','الْمَسْجِدِ'], correct:2, why:"Setelah Harf Jarr 'fii' — wajib Jarr, kasrah."}
+];
+let quizScore = 0, quizTotal = 0, quizIdx = -1, quizAnswered = false;
+function nextQuiz(){
+  quizIdx = Math.floor(Math.random()*quizBank.length);
+  const item = quizBank[quizIdx];
+  document.getElementById('quizQ').textContent = item.q;
+  document.getElementById('quizHint').textContent = item.hint;
+  document.getElementById('quizOpts').innerHTML = item.opts.map((o,i)=>`<button onclick="answerQuiz(${i})" id="qopt-${i}">${o}</button>`).join('');
+  document.getElementById('quizFeedback').textContent = '';
+  quizAnswered = false;
+}
+function answerQuiz(i){
+  if(quizAnswered) return;
+  quizAnswered = true;
+  const item = quizBank[quizIdx];
+  quizTotal++;
+  const correct = i === item.correct;
+  if(correct) quizScore++;
+  document.getElementById('quizScore').textContent = `${quizScore} / ${quizTotal}`;
+  document.getElementById(`qopt-${item.correct}`).classList.add('correct');
+  if(!correct) document.getElementById(`qopt-${i}`).classList.add('wrong');
+  document.getElementById('quizFeedback').textContent = (correct ? '✓ Benar. ' : '✗ Kurang tepat. ') + item.why;
+}
+nextQuiz();
+
+/* ================= NAWASIKH TOGGLE ================= */
+const nawData = {
+  base:{ parts:[{t:'الَطاِلُب', cls:'role-S'},{t:'ُمْجَتِهٌد', cls:'role-V'}], explain:"Kalimat biasa: Mubtada dan Khabar sama-sama damah." },
+  inna:{ parts:[{t:'ِإَن', cls:''},{t:'الَطاِلَب', cls:'role-O'},{t:'ُمْجَتِهٌد', cls:'role-V'}], explain:"Inna membalik Mubtada jadi fathah. Khabar tetap damah." },
+  kana:{ parts:[{t:'َكاَن', cls:''},{t:'الَطاِلُب', cls:'role-S'},{t:'ُمْجَتِهًدا', cls:'role-O'}], explain:"Kana membalik Khabar jadi fathah. Isim Kana tetap damah." },
+  laisa:{ parts:[{t:'َلْيَس', cls:''},{t:'الَطاِلُب', cls:'role-S'},{t:'ُمْجَتِهًدا', cls:'role-O'}], explain:"Laisa ('bukan') — pola identik Kana." }
+};
+function setNaw(key, btn){
+  document.querySelectorAll('#nawasikh .naw-toggle button').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  const d = nawData[key];
+  document.getElementById('nawSentence').innerHTML = d.parts.map(p=>`<span class="part" style="border-color:${p.cls==='role-S'?'var(--indigo)':p.cls==='role-O'?'var(--gold)':'transparent'}; color:${p.cls==='role-S'?'var(--indigo)':p.cls==='role-O'?'var(--gold)':'var(--ink)'}">${p.t}</span>`).join('');
+  document.getElementById('nawExplain').textContent = d.explain;
+}
+setNaw('base', null);
+
+/* ================= PRAKTIK AYAT ================= */
+const ayat = [
+  { name:'Al-Fatihah 1:1', ar:'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
+    words:[{ar:'بِ',role:'J',lbl:'Harf Jarr'},{ar:'اسْمِ',role:'J',lbl:'Majrur'},{ar:'اللَّهِ',role:'J',lbl:'Mudhaf Ilaih'},{ar:'الرَّحْمَٰنِ',role:'O',lbl:'Sifat'},{ar:'الرَّحِيمِ',role:'O',lbl:'Sifat'}],
+    note:"SV dihapus karena jelas dari konteks." },
+  { name:"Al-Ikhlas 1", ar:'قُلْ هُوَ اللَّهُ أَحَدٌ',
+    words:[{ar:'قُلْ',role:'V',lbl:"Fi'il Amr"},{ar:'هُوَ',role:'S',lbl:'Mubtada'},{ar:'اللَّهُ',role:'S',lbl:'Badal'},{ar:'أَحَدٌ',role:'V',lbl:'Khabar'}],
+    note:"Perintah, lalu Mubtada–Khabar dengan Badal." },
+  { name:"An-Nasr 1", ar:'إِذَا جَاءَ نَصْرُ اللَّهِ وَالْفَتْحُ',
+    words:[{ar:'إِذَا',role:'J',lbl:'Zharaf Syarat'},{ar:'جَاءَ',role:'V',lbl:"Fi'il"},{ar:'نَصْرُ',role:'S',lbl:"Fa'il"},{ar:'اللَّهِ',role:'J',lbl:'Mudhaf Ilaih'},{ar:'وَالْفَتْحُ',role:'S',lbl:"Ma'thuf"}],
+    note:"VSO dengan idhafah dan athaf." },
+  { name:"Al-'Asr 2", ar:'إِنَّ الْإِنسَانَ لَفِي خُسْرٍ إِلَّا الَّذِينَ آمَنُوا',
+    words:[{ar:'إِنَّ',role:'J',lbl:'Nawasikh'},{ar:'الْإِنسَانَ',role:'O',lbl:'Isim Inna'},{ar:'لَفِي خُسْرٍ',role:'V',lbl:'Khabar'},{ar:'إِلَّا الَّذِينَ آمَنُوا',role:'O',lbl:'Mustatsna'}],
+    note:"Nawasikh dan Mustatsna sekaligus." },
+  { name:'Ad-Dhuha 1', ar:'وَالضُّحَىٰ',
+    words:[{ar:'وَ',role:'J',lbl:'Harf Qasam'},{ar:'الضُّحَىٰ',role:'J',lbl:'Majrur'}],
+    note:"Wau harf sumpah sekaligus jarr." },
+  { name:'Az-Zalzalah 7', ar:'فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًا يَرَهُ',
+    words:[{ar:'مَن',role:'S',lbl:'Isim Syarat'},{ar:'يَعْمَلْ',role:'V',lbl:'Dijazm'},{ar:'مِثْقَالَ',role:'O',lbl:"Maf'ul"},{ar:'ذَرَّةٍ',role:'J',lbl:'Mudhaf Ilaih'},{ar:'خَيْرًا',role:'O',lbl:'Tamyiz'},{ar:'يَرَهُ',role:'V',lbl:'Jawab Syarat'}],
+    note:"Pola Syarat–Jawab dengan jazm." }
+];
+const roleColor = {S:'var(--indigo)', V:'var(--oxide)', O:'var(--gold)', J:'var(--sage)'};
+document.getElementById('ayatGrid').innerHTML = ayat.map((a,i)=>`
+  <div class="ayat-card">
+    <div class="ayat-head" id="ah-${i}" onclick="toggleAyat(${i})">
+      <div class="ar">${a.ar}</div><div class="name">${a.name}</div><div class="plus">+</div>
+    </div>
+    <div class="ayat-body" id="ab-${i}">
+      <div class="ayat-words">${a.words.map(w=>`<div class="ayat-word"><span class="ar">${w.ar}</span><span class="lbl" style="background:${roleColor[w.role]}">${w.lbl}</span></div>`).join('')}</div>
+      <p class="ayat-note">${a.note}</p>
+    </div>
+  </div>`).join('');
+function toggleAyat(i){ document.getElementById(`ab-${i}`).classList.toggle('show'); document.getElementById(`ah-${i}`).classList.toggle('open'); }
+
+/* ================= TYPOLOGY ================= */
+const typo = [
+  {label:'Jenis Kata Pokok', min:2, max:14, val:3, minLbl:'2', maxLbl:'13+'},
+  {label:'Sistem Kasus Isim', min:1, max:8, val:3.5, minLbl:'1', maxLbl:'6–8'},
+  {label:'Huruf per Akar Kata', min:2, max:7, val:3, minLbl:'2', maxLbl:'7+'},
+  {label:'Vokal Dasar', min:2, max:14, val:3, minLbl:'2', maxLbl:'14'},
+  {label:'Jumlah Huruf Alfabet', min:13, max:60, val:28, minLbl:'~13', maxLbl:'60+'}
+];
+function pct(v,min,max){ return ((v-min)/(max-min))*100; }
+document.getElementById('typoChart').innerHTML = typo.map(t=>{
+  const p = pct(t.val, t.min, t.max);
+  return `<div class="typo-row"><div class="typo-label"><span>${t.label}</span><b>${t.val}</b></div>
+    <div class="typo-track"><div class="typo-zone" style="left:30%; width:40%;"></div><div class="typo-mark" style="left:${p}%;"></div></div>
+    <div class="typo-ends"><span>${t.minLbl}</span><span>${t.maxLbl}</span></div></div>`;
+}).join('');
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

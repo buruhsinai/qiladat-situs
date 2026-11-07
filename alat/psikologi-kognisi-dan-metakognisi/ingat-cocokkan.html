@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ingat & Cocokkan!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdf6e8; --card:#ffffff; --line:#f0e2c4;
+    --ink:#3a3226; --dim:#8a7c62;
+    --accent:#c9784f; --accent-soft:#f7e9df;
+    --good:#5a8a5a; --good-soft:#dff2df; --good-line:#8fc98f;
+    --display:'Fredoka',sans-serif; --sans:'Quicksand',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;}
+  .wrap{max-width:520px;margin:0 auto;padding:0 18px 70px;}
+
+  .hero{padding:36px 10px 18px;text-align:center;}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(24px,6.5vw,32px);margin:0 0 8px;color:#8a4a2a;}
+  .hero p{color:var(--dim);font-size:14px;max-width:440px;margin:0 auto;}
+
+  .tab-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:18px;}
+  .tab-btn{font-family:var(--display);font-weight:600;font-size:13px;background:#fff;border:2px solid var(--line);
+    color:var(--dim);padding:12px 3px;border-radius:12px;cursor:pointer;text-align:center;line-height:1.3;}
+  .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  .card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:20px 18px;margin-bottom:16px;}
+  .card p.desc{font-size:13.5px;color:var(--dim);margin:0 0 16px;}
+
+  .result-panel{background:var(--accent-soft);border-radius:14px;padding:14px;text-align:center;margin-bottom:16px;}
+  .compare-row{display:flex;justify-content:space-around;}
+  .compare-box .n{font-family:var(--display);font-weight:700;font-size:20px;color:#8a4a2a;}
+  .compare-box .l{font-size:10.5px;color:var(--dim);font-family:var(--mono);}
+
+  .mem-grid{display:grid;gap:8px;margin-bottom:14px;}
+  .mem-card{aspect-ratio:1;perspective:600px;cursor:pointer;}
+  .mem-card-inner{position:relative;width:100%;height:100%;transition:transform .4s;transform-style:preserve-3d;}
+  .mem-card.flipped .mem-card-inner{transform:rotateY(180deg);}
+  .mem-card-face{position:absolute;inset:0;backface-visibility:hidden;border-radius:12px;display:flex;align-items:center;justify-content:center;}
+  .mem-card-back{background:repeating-linear-gradient(45deg,var(--accent-soft),var(--accent-soft) 6px,#f0ddc4 6px,#f0ddc4 12px);border:2px solid var(--line);}
+  .mem-card-front{background:#fff;border:2px solid var(--line);transform:rotateY(180deg);}
+  .mem-card.matched .mem-card-front{background:var(--good-soft);border-color:var(--good-line);}
+  .mem-card-face svg{width:66%;height:66%;}
+
+  .win-msg{text-align:center;font-family:var(--display);font-weight:700;font-size:16px;color:var(--good);min-height:24px;margin-bottom:6px;}
+
+  .skip-btn{width:100%;background:none;border:2px dashed var(--line);color:var(--dim);font-family:var(--sans);
+    font-weight:600;font-size:12.5px;padding:10px;border-radius:12px;cursor:pointer;margin-top:2px;}
+
+  .note-card{background:var(--accent-soft);border-radius:14px;padding:14px 16px;font-size:12.5px;color:#6b4a30;margin-top:14px;}
+  .note-card strong{color:#4a2e18;}
+
+  footer{text-align:center;padding-top:26px;color:#b9ad94;font-size:11.5px;font-family:var(--mono);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>🧠 Ingat & Cocokkan!</h1>
+    <p>Buka dua kartu, ingat bentuk dan warnanya, lalu temukan pasangannya. Ini bukan soal membaca — ini soal <strong>daya ingat</strong>!</p>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="mudah">🟢 Mudah</button>
+    <button class="tab-btn" data-tab="sedang">🟡 Sedang</button>
+    <button class="tab-btn" data-tab="sulit">🔴 Sulit</button>
+  </div>
+
+  <div class="tab-panel active" id="tab-mudah">
+    <div class="card">
+      <p class="desc">6 kartu, 3 pasang. Pemanasan yang pas untuk melatih ingatan.</p>
+      <div class="result-panel">
+        <div class="compare-row">
+          <div class="compare-box"><div class="n" id="mudahLangkahN">0</div><div class="l">👣 LANGKAH</div></div>
+          <div class="compare-box"><div class="n" id="mudahWaktuN">0:00</div><div class="l">⏱️ WAKTU</div></div>
+          <div class="compare-box"><div class="n" id="mudahPasanganN">0/3</div><div class="l">🧩 PASANGAN</div></div>
+        </div>
+      </div>
+      <div class="win-msg" id="mudahWinMsg"></div>
+      <div class="mem-grid" id="mudahGrid" style="grid-template-columns:repeat(3,1fr);"></div>
+      <button class="skip-btn" onclick="mulaiBaru('mudah')">🔀 Main Lagi</button>
+    </div>
+    <div class="note-card"><strong>Cara main:</strong> Ketuk satu kartu untuk membukanya, ingat bentuk & warnanya, lalu ketuk kartu lain. Kalau cocok, keduanya tetap terbuka. Kalau tidak, keduanya tertutup lagi — coba ingat-ingat untuk giliran berikutnya!</div>
+  </div>
+
+  <div class="tab-panel" id="tab-sedang">
+    <div class="card">
+      <p class="desc">12 kartu, 6 pasang. Makin banyak yang harus diingat sekaligus.</p>
+      <div class="result-panel">
+        <div class="compare-row">
+          <div class="compare-box"><div class="n" id="sedangLangkahN">0</div><div class="l">👣 LANGKAH</div></div>
+          <div class="compare-box"><div class="n" id="sedangWaktuN">0:00</div><div class="l">⏱️ WAKTU</div></div>
+          <div class="compare-box"><div class="n" id="sedangPasanganN">0/6</div><div class="l">🧩 PASANGAN</div></div>
+        </div>
+      </div>
+      <div class="win-msg" id="sedangWinMsg"></div>
+      <div class="mem-grid" id="sedangGrid" style="grid-template-columns:repeat(3,1fr);"></div>
+      <button class="skip-btn" onclick="mulaiBaru('sedang')">🔀 Main Lagi</button>
+    </div>
+    <div class="note-card"><strong>Tips:</strong> Coba buat "peta ingatan" di kepalamu — misalnya "bintang kuning ada di pojok kiri atas" — supaya lebih mudah menemukan pasangannya nanti.</div>
+  </div>
+
+  <div class="tab-panel" id="tab-sulit">
+    <div class="card">
+      <p class="desc">16 kartu, 8 pasang. Level penuh — butuh konsentrasi tinggi!</p>
+      <div class="result-panel">
+        <div class="compare-row">
+          <div class="compare-box"><div class="n" id="sulitLangkahN">0</div><div class="l">👣 LANGKAH</div></div>
+          <div class="compare-box"><div class="n" id="sulitWaktuN">0:00</div><div class="l">⏱️ WAKTU</div></div>
+          <div class="compare-box"><div class="n" id="sulitPasanganN">0/8</div><div class="l">🧩 PASANGAN</div></div>
+        </div>
+      </div>
+      <div class="win-msg" id="sulitWinMsg"></div>
+      <div class="mem-grid" id="sulitGrid" style="grid-template-columns:repeat(4,1fr);"></div>
+      <button class="skip-btn" onclick="mulaiBaru('sulit')">🔀 Main Lagi</button>
+    </div>
+    <div class="note-card"><strong>Jagoan!</strong> Semakin sedikit langkah untuk menyelesaikan semua pasangan, semakin tajam ingatanmu. Coba kalahkan rekor langkahmu sendiri!</div>
+  </div>
+
+  <footer>Laboratorium Dengar & Baca Anak — Bank Alat JAZMI/Qiladat</footer>
+</div>
+
+<script>
+  /* ============ TAB SWITCHING ============ */
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ============ BENTUK GEOMETRIS ABSTRAK (tanpa makhluk hidup) ============ */
+  function regularPolygonPoints(sides, cx, cy, r, rotationDeg){
+    let pts = [];
+    for(let i=0;i<sides;i++){
+      const angle = (rotationDeg + i*360/sides) * Math.PI/180;
+      pts.push((cx+r*Math.sin(angle)).toFixed(1) + ',' + (cy-r*Math.cos(angle)).toFixed(1));
+    }
+    return pts.join(' ');
+  }
+  function starPoints(cx,cy,rOuter,rInner,points,rotationDeg){
+    let pts = [];
+    for(let i=0;i<points*2;i++){
+      const r = i%2===0 ? rOuter : rInner;
+      const angle = (rotationDeg + i*360/(points*2)) * Math.PI/180;
+      pts.push((cx+r*Math.sin(angle)).toFixed(1)+','+(cy-r*Math.cos(angle)).toFixed(1));
+    }
+    return pts.join(' ');
+  }
+  function shapeSvg(shape, color){
+    switch(shape){
+      case 'circle': return `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="${color}"/></svg>`;
+      case 'square': return `<svg viewBox="0 0 100 100"><rect x="14" y="14" width="72" height="72" rx="10" fill="${color}"/></svg>`;
+      case 'triangle': return `<svg viewBox="0 0 100 100"><polygon points="${regularPolygonPoints(3,50,54,42,0)}" fill="${color}"/></svg>`;
+      case 'star': return `<svg viewBox="0 0 100 100"><polygon points="${starPoints(50,50,40,17,5,0)}" fill="${color}"/></svg>`;
+      case 'diamond': return `<svg viewBox="0 0 100 100"><polygon points="${regularPolygonPoints(4,50,50,42,0)}" fill="${color}"/></svg>`;
+      case 'hexagon': return `<svg viewBox="0 0 100 100"><polygon points="${regularPolygonPoints(6,50,50,40,0)}" fill="${color}"/></svg>`;
+      case 'pentagon': return `<svg viewBox="0 0 100 100"><polygon points="${regularPolygonPoints(5,50,50,40,0)}" fill="${color}"/></svg>`;
+      case 'cross': return `<svg viewBox="0 0 100 100"><rect x="34" y="10" width="32" height="80" rx="8" fill="${color}"/><rect x="10" y="34" width="80" height="32" rx="8" fill="${color}"/></svg>`;
+    }
+  }
+
+  const SYMBOLS = [
+    { id:'lingkaran', shape:'circle',   color:'#c9784f' },
+    { id:'kotak',      shape:'square',   color:'#5a8a7c' },
+    { id:'segitiga',   shape:'triangle', color:'#9b6b8f' },
+    { id:'bintang',    shape:'star',     color:'#dab476' },
+    { id:'belah',      shape:'diamond',  color:'#6b8f9b' },
+    { id:'segienam',   shape:'hexagon',  color:'#4a9e4a' },
+    { id:'segilima',   shape:'pentagon', color:'#d64545' },
+    { id:'silang',     shape:'cross',    color:'#8a5a3a' }
+  ];
+
+  const MEM_LEVELS = {
+    mudah:  { pairCount:3 },
+    sedang: { pairCount:6 },
+    sulit:  { pairCount:8 }
+  };
+
+  /* ============ HELPER ============ */
+  function shuffle(arr){
+    const a = arr.slice();
+    for(let i=a.length-1;i>0;i--){
+      const j = Math.floor(Math.random()*(i+1));
+      [a[i],a[j]] = [a[j],a[i]];
+    }
+    return a;
+  }
+  function spawnConfetti(originEl){
+    const rect = originEl.getBoundingClientRect();
+    const colors = ['#c9784f','#5a8a7c','#dab476','#9b6b8f','#6b8f9b'];
+    for(let i=0;i<16;i++){
+      const el = document.createElement('div');
+      el.style.position='fixed'; el.style.left=(rect.left+rect.width/2+(Math.random()*100-50))+'px';
+      el.style.top=(rect.top+rect.height/2)+'px'; el.style.width='8px'; el.style.height='8px';
+      el.style.borderRadius='50%'; el.style.pointerEvents='none'; el.style.zIndex='999';
+      el.style.background=colors[Math.floor(Math.random()*colors.length)];
+      const dur=(0.8+Math.random()*0.6);
+      el.style.transition='transform '+dur+'s ease-out, opacity '+dur+'s ease-out';
+      document.body.appendChild(el);
+      requestAnimationFrame(()=>{ el.style.transform='translateY('+(160+Math.random()*70)+'px) scale(0.4)'; el.style.opacity='0'; });
+      setTimeout(()=>el.remove(), 1500);
+    }
+  }
+  function fmtWaktu(sec){
+    const m = Math.floor(sec/60), s = sec%60;
+    return m + ':' + String(s).padStart(2,'0');
+  }
+
+  /* ============ STATE PER LEVEL ============ */
+  const STATE = {};
+  Object.keys(MEM_LEVELS).forEach(level => {
+    STATE[level] = { cards:[], firstIdx:null, secondIdx:null, locked:false, moves:0, matched:0, seconds:0, timerHandle:null };
+  });
+
+  function buildDeck(pairCount){
+    const chosen = SYMBOLS.slice(0, pairCount);
+    let deck = [];
+    chosen.forEach(sym => { deck.push({...sym}); deck.push({...sym}); });
+    return shuffle(deck);
+  }
+
+  function mulaiBaru(level){
+    const st = STATE[level];
+    if(st.timerHandle) clearInterval(st.timerHandle);
+    st.cards = buildDeck(MEM_LEVELS[level].pairCount);
+    st.firstIdx = null; st.secondIdx = null; st.locked = false;
+    st.moves = 0; st.matched = 0; st.seconds = 0;
+    document.getElementById(level+'WinMsg').textContent = '';
+    updateStat(level);
+    renderGrid(level);
+    st.timerHandle = setInterval(() => {
+      st.seconds++;
+      document.getElementById(level+'WaktuN').textContent = fmtWaktu(st.seconds);
+    }, 1000);
+  }
+
+  function renderGrid(level){
+    const st = STATE[level];
+    const grid = document.getElementById(level+'Grid');
+    grid.innerHTML = '';
+    st.cards.forEach((cardData, idx) => {
+      const card = document.createElement('div');
+      card.className = 'mem-card';
+      card.innerHTML = `
+        <div class="mem-card-inner">
+          <div class="mem-card-face mem-card-back"></div>
+          <div class="mem-card-face mem-card-front">${shapeSvg(cardData.shape, cardData.color)}</div>
+        </div>`;
+      card.addEventListener('click', () => bukaKartu(level, idx, card));
+      grid.appendChild(card);
+    });
+  }
+
+  function bukaKartu(level, idx, cardEl){
+    const st = STATE[level];
+    if(st.locked) return;
+    if(idx === st.firstIdx) return;
+    if(cardEl.classList.contains('matched')) return;
+    if(cardEl.classList.contains('flipped')) return;
+
+    cardEl.classList.add('flipped');
+
+    if(st.firstIdx === null){
+      st.firstIdx = idx;
+      return;
+    }
+
+    st.secondIdx = idx;
+    st.locked = true;
+    st.moves++;
+    updateStat(level);
+
+    const grid = document.getElementById(level+'Grid');
+    const firstEl = grid.children[st.firstIdx];
+    const secondEl = grid.children[st.secondIdx];
+    const a = st.cards[st.firstIdx], b = st.cards[st.secondIdx];
+
+    if(a.id === b.id){
+      firstEl.classList.add('matched');
+      secondEl.classList.add('matched');
+      st.matched++;
+      updateStat(level);
+      spawnConfetti(secondEl);
+      st.firstIdx = null; st.secondIdx = null; st.locked = false;
+
+      if(st.matched === MEM_LEVELS[level].pairCount){
+        clearInterval(st.timerHandle);
+        document.getElementById(level+'WinMsg').textContent = '🎉 Selesai! ' + st.moves + ' langkah dalam ' + fmtWaktu(st.seconds) + '!';
+      }
+    } else {
+      setTimeout(() => {
+        firstEl.classList.remove('flipped');
+        secondEl.classList.remove('flipped');
+        st.firstIdx = null; st.secondIdx = null; st.locked = false;
+      }, 800);
+    }
+  }
+
+  function updateStat(level){
+    const st = STATE[level];
+    document.getElementById(level+'LangkahN').textContent = st.moves;
+    document.getElementById(level+'PasanganN').textContent = st.matched + '/' + MEM_LEVELS[level].pairCount;
+  }
+
+  /* ============ INIT ============ */
+  Object.keys(MEM_LEVELS).forEach(level => mulaiBaru(level));
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

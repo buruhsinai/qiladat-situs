@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Converter — Belajar Mengubah Representasi Tanpa Mengubah Makna</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0D1117;--panel:#161B22;--deep:#010409;--text:#C9D1D9;--soft:#8B949E;--blue:#58A6FF;--red:#F85149;--green:#3FB950;--amber:#D29922;--line:#30363D;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:760px;margin:0 auto;padding:32px 20px 60px;}
+  h1{font-size:1.5rem;margin:0 0 6px;color:#fff;}
+  h2{font-size:1.05rem;margin:0 0 10px;color:#fff;}
+  h3{font-size:0.92rem;margin:14px 0 8px;color:#fff;}
+  p{color:var(--soft);font-size:0.9rem;margin:0 0 14px;}
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px 18px;margin-bottom:18px;}
+  .pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;}
+  .pill{padding:8px 14px;border-radius:6px;border:1px solid var(--line);background:var(--deep);color:var(--text);font-size:0.85rem;cursor:pointer;}
+  .pill.active{background:var(--blue);color:#0D1117;border-color:var(--blue);font-weight:700;}
+  .tab{display:none;} .tab.active{display:block;}
+
+  textarea, pre{width:100%;background:var(--deep);border:1px solid var(--line);border-radius:6px;color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.8rem;padding:10px 12px;resize:vertical;}
+  textarea{min-height:140px;}
+  pre{overflow-x:auto;white-space:pre-wrap;word-break:break-word;margin:0;}
+  label.fieldlbl{display:block;font-size:0.78rem;color:var(--soft);margin:12px 0 6px;text-transform:uppercase;letter-spacing:0.03em;}
+
+  button{padding:7px 13px;border-radius:6px;border:1px solid var(--line);background:var(--deep);color:var(--text);font-size:0.8rem;cursor:pointer;margin:0 6px 8px 0;}
+  button.act{background:var(--blue);color:#0D1117;border-color:var(--blue);font-weight:700;}
+
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.76rem;font-weight:700;font-family:'JetBrains Mono',monospace;}
+  .badge.ok{background:rgba(63,185,80,0.15);color:var(--green);border:1px solid var(--green);}
+  .badge.bad{background:rgba(248,81,73,0.15);color:var(--red);border:1px solid var(--red);}
+
+  .difftable{width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:10px;}
+  .difftable th{text-align:left;color:var(--soft);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--line);font-size:0.72rem;text-transform:uppercase;}
+  .difftable td{padding:6px 8px;border-bottom:1px solid var(--line);font-family:'JetBrains Mono',monospace;color:var(--text);}
+  .difftable .path{color:var(--amber);}
+  .difftable .before{color:var(--soft);}
+  .difftable .after{color:var(--red);}
+
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media(max-width:560px){ .grid2{grid-template-columns:1fr;} }
+
+  .qbox{background:var(--deep);border-left:3px solid var(--amber);border-radius:0 6px 6px 0;padding:12px 14px;font-size:0.85rem;color:var(--soft);margin-top:12px;}
+  .qbox b{color:var(--amber);}
+  .plain-list{margin:0;padding-left:1.1em;color:var(--soft);font-size:0.86rem;}
+  .plain-list li{margin-bottom:6px;}
+  .termgrid{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:0.82rem;}
+  .termgrid dt{color:var(--blue);font-family:'JetBrains Mono',monospace;font-weight:700;}
+  .termgrid dd{color:var(--soft);margin:0 0 6px;}
+
+  .mdpreview{background:#fff;color:#111;border-radius:6px;padding:16px 18px;font-family:'Inter',sans-serif;font-size:0.9rem;}
+  .mdpreview h1,.mdpreview h2,.mdpreview h3{margin-top:0;}
+  .mdpreview pre{background:#f2f2f2;color:#111;border:none;}
+  .mdpreview code{background:#f2f2f2;padding:1px 5px;border-radius:3px;}
+  .mdpreview blockquote{border-left:3px solid #ccc;margin:0;padding-left:12px;color:#555;}
+
+  .filebox{border:1px dashed var(--line);border-radius:6px;padding:16px;text-align:center;color:var(--soft);font-size:0.85rem;}
+  .kv{display:flex;justify-content:space-between;font-size:0.8rem;padding:5px 0;border-bottom:1px solid var(--line);}
+  .kv:last-child{border-bottom:none;}
+  .kv b{color:var(--text);font-family:'JetBrains Mono',monospace;font-weight:600;word-break:break-all;text-align:right;margin-left:12px;}
+  .foot{font-size:0.78rem;color:#565D66;margin-top:8px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Converter</h1>
+  <p>"Belajar mengubah representasi tanpa mengubah makna." Bukan soal menganalisis data — soal menerjemahkan struktur A menjadi struktur B, dan membuktikan tidak ada makna yang diam-diam hilang di tengah jalan.</p>
+
+  <div class="panel">
+    <h2>Istilah yang dipakai di sini</h2>
+    <dl class="termgrid">
+      <dt>parsing</dt><dd>membaca teks mentah dan memahaminya sebagai struktur (mis. teks CSV → baris &amp; kolom)</dd>
+      <dt>serialization</dt><dd>mengubah struktur data dalam memori menjadi teks (mis. objek JS → teks CSV)</dd>
+      <dt>deserialization</dt><dd>kebalikannya — teks kembali menjadi struktur data</dd>
+      <dt>mapping / schema</dt><dd>aturan bagaimana satu bentuk struktur dipetakan ke bentuk lain (mis. objek bersarang → nama kolom dengan titik)</dd>
+      <dt>escaping</dt><dd>menandai karakter yang punya arti khusus di format tujuan supaya dibaca sebagai teks biasa, bukan sintaks</dd>
+      <dt>encoding</dt><dd>aturan mengubah data jadi urutan byte tertentu (mis. teks → UTF-8 → Base64)</dd>
+      <dt>data integrity</dt><dd>jaminan bahwa data yang sudah diubah bentuk, saat dikembalikan lagi, masih sama persis maknanya</dd>
+    </dl>
+    <div class="qbox"><b>Prinsip proyek ini:</b> transformasi tidak boleh diam-diam menghilangkan makna. Karena itu, tiap konverter di bawah selalu mengubah balik hasilnya (round-trip) dan membandingkannya dengan data asli — bukan cuma menunjukkan hasil yang "terlihat benar".</div>
+  </div>
+
+  <div class="pill-row" id="modePills"></div>
+
+  <!-- ===================== JSON <-> CSV ===================== -->
+  <div class="tab" id="tab-jsoncsv">
+    <div class="panel">
+      <h2>JSON → CSV → JSON</h2>
+      <p>Tempel array JSON di bawah. Objek bersarang otomatis diratakan jadi <code class="mono">nama.subnama</code>; array tetap disimpan sebagai teks JSON di dalam satu sel.</p>
+      <button id="jsonSample">Muat contoh (dengan kasus jebakan)</button>
+      <label class="fieldlbl">Input JSON</label>
+      <textarea id="jsonInput"></textarea>
+
+      <label class="fieldlbl">Hasil serialisasi → CSV</label>
+      <pre id="csvOutput"></pre>
+
+      <label class="fieldlbl">Dibaca balik (deserialize) → JSON</label>
+      <pre id="roundtripJsonOutput"></pre>
+
+      <h3>Pemeriksaan integritas round-trip <span id="jsonBadge"></span></h3>
+      <div id="jsonDiffArea"></div>
+    </div>
+  </div>
+
+  <!-- ===================== MARKDOWN -> HTML ===================== -->
+  <div class="tab" id="tab-mdhtml">
+    <div class="panel">
+      <h2>Markdown → HTML</h2>
+      <p>Transformasi satu arah yang disengaja — HTML bisa menyatakan hal yang Markdown tidak bisa, jadi mengembalikannya ke Markdown lagi pasti kehilangan sesuatu. Yang dijaga di sini: karakter <code class="mono">&lt; &gt; &amp;</code> di dalam teks tidak boleh diam-diam berubah jadi tag HTML sungguhan.</p>
+      <button id="mdSample">Muat contoh (dengan karakter berbahaya)</button>
+      <label class="fieldlbl">Input Markdown</label>
+      <textarea id="mdInput"></textarea>
+
+      <div class="grid2">
+        <div>
+          <label class="fieldlbl">Tampilan (rendered)</label>
+          <div class="mdpreview" id="mdPreview"></div>
+        </div>
+        <div>
+          <label class="fieldlbl">Kode HTML mentah yang dihasilkan</label>
+          <pre id="mdRaw"></pre>
+        </div>
+      </div>
+      <div class="qbox" id="mdEscapeNote"></div>
+    </div>
+  </div>
+
+  <!-- ===================== BASE64 <-> TEKS ===================== -->
+  <div class="tab" id="tab-b64text">
+    <div class="panel">
+      <h2>Base64 ↔ Teks</h2>
+      <p>Base64 mengubah <i>byte</i>, bukan karakter. Cara yang naif (<code class="mono">btoa</code> langsung) diam-diam berasumsi setiap karakter = 1 byte — asumsi yang pecah begitu teksnya bahasa Arab atau huruf beraksen. Ini sangat relevan untuk teks kitab dan data ilmiah berbahasa Arab nantinya.</p>
+      <button id="b64SampleArabic">Contoh: teks Arab</button>
+      <button id="b64SampleAccent">Contoh: huruf beraksen (café)</button>
+      <button id="b64SampleAscii">Contoh: ASCII biasa</button>
+      <label class="fieldlbl">Input teks</label>
+      <textarea id="b64Input" style="min-height:80px;"></textarea>
+
+      <div class="grid2">
+        <div class="panel" style="background:var(--deep);">
+          <h3 style="margin-top:0;">✅ Cara benar (UTF-8-aware)</h3>
+          <label class="fieldlbl">Base64</label>
+          <pre id="b64GoodOut"></pre>
+          <label class="fieldlbl">Dibaca balik</label>
+          <pre id="b64GoodBack"></pre>
+          <span class="badge" id="b64GoodBadge"></span>
+        </div>
+        <div class="panel" style="background:var(--deep);">
+          <h3 style="margin-top:0;">⚠️ Cara naif (btoa langsung)</h3>
+          <label class="fieldlbl">Base64</label>
+          <pre id="b64BadOut"></pre>
+          <label class="fieldlbl">Dibaca balik</label>
+          <pre id="b64BadBack"></pre>
+          <span class="badge" id="b64BadBadge"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== BASE64 <-> FILE ===================== -->
+  <div class="tab" id="tab-b64file">
+    <div class="panel">
+      <h2>Base64 ↔ File</h2>
+      <p>Encode file jadi teks Base64, lalu decode lagi jadi file — dibuktikan identik bit demi bit lewat hash SHA-256, bukan sekadar "kelihatannya sama".</p>
+      <div class="filebox">
+        <input type="file" id="fileInput">
+        <p style="margin:10px 0 0;">Pilih file apa saja (gambar, PDF, dsb.) — tidak diunggah ke mana-mana, semua diproses di peramban.</p>
+      </div>
+      <div id="fileResults" style="margin-top:14px;"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ================= TAB SWITCHING ================= */
+const MODES = [
+  {k:'jsoncsv', label:'JSON ↔ CSV'},
+  {k:'mdhtml', label:'Markdown → HTML'},
+  {k:'b64text', label:'Base64 ↔ Teks'},
+  {k:'b64file', label:'Base64 ↔ File'},
+];
+let mode = 'jsoncsv';
+function renderModePills(){
+  const el = document.getElementById('modePills');
+  el.innerHTML = MODES.map(m=>`<button class="pill ${m.k===mode?'active':''}" data-k="${m.k}">${m.label}</button>`).join('');
+  el.querySelectorAll('.pill').forEach(b=>b.addEventListener('click',()=>{
+    mode = b.dataset.k;
+    renderModePills();
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.getElementById('tab-'+mode).classList.add('active');
+  }));
+}
+
+/* ================= JSON <-> CSV ================= */
+function flattenObj(obj, prefix, res){
+  for(const k in obj){
+    const val = obj[k];
+    const path = prefix ? prefix+'.'+k : k;
+    if(val !== null && typeof val === 'object' && !Array.isArray(val)){
+      flattenObj(val, path, res);
+    } else {
+      res[path] = val;
+    }
+  }
+  return res;
+}
+function csvEscape(value){
+  let s;
+  if(value === null || value === undefined) s = '';
+  else if(typeof value === 'object') s = JSON.stringify(value);
+  else s = String(value);
+  if(/[",\n]/.test(s)) s = '"' + s.replace(/"/g,'""') + '"';
+  return s;
+}
+function jsonArrayToCsv(arr){
+  const flatRows = arr.map(o=>flattenObj(o,'',{}));
+  const headers = [...new Set(flatRows.flatMap(r=>Object.keys(r)))];
+  const lines = [headers.map(csvEscape).join(',')];
+  flatRows.forEach(r=>lines.push(headers.map(h=>csvEscape(r[h])).join(',')));
+  return {csv: lines.join('\n'), headers};
+}
+function parseCsv(text){
+  const rows = []; let row=[], field='', inQuotes=false;
+  for(let i=0;i<text.length;i++){
+    const ch = text[i];
+    if(inQuotes){
+      if(ch === '"'){ if(text[i+1]==='"'){ field+='"'; i++; } else inQuotes=false; }
+      else field += ch;
+    } else {
+      if(ch === '"') inQuotes = true;
+      else if(ch === ',') { row.push(field); field=''; }
+      else if(ch === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+      else if(ch === '\r'){ /* skip */ }
+      else field += ch;
+    }
+  }
+  if(field.length>0 || row.length>0){ row.push(field); rows.push(row); }
+  return rows;
+}
+function inferType(s){
+  if(s === '') return null;
+  if(/^-?\d+$/.test(s)) return parseInt(s,10);
+  if(/^-?\d*\.\d+$/.test(s)) return parseFloat(s);
+  if(s === 'true') return true;
+  if(s === 'false') return false;
+  if(s[0]==='{' || s[0]==='['){ try{ return JSON.parse(s); }catch(e){ return s; } }
+  return s;
+}
+function unflatten(flat){
+  const result = {};
+  for(const key in flat){
+    const parts = key.split('.');
+    let cur = result;
+    for(let i=0;i<parts.length-1;i++){ cur[parts[i]] = cur[parts[i]] || {}; cur = cur[parts[i]]; }
+    cur[parts[parts.length-1]] = flat[key];
+  }
+  return result;
+}
+function csvToJsonArray(csvText){
+  const rows = parseCsv(csvText.trim());
+  if(rows.length===0) return [];
+  const headers = rows[0];
+  return rows.slice(1).filter(r=>r.length===headers.length).map(r=>{
+    const flat = {};
+    headers.forEach((h,i)=> flat[h] = inferType(r[i]));
+    return unflatten(flat);
+  });
+}
+function deepDiff(a,b,path){
+  const diffs = [];
+  const ta = a===null?'null':typeof a, tb = b===null?'null':typeof b;
+  if(ta !== tb){ diffs.push({path, a, b, reason:'tipe berubah: '+ta+' → '+tb}); return diffs; }
+  if(ta === 'object'){
+    const keys = new Set([...Object.keys(a||{}), ...Object.keys(b||{})]);
+    keys.forEach(k=> diffs.push(...deepDiff(a?a[k]:undefined, b?b[k]:undefined, path?path+'.'+k:k)));
+  } else if(a !== b){
+    diffs.push({path, a, b, reason:'nilai berubah'});
+  }
+  return diffs;
+}
+function runJsonCsv(){
+  const inputEl = document.getElementById('jsonInput');
+  const csvOut = document.getElementById('csvOutput');
+  const rtOut = document.getElementById('roundtripJsonOutput');
+  const badge = document.getElementById('jsonBadge');
+  const diffArea = document.getElementById('jsonDiffArea');
+  let arr;
+  try{ arr = JSON.parse(inputEl.value); if(!Array.isArray(arr)) throw new Error('Harus berupa array of objects, mis. [ {...}, {...} ]'); }
+  catch(e){
+    csvOut.textContent = '(menunggu JSON valid — '+e.message+')';
+    rtOut.textContent=''; badge.innerHTML=''; diffArea.innerHTML='';
+    return;
+  }
+  const {csv} = jsonArrayToCsv(arr);
+  csvOut.textContent = csv;
+  const roundtrip = csvToJsonArray(csv);
+  rtOut.textContent = JSON.stringify(roundtrip, null, 2);
+
+  let diffs = [];
+  const maxLen = Math.max(arr.length, roundtrip.length);
+  for(let i=0;i<maxLen;i++) diffs.push(...deepDiff(arr[i], roundtrip[i], '['+i+']'));
+
+  if(diffs.length===0){
+    badge.innerHTML = '<span class="badge ok">✓ round-trip sempurna</span>';
+    diffArea.innerHTML = '';
+  } else {
+    badge.innerHTML = '<span class="badge bad">✗ '+diffs.length+' makna berubah</span>';
+    let html = '<table class="difftable"><tr><th>Lokasi</th><th>Nilai asli</th><th>Setelah round-trip</th><th>Kenapa</th></tr>';
+    diffs.forEach(d=>{
+      html += `<tr><td class="path">${d.path}</td><td class="before">${JSON.stringify(d.a)}</td><td class="after">${JSON.stringify(d.b)}</td><td>${d.reason}</td></tr>`;
+    });
+    html += '</table>';
+    diffArea.innerHTML = html;
+  }
+}
+document.getElementById('jsonInput').addEventListener('input', runJsonCsv);
+document.getElementById('jsonSample').addEventListener('click', ()=>{
+  document.getElementById('jsonInput').value = JSON.stringify([
+    {"id":1,"kode":"007","nama":"Ahmad","aktif":true,"skor":null,"alamat":{"kota":"Jakarta","kodepos":"10110"},"tag":["a","b"]},
+    {"id":2,"kode":"042","nama":"بلال","aktif":false,"skor":88.5,"alamat":{"kota":"Bandung","kodepos":"40123"},"tag":["c"]}
+  ], null, 2);
+  runJsonCsv();
+});
+
+/* ================= MARKDOWN -> HTML ================= */
+function escapeHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function inlineMd(text){
+  text = escapeHtml(text);
+  text = text.replace(/`([^`]+)`/g, '<code>$1</code>');
+  text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+  text = text.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+  text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>');
+  return text;
+}
+function markdownToHtml(md){
+  const lines = md.split('\n');
+  let html=''; let inCode=false, codeBuf=[]; let listBuf=[], listType=null;
+  function flushList(){
+    if(listBuf.length){
+      const tag = listType==='ol'?'ol':'ul';
+      html += `<${tag}>\n`+listBuf.map(li=>`<li>${inlineMd(li)}</li>`).join('\n')+`\n</${tag}>\n`;
+      listBuf=[]; listType=null;
+    }
+  }
+  for(const raw of lines){
+    if(raw.trim().startsWith('```')){
+      if(!inCode){ inCode=true; codeBuf=[]; } else { inCode=false; html+=`<pre><code>${escapeHtml(codeBuf.join('\n'))}</code></pre>\n`; }
+      continue;
+    }
+    if(inCode){ codeBuf.push(raw); continue; }
+    const line = raw;
+    if(/^#{1,6}\s/.test(line)){ flushList(); const lvl=line.match(/^#+/)[0].length; html+=`<h${lvl}>${inlineMd(line.replace(/^#{1,6}\s/,''))}</h${lvl}>\n`; }
+    else if(/^-\s+/.test(line)){ if(listType && listType!=='ul') flushList(); listType='ul'; listBuf.push(line.replace(/^-\s+/,'')); }
+    else if(/^\d+\.\s+/.test(line)){ if(listType && listType!=='ol') flushList(); listType='ol'; listBuf.push(line.replace(/^\d+\.\s+/,'')); }
+    else if(/^>\s?/.test(line)){ flushList(); html+=`<blockquote>${inlineMd(line.replace(/^>\s?/,''))}</blockquote>\n`; }
+    else if(/^---+$/.test(line.trim())){ flushList(); html+='<hr>\n'; }
+    else if(line.trim()===''){ flushList(); }
+    else { flushList(); html+=`<p>${inlineMd(line)}</p>\n`; }
+  }
+  flushList();
+  return html;
+}
+function runMarkdown(){
+  const md = document.getElementById('mdInput').value;
+  const html = markdownToHtml(md);
+  document.getElementById('mdPreview').innerHTML = html;
+  document.getElementById('mdRaw').textContent = html;
+  const hasDangerous = /[<>&]/.test(md);
+  document.getElementById('mdEscapeNote').innerHTML = hasDangerous
+    ? '<b>Diperiksa:</b> input mengandung karakter <span class="mono">&lt; &gt; &amp;</span> — lihat kode HTML di kanan, semuanya sudah jadi entitas (<span class="mono">&amp;lt; &amp;gt; &amp;amp;</span>), bukan tag sungguhan. Coba hapus karakter itu untuk membandingkan.'
+    : '<b>Coba:</b> ketik karakter <span class="mono">&lt; &gt; &amp;</span> di input — lihat apakah itu tetap tampil sebagai teks biasa, atau malah "dimakan" jadi tag HTML.';
+}
+document.getElementById('mdInput').addEventListener('input', runMarkdown);
+document.getElementById('mdSample').addEventListener('click', ()=>{
+  document.getElementById('mdInput').value =
+`# Catatan Percobaan
+
+Bandingkan: 3 < 5 && 5 > 2 — ini **bukan** tag HTML, cuma teks biasa.
+
+Rumus sederhana: \`a && b\` berarti *dan* secara logika.
+
+- Poin pertama
+- Poin kedua dengan [tautan](https://contoh.test)
+
+> Kutipan: "AT&T" mengandung karakter & yang harus di-escape juga.
+
+---
+
+Kalau escaping-nya gagal, salah satu baris di atas bisa merusak seluruh halaman.`;
+  runMarkdown();
+});
+
+/* ================= BASE64 <-> TEKS ================= */
+function utf8ToBase64(str){
+  const bytes = new TextEncoder().encode(str);
+  let binary=''; bytes.forEach(b=>binary+=String.fromCharCode(b));
+  return btoa(binary);
+}
+function base64ToUtf8(b64){
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+  return new TextDecoder().decode(bytes);
+}
+function runBase64Text(){
+  const text = document.getElementById('b64Input').value;
+
+  // cara benar
+  try{
+    const good = utf8ToBase64(text);
+    const goodBack = base64ToUtf8(good);
+    document.getElementById('b64GoodOut').textContent = good;
+    document.getElementById('b64GoodBack').textContent = goodBack;
+    document.getElementById('b64GoodBadge').outerHTML = goodBack===text
+      ? '<span class="badge ok" id="b64GoodBadge">✓ identik dengan input</span>'
+      : '<span class="badge bad" id="b64GoodBadge">✗ berbeda dari input</span>';
+  }catch(e){
+    document.getElementById('b64GoodOut').textContent = 'Error: '+e.message;
+  }
+
+  // cara naif
+  try{
+    const bad = btoa(text);
+    let badBack;
+    try{ badBack = atob(bad); }catch(e2){ badBack = '(gagal didekode: '+e2.message+')'; }
+    document.getElementById('b64BadOut').textContent = bad;
+    document.getElementById('b64BadBack').textContent = badBack;
+    document.getElementById('b64BadBadge').outerHTML = badBack===text
+      ? '<span class="badge ok" id="b64BadBadge">✓ kebetulan identik</span>'
+      : '<span class="badge bad" id="b64BadBadge">✗ rusak diam-diam (mojibake)</span>';
+  }catch(e){
+    document.getElementById('b64BadOut').textContent = '💥 ERROR: '+e.message;
+    document.getElementById('b64BadBack').textContent = '(tidak bisa lanjut — gagal total, bukan rusak diam-diam)';
+    document.getElementById('b64BadBadge').outerHTML = '<span class="badge bad" id="b64BadBadge">✗ crash total</span>';
+  }
+}
+document.getElementById('b64Input').addEventListener('input', runBase64Text);
+document.getElementById('b64SampleArabic').addEventListener('click', ()=>{ document.getElementById('b64Input').value='بسم الله الرحمن الرحيم'; runBase64Text(); });
+document.getElementById('b64SampleAccent').addEventListener('click', ()=>{ document.getElementById('b64Input').value='café naïve résumé'; runBase64Text(); });
+document.getElementById('b64SampleAscii').addEventListener('click', ()=>{ document.getElementById('b64Input').value='Hello, world!'; runBase64Text(); });
+
+/* ================= BASE64 <-> FILE ================= */
+async function sha256Hex(buffer){
+  const hash = await crypto.subtle.digest('SHA-256', buffer);
+  return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function bytesToBase64(bytes){
+  let binary=''; bytes.forEach(b=>binary+=String.fromCharCode(b));
+  return btoa(binary);
+}
+function base64ToBytes(b64){
+  const binary = atob(b64);
+  const bytes = new Uint8Array(binary.length);
+  for(let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+  return bytes;
+}
+function downloadBytes(bytes, filename){
+  const blob = new Blob([bytes]);
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename||'hasil-decode.bin';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+document.getElementById('fileInput').addEventListener('change', async (e)=>{
+  const file = e.target.files[0];
+  const results = document.getElementById('fileResults');
+  if(!file){ results.innerHTML=''; return; }
+  results.innerHTML = '<p>Memproses…</p>';
+
+  const buffer = await file.arrayBuffer();
+  const originalBytes = new Uint8Array(buffer);
+  const originalHash = await sha256Hex(buffer);
+
+  const b64 = bytesToBase64(originalBytes);
+  const decodedBytes = base64ToBytes(b64);
+  const decodedHash = await sha256Hex(decodedBytes.buffer);
+
+  const match = originalHash === decodedHash;
+  const preview = b64.length>120 ? b64.slice(0,120)+'…' : b64;
+
+  results.innerHTML = `
+    <div class="kv"><span>Nama file</span><b>${file.name}</b></div>
+    <div class="kv"><span>Ukuran asli</span><b>${originalBytes.length.toLocaleString('id-ID')} byte</b></div>
+    <div class="kv"><span>Panjang Base64</span><b>${b64.length.toLocaleString('id-ID')} karakter</b></div>
+    <div class="kv"><span>Base64 (cuplikan)</span><b class="mono">${preview}</b></div>
+    <div class="kv"><span>SHA-256 asli</span><b>${originalHash}</b></div>
+    <div class="kv"><span>SHA-256 setelah decode</span><b>${decodedHash}</b></div>
+    <div style="margin-top:10px;">${match ? '<span class="badge ok">✓ identik bit demi bit</span>' : '<span class="badge bad">✗ berbeda — ada byte yang berubah</span>'}</div>
+    <div style="margin-top:10px;"><button class="act" id="downloadDecoded">⬇ Unduh hasil decode</button></div>
+  `;
+  document.getElementById('downloadDecoded').addEventListener('click', ()=>downloadBytes(decodedBytes, 'decoded-'+file.name));
+});
+
+/* ================= INIT ================= */
+renderModePills();
+document.getElementById('jsonSample').click();
+document.getElementById('mdSample').click();
+document.getElementById('b64SampleArabic').click();
+document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+document.getElementById('tab-jsoncsv').classList.add('active');
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

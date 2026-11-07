@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Beban Gempa Statik Ekivalen — SNI 1726:2019 | Tools Qiladat JAZMI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0E151B;
+  --panel:#141F27;
+  --panel-2:#182530;
+  --line:rgba(231,238,240,0.14);
+  --line-strong:rgba(231,238,240,0.28);
+  --paper:#E9EFF1;
+  --muted:#8FA3AC;
+  --amber:#E3A23B;
+  --amber-dim:rgba(227,162,59,0.16);
+  --danger:#D2564A;
+  --danger-dim:rgba(210,86,74,0.14);
+  --safe:#5CA893;
+  --safe-dim:rgba(92,168,147,0.14);
+  --radius:2px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--ink);
+  color:var(--paper);
+  font-family:'Karla',sans-serif;
+  font-size:16px;
+  line-height:1.55;
+  background-image:
+    linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:34px 34px;
+  background-attachment:fixed;
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;}
+}
+.wrap{max-width:920px;margin:0 auto;padding:28px 18px 80px;}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;margin:0 0 6px;}
+.eyebrow{
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  letter-spacing:0.12em;
+  text-transform:uppercase;
+  color:var(--amber);
+  display:flex;align-items:center;gap:8px;
+  margin-bottom:10px;
+}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--amber);display:inline-block;}
+header.hero{padding:6px 0 22px;border-bottom:1px solid var(--line);margin-bottom:22px;}
+header.hero h1{font-size:clamp(26px,5vw,38px);line-height:1.08;}
+header.hero p.sub{color:var(--muted);font-size:15px;max-width:60ch;margin:10px 0 0;}
+
+/* corner ticks like drafting sheet */
+.sheet{
+  position:relative;
+  background:var(--panel);
+  border:1px solid var(--line-strong);
+  border-radius:var(--radius);
+  padding:20px;
+  margin-bottom:18px;
+}
+.sheet::before,.sheet::after{
+  content:"";position:absolute;width:9px;height:9px;
+  border-top:1.5px solid var(--amber);border-left:1.5px solid var(--amber);
+  top:-1px;left:-1px;
+}
+.sheet::after{
+  top:auto;left:auto;bottom:-1px;right:-1px;
+  border-top:none;border-left:none;
+  border-bottom:1.5px solid var(--amber);border-right:1.5px solid var(--amber);
+}
+.sheet h2{font-size:19px;}
+.sheet .tag{
+  font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);
+  text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;display:block;
+}
+
+/* Disclaimer banner */
+.warn{
+  background:var(--danger-dim);
+  border:1px solid rgba(210,86,74,0.45);
+  border-left:4px solid var(--danger);
+  padding:14px 16px;border-radius:var(--radius);
+  margin-bottom:20px;
+}
+.warn .tag{color:var(--danger);font-family:'JetBrains Mono',monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;display:block;margin-bottom:6px;}
+.warn p{margin:6px 0 0;font-size:14.5px;color:var(--paper);}
+.warn p strong{color:#fff;}
+.warn ul{margin:8px 0 0;padding-left:18px;font-size:14px;color:var(--paper);}
+.warn ul li{margin-bottom:4px;}
+
+/* Hero building visual */
+.stage{
+  display:grid;grid-template-columns:1fr;gap:16px;
+}
+@media(min-width:720px){.stage{grid-template-columns:1.1fr 1fr;align-items:center;}}
+.building-box{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);padding:10px;}
+.building-box svg{width:100%;height:auto;display:block;}
+.bigstat{display:flex;flex-direction:column;gap:14px;}
+.stat{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;}
+.stat .label{font-family:'JetBrains Mono',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
+.stat .value{font-family:'Fraunces',serif;font-size:30px;font-weight:600;color:var(--amber);margin-top:2px;}
+.stat .unit{font-size:13px;color:var(--muted);font-weight:400;margin-left:4px;font-family:'Karla',sans-serif;}
+.stat .note{font-size:12.5px;color:var(--muted);margin-top:4px;}
+
+/* Forms */
+.grid{display:grid;grid-template-columns:1fr;gap:14px;}
+@media(min-width:640px){.grid.cols-2{grid-template-columns:1fr 1fr;}}
+@media(min-width:720px){.grid.cols-3{grid-template-columns:1fr 1fr 1fr;}}
+label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;letter-spacing:0.02em;}
+input[type=number], input[type=text], select{
+  width:100%;background:var(--ink);border:1px solid var(--line-strong);color:var(--paper);
+  padding:9px 10px;border-radius:var(--radius);font-family:'JetBrains Mono',monospace;font-size:14.5px;
+}
+input:focus, select:focus{outline:2px solid var(--amber);outline-offset:1px;border-color:var(--amber);}
+select{appearance:none;background-image:linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);background-position:calc(100% - 16px) center, calc(100% - 11px) center;background-size:5px 5px, 5px 5px;background-repeat:no-repeat;padding-right:30px;}
+.field-note{font-size:12px;color:var(--muted);margin-top:4px;}
+.checkline{display:flex;align-items:center;gap:8px;font-size:13.5px;color:var(--paper);margin-top:4px;}
+.checkline input{width:auto;}
+
+table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:13px;margin-top:6px;}
+th,td{padding:7px 8px;text-align:right;border-bottom:1px solid var(--line);}
+th:first-child,td:first-child{text-align:left;}
+th{color:var(--muted);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;}
+tr.highlight td{color:var(--amber);}
+.tblwrap{overflow-x:auto;}
+.rowbtns{display:flex;gap:8px;margin-top:10px;}
+button{
+  font-family:'Karla',sans-serif;font-weight:600;font-size:13.5px;
+  background:transparent;color:var(--paper);border:1px solid var(--line-strong);
+  padding:8px 14px;border-radius:var(--radius);cursor:pointer;
+}
+button:hover{border-color:var(--amber);color:var(--amber);}
+button.primary{background:var(--amber);color:#1a1206;border-color:var(--amber);}
+button.primary:hover{opacity:0.9;color:#1a1206;}
+button.ghost-danger{border-color:rgba(210,86,74,0.4);color:var(--danger);}
+
+.formula{
+  background:var(--ink);border:1px solid var(--line);border-radius:var(--radius);
+  padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:13.5px;color:var(--paper);
+  overflow-x:auto;margin:8px 0;
+}
+.formula .res{color:var(--amber);}
+.steps{counter-reset:step;}
+.step{counter-increment:step;padding-left:34px;position:relative;margin-bottom:16px;}
+.step::before{
+  content:counter(step);position:absolute;left:0;top:0;
+  width:22px;height:22px;border:1px solid var(--amber);color:var(--amber);
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  display:flex;align-items:center;justify-content:center;border-radius:50%;
+}
+.step h3{font-size:15px;font-family:'Karla',sans-serif;font-weight:700;margin-bottom:4px;}
+.step p{font-size:13.5px;color:var(--muted);margin:0 0 6px;}
+
+.badge{
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;padding:4px 10px;
+  border-radius:20px;border:1px solid var(--line-strong);
+}
+.badge.safe{border-color:rgba(92,168,147,0.5);color:var(--safe);background:var(--safe-dim);}
+.badge.warnb{border-color:rgba(210,86,74,0.5);color:var(--danger);background:var(--danger-dim);}
+.badge.info{border-color:rgba(227,162,59,0.5);color:var(--amber);background:var(--amber-dim);}
+
+.refs{font-size:13px;color:var(--muted);}
+.refs li{margin-bottom:6px;}
+
+.consult{
+  display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+  background:linear-gradient(135deg, var(--panel-2), var(--panel));
+  border:1px solid var(--amber);border-radius:var(--radius);padding:16px 18px;
+}
+.consult p{margin:0;font-size:14px;max-width:52ch;}
+.consult a.wa{
+  font-family:'Karla',sans-serif;font-weight:700;text-decoration:none;
+  background:var(--amber);color:#1a1206;padding:10px 18px;border-radius:var(--radius);
+  white-space:nowrap;font-size:14px;
+}
+.consult a.wa:hover{opacity:0.9;}
+
+.arrow-force{transition:all 0.35s ease;}
+.sway{transform-origin:50% 100%;animation:sway 4.5s ease-in-out infinite;}
+@keyframes sway{
+  0%,100%{transform:rotate(-0.6deg);}
+  50%{transform:rotate(0.6deg);}
+}
+footer.foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center;}
+.small{font-size:12px;color:var(--muted);}
+hr.rule{border:none;border-top:1px dashed var(--line-strong);margin:18px 0;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <div class="eyebrow">Tools Qiladat · JAZMI · Laboratorium Rekayasa Struktur</div>
+    <h1>Kalkulator Beban Gempa Statik Ekivalen</h1>
+    <p class="sub">Menghitung gaya geser dasar (base shear) dan distribusi gaya gempa lateral per lantai, mengikuti prosedur gaya lateral ekivalen SNI 1726:2019 — Tata Cara Perencanaan Ketahanan Gempa untuk Struktur Bangunan Gedung dan Non Gedung.</p>
+  </header>
+
+  <div class="warn">
+    <span class="tag">⚠ Baca dulu sebelum memakai</span>
+    <p><strong>Alat ini bersifat bantu-hitung dan edukatif — bukan pengganti perhitungan resmi oleh Insinyur Struktur bersertifikat, dan tidak boleh dijadikan dasar tunggal untuk pengajuan izin bangunan (PBG/IMB) atau konstruksi nyata.</strong></p>
+    <ul>
+      <li>Metode statik ekivalen SNI 1726:2019 hanya <em>diizinkan</em> untuk kategori bangunan tertentu (beraturan, ketinggian &amp; Kategori Desain Seismik terbatas — Pasal 7). Bangunan tidak beraturan atau bertingkat tinggi wajib memakai analisis ragam spektrum respons atau riwayat waktu.</li>
+      <li>Nilai Ss dan S1 <strong>tidak dihitung otomatis oleh alat ini</strong> — harus diambil dari peta gempa resmi (Aplikasi Desain Spektra Indonesia / RSA, Kementerian PUPR — <span style="color:var(--paper)">rsa.ciptakarya.pu.go.id</span>), bukan ditebak.</li>
+      <li>Tabel R/Cd/Ω₀ di alat ini hanya kutipan sebagian sistem yang paling umum — <strong>bukan Tabel 12 SNI 1726:2019 lengkap.</strong> Cek kesesuaian sistem struktur, batasan Kategori Desain Seismik, dan detailing yang disyaratkan pada SNI aslinya.</li>
+      <li>Kesalahan input (satuan, kelas situs, sistem struktur yang salah) menghasilkan angka yang tampak masuk akal tetapi salah secara fatal. Selalu silang-periksa dengan hitungan manual atau software (ETABS/SAP2000) sebelum dipakai untuk keputusan nyata.</li>
+    </ul>
+  </div>
+
+  <section class="sheet">
+    <span class="tag">Belajar — Pertanyaan Ilmiah</span>
+    <h2>Apa yang sebenarnya dihitung metode ini?</h2>
+    <p style="color:var(--paper);font-size:14.5px;">Gempa mengguncang tanah, dan bangunan yang berdiri di atasnya "dipaksa ikut bergerak" oleh gaya inersia — massa bangunan yang menolak percepatan mendadak. Metode statik ekivalen mengganti guncangan dinamis yang rumit itu dengan satu set <strong>gaya horizontal statis pengganti</strong> yang, jika dibebankan pada bangunan, menghasilkan efek yang setara (kira-kira) dengan efek gempa rencana. Tiga pertanyaan intinya:</p>
+    <ol style="font-size:14.5px;color:var(--paper);padding-left:20px;">
+      <li><strong>Seberapa besar total gaya itu?</strong> → gaya geser dasar, V = Cₛ·W</li>
+      <li><strong>Bagaimana gaya itu dibagi ke tiap lantai?</strong> → distribusi vertikal F<sub>x</sub>, sebanding dengan berat dan ketinggian lantai (lantai atas "terlempar" lebih keras)</li>
+      <li><strong>Berapa batas ketahanan yang harus dipenuhi struktur?</strong> → ditentukan oleh percepatan tanah lokal (Ss, S1), jenis tanah, tingkat kepentingan bangunan (Iₑ), dan seberapa daktail sistem strukturnya (R)</li>
+    </ol>
+    <p class="small">Model ini adalah penyederhanaan yang disengaja — ia mengasumsikan bangunan bergetar dominan pada satu ragam (mode) pertama saja, sehingga hanya sah dipakai jika bangunan cukup beraturan dan tidak terlalu tinggi/fleksibel (lihat bagian Batasan).</p>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">1 — Lokasi &amp; Kelas Situs</span>
+    <h2>Parameter Gempa &amp; Tanah</h2>
+    <div class="grid cols-3">
+      <div>
+        <label for="ss">Sₛ — percepatan spektral MCEʀ periode pendek (g)</label>
+        <input type="number" id="ss" step="0.01" min="0" value="0.90">
+        <p class="field-note">Dari peta gempa resmi (RSA PUPR), bukan tebakan.</p>
+      </div>
+      <div>
+        <label for="s1">S₁ — percepatan spektral MCEʀ periode 1 detik (g)</label>
+        <input type="number" id="s1" step="0.01" min="0" value="0.40">
+      </div>
+      <div>
+        <label for="siteClass">Kelas Situs</label>
+        <select id="siteClass">
+          <option value="SA">SA — Batuan keras</option>
+          <option value="SB">SB — Batuan</option>
+          <option value="SC">SC — Tanah keras / batuan lunak</option>
+          <option value="SD" selected>SD — Tanah sedang</option>
+          <option value="SE">SE — Tanah lunak</option>
+          <option value="SF">SF — Tanah khusus (perlu investigasi)</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid cols-3" style="margin-top:14px;">
+      <div>
+        <label for="riskCat">Kategori Risiko Bangunan</label>
+        <select id="riskCat">
+          <option value="I">I — risiko rendah (gudang, dsb.)</option>
+          <option value="II" selected>II — bangunan umum (rumah, kantor, ruko)</option>
+          <option value="III">III — risiko tinggi (sekolah, sarana umum padat)</option>
+          <option value="IV">IV — esensial (RS, pemadam, gedung darurat)</option>
+        </select>
+      </div>
+      <div>
+        <label for="tl">Tₗ — periode transisi panjang (detik)</label>
+        <input type="number" id="tl" step="1" min="1" value="20">
+        <p class="field-note">Umumnya 20 detik di seluruh wilayah Indonesia (SNI 1726:2019).</p>
+      </div>
+      <div>
+        <label>Kategori Desain Seismik (perkiraan)</label>
+        <div id="kdsBadge" style="margin-top:6px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">2 — Sistem Struktur &amp; Periode Getar</span>
+    <h2>Kekakuan &amp; Daktilitas Bangunan</h2>
+    <div class="grid cols-2">
+      <div>
+        <label for="system">Sistem Penahan Gaya Gempa</label>
+        <select id="system"></select>
+        <p class="field-note" id="systemNote"></p>
+      </div>
+      <div class="grid cols-3" style="gap:8px;">
+        <div><label for="Rval">R</label><input type="number" id="Rval" step="0.1"></div>
+        <div><label for="Cdval">Cd</label><input type="number" id="Cdval" step="0.1"></div>
+        <div><label for="Omval">Ω₀</label><input type="number" id="Omval" step="0.1"></div>
+      </div>
+    </div>
+    <hr class="rule">
+    <div class="grid cols-3">
+      <div>
+        <label for="frameType">Tipe rangka (untuk estimasi periode Ta)</label>
+        <select id="frameType">
+          <option value="beton">Rangka pemikul momen — beton</option>
+          <option value="baja">Rangka pemikul momen — baja</option>
+          <option value="ebf">Rangka baja bresing eksentris</option>
+          <option value="lain" selected>Sistem lainnya (dinding geser, bresing biasa, dst.)</option>
+        </select>
+      </div>
+      <div>
+        <label for="hn">hₙ — tinggi total bangunan (m)</label>
+        <input type="number" id="hn" step="0.1" min="0" value="20">
+      </div>
+      <div>
+        <label class="checkline" style="font-family:'Karla',sans-serif;color:var(--muted);margin-top:22px;">
+          <input type="checkbox" id="useTcomputed"> Saya punya T hasil analisis modal (software lain)
+        </label>
+        <input type="number" id="Tcomputed" step="0.01" min="0" placeholder="T (detik)" disabled style="margin-top:6px;">
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">3 — Berat &amp; Tinggi Tiap Lantai</span>
+    <h2>Data Massa Bangunan (W per lantai)</h2>
+    <p class="small">Isi berat seismik efektif tiap lantai (beban mati + persentase beban hidup sesuai SNI) dan elevasi lantai tersebut diukur dari dasar (bukan tinggi antar-lantai). Baris bisa ditambah/dikurangi.</p>
+    <div class="tblwrap">
+      <table id="floorTable">
+        <thead><tr><th>Lantai</th><th>hᵢ (m)</th><th>Wᵢ (kN)</th><th></th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="rowbtns">
+      <button id="addRow">+ Tambah lantai</button>
+      <button id="resetRows">Reset default</button>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">Hasil — Visualisasi Langsung</span>
+    <h2>Gaya Lateral per Lantai</h2>
+    <div class="stage">
+      <div class="building-box"><svg id="buildingSvg" viewBox="0 0 300 320" xmlns="http://www.w3.org/2000/svg"></svg></div>
+      <div class="bigstat">
+        <div class="stat">
+          <div class="label">Gaya geser dasar — V</div>
+          <div class="value" id="outV">–<span class="unit">kN</span></div>
+          <div class="note" id="outVnote"></div>
+        </div>
+        <div class="stat">
+          <div class="label">Koefisien respons seismik — Cₛ</div>
+          <div class="value" id="outCs">–</div>
+          <div class="note" id="outCsNote"></div>
+        </div>
+        <div class="stat">
+          <div class="label">Periode getar terpakai — T</div>
+          <div class="value" id="outT">–<span class="unit">detik</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tblwrap" style="margin-top:18px;">
+      <table id="resultTable">
+        <thead><tr><th>Lantai</th><th>hᵢ (m)</th><th>Wᵢ (kN)</th><th>Wᵢhᵢᵏ</th><th>Cᵥₓ</th><th>Fₓ (kN)</th><th>Vₓ kumulatif (kN)</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">Metode — Cara Kerja</span>
+    <h2>Langkah Perhitungan (dengan angka Anda)</h2>
+    <div class="steps" id="stepsContainer"></div>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">Batasan</span>
+    <h2>Kapan Alat Ini Tidak Boleh Dipercaya</h2>
+    <ul style="font-size:14px;color:var(--paper);padding-left:20px;">
+      <li><strong>Hanya berlaku untuk struktur beraturan.</strong> SNI 1726:2019 Pasal 7.3 melarang metode statik ekivalen untuk bangunan dengan ketidakberaturan horizontal/vertikal tertentu pada Kategori Desain Seismik D, E, F — bangunan seperti itu wajib analisis ragam spektrum respons.</li>
+      <li><strong>Batas ketinggian.</strong> Untuk KDS D, E, atau F, metode ini umumnya hanya diizinkan sampai ketinggian tertentu (≈ 48,8 m atau berdasarkan periode struktur) — di luar itu wajib analisis dinamik.</li>
+      <li><strong>Fa/Fv diinterpolasi linear dari tabel bertitik (Ss/S1 tertentu).</strong> Untuk Ss &gt; 1,25g atau S1 &gt; 0,5g pada tanah lunak/sedang, SNI mensyaratkan investigasi spesifik-lokasi (site-specific) — alat ini tidak melakukannya, hanya mengekstrapolasi nilai tabel terakhir.</li>
+      <li><strong>Tabel R/Cd/Ω₀ tidak lengkap.</strong> Hanya ~10 sistem paling umum dikutip. Sistem gabungan, sistem kantilever kolom, dinding penumpu bertulangan sederhana, dan puluhan varian lain di Tabel 12 SNI tidak tersedia di sini — jangan memaksakan sistem terdekat jika tidak benar-benar sama.</li>
+      <li><strong>Distribusi vertikal (Fₓ) mengasumsikan massa &amp; kekakuan relatif teratur antar lantai</strong> — bila ada lantai jauh lebih berat/lunak dari lantai sekitarnya (soft story / weak story), hasil ini bisa menyesatkan.</li>
+      <li><strong>Tidak menghitung efek torsi, P-delta, simpangan antar lantai (drift), maupun kombinasi arah gempa ortogonal</strong> — semua itu bagian wajib desain lengkap yang tidak dicakup alat ini.</li>
+      <li>Alat ini murni JavaScript sisi klien — <strong>tidak ada validasi oleh manusia di baliknya.</strong> Anggap setiap keluaran sebagai draf awal yang wajib direview.</li>
+    </ul>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">Referensi</span>
+    <ul class="refs">
+      <li>Badan Standardisasi Nasional. <em>SNI 1726:2019 — Tata Cara Perencanaan Ketahanan Gempa untuk Struktur Bangunan Gedung dan Non Gedung.</em> Jakarta: BSN, 2019.</li>
+      <li>Pusat Studi Gempa Nasional (PuSGeN), Kementerian PUPR. <em>Peta Sumber dan Bahaya Gempa Indonesia 2017.</em></li>
+      <li>Aplikasi Desain Spektra Indonesia (RSA), Direktorat Bina Teknik Permukiman dan Perumahan, Kementerian PUPR — sumber resmi nilai Sₛ dan S₁ per lokasi.</li>
+      <li>ASCE/SEI 7-16, <em>Minimum Design Loads and Associated Criteria for Buildings and Other Structures</em> — kerangka metode yang diadopsi &amp; disesuaikan SNI 1726:2019.</li>
+    </ul>
+  </section>
+
+  <div class="consult">
+    <p><strong>Ini alat bantu tahap awal, bukan hasil final.</strong> Untuk memvalidasi kelas situs, sistem struktur, dan kelayakan pemakaian metode statik ekivalen pada bangunan Anda, hubungi kami langsung.</p>
+    <a class="wa" id="waLink" href="#" target="_blank" rel="noopener">Konsultasi via WhatsApp →</a>
+  </div>
+
+  <footer class="foot">Tools Qiladat / JAZMI — laboratorium alat rekayasa &amp; keilmuan. Dibangun mengikuti metode Belajar → Model → Uji → Tool.</footer>
+</div>
+
+<script>
+/* ============ DATA TABEL SNI 1726:2019 ============ */
+
+// Tabel 6 — Koefisien situs Fa (breakpoints Ss: 0.25,0.5,0.75,1.0,1.25 -> nilai konstan di luar rentang)
+const FA_TABLE = {
+  SS_BP: [0.25,0.5,0.75,1.0,1.25],
+  SA:[0.8,0.8,0.8,0.8,0.8],
+  SB:[1.0,1.0,1.0,1.0,1.0],
+  SC:[1.2,1.2,1.1,1.0,1.0],
+  SD:[1.6,1.4,1.2,1.1,1.0],
+  SE:[2.5,1.7,1.2,0.9,0.9]
+};
+// Tabel 7 — Koefisien situs Fv (breakpoints S1: 0.1,0.2,0.3,0.4,0.5)
+const FV_TABLE = {
+  S1_BP:[0.1,0.2,0.3,0.4,0.5],
+  SA:[0.8,0.8,0.8,0.8,0.8],
+  SB:[1.0,1.0,1.0,1.0,1.0],
+  SC:[1.7,1.6,1.5,1.4,1.3],
+  SD:[2.4,2.0,1.8,1.6,1.5],
+  SE:[3.5,3.2,2.8,2.4,2.4]
+};
+
+const IE_TABLE = {I:1.0, II:1.0, III:1.25, IV:1.5};
+
+// Cu breakpoints berdasarkan SD1
+const CU_BP = [0.10,0.15,0.20,0.30,0.40];
+const CU_VAL = [1.7,1.6,1.5,1.4,1.4];
+
+// Ct, x per tipe rangka (SNI 1726:2019 / ASCE 7-16 Tabel 12.8-2 padanan)
+const CT_X = {
+  beton:{ct:0.0466, x:0.9, label:"Rangka pemikul momen beton bertulang"},
+  baja:{ct:0.0724, x:0.8, label:"Rangka pemikul momen baja"},
+  ebf:{ct:0.0731, x:0.75, label:"Rangka baja bresing eksentris"},
+  lain:{ct:0.0488, x:0.75, label:"Semua sistem struktur lainnya"}
+};
+
+// Kurasi sebagian Tabel 12 SNI 1726:2019 — BUKAN daftar lengkap
+const SYSTEMS = [
+  {id:"srpmk_beton", label:"Rangka beton — SRPMK (khusus)", R:8, Cd:5.5, Om:3},
+  {id:"srpmm_beton", label:"Rangka beton — SRPMM (menengah)", R:5, Cd:4.5, Om:3},
+  {id:"srpmb_beton", label:"Rangka beton — SRPMB (biasa)", R:3, Cd:2.5, Om:3},
+  {id:"srpmk_baja", label:"Rangka baja — SRPMK (khusus)", R:8, Cd:5.5, Om:3},
+  {id:"srpmm_baja", label:"Rangka baja — SRPMM (menengah)", R:4.5, Cd:4, Om:3},
+  {id:"srpmb_baja", label:"Rangka baja — SRPMB (biasa)", R:3.5, Cd:3, Om:3},
+  {id:"scbf", label:"Rangka baja bresing konsentris khusus (SCBF)", R:6, Cd:5, Om:2},
+  {id:"ebf", label:"Rangka baja bresing eksentris (EBF)", R:8, Cd:4, Om:2},
+  {id:"dw_khusus_rangka", label:"Sistem rangka gedung — dinding geser beton khusus", R:6, Cd:5, Om:2.5},
+  {id:"dw_khusus_penumpu", label:"Sistem dinding penumpu — dinding geser beton khusus", R:5, Cd:5, Om:2.5},
+  {id:"dual_srpmk_dw", label:"Sistem ganda — SRPMK + dinding geser beton khusus", R:7, Cd:5.5, Om:2.5},
+  {id:"dual_baja_scbf", label:"Sistem ganda — SRPMK baja + SCBF", R:8, Cd:6.5, Om:2.5},
+  {id:"custom", label:"— Isi manual (sistem tidak ada di daftar) —", R:3, Cd:3, Om:3}
+];
+
+const RISK_LABEL = {I:"I",II:"II",III:"III",IV:"IV"};
+
+/* ============ HELPERS ============ */
+function interp(x, bp, vals){
+  if(x<=bp[0]) return vals[0];
+  if(x>=bp[bp.length-1]) return vals[vals.length-1];
+  for(let i=0;i<bp.length-1;i++){
+    if(x>=bp[i] && x<=bp[i+1]){
+      const t=(x-bp[i])/(bp[i+1]-bp[i]);
+      return vals[i] + t*(vals[i+1]-vals[i]);
+    }
+  }
+  return vals[vals.length-1];
+}
+function fmt(n, d=3){
+  if(!isFinite(n)) return "–";
+  return Number(n).toLocaleString('id-ID',{minimumFractionDigits:d,maximumFractionDigits:d});
+}
+function fmt2(n){return fmt(n,2);}
+
+/* ============ POPULATE SELECTS ============ */
+const systemSel = document.getElementById('system');
+SYSTEMS.forEach(s=>{
+  const o=document.createElement('option');
+  o.value=s.id; o.textContent=s.label;
+  systemSel.appendChild(o);
+});
+systemSel.value="srpmk_beton";
+
+function applySystemPreset(){
+  const s = SYSTEMS.find(x=>x.id===systemSel.value);
+  const custom = s.id==="custom";
+  document.getElementById('Rval').value=s.R;
+  document.getElementById('Cdval').value=s.Cd;
+  document.getElementById('Omval').value=s.Om;
+  document.getElementById('Rval').disabled=!custom;
+  document.getElementById('Cdval').disabled=!custom;
+  document.getElementById('Omval').disabled=!custom;
+  document.getElementById('systemNote').textContent = custom
+    ? "Isi R, Cd, Ω₀ sesuai Tabel 12 SNI 1726:2019 untuk sistem Anda."
+    : "Nilai R/Cd/Ω₀ terisi otomatis — kutipan sebagian Tabel 12, verifikasi ke SNI asli.";
+  compute();
+}
+systemSel.addEventListener('change', applySystemPreset);
+
+document.getElementById('useTcomputed').addEventListener('change', function(){
+  document.getElementById('Tcomputed').disabled = !this.checked;
+  compute();
+});
+
+/* ============ FLOOR TABLE ============ */
+const floorBody = document.querySelector('#floorTable tbody');
+function defaultFloors(){
+  return [
+    {h:3.5, w:1200},
+    {h:7.0, w:1150},
+    {h:10.5, w:1150},
+    {h:14.0, w:1150},
+    {h:17.5, w:1100},
+    {h:20.0, w:900}
+  ];
+}
+function renderFloors(rows){
+  floorBody.innerHTML="";
+  rows.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    tr.innerHTML=`
+      <td style="text-align:left;">Lt. ${i+1}</td>
+      <td><input type="number" step="0.1" class="fh" value="${r.h}" style="width:80px;text-align:right;"></td>
+      <td><input type="number" step="1" class="fw" value="${r.w}" style="width:90px;text-align:right;"></td>
+      <td><button class="ghost-danger delRow" style="padding:4px 8px;">✕</button></td>
+    `;
+    floorBody.appendChild(tr);
+  });
+  attachFloorEvents();
+}
+function attachFloorEvents(){
+  floorBody.querySelectorAll('.fh,.fw').forEach(inp=>inp.addEventListener('input', compute));
+  floorBody.querySelectorAll('.delRow').forEach(btn=>btn.addEventListener('click', function(){
+    btn.closest('tr').remove();
+    relabelFloors();
+    compute();
+  }));
+}
+function relabelFloors(){
+  floorBody.querySelectorAll('tr').forEach((tr,i)=>{ tr.children[0].textContent = "Lt. "+(i+1); });
+}
+document.getElementById('addRow').addEventListener('click', function(){
+  const rows=getFloorRows();
+  const last = rows[rows.length-1] || {h:0,w:1000};
+  rows.push({h: Number(last.h)+3.5, w: last.w});
+  renderFloors(rows);
+  compute();
+});
+document.getElementById('resetRows').addEventListener('click', function(){
+  renderFloors(defaultFloors());
+  compute();
+});
+function getFloorRows(){
+  const rows=[];
+  floorBody.querySelectorAll('tr').forEach(tr=>{
+    rows.push({
+      h: parseFloat(tr.querySelector('.fh').value)||0,
+      w: parseFloat(tr.querySelector('.fw').value)||0
+    });
+  });
+  return rows;
+}
+renderFloors(defaultFloors());
+
+/* ============ KDS ESTIMATE (perkiraan, bukan penentuan resmi) ============ */
+function estimateKDS(SDS, SD1, riskCat){
+  const isIV = riskCat==="IV";
+  function letterSDS(v){
+    if(isIV){
+      if(v<0.167) return 0; // A
+      if(v<0.33) return 2;  // C
+      return 3; // D
+    } else {
+      if(v<0.167) return 0;
+      if(v<0.33) return 1; // B
+      if(v<0.50) return 2; // C
+      return 3; // D
+    }
+  }
+  function letterSD1(v){
+    if(isIV){
+      if(v<0.067) return 0;
+      if(v<0.133) return 2;
+      return 3;
+    } else {
+      if(v<0.067) return 0;
+      if(v<0.133) return 1;
+      if(v<0.20) return 2;
+      return 3;
+    }
+  }
+  const letters=["A","B","C","D"];
+  let idx = Math.max(letterSDS(SDS), letterSD1(SD1));
+  let kds = letters[idx];
+  let forcedHigh = false;
+  return {kds, forcedHigh};
+}
+
+/* ============ BUILDING SVG ============ */
+function drawBuilding(floors, Fx){
+  const svg = document.getElementById('buildingSvg');
+  const W=300, H=320;
+  const groundY = 290;
+  const buildingW = 90;
+  const buildingX = 60;
+  const n = floors.length;
+  const maxH = Math.max(...floors.map(f=>f.h), 1);
+  const topY = 30;
+  const scaleY = (groundY-topY)/maxH;
+  const maxF = Math.max(...Fx.map(f=>Math.abs(f)), 0.0001);
+
+  let svgContent = `
+    <defs>
+      <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+        <path d="M0,0 L7,3 L0,6 Z" fill="var(--amber)"></path>
+      </marker>
+    </defs>
+    <line x1="20" y1="${groundY}" x2="${W-10}" y2="${groundY}" stroke="var(--line-strong)" stroke-width="1.5"></line>
+  `;
+  // hatching for ground
+  for(let x=20;x<W-10;x+=8){
+    svgContent += `<line x1="${x}" y1="${groundY}" x2="${x-6}" y2="${groundY+8}" stroke="var(--line-strong)" stroke-width="1"></line>`;
+  }
+
+  let prevY = groundY;
+  svgContent += `<g class="sway">`;
+  for(let i=0;i<n;i++){
+    const y = groundY - floors[i].h*scaleY;
+    // floor slab
+    svgContent += `<rect x="${buildingX}" y="${y}" width="${buildingW}" height="${prevY-y}" fill="none" stroke="var(--line-strong)" stroke-width="1"></rect>`;
+    prevY = y;
+  }
+  svgContent += `</g>`;
+
+  // force arrows
+  prevY = groundY;
+  for(let i=0;i<n;i++){
+    const y = groundY - floors[i].h*scaleY;
+    const midY = (prevY+y)/2;
+    const len = 14 + (Math.abs(Fx[i])/maxF)*46;
+    const x0 = buildingX+buildingW+4;
+    svgContent += `<line class="arrow-force" x1="${x0}" y1="${midY}" x2="${x0+len}" y2="${midY}" stroke="var(--amber)" stroke-width="3" marker-end="url(#arrowhead)"></line>`;
+    prevY = y;
+  }
+
+  svg.innerHTML = svgContent;
+}
+
+/* ============ MAIN COMPUTE ============ */
+function compute(){
+  const Ss = parseFloat(document.getElementById('ss').value)||0;
+  const S1 = parseFloat(document.getElementById('s1').value)||0;
+  const siteClass = document.getElementById('siteClass').value;
+  const riskCat = document.getElementById('riskCat').value;
+  const TL = parseFloat(document.getElementById('tl').value)||20;
+  const hn = parseFloat(document.getElementById('hn').value)||0;
+  const frameType = document.getElementById('frameType').value;
+  const useTc = document.getElementById('useTcomputed').checked;
+  const Tc = parseFloat(document.getElementById('Tcomputed').value)||0;
+
+  const R = parseFloat(document.getElementById('Rval').value)||1;
+  const Cd = parseFloat(document.getElementById('Cdval').value)||1;
+  const Om = parseFloat(document.getElementById('Omval').value)||1;
+
+  const Ie = IE_TABLE[riskCat];
+
+  let sfMode = (siteClass==="SF");
+  let Fa, Fv;
+  if(sfMode){ Fa=NaN; Fv=NaN; }
+  else{
+    Fa = interp(Ss, FA_TABLE.SS_BP, FA_TABLE[siteClass]);
+    Fv = interp(S1, FV_TABLE.S1_BP, FV_TABLE[siteClass]);
+  }
+
+  const SMS = Fa*Ss, SM1 = Fv*S1;
+  const SDS = (2/3)*SMS, SD1 = (2/3)*SM1;
+  const T0 = SDS>0 ? 0.2*SD1/SDS : 0;
+  const TS = SDS>0 ? SD1/SDS : 0;
+
+  const ctx = CT_X[frameType];
+  const Ta = ctx.ct * Math.pow(hn, ctx.x);
+  const Cu = interp(SD1, CU_BP, CU_VAL);
+  const Tmax = Cu*Ta;
+  let T = Ta;
+  if(useTc && Tc>0){ T = Math.min(Tc, Tmax); }
+
+  // Cs
+  const RIe = R/Ie;
+  let CsCalc = RIe>0 ? SDS/RIe : 0;
+  let CsMax;
+  if(T<=TL){ CsMax = T>0 ? SD1/(T*RIe) : Infinity; }
+  else { CsMax = T>0 ? (SD1*TL)/(T*T*RIe) : Infinity; }
+  let Cs = Math.min(CsCalc, CsMax);
+  let CsMin = Math.max(0.044*SDS*Ie, 0.01);
+  if(S1>=0.6){ CsMin = Math.max(CsMin, 0.5*S1/RIe); }
+  let CsFinal = Math.max(Cs, CsMin);
+  if(sfMode) CsFinal = NaN;
+
+  // floors
+  const floors = getFloorRows().filter(f=>f.h>0);
+  const Wtot = floors.reduce((a,f)=>a+f.w,0);
+  const V = CsFinal*Wtot;
+
+  let k;
+  if(T<=0.5) k=1;
+  else if(T>=2.5) k=2;
+  else k = 1 + (T-0.5)/2;
+
+  const whk = floors.map(f=>f.w*Math.pow(f.h,k));
+  const sumWhk = whk.reduce((a,b)=>a+b,0);
+  const Cvx = whk.map(v=> sumWhk>0 ? v/sumWhk : 0);
+  const Fx = Cvx.map(c=>c*V);
+
+  // cumulative shear from top down
+  const Vx = new Array(floors.length).fill(0);
+  let running=0;
+  for(let i=floors.length-1;i>=0;i--){
+    running += Fx[i];
+    Vx[i]=running;
+  }
+
+  /* ---- render outputs ---- */
+  document.getElementById('outV').innerHTML = (sfMode? "–" : fmt(V,1)) + '<span class="unit">kN</span>';
+  document.getElementById('outVnote').textContent = sfMode ? "Kelas situs SF perlu analisis spesifik-lokasi." : `Berat total efektif W = ${fmt(Wtot,1)} kN`;
+  document.getElementById('outCs').textContent = sfMode ? "–" : fmt(CsFinal,4);
+  document.getElementById('outCsNote').textContent = sfMode ? "" : (Cs<CsMin ? `dipakai Cₛ minimum (${fmt(CsMin,4)})` : "dari Cₛ = SDS/(R/Iₑ), dibatasi Cₛ maks");
+  document.getElementById('outT').innerHTML = fmt2(T) + '<span class="unit">detik</span>';
+
+  // KDS badge
+  const kdsEl = document.getElementById('kdsBadge');
+  if(sfMode){
+    kdsEl.innerHTML = `<span class="badge warnb">SF — wajib analisis spesifik-lokasi</span>`;
+  } else {
+    const {kds} = estimateKDS(SDS, SD1, riskCat);
+    let cls = "info";
+    if(kds==="A"||kds==="B") cls="safe";
+    if(kds==="D") cls="warnb";
+    kdsEl.innerHTML = `<span class="badge ${cls}">KDS ≈ ${kds} (perkiraan)</span>`;
+  }
+
+  // result table
+  const rtb = document.querySelector('#resultTable tbody');
+  rtb.innerHTML="";
+  floors.forEach((f,i)=>{
+    const tr=document.createElement('tr');
+    if(i===floors.length-1) tr.classList.add('highlight');
+    tr.innerHTML = `<td style="text-align:left;">Lt. ${i+1}</td><td>${fmt2(f.h)}</td><td>${fmt(f.w,0)}</td><td>${fmt(whk[i],0)}</td><td>${fmt(Cvx[i],3)}</td><td>${fmt(Fx[i],1)}</td><td>${fmt(Vx[i],1)}</td>`;
+    rtb.appendChild(tr);
+  });
+
+  drawBuilding(floors, Fx);
+
+  /* ---- steps narrative ---- */
+  const steps = document.getElementById('stepsContainer');
+  steps.innerHTML = `
+    <div class="step">
+      <h3>Koefisien situs &amp; percepatan terkoreksi tanah</h3>
+      <p>Kelas situs ${siteClass} mengalikan percepatan batuan dasar dengan faktor amplifikasi tanah.</p>
+      <div class="formula">
+        Fa = ${sfMode? "SS (perlu investigasi)" : fmt2(Fa)}  |  Fv = ${sfMode? "SS (perlu investigasi)" : fmt2(Fv)}<br>
+        S<sub>MS</sub> = Fa·Ss = ${sfMode?"–":fmt2(Fa)} × ${fmt2(Ss)} = <span class="res">${sfMode?"–":fmt2(SMS)} g</span><br>
+        S<sub>M1</sub> = Fv·S1 = ${sfMode?"–":fmt2(Fv)} × ${fmt2(S1)} = <span class="res">${sfMode?"–":fmt2(SM1)} g</span>
+      </div>
+    </div>
+    <div class="step">
+      <h3>Spektrum respons desain</h3>
+      <p>Dua pertiga dari nilai MCEʀ (target keandalan risiko-tertarget SNI 1726:2019).</p>
+      <div class="formula">
+        S<sub>DS</sub> = ⅔·S<sub>MS</sub> = <span class="res">${fmt(SDS,3)} g</span>  |  S<sub>D1</sub> = ⅔·S<sub>M1</sub> = <span class="res">${fmt(SD1,3)} g</span><br>
+        T₀ = 0,2·S<sub>D1</sub>/S<sub>DS</sub> = <span class="res">${fmt(T0,3)} s</span>  |  Tₛ = S<sub>D1</sub>/S<sub>DS</sub> = <span class="res">${fmt(TS,3)} s</span>
+      </div>
+    </div>
+    <div class="step">
+      <h3>Periode getar fundamental</h3>
+      <p>${ctx.label}: Cₜ=${ctx.ct}, x=${ctx.x}. Dibatasi Cᵤ agar tidak underestimasi kekakuan sebenarnya.</p>
+      <div class="formula">
+        Tₐ = Cₜ·hₙˣ = ${ctx.ct} × ${fmt2(hn)}<sup>${ctx.x}</sup> = <span class="res">${fmt2(Ta)} s</span><br>
+        Cᵤ (dari S<sub>D1</sub>=${fmt(SD1,3)}) = ${fmt2(Cu)}  →  T maks = Cᵤ·Tₐ = <span class="res">${fmt2(Tmax)} s</span><br>
+        T dipakai = <span class="res">${fmt2(T)} s</span> ${useTc? "(dari input T analisis, dibatasi T maks)" : "(pakai Tₐ langsung — tidak ada input T terpisah)"}
+      </div>
+    </div>
+    <div class="step">
+      <h3>Koefisien respons seismik Cₛ</h3>
+      <p>Dibagi R/Iₑ (semakin daktail sistemnya / R besar, semakin kecil gaya rencana) lalu dijepit antara batas atas dan bawah.</p>
+      <div class="formula">
+        Iₑ = ${fmt2(Ie)} (Risiko ${riskCat})  |  R = ${fmt2(R)}  →  R/Iₑ = ${fmt2(RIe)}<br>
+        Cₛ (hitung) = S<sub>DS</sub>/(R/Iₑ) = <span class="res">${sfMode?"–":fmt(CsCalc,4)}</span><br>
+        Cₛ maks (dibatasi periode) = <span class="res">${sfMode?"–":fmt(CsMax,4)}</span><br>
+        Cₛ min = maks(0,044·S<sub>DS</sub>·Iₑ ; 0,01${S1>=0.6?" ; 0,5·S1/(R/Iₑ)":""}) = <span class="res">${sfMode?"–":fmt(CsMin,4)}</span><br>
+        <strong>Cₛ dipakai = ${sfMode?"–":fmt(CsFinal,4)}</strong>
+      </div>
+    </div>
+    <div class="step">
+      <h3>Gaya geser dasar &amp; distribusi vertikal</h3>
+      <p>Eksponen distribusi k = ${fmt2(k)} (interpolasi karena 0,5 &lt; T &lt; 2,5 s, atau tetap 1/2 di luar rentang itu). Lantai lebih tinggi &amp; lebih berat menerima Fₓ lebih besar.</p>
+      <div class="formula">
+        V = Cₛ·W = ${sfMode?"–":fmt(CsFinal,4)} × ${fmt(Wtot,1)} kN = <span class="res">${sfMode?"–":fmt(V,1)} kN</span><br>
+        Fₓ = Cᵥₓ·V,  dengan Cᵥₓ = (Wᵢhᵢᵏ)/Σ(Wⱼhⱼᵏ) — lihat tabel hasil di atas.
+      </div>
+    </div>
+  `;
+
+  // WA link
+  const wa = document.getElementById('waLink');
+  const msg = encodeURIComponent(`Halo, saya ingin konsultasi hasil Kalkulator Beban Gempa Statik Ekivalen JAZMI.\nV (base shear) ≈ ${sfMode?"—":fmt(V,1)} kN, Cs ≈ ${sfMode?"—":fmt(CsFinal,4)}, T ≈ ${fmt2(T)} s, Kelas Situs ${siteClass}, Sistem: ${SYSTEMS.find(s=>s.id===systemSel.value).label}.`);
+  wa.href = `https://wa.me/6281356572588?text=${msg}`;
+}
+
+// wire up remaining listeners
+['ss','s1','siteClass','riskCat','tl','hn','frameType','Tcomputed','Rval','Cdval','Omval'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', compute);
+  document.getElementById(id).addEventListener('change', compute);
+});
+
+applySystemPreset();
+compute();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

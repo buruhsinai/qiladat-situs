@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playground Cipher Klasik</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0F1115;--panel:#161A21;--panel2:#1D222B;--ink:#E7E9EE;--dim:#98A0AE;--dimmer:#5E6673;
+--line:rgba(231,233,238,.1);--red:#E5534B;--amber:#E0A730;--green:#3FB37F;--blue:#5B9BD5;--purple:#B48EE0;
+--gsoft:rgba(63,179,127,.14);--bsoft:rgba(91,155,213,.14);}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Karla',sans-serif;line-height:1.6}
+.mono{font-family:'JetBrains Mono',monospace}
+h1,h2{font-family:'Fraunces',serif;font-weight:600;margin:0}
+.wrap{max-width:720px;margin:0 auto;padding:32px 18px 70px}
+.kicker{font-size:.82rem;color:var(--blue);font-weight:700;margin-bottom:10px;letter-spacing:.02em}
+h1{font-size:1.5rem;margin-bottom:10px}
+header p{color:var(--dim);font-size:.92rem}
+.tabs{display:flex;gap:8px;margin:24px 0 16px;flex-wrap:wrap}
+.tab{padding:9px 16px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--dim);cursor:pointer;font-size:.86rem;font-weight:600}
+.tab.active{background:var(--bsoft);border-color:var(--blue);color:var(--blue)}
+.pane{display:none}
+.pane.active{display:block}
+.lab{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:16px;padding:20px}
+label{display:flex;justify-content:space-between;font-size:.82rem;color:var(--dimmer);margin-bottom:6px;font-weight:600}
+textarea,input[type=text]{width:100%;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:10px 12px;font-family:'JetBrains Mono',monospace;font-size:.86rem;resize:vertical}
+textarea{min-height:70px}
+.field{margin-bottom:14px}
+input[type=range]{width:100%;-webkit-appearance:none;height:4px;border-radius:4px;background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--blue);border:3px solid var(--bg);cursor:pointer}
+.mode-row{display:flex;gap:8px;margin-bottom:14px}
+.mode-btn{flex:1;padding:8px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--dim);cursor:pointer;font-size:.82rem;font-weight:600;text-align:center}
+.mode-btn.active{background:var(--bsoft);border-color:var(--blue);color:var(--blue)}
+.output-box{background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:8px;padding:12px 14px;font-family:'JetBrains Mono',monospace;font-size:.9rem;word-break:break-all;min-height:44px;color:var(--green)}
+.alpha-row{display:flex;flex-wrap:wrap;gap:3px;margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:.72rem}
+.alpha-cell{width:22px;text-align:center;color:var(--dimmer)}
+.alpha-cell.shifted{color:var(--blue);font-weight:700}
+.align-box{margin-top:14px;overflow-x:auto;}
+.align-row{display:flex;gap:2px;font-family:'JetBrains Mono',monospace;font-size:.78rem;white-space:nowrap}
+.align-row .ch{width:16px;text-align:center}
+.align-row.key .ch{color:var(--purple)}
+.align-row.plain .ch{color:var(--dim)}
+.align-row.cipher .ch{color:var(--green)}
+.brute-table{margin-top:14px;max-height:260px;overflow-y:auto;border:1px solid var(--line);border-radius:8px}
+.brute-row{display:flex;gap:10px;padding:6px 10px;border-bottom:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:.78rem}
+.brute-row:last-child{border-bottom:none}
+.brute-row .sh{color:var(--dimmer);width:52px;flex-shrink:0}
+.brute-row .tx{color:var(--dim)}
+.note{font-size:.82rem;color:var(--dim);margin-top:14px}
+footer{margin-top:28px;font-size:.78rem;color:var(--dimmer)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <p class="kicker">Laboratorium JAZMI — Modul Keamanan Siber</p>
+  <h1>Playground Cipher Klasik</h1>
+  <p>Ketik teks, geser kunci — cipher-nya berubah langsung. Tiga cipher klasik ini bukan untuk dipakai sungguhan (semuanya mudah dipecahkan), tapi paling pas untuk memahami konsep dasar kriptografi: kunci, ruang kunci, dan kenapa kunci pendek/berulang itu berbahaya.</p>
+</header>
+
+<div class="tabs">
+  <button class="tab active" data-tab="caesar">Caesar</button>
+  <button class="tab" data-tab="vigenere">Vigenère</button>
+  <button class="tab" data-tab="xor">XOR</button>
+</div>
+
+<div class="pane active" id="pane-caesar">
+  <div class="lab">
+    <div class="field">
+      <label>Teks</label>
+      <textarea id="cText">Serangan dimulai saat fajar</textarea>
+    </div>
+    <div class="field">
+      <label>Pergeseran kunci <span id="cShiftPos" class="mono">3</span></label>
+      <input type="range" id="cShift" min="0" max="25" value="3">
+    </div>
+    <div class="output-box" id="cOutput"></div>
+    <div class="alpha-row" id="cAlpha"></div>
+    <div class="note">Setiap huruf digeser sejumlah yang sama di sepanjang teks — makanya ruang kuncinya cuma 26 kemungkinan. Coba tombol di bawah untuk membuktikannya:</div>
+    <div class="mode-row" style="margin-top:10px;">
+      <button class="mode-btn" id="cBrute">🔓 Anggap teks di atas adalah ciphertext — coba semua 26 pergeseran</button>
+    </div>
+    <div class="brute-table" id="cBruteTable" style="display:none;"></div>
+  </div>
+</div>
+
+<div class="pane" id="pane-vigenere">
+  <div class="lab">
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="enc" id="vEnc">Enkripsi</button>
+      <button class="mode-btn" data-mode="dec" id="vDec">Dekripsi</button>
+    </div>
+    <div class="field">
+      <label>Teks</label>
+      <textarea id="vText">Serangan dimulai saat fajar</textarea>
+    </div>
+    <div class="field">
+      <label>Kata kunci (hanya huruf yang dipakai)</label>
+      <input type="text" id="vKey" class="mono" value="KUNCI">
+    </div>
+    <div class="output-box" id="vOutput"></div>
+    <div class="align-box"><div id="vAlign"></div></div>
+    <div class="note">Kunci diulang terus sepanjang teks (baris ungu). Kalau kuncinya pendek atau kata umum, pola pengulangannya bisa dipakai untuk menebak panjang kunci dan memecahkannya (analisis Kasiski).</div>
+  </div>
+</div>
+
+<div class="pane" id="pane-xor">
+  <div class="lab">
+    <div class="mode-row">
+      <button class="mode-btn active" data-mode="enc" id="xEnc">Teks → Hex (enkripsi)</button>
+      <button class="mode-btn" data-mode="dec" id="xDec">Hex → Teks (dekripsi)</button>
+    </div>
+    <div class="field">
+      <label id="xTextLabel">Teks</label>
+      <textarea id="xText">Serangan dimulai saat fajar</textarea>
+    </div>
+    <div class="field">
+      <label>Kunci (string apa saja)</label>
+      <input type="text" id="xKey" class="mono" value="secret">
+    </div>
+    <div class="output-box" id="xOutput"></div>
+    <div class="note" id="xBinNote"></div>
+    <div class="note">XOR itu simetris: hasil di-XOR lagi dengan kunci yang sama akan kembali ke teks asli. Coba tekan "Hex → Teks" dan tempel hasil dari mode enkripsi di atas — sekaligus membuktikan kenapa memakai ulang kunci XOR yang sama itu berbahaya (dua ciphertext dengan kunci sama bisa di-XOR silang untuk membocorkan pola plaintext-nya).</div>
+  </div>
+</div>
+
+<footer>Bagian dari Laboratorium JAZMI — dibangun mengikuti metode "Belajar → Memodelkan → Menguji → Membuat Tool". Semua perhitungan berjalan di browser Anda.</footer>
+</div>
+
+<script>
+/* ================= CAESAR ================= */
+function caesarShift(text, shift){
+  shift = ((shift%26)+26)%26;
+  return text.split('').map(ch=>{
+    const code = ch.charCodeAt(0);
+    if(code>=65 && code<=90) return String.fromCharCode((code-65+shift)%26+65);
+    if(code>=97 && code<=122) return String.fromCharCode((code-97+shift)%26+97);
+    return ch;
+  }).join('');
+}
+const cText = document.getElementById('cText');
+const cShift = document.getElementById('cShift');
+function renderCaesar(){
+  const shift = +cShift.value;
+  document.getElementById('cShiftPos').textContent = shift;
+  document.getElementById('cOutput').textContent = caesarShift(cText.value, shift) || ' ';
+
+  const A = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const alphaEl = document.getElementById('cAlpha');
+  let html = '';
+  for(let i=0;i<26;i++) html += `<div class="alpha-cell">${A[i]}</div>`;
+  for(let i=0;i<26;i++) html += `<div class="alpha-cell shifted">${A[(i+shift)%26]}</div>`;
+  alphaEl.innerHTML = html;
+
+  document.getElementById('cBruteTable').style.display='none';
+  document.getElementById('cBrute').textContent = '🔓 Anggap teks di atas adalah ciphertext — coba semua 26 pergeseran';
+}
+cText.addEventListener('input', renderCaesar);
+cShift.addEventListener('input', renderCaesar);
+document.getElementById('cBrute').addEventListener('click', ()=>{
+  const box = document.getElementById('cBruteTable');
+  const showing = box.style.display === 'block';
+  if(showing){ box.style.display='none'; return; }
+  let html='';
+  for(let s=0;s<26;s++){
+    html += `<div class="brute-row"><span class="sh">geser -${s}</span><span class="tx">${caesarShift(cText.value, -s)}</span></div>`;
+  }
+  box.innerHTML = html;
+  box.style.display = 'block';
+});
+
+/* ================= VIGENERE ================= */
+function vigenere(text, key, mode){
+  const cleanKey = key.replace(/[^a-zA-Z]/g,'').toUpperCase();
+  if(!cleanKey) return {result:text, keyStream:''};
+  let ki = 0;
+  let keyStream = '';
+  const result = text.split('').map(ch=>{
+    const code = ch.charCodeAt(0);
+    let base=null;
+    if(code>=65 && code<=90) base=65;
+    else if(code>=97 && code<=122) base=97;
+    if(base===null){ keyStream+=' '; return ch; }
+    const kChar = cleanKey[ki%cleanKey.length];
+    const k = kChar.charCodeAt(0)-65;
+    ki++;
+    keyStream += kChar;
+    const shift = mode==='enc' ? k : -k;
+    return String.fromCharCode(((code-base+shift)%26+26)%26 + base);
+  }).join('');
+  return {result, keyStream};
+}
+let vMode = 'enc';
+const vText = document.getElementById('vText');
+const vKey = document.getElementById('vKey');
+function renderVigenere(){
+  const {result, keyStream} = vigenere(vText.value, vKey.value, vMode);
+  document.getElementById('vOutput').textContent = result || ' ';
+  const plain = vText.value;
+  let plainRow='<div class="align-row plain">', keyRow='<div class="align-row key">', cipherRow='<div class="align-row cipher">';
+  for(let i=0;i<plain.length;i++){
+    plainRow += `<span class="ch">${plain[i]===' '?'&nbsp;':plain[i]}</span>`;
+    keyRow += `<span class="ch">${keyStream[i]===' '||!keyStream[i] ? '·' : keyStream[i]}</span>`;
+    cipherRow += `<span class="ch">${result[i]===' '?'&nbsp;':(result[i]||'')}</span>`;
+  }
+  document.getElementById('vAlign').innerHTML = plainRow+'</div>'+keyRow+'</div>'+cipherRow+'</div>';
+}
+vText.addEventListener('input', renderVigenere);
+vKey.addEventListener('input', renderVigenere);
+document.getElementById('vEnc').addEventListener('click', ()=>{ vMode='enc'; setActiveMode('vEnc','vDec'); renderVigenere(); });
+document.getElementById('vDec').addEventListener('click', ()=>{ vMode='dec'; setActiveMode('vDec','vEnc'); renderVigenere(); });
+function setActiveMode(onId, offId){
+  document.getElementById(onId).classList.add('active');
+  document.getElementById(offId).classList.remove('active');
+}
+
+/* ================= XOR ================= */
+function xorToHex(text, key){
+  if(!key) return '';
+  let out='';
+  for(let i=0;i<text.length;i++){
+    const b = text.charCodeAt(i) ^ key.charCodeAt(i%key.length);
+    out += b.toString(16).padStart(2,'0');
+  }
+  return out;
+}
+function xorFromHex(hex, key){
+  if(!key || !hex) return '';
+  hex = hex.replace(/[^0-9a-fA-F]/g,'');
+  let bytes = [];
+  for(let i=0;i+1<hex.length;i+=2) bytes.push(parseInt(hex.substr(i,2),16));
+  return bytes.map((b,i)=>String.fromCharCode(b ^ key.charCodeAt(i%key.length))).join('');
+}
+let xMode = 'enc';
+const xText = document.getElementById('xText');
+const xKey = document.getElementById('xKey');
+function renderXor(){
+  const key = xKey.value;
+  let out = '';
+  if(xMode==='enc'){
+    out = xorToHex(xText.value, key);
+  } else {
+    out = xorFromHex(xText.value, key);
+  }
+  document.getElementById('xOutput').textContent = out || ' ';
+
+  if(xText.value.length>0 && key.length>0){
+    const c0 = xText.value.charCodeAt(0);
+    const k0 = key.charCodeAt(0);
+    const r0 = c0 ^ k0;
+    document.getElementById('xBinNote').textContent =
+      `Karakter pertama: ${c0.toString(2).padStart(8,'0')} XOR ${k0.toString(2).padStart(8,'0')} = ${r0.toString(2).padStart(8,'0')} (${r0.toString(16).padStart(2,'0')} heksa)`;
+  } else {
+    document.getElementById('xBinNote').textContent = '';
+  }
+}
+xText.addEventListener('input', renderXor);
+xKey.addEventListener('input', renderXor);
+document.getElementById('xEnc').addEventListener('click', ()=>{
+  xMode='enc'; setActiveMode('xEnc','xDec');
+  document.getElementById('xTextLabel').textContent = 'Teks';
+  xText.value = 'Serangan dimulai saat fajar';
+  renderXor();
+});
+document.getElementById('xDec').addEventListener('click', ()=>{
+  xMode='dec'; setActiveMode('xDec','xEnc');
+  document.getElementById('xTextLabel').textContent = 'Ciphertext (heksadesimal)';
+  xText.value = xorToHex('Serangan dimulai saat fajar', xKey.value || 'secret');
+  renderXor();
+});
+
+/* ================= TABS ================= */
+document.querySelectorAll('.tabs .tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('pane-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+renderCaesar();
+renderVigenere();
+renderXor();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

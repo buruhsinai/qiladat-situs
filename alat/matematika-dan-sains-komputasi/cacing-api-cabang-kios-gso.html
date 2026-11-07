@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cacing Api: Di Mana Tiga Cabang Kios Dibuka?</title>
+<style>
+:root{--bg:#eaf0ee;--card:#fff;--ink:#0d333b;--dim:#4d6a70;--line:#c5d5d2;--soft:#f3f7f6;--lagoon:#17687a;--lagoon-ink:#fff;--buoy:#d9441a;--good:#1c7a45;--good-bg:#e2f3e8;--mid:#8a5a00;--mid-bg:#fdf0d2}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b181d;--card:#12242b;--ink:#e6f1ee;--dim:#9bbbc0;--line:#27434d;--soft:#0f1f25;--lagoon:#5cc0d2;--lagoon-ink:#08262d;--buoy:#ff8059;--good:#7fdba3;--good-bg:#14352a;--mid:#f2c46a;--mid-bg:#3a2d10}}
+:root[data-theme="dark"]{--bg:#0b181d;--card:#12242b;--ink:#e6f1ee;--dim:#9bbbc0;--line:#27434d;--soft:#0f1f25;--lagoon:#5cc0d2;--lagoon-ink:#08262d;--buoy:#ff8059;--good:#7fdba3;--good-bg:#14352a;--mid:#f2c46a;--mid-bg:#3a2d10}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:22px 16px 80px}
+h1{font:700 clamp(1.6rem,4.6vw,2.3rem)/1.15 Georgia,"Times New Roman",serif;margin:0 0 8px}
+h2{font:700 1.08rem/1.3 Georgia,serif;margin:0 0 8px}
+.lead{color:var(--dim);max-width:66ch;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:18px;align-items:start}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card+.card{margin-top:14px}
+.mapwrap{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--line);aspect-ratio:1/1;background:#efece3}
+canvas#map{width:100%;height:100%;display:block;cursor:crosshair;touch-action:manipulation}
+#three3d{position:absolute;inset:0;display:none;cursor:grab;touch-action:none;user-select:none}
+#three3d canvas{display:block;width:100%!important;height:100%!important}
+.cam3d{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:3}
+.cam3d[hidden]{display:none}
+.cam3d button{min-height:36px;padding:5px 10px;font-size:.85rem;background:rgba(255,255,255,.94);color:#0d333b;border-color:#9bb7bd}
+button{font:inherit;font-size:.95rem;min-height:42px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--ink);cursor:pointer}
+button.go{background:var(--lagoon);color:var(--lagoon-ink);border-color:var(--lagoon);font-weight:700}
+button[aria-pressed="true"]{outline:3px solid var(--lagoon);outline-offset:-1px;font-weight:700}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.seg{display:inline-flex;margin:0 0 10px}
+.seg button{border-radius:0;min-width:70px}
+.seg button:first-child{border-radius:10px 0 0 10px}.seg button:last-child{border-radius:0 10px 10px 0}
+.hint{margin:10px 0 0;color:var(--dim);font-size:.95rem}
+.story{margin:0}
+.prog{height:8px;background:var(--soft);border-radius:6px;margin-top:10px;overflow:hidden;border:1px solid var(--line)}
+#bar{height:100%;width:0;background:var(--lagoon)}
+.answer strong{display:block;font:700 1.25rem/1.2 Georgia,serif}
+.answer span{color:var(--dim);font-size:.95rem;display:block;margin-top:4px}
+.badge{display:inline-block;margin-top:8px;padding:3px 10px;border-radius:99px;background:var(--soft);border:1px solid var(--line);font-size:.85rem}
+.badge.good{background:var(--good-bg);color:var(--good)}.badge.mid{background:var(--mid-bg);color:var(--mid)}
+.field{margin:0 0 12px}.field label{display:flex;justify-content:space-between;font-size:.95rem;font-weight:600}
+.field input{width:100%}.field small{color:var(--dim);display:block;line-height:1.35}
+.note{color:var(--dim);font-size:.92rem}
+details.about,details.legend{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+details summary{cursor:pointer;font-weight:700}
+.legendgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;margin-top:10px;font-size:.92rem}
+.legendgrid span{display:flex;gap:8px;align-items:center}.legendgrid i{flex:none;width:18px;height:18px;border-radius:50%;display:inline-block}
+.warn{color:var(--buoy);min-height:1.2em;margin:6px 0 0;font-size:.92rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Cacing Api: Di Mana Tiga Cabang Kios Dibuka?</h1>
+  <p class="lead">Kamu mau membuka beberapa cabang kios. Cabang yang terlalu berdekatan hanya berebut pembeli yang sama, jadi yang dicari bukan satu tempat paling ramai, melainkan beberapa keramaian sekaligus. Sekawanan cacing api yang saling melihat cahaya satu sama lain akan terpecah ke beberapa keramaian.</p>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <div class="seg" role="group" aria-label="Mode tampilan">
+          <button id="v2" type="button" aria-pressed="true">Peta 2D</button><button id="v3" type="button" aria-pressed="false">Maket 3D</button>
+        </div>
+        <div class="mapwrap">
+          <canvas id="map"></canvas>
+          <div id="three3d"></div>
+          <div class="cam3d" id="cam3d" hidden><button id="cTop" type="button">Dari atas</button><button id="cTilt" type="button">Miring</button></div>
+        </div>
+        <p class="hint" id="hint">Bayangan biru = keramaian pembeli. Ketuk peta untuk menambah pusat keramaian baru (misalnya pasar malam), ketuk lagi untuk menghapusnya. Di maket 3D, geser untuk memutar dan ketuk untuk menaruh.</p>
+        <p class="warn" id="msg" role="status"></p>
+        <div class="bar">
+          <button class="go" id="play" type="button">▶ Mulai pencarian</button>
+          <button id="reseed" type="button">↻ Ulangi</button>
+          <button id="sample" type="button">🎲 Kasus baru</button>
+          <button id="clearE" type="button">Hapus tambahan</button>
+          <button id="voice" type="button" aria-pressed="false">🔇 Suara</button>
+          <button id="tour" type="button">❓ Tur singkat</button>
+        </div>
+        <details class="legend" open>
+          <summary>Arti gambar di peta</summary>
+          <div class="legendgrid">
+            <span><i style="background:rgba(20,120,140,.55)"></i>Bayangan biru: makin pekat, makin ramai</span>
+            <span><i style="background:#c8e65a;border:2px solid #7a9a1c"></i>Cacing api (makin terang cahayanya, makin ramai tempatnya)</span>
+            <span><i style="background:#c62d2d"></i>Cabang kios usulan (di akhir)</span>
+            <span><i style="background:#fff;border:3px solid #1c7a45"></i>Keramaian sebenarnya hasil cek seluruh peta (di akhir)</span>
+            <span><i style="background:#e0721a"></i>Pusat keramaian tambahan buatanmu</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" aria-live="polite">
+        <h2>Apa yang sedang terjadi?</h2>
+        <p class="story" id="story"></p>
+        <div class="prog" aria-hidden="true"><div id="bar"></div></div>
+        <div id="tourBox" hidden style="margin-top:12px;padding:10px 12px;border:1px dashed var(--lagoon);border-radius:10px"><b id="tT"></b><p id="tX" class="note" style="margin:6px 0"></p><div class="bar" style="margin:0"><button id="tP" type="button" aria-label="Sebelumnya">⏮</button><button id="tN" class="go" type="button">Lanjut ⏭</button><button id="tC" type="button">Tutup</button></div></div>
+      </div>
+      <div class="card" aria-live="polite">
+        <h2>Hasilnya</h2>
+        <div class="answer"><strong id="aMain">—</strong><span id="aSub">Hasil muncul setelah pencarian selesai.</span></div>
+        <span class="badge" id="aBadge">Belum dijalankan</span>
+        <p class="note" id="tally" aria-live="polite"></p>
+      </div>
+      <div class="card">
+        <h2>Atur sendiri</h2>
+        <div class="field"><label for="kB">Jumlah cabang yang dicari <b id="kBV">3</b></label><input id="kB" type="range" min="1" max="5" value="3"></div>
+        <div class="field"><label for="nW">Jumlah cacing api <b id="nWV">60</b></label><input id="nW" type="range" min="20" max="100" value="60"><small>Terlalu sedikit, banyak keramaian tak ditemukan.</small></div>
+        <div class="field"><label for="rs">Jangkauan melihat cahaya <b id="rsV">26 m</b></label><input id="rs" type="range" min="10" max="40" value="26"><small>Terlalu pendek: cacing terjebak sendirian. Terlalu jauh: semua cacing menumpuk di satu keramaian.</small></div>
+        <div class="field"><label for="wt">Kekuatan keramaian baru <b id="wtV">10</b></label><input id="wt" type="range" min="3" max="20" value="10"></div>
+        <div class="field"><label for="spd">Kecepatan <b id="spdV">1×</b></label><input id="spd" type="range" min="0.25" max="4" step="0.25" value="1"></div>
+        <details>
+          <summary>Seberapa andal?</summary>
+          <p class="note">Mengulang pencarian 30 kali di peta ini, sekali dengan 20 cacing dan sekali dengan jumlah pengaturanmu, lalu menghitung berapa kali semua cabang jatuh tepat di keramaian sebenarnya.</p>
+          <button id="trial" type="button" style="width:100%">Bandingkan 20 dan banyak cacing</button>
+          <p class="note" id="trialOut" aria-live="polite"></p>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <details class="about">
+    <summary>Bagaimana cacing api mencarinya?</summary>
+    <ol>
+      <li>Setiap cacing membawa cahaya (luciferin). Cahayanya bertambah bila ia berdiri di tempat ramai, dan memudar perlahan bila tidak.</li>
+      <li>Tiap cacing hanya melihat cacing lain yang lebih terang dan berada dalam jangkauan pandangnya. Ia memilih salah satunya (yang lebih terang lebih mungkin dipilih) lalu melangkah mendekat.</li>
+      <li>Jangkauan pandang menyesuaikan diri. Bila terlalu banyak tetangga, jangkauan menyempit. Bila sepi, melebar lagi. Karena itu kawanan tidak menumpuk di satu titik, tetapi terpecah menjadi gerombolan di tiap keramaian.</li>
+      <li>Satu tambahan sederhana di luar GSO murni: cacing yang tidak melihat tetangga lebih terang menggeser diri sedikit ke arah yang lebih ramai, supaya pemimpin gerombolan tidak berhenti di tempat acak.</li>
+      <li>Di akhir, gerombolan paling terang yang saling berjauhan menjadi cabang usulan, lalu dicocokkan dengan hasil memeriksa seluruh peta.</li>
+    </ol>
+    <ul>
+      <li>Ini miniatur. Keramaian dihitung dari rumah, pasar, sekolah, dan balai warga dengan rumus sebaran sederhana, bukan data pembeli sungguhan. Jangan dipakai sendirian untuk keputusan bisnis.</li>
+      <li>Di peta sekecil ini, memeriksa semua titik lebih mudah. Keunggulan algoritma alam baru terasa pada ruang pencarian yang jauh lebih besar dan rumit.</li>
+      <li>Mengikuti Glowworm Swarm Optimization (Krishnanand dan Ghose, 2005), versi ruang 2 dimensi.</li>
+    </ul>
+  </details>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){'use strict';
+const $=id=>document.getElementById(id);
+const S=800,L=100,sc=S/L,U=S/640,MPU=10,T=250,STEP=.7;
+const cv=$('map'),ctx=cv.getContext('2d');cv.width=cv.height=S;
+const clamp=v=>Math.max(0,Math.min(L,v));
+
+/* ===== kota ===== */
+const Rp=[12,30,50,69,88],Rw=[1.8,1.8,3.4,1.8,1.8];
+const edge=i=>[i===0?0:Rp[i-1]+Rw[i-1]/2,i===5?L:Rp[i]-Rw[i]/2];
+const SP={'2,2':{n:'Pasar Lama',w:18,c:'#e3a857'},'4,1':{n:'Sekolah',w:12,c:'#8fb3dd'},'1,4':{n:'Balai Warga',w:10,c:'#d29a7a'}};
+const blocks=[],lots=[],fixed=[];let sd=11;const rr=()=>(sd=sd*16807%2147483647)/2147483647;
+for(let i=0;i<=5;i++)for(let j=0;j<=5;j++){
+  const [x0,x1]=edge(i),[y0,y1]=edge(j),park=(i===3&&j===3),sp=SP[i+','+j];
+  blocks.push({x0,x1,y0,y1,park});
+  if(park)continue;
+  if(sp){const mx=(x1-x0)*.2,my=(y1-y0)*.2;lots.push({x0:x0+mx,x1:x1-mx,y0:y0+my,y1:y1-my,h:2,col:sp.c,n:sp.n});fixed.push({x:(x0+x1)/2,y:(y0+y1)/2,w:sp.w});continue;}
+  const cols=x1-x0>11?3:2,rows=y1-y0>11?3:2,gw=(x1-x0)/cols,gh=(y1-y0)/rows;
+  for(let a=0;a<cols;a++)for(let c=0;c<rows;c++){const m=.55+rr()*.5,l={x0:x0+a*gw+m,x1:x0+(a+1)*gw-m,y0:y0+c*gh+m,y1:y0+(c+1)*gh-m,h:1+rr()*2.4,col:'#dcd5c3'};lots.push(l);fixed.push({x:(l.x0+l.x1)/2,y:(l.y0+l.y1)/2,w:.6});}
+}
+const base=document.createElement('canvas');base.width=base.height=S;
+(function(){const c=base.getContext('2d');c.fillStyle='#fbf8ef';c.fillRect(0,0,S,S);
+  for(const b of blocks){const x=b.x0*sc,y=b.y0*sc,w=(b.x1-b.x0)*sc,h=(b.y1-b.y0)*sc;c.fillStyle='#d7d1bd';c.fillRect(x-3,y-3,w+6,h+6);c.fillStyle=b.park?'#cfe3c0':'#ebe7dc';c.fillRect(x,y,w,h);}
+  for(const l of lots){const x=l.x0*sc,y=l.y0*sc,w=(l.x1-l.x0)*sc,h=(l.y1-l.y0)*sc;c.fillStyle=l.col;c.fillRect(x,y,w,h);c.strokeStyle='#b0a98f';c.lineWidth=1.5;c.strokeRect(x,y,w,h);
+    if(l.n){c.fillStyle='#0d333b';c.font='bold '+12*U+'px system-ui';c.textAlign='center';c.fillText(l.n,x+w/2,y-6*U);}}
+})();
+
+/* ===== keramaian ===== */
+let ev=[],srcs=[],cg=new Float32Array(10000),cmax=1,truth=[];
+const hc=document.createElement('canvas');hc.width=hc.height=100;const hx=hc.getContext('2d');
+function crowd(x,y){let s=0;for(const q of srcs){const dx=x-q.x,dy=y-q.y;s+=q.w*Math.exp(-(dx*dx+dy*dy)/72);}return s;}
+function peaks(n){const idx=Array.from({length:10000},(_,i)=>i).sort((a,b)=>cg[b]-cg[a]),out=[];
+  for(const i of idx){const x=i%100+.5,y=Math.floor(i/100)+.5;if(out.every(p=>Math.hypot(p.x-x,p.y-y)>=16))out.push({x,y,v:cg[i]/cmax});if(out.length>=n)break;}return out;}
+function rebuild(){
+  srcs=fixed.concat(ev);cmax=0;
+  for(let j=0;j<100;j++)for(let i=0;i<100;i++){const v=crowd(i+.5,j+.5);cg[j*100+i]=v;if(v>cmax)cmax=v;}
+  const im=hx.createImageData(100,100);
+  for(let i=0;i<10000;i++){const a=Math.pow(cg[i]/cmax,1.1);im.data[i*4]=20;im.data[i*4+1]=120;im.data[i*4+2]=140;im.data[i*4+3]=Math.round(255*Math.min(.8,a*.85));}
+  hx.putImageData(im,0,0);truth=peaks(5);if(tex)tex.needsUpdate=true;
+}
+
+/* ===== GSO ===== */
+let worms=[],it=0,playing=false,spd=1,view='2d',done=false,dirty3=true,acc=0;
+const nW=()=>+$('nW').value,K=()=>+$('kB').value,RS=()=>+$('rs').value/MPU;
+function seed(){worms=[];for(let i=0;i<nW();i++)worms.push({x:Math.random()*L,y:Math.random()*L,l:5,rd:RS()});it=0;done=false;lastSpoken='';runId++;}
+function step(){
+  const rs=RS();
+  for(const w of worms)w.l=.6*w.l+.6*(crowd(w.x,w.y)/cmax*20);
+  const P=worms.map(w=>({x:w.x,y:w.y,l:w.l}));
+  worms.forEach((w,i)=>{
+    const N=[];for(let j=0;j<P.length;j++){if(j===i)continue;const d=Math.hypot(P[j].x-w.x,P[j].y-w.y);if(d<w.rd&&P[j].l>w.l)N.push([j,d]);}
+    if(N.length){let sum=0;for(const n of N)sum+=P[n[0]].l-w.l;let r=Math.random()*sum,pk=N[0];for(const n of N){r-=P[n[0]].l-w.l;if(r<=0){pk=n;break;}}
+      const j=pk[0],d=pk[1];if(d>1e-6){const st=Math.min(STEP,d);w.x=clamp(w.x+(P[j].x-w.x)/d*st);w.y=clamp(w.y+(P[j].y-w.y)/d*st);}}
+    else{const a=Math.random()*6.2832,nx=clamp(w.x+Math.cos(a)*STEP),ny=clamp(w.y+Math.sin(a)*STEP);if(crowd(nx,ny)>crowd(w.x,w.y)){w.x=nx;w.y=ny;}}
+    w.rd=Math.min(rs,Math.max(3,w.rd+.08*(5-N.length)));
+  });
+  it++;if(it>=T)done=true;
+}
+function branches(){const out=[],c=worms.map(w=>({x:w.x,y:w.y,v:crowd(w.x,w.y)/cmax})).sort((a,b)=>b.v-a.v);for(const w of c){if(out.every(p=>Math.hypot(p.x-w.x,p.y-w.y)>=16))out.push(w);if(out.length>=K())break;}return out;}
+function match(br){const tr=truth.slice(0,K()),used=new Set();let m=0;for(const b of br){let bi=-1,bd=8;tr.forEach((t,i)=>{const d=Math.hypot(t.x-b.x,t.y-b.y);if(!used.has(i)&&d<bd){bd=d;bi=i;}});if(bi>=0){used.add(bi);m++;}}return m;}
+const meters=v=>Math.round(v*MPU);
+
+/* ===== 2D ===== */
+function draw2D(){
+  ctx.drawImage(base,0,0);ctx.imageSmoothingEnabled=true;ctx.drawImage(hc,0,0,S,S);
+  for(const e of ev){ctx.strokeStyle='#e0721a';ctx.lineWidth=3*U;ctx.beginPath();ctx.arc(e.x*sc,e.y*sc,9*U,0,6.2832);ctx.stroke();ctx.fillStyle='#e0721a';ctx.font='bold '+14*U+'px system-ui';ctx.textAlign='center';ctx.fillText('+',e.x*sc,e.y*sc+5*U);}
+  const br=done?branches():[];
+  if(done){truth.slice(0,K()).forEach(t=>{ctx.strokeStyle='#1c7a45';ctx.lineWidth=4*U*.7;ctx.setLineDash([8,5]);ctx.beginPath();ctx.arc(t.x*sc,t.y*sc,17*U,0,6.2832);ctx.stroke();ctx.setLineDash([]);});}
+  for(const w of worms){const g=Math.min(1,w.l/30),r=(3+g*5)*U;ctx.fillStyle='rgba(200,230,90,'+(.45+g*.5)+')';ctx.strokeStyle='#5c7a10';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(w.x*sc,w.y*sc,r,0,6.2832);ctx.fill();ctx.stroke();}
+  br.forEach((b,i)=>{const x=b.x*sc,y=b.y*sc;ctx.fillStyle='#c62d2d';ctx.strokeStyle='#fff';ctx.lineWidth=3*U*.7;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-9*U,y-18*U);ctx.arc(x,y-26*U,13*U,2.2,.94+Math.PI*0,false);ctx.closePath();ctx.fill();ctx.stroke();ctx.fillStyle='#fff';ctx.font='bold '+15*U+'px system-ui';ctx.textAlign='center';ctx.fillText(i+1,x,y-21*U);});
+}
+
+/* ===== 3D ===== */
+let R,SC,CAM,tex,colG,flagG,truthG,evG,cam={th:.55,ph:.95,r:108},tNow=0;
+function bx(x0,x1,y0,y1,h,col,y){const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,h,y1-y0),new THREE.MeshLambertMaterial({color:col}));m.position.set((x0+x1)/2-50,(y||0)+h/2,(y0+y1)/2-50);return m;}
+function init3D(){
+  if(R)return true;
+  try{R=new THREE.WebGLRenderer({antialias:true});}catch(e){R=null;return false;}
+  R.setPixelRatio(Math.min(2,window.devicePixelRatio||1));$('three3d').appendChild(R.domElement);
+  SC=new THREE.Scene();SC.background=new THREE.Color(0xd6e6e3);CAM=new THREE.PerspectiveCamera(45,1,1,600);
+  SC.add(new THREE.AmbientLight(0xffffff,.75));const dl=new THREE.DirectionalLight(0xffffff,.7);dl.position.set(40,90,30);SC.add(dl);
+  const g=new THREE.Mesh(new THREE.PlaneGeometry(L,L),new THREE.MeshLambertMaterial({color:0xb9b5a6}));g.rotation.x=-Math.PI/2;SC.add(g);
+  for(const b of blocks)SC.add(bx(b.x0,b.x1,b.y0,b.y1,.3,b.park?0xcfe3c0:0xebe7dc));
+  for(const l of lots)SC.add(bx(l.x0,l.x1,l.y0,l.y1,l.h*1.3,new THREE.Color(l.col),.3));
+  tex=new THREE.CanvasTexture(hc);const hp=new THREE.Mesh(new THREE.PlaneGeometry(L,L),new THREE.MeshBasicMaterial({map:tex,transparent:true,opacity:.7,depthWrite:false}));hp.rotation.x=-Math.PI/2;hp.position.y=4.8;SC.add(hp);
+  colG=new THREE.Group();flagG=new THREE.Group();truthG=new THREE.Group();evG=new THREE.Group();SC.add(colG,flagG,truthG,evG);
+  bind3D();dirty3=true;return true;
+}
+function rebuild3D(){
+  const clr=g=>{while(g.children.length)g.remove(g.children[0]);};clr(colG);clr(evG);
+  for(let i=0;i<worms.length;i++){const m=new THREE.Mesh(new THREE.CylinderGeometry(.35,.35,1,8),new THREE.MeshBasicMaterial({color:0xc8f060,transparent:true,opacity:.7}));colG.add(m);}
+  for(const e of ev){const m=new THREE.Mesh(new THREE.CylinderGeometry(2.2,2.2,.8,20),new THREE.MeshLambertMaterial({color:0xe0721a}));m.position.set(e.x-50,5.2,e.y-50);evG.add(m);}
+  dirty3=false;
+}
+function resize3D(){const b=$('three3d'),w=b.clientWidth,h=b.clientHeight;if(!w||!h)return;if(R.domElement.width!==Math.round(w*R.getPixelRatio())){R.setSize(w,h,false);CAM.aspect=w/h;CAM.updateProjectionMatrix();}}
+function draw3D(){
+  if(!R)return;if(dirty3||colG.children.length!==worms.length)rebuild3D();resize3D();
+  worms.forEach((w,i)=>{const m=colG.children[i],h=2+w.l*.9+Math.sin(tNow/300+i)*.4;m.scale.y=h;m.position.set(w.x-50,5+h/2,w.y-50);});
+  const clr=g=>{while(g.children.length)g.remove(g.children[0]);};clr(flagG);clr(truthG);
+  if(done){branches().forEach(b=>{const gr=new THREE.Group();gr.add(bx(-3,3,-3,3,6,0xc62d2d,0));gr.add(bx(-.7,.7,-3.1,3.1,.2,0xffffff,6),bx(-3.1,3.1,-.7,.7,.2,0xffffff,6));const c=new THREE.Mesh(new THREE.CylinderGeometry(.5,.5,30,8),new THREE.MeshBasicMaterial({color:0xc62d2d,transparent:true,opacity:.45}));c.position.y=15;gr.add(c);gr.position.set(b.x-50,5,b.y-50);flagG.add(gr);});
+    truth.slice(0,K()).forEach(t=>{const r=new THREE.Mesh(new THREE.RingGeometry(5,6.4,32),new THREE.MeshBasicMaterial({color:0x1c7a45,side:THREE.DoubleSide}));r.rotation.x=-Math.PI/2;r.position.set(t.x-50,5.2,t.y-50);truthG.add(r);});}
+  CAM.position.set(cam.r*Math.sin(cam.ph)*Math.sin(cam.th),cam.r*Math.cos(cam.ph),cam.r*Math.sin(cam.ph)*Math.cos(cam.th));CAM.lookAt(0,0,0);R.render(SC,CAM);
+}
+function bind3D(){
+  const el=R.domElement;let drag=null;
+  el.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,mv:0};el.setPointerCapture(e.pointerId);$('three3d').style.cursor='grabbing';});
+  el.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.mv+=Math.abs(dx)+Math.abs(dy);cam.th-=dx*.008;cam.ph=Math.max(.12,Math.min(1.45,cam.ph-dy*.008));drag.x=e.clientX;drag.y=e.clientY;});
+  el.addEventListener('pointerup',e=>{$('three3d').style.cursor='grab';if(drag&&drag.mv<6){const r=el.getBoundingClientRect(),v=new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1),rc=new THREE.Raycaster();rc.setFromCamera(v,CAM);
+    const o=rc.ray.origin,d=rc.ray.direction;if(d.y<-1e-4){const t=-o.y/d.y,x=o.x+d.x*t+50,y=o.z+d.z*t+50;if(x>=0&&x<=L&&y>=0&&y<=L)mapClick(x,y);}}drag=null;});
+  el.addEventListener('wheel',e=>{e.preventDefault();cam.r=Math.max(45,Math.min(180,cam.r*(e.deltaY>0?1.08:.92)));},{passive:false});
+}
+
+/* ===== interaksi ===== */
+function mapClick(x,y){
+  $('msg').textContent='';
+  const i=ev.findIndex(e=>Math.hypot(x-e.x,y-e.y)<4);
+  if(i>=0)ev.splice(i,1);else if(ev.length>=6){$('msg').textContent='Pusat keramaian tambahan maksimal 6.';return;}else ev.push({x,y,w:+$('wt').value});
+  changed();
+}
+cv.addEventListener('click',e=>{const r=cv.getBoundingClientRect();mapClick((e.clientX-r.left)/r.width*L,(e.clientY-r.top)/r.height*L);});
+function changed(){playing=false;dirty3=true;rebuild();seed();refresh();}
+function setView(v){view=v;$('v2').setAttribute('aria-pressed',v==='2d');$('v3').setAttribute('aria-pressed',v==='3d');
+  if(v==='3d'&&!init3D()){$('msg').textContent='Perangkat ini tidak mendukung tampilan 3D. Tampilan 2D tetap bisa dipakai.';view='2d';$('v2').setAttribute('aria-pressed',true);$('v3').setAttribute('aria-pressed',false);}
+  cv.style.display=view==='2d'?'block':'none';$('three3d').style.display=view==='3d'?'block':'none';$('cam3d').hidden=view!=='3d';}
+$('v2').onclick=()=>setView('2d');$('v3').onclick=()=>setView('3d');
+$('cTop').onclick=()=>{cam.ph=.12;cam.th=0;};$('cTilt').onclick=()=>{cam.ph=.95;cam.th=.55;cam.r=108;};
+$('play').onclick=()=>{if(done)seed();playing=!playing;refresh();};
+$('reseed').onclick=()=>{playing=false;seed();refresh();};
+$('sample').onclick=()=>{ev=[];const n=2+Math.floor(Math.random()*3);for(let i=0;i<n;i++)ev.push({x:10+Math.random()*80,y:10+Math.random()*80,w:6+Math.random()*10});changed();};
+$('clearE').onclick=()=>{ev=[];changed();};
+$('nW').oninput=()=>{$('nWV').textContent=nW();playing=false;seed();refresh();};
+$('kB').oninput=()=>{$('kBV').textContent=K();refresh();};
+$('rs').oninput=()=>{$('rsV').textContent=$('rs').value+' m';playing=false;seed();refresh();};
+$('wt').oninput=()=>$('wtV').textContent=$('wt').value;
+$('spd').oninput=()=>{spd=+$('spd').value;$('spdV').textContent=spd+'×';};
+$('trial').onclick=()=>{const n0=nW(),res=[];
+  for(const n of [20,n0]){$('nW').value=n;let ok=0;for(let t=0;t<30;t++){seed();while(it<T)step();if(match(branches())===K())ok++;}res.push(ok);}
+  $('nW').value=n0;playing=false;seed();refresh();
+  $('trialOut').textContent='Dari 30 pencarian: 20 cacing menemukan semua cabang '+res[0]+' kali, '+n0+' cacing '+res[1]+' kali (tepat = jatuh dalam 80 m dari keramaian sebenarnya).';};
+
+/* ===== tur dan suara ===== */
+let voiceOn=false,lastSpoken='',tourOn=false,ti=0,runId=0,scored=-1;const tally={a:0,b:0};
+const VT={'0':'Cacing api tersebar acak. Makin terang cahayanya, makin ramai tempat ia berdiri.','1':'Cacing yang redup mendekati tetangga yang lebih terang.','2':'Kawanan terpecah menjadi gerombolan di tiap keramaian.','3':'Gerombolan menetap dan mempertajam lokasi.','d':'Selesai. Gerombolan paling terang yang saling berjauhan menjadi cabang usulan.'};
+function say(t){if(!voiceOn||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='id-ID';const v=speechSynthesis.getVoices().find(x=>/^id/i.test(x.lang));if(v)u.voice=v;u.rate=.95;speechSynthesis.speak(u);}
+function speakMaybe(k){if(k===lastSpoken)return;lastSpoken=k;if(!tourOn)say(VT[k]);}
+if(!window.speechSynthesis)$('voice').disabled=true;
+$('voice').onclick=()=>{voiceOn=!voiceOn;$('voice').setAttribute('aria-pressed',voiceOn);$('voice').textContent=voiceOn?'🔊 Suara':'🔇 Suara';if(voiceOn){lastSpoken='';refresh();}else if(window.speechSynthesis)speechSynthesis.cancel();};
+const TS=[['1. Masalahnya','Kamu ingin membuka beberapa cabang kios. Bayangan biru menandai keramaian pembeli. Cabang yang berdekatan hanya berebut pembeli yang sama.'],
+['2. Cahaya cacing','Tiap cacing makin terang bila berdiri di tempat ramai. Ia hanya melangkah mendekati tetangga yang lebih terang di dalam jangkauan pandangnya.'],
+['3. Terpecah ke beberapa keramaian','Jangkauan pandang yang menyesuaikan diri membuat kawanan terpecah menjadi gerombolan di tiap keramaian, bukan menumpuk di satu titik.'],
+['4. Coba sendiri','Ketuk peta untuk menambah pusat keramaian. Geser jangkauan melihat cahaya: terlalu jauh, semua cacing menumpuk di satu keramaian.'],
+['5. Lihat dari 3D','Di maket 3D, tiap cacing menjadi kolom cahaya. Tekan Mulai pencarian dan lihat kolom-kolom itu berkumpul di keramaian.']];
+function showTour(){const s=TS[ti];$('tT').textContent=s[0];$('tX').textContent=s[1];$('tN').textContent=ti===TS.length-1?'Selesai':'Lanjut ⏭';$('tourBox').hidden=false;if(ti===4)setView('3d');else if(view==='3d')setView('2d');say(s[1]);}
+function endTour(){tourOn=false;$('tourBox').hidden=true;if(window.speechSynthesis)speechSynthesis.cancel();lastSpoken='';}
+$('tour').onclick=()=>{tourOn=true;ti=0;showTour();};
+$('tN').onclick=()=>{if(ti>=TS.length-1){endTour();return;}ti++;showTour();};
+$('tP').onclick=()=>{if(ti>0){ti--;showTour();}};
+$('tC').onclick=endTour;
+
+/* ===== teks dan hasil ===== */
+function refresh(){
+  const p=it/T;$('bar').style.width=(p*100)+'%';
+  $('play').textContent=playing?'⏸ Jeda':(done?'▶ Cari lagi':(it>0?'▶ Lanjutkan':'▶ Mulai pencarian'));
+  const s=it===0?'Cacing api tersebar acak. Makin terang cahayanya, makin ramai tempat ia berdiri. Tekan Mulai pencarian.':done?'Selesai. Gerombolan paling terang yang saling berjauhan menjadi cabang usulan (pin merah). Lingkaran hijau putus-putus adalah keramaian sebenarnya hasil memeriksa seluruh peta.':p<.3?'Cacing yang redup mendekati tetangga yang lebih terang di dalam jangkauan pandangnya.':p<.65?'Kawanan terpecah menjadi gerombolan di tiap keramaian.':'Gerombolan menetap dan mempertajam lokasinya.';
+  $('story').textContent=s;speakMaybe(it===0?'0':done?'d':p<.3?'1':p<.65?'2':'3');
+  if(!done){$('aMain').textContent='—';$('aSub').textContent=it?'Pencarian belum selesai.':'Hasil muncul setelah pencarian selesai.';$('aBadge').textContent=it?'Sedang mencari':'Belum dijalankan';$('aBadge').className='badge';return;}
+  const br=branches(),m=match(br),k=K(),ok=m===k&&br.length===k;
+  if(scored!==runId&&!tourOn){scored=runId;tally[ok?'a':'b']++;$('tally').textContent='Catatan sesi ini: '+(tally.a+tally.b)+' pencarian selesai, '+tally.a+' menemukan semua cabang, '+tally.b+' sebagian.';}
+  $('aMain').textContent=br.length+' cabang diusulkan';
+  $('aSub').innerHTML=br.map((b,i)=>'Cabang '+(i+1)+': ('+meters(b.x)+', '+meters(b.y)+') m, keramaian '+Math.round(b.v*100)+'% dari puncak').join('<br>')+(br.length<k?'<br>Hanya '+br.length+' keramaian terpisah yang ditemukan. Coba tambah cacing atau perpendek jangkauan.':'');
+  $('aBadge').textContent=ok?'Tepat: semua cabang di keramaian sebenarnya':m?'Sebagian: '+m+' dari '+k+' tepat':'Meleset';$('aBadge').className='badge '+(ok?'good':'mid');
+}
+
+/* ===== putaran ===== */
+let last=0;
+function loop(t){requestAnimationFrame(loop);tNow=t;const dt=Math.min(.1,(t-last)/1000||0);last=t;if(document.hidden)return;
+  if(playing){acc+=dt*20*spd;let n=0;while(acc>=1&&it<T){step();acc--;n++;}if(n){refresh();}if(done){playing=false;acc=0;refresh();}}
+  if(view==='3d')draw3D();else draw2D();}
+rebuild();seed();refresh();requestAnimationFrame(loop);
+})();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Wet Lab — Sentrifugasi &amp; Kemurnian Asam Nukleat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F4F6F8; --panel:#FFFFFF; --ink:#1B2430; --ink-soft:#5B6B7A;
+    --blue:#1B4B73; --blue-bright:#2E7DB8; --line:#DCE3E8;
+    --good:#2C7A50; --warn:#C98A1E; --bad:#B23A3A; --lab-dark:#0F1E2B;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px 96px;}
+  header.hero{background:linear-gradient(180deg,var(--lab-dark) 0%, #16283A 100%);color:#fff;padding:52px 24px 38px;}
+  header.hero .wrap{padding-bottom:0;}
+  .eyebrow{color:var(--blue-bright);font-size:0.9rem;margin:0 0 6px;font-weight:600;}
+  h1{font-size:clamp(1.6rem,4vw,2.2rem);margin:0 0 12px;font-weight:700;}
+  .lede{max-width:620px;color:#C3D2DE;font-size:1.02rem;margin:0;}
+  section{padding:40px 0;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+  h2{font-size:1.32rem;font-weight:700;margin:0 0 6px;color:var(--blue);}
+  .sub{color:var(--ink-soft);font-size:0.9rem;margin:0 0 16px;}
+  p{margin:0 0 14px;}
+  ul,ol{padding-left:22px;}
+  li{margin-bottom:6px;}
+
+  .panel{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:22px;margin-top:16px;box-shadow:0 1px 3px rgba(15,30,43,0.06);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:0.8rem;color:var(--ink-soft);margin-bottom:5px;font-weight:500;}
+  .field input[type=range]{width:100%;accent-color:var(--blue-bright);}
+  .field input[type=number]{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:5px;font-family:'JetBrains Mono',monospace;font-size:0.95rem;}
+  .field select{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:5px;font-family:'Inter',sans-serif;background:#fff;}
+  .field .value{font-family:'JetBrains Mono',monospace;color:var(--blue);font-weight:600;}
+
+  .btn-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+  button{font-family:'Space Grotesk',sans-serif;background:var(--blue);color:#fff;border:none;padding:9px 16px;border-radius:5px;font-size:0.82rem;cursor:pointer;font-weight:600;}
+  button:hover{background:var(--blue-bright);}
+  button.chip{background:#EAF1F6;color:var(--blue);border:1px solid var(--line);padding:6px 12px;font-size:0.78rem;}
+  button.chip:hover{background:#DCEAF2;}
+  button.toggle.active{background:var(--blue-bright);}
+  button.toggle{background:var(--ink-soft);}
+
+  .result-box{background:#EAF1F6;border-radius:6px;padding:18px;margin-top:14px;text-align:center;}
+  .result-box .big{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:600;color:var(--blue);}
+  .result-box .label{font-size:0.78rem;color:var(--ink-soft);margin-top:4px;}
+
+  .ratio-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px;}
+  .ratio-card{flex:1 1 180px;background:#F8FAFB;border:1px solid var(--line);border-radius:6px;padding:14px;}
+  .ratio-card .n{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:600;}
+  .ratio-card .label{font-size:0.75rem;color:var(--ink-soft);margin-bottom:4px;}
+  .flag{display:inline-block;margin-top:8px;padding:3px 9px;border-radius:10px;font-size:0.72rem;font-weight:600;}
+  .flag.good{background:#E1F2E7;color:var(--good);}
+  .flag.warn{background:#FBEED9;color:var(--warn);}
+  .flag.bad{background:#F7E1E1;color:var(--bad);}
+
+  .formula{background:#0F1E2B;color:#C3D2DE;padding:14px 18px;border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:0.92rem;display:inline-block;margin:8px 0;}
+  .limits{background:#FFF7E8;border:1px solid #EAD9AE;border-radius:8px;padding:20px;}
+  .limits h3{margin-top:0;font-size:1rem;color:var(--warn);}
+  footer{padding:28px 24px;text-align:center;color:var(--ink-soft);font-size:0.82rem;}
+  a{color:var(--blue);}
+  @media (max-width:640px){.grid2{grid-template-columns:1fr;}header.hero{padding:36px 18px 28px;}section{padding:28px 0;}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">WET LAB TOOLS · Alat 001–002</p>
+    <h1>Kalkulator Dasar Wet Lab</h1>
+    <p class="lede">Dua kalkulator yang paling sering dibutuhkan dalam alur ekstraksi asam nukleat: konversi RPM ↔ RCF sentrifugasi, dan interpretasi kemurnian/konsentrasi hasil spektrofotometer.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <section id="rcf">
+    <h2>1 · Konversi RPM ↔ RCF (Gaya Sentrifugal)</h2>
+    <p class="sub">Mesin sentrifuga menampilkan RPM, tapi protokol menyebut angka seperti "12.000×g" — dua satuan ini hanya setara pada radius rotor tertentu.</p>
+    <div class="panel">
+      <div class="btn-row">
+        <button class="toggle active" id="mode-rpm2rcf">RPM → RCF</button>
+        <button class="toggle" id="mode-rcf2rpm">RCF Target → RPM</button>
+      </div>
+
+      <div id="panel-rpm2rcf">
+        <div class="grid2">
+          <div class="field">
+            <label>Kecepatan putar — <span class="value" id="rpm-val">10000</span> RPM</label>
+            <input type="range" id="rpm-input" min="500" max="20000" step="100" value="10000">
+          </div>
+          <div class="field">
+            <label>Radius rotor — <span class="value" id="radius-val">8.5</span> cm</label>
+            <input type="range" id="radius-input" min="2" max="15" step="0.1" value="8.5">
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="chip" data-r="4.5">Rotor kecil (r≈4,5cm)</button>
+          <button class="chip" data-r="8.5">Mikrosentrifuga umum (r≈8,5cm)</button>
+          <button class="chip" data-r="12">Rotor besar (r≈12cm)</button>
+        </div>
+        <div class="result-box">
+          <div class="big" id="rcf-result">0×g</div>
+          <div class="label">GAYA SENTRIFUGAL RELATIF (RCF)</div>
+        </div>
+      </div>
+
+      <div id="panel-rcf2rpm" style="display:none;">
+        <div class="grid2">
+          <div class="field">
+            <label>RCF target — <span class="value" id="rcf-target-val">12000</span> ×g</label>
+            <input type="range" id="rcf-target-input" min="500" max="30000" step="100" value="12000">
+          </div>
+          <div class="field">
+            <label>Radius rotor — <span class="value" id="radius2-val">8.5</span> cm</label>
+            <input type="range" id="radius2-input" min="2" max="15" step="0.1" value="8.5">
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="chip" data-rcf="6000">6.000×g (panen sel)</button>
+          <button class="chip" data-rcf="8000">8.000×g</button>
+          <button class="chip" data-rcf="12000">12.000×g (lisis/kolom)</button>
+          <button class="chip" data-rcf="15000">15.000×g (presipitasi DNA)</button>
+        </div>
+        <div class="result-box">
+          <div class="big" id="rpm-result">0 RPM</div>
+          <div class="label">KECEPATAN PUTAR YANG DIBUTUHKAN</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="purity">
+    <h2>2 · Kemurnian &amp; Konsentrasi Asam Nukleat</h2>
+    <p class="sub">Masukkan pembacaan A260/A280/A230 dari spektrofotometer — langsung dapat konsentrasi dan interpretasi kontaminasi.</p>
+    <div class="panel">
+      <div class="grid2">
+        <div class="field">
+          <label>Jenis asam nukleat</label>
+          <select id="na-type">
+            <option value="50">dsDNA (faktor 50)</option>
+            <option value="33">ssDNA/oligo (faktor 33)</option>
+            <option value="40">RNA (faktor 40)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Faktor pengenceran (dilution)</label>
+          <input type="number" id="dilution" value="1" min="1" step="0.1">
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="field"><label>A260</label><input type="number" id="a260" value="0.500" step="0.001"></div>
+        <div class="field"><label>A280</label><input type="number" id="a280" value="0.270" step="0.001"></div>
+      </div>
+      <div class="field"><label>A230</label><input type="number" id="a230" value="0.230" step="0.001"></div>
+
+      <div class="result-box">
+        <div class="big" id="conc-result">0 ng/µL</div>
+        <div class="label">KONSENTRASI</div>
+      </div>
+
+      <div class="ratio-row">
+        <div class="ratio-card">
+          <div class="label">A260/A280</div>
+          <div class="n" id="ratio-280">0.00</div>
+          <div class="flag good" id="flag-280">—</div>
+        </div>
+        <div class="ratio-card">
+          <div class="label">A260/A230</div>
+          <div class="n" id="ratio-230">0.00</div>
+          <div class="flag good" id="flag-230">—</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="perhitungan">
+    <h2>Perhitungan</h2>
+    <p><strong>RCF dari RPM:</strong></p>
+    <div class="formula">RCF (×g) = 1,118 × 10⁻⁵ × r(cm) × RPM²</div>
+    <p><strong>Konsentrasi dari absorbansi (hukum Beer-Lambert):</strong></p>
+    <div class="formula">Konsentrasi (ng/µL) = A260 × faktor ekstingsi × faktor pengenceran</div>
+    <p>Faktor ekstingsi standar (jalur cahaya 1 cm, dikoreksi otomatis oleh alat microvolume seperti NanoDrop): dsDNA = 50, ssDNA/oligo = 33, RNA = 40.</p>
+    <p><strong>Ambang interpretasi rasio kemurnian</strong> (aturan umum, bukan mutlak):</p>
+    <ul>
+      <li>A260/A280 — target ≈1,8 untuk DNA, ≈2,0 untuk RNA. Lebih rendah → indikasi kontaminasi protein/fenol. Untuk DNA, lebih tinggi dari ≈2,0 → indikasi kontaminasi RNA.</li>
+      <li>A260/A230 — target 2,0–2,2 untuk DNA maupun RNA. Lebih rendah → indikasi sisa garam kaotropik, fenol, EDTA, atau karbohidrat dari proses ekstraksi.</li>
+    </ul>
+  </section>
+
+  <section id="batasan">
+    <div class="limits">
+      <h3>Batasan</h3>
+      <ul>
+        <li>Radius rotor pada kalkulator RCF adalah radius rata-rata (dari sumbu putar ke titik tengah kolom cairan) — nilai sebenarnya berbeda-beda per model sentrifuga; selalu cek spesifikasi rotor Anda, bukan hanya mengandalkan nilai contoh di sini.</li>
+        <li>Ambang rasio A260/A280 dan A260/A230 adalah aturan umum (rule of thumb) yang bisa bergeser tergantung buffer pengukuran (mis. Tris vs air) dan jenis sampel — bukan spesifikasi mutlak lolos/gagal.</li>
+        <li>Pengukuran UV (A260) menghitung <em>semua</em> yang menyerap di 260nm, termasuk nukleotida bebas atau RNA yang terdegradasi dalam prep DNA — untuk kuantifikasi yang lebih spesifik, metode fluorometrik (mis. Qubit) lebih akurat.</li>
+        <li>Kalkulator ini untuk triase cepat dan pembelajaran, bukan pengganti validasi metode di laboratorium yang teregulasi.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="referensi">
+    <h2>Referensi</h2>
+    <ul>
+      <li>Rincian Wet Lab Capability (dokumen internal) — sumber konteks angka g-force dan tahapan protokol.</li>
+      <li>Oxford Nanopore Technologies, "Input DNA/RNA QC" — panduan ambang rasio kemurnian.</li>
+      <li>BioProcess Tools, "Nucleic Acid Quantification: A260, Purity Ratios &amp; Methods".</li>
+      <li>Bionordika, "Contaminants in Your Nucleic Acid Sample?".</li>
+    </ul>
+  </section>
+
+</div>
+
+<footer>Wet Lab Tools · Belajar → Memodelkan → Menguji → Membuat</footer>
+
+<script>
+(function(){
+  /* ---------- RPM <-> RCF ---------- */
+  const modeRpm2Rcf = document.getElementById('mode-rpm2rcf');
+  const modeRcf2Rpm = document.getElementById('mode-rcf2rpm');
+  const panelA = document.getElementById('panel-rpm2rcf');
+  const panelB = document.getElementById('panel-rcf2rpm');
+
+  const rpmInput = document.getElementById('rpm-input');
+  const radiusInput = document.getElementById('radius-input');
+  const rpmVal = document.getElementById('rpm-val');
+  const radiusVal = document.getElementById('radius-val');
+  const rcfResult = document.getElementById('rcf-result');
+
+  function calcRCF(){
+    const rpm = parseFloat(rpmInput.value);
+    const r = parseFloat(radiusInput.value);
+    const rcf = 1.118e-5 * r * rpm * rpm;
+    rpmVal.textContent = rpm;
+    radiusVal.textContent = r.toFixed(1);
+    rcfResult.textContent = Math.round(rcf).toLocaleString('id-ID')+'×g';
+  }
+  rpmInput.addEventListener('input', calcRCF);
+  radiusInput.addEventListener('input', calcRCF);
+  document.querySelectorAll('#panel-rpm2rcf .chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ radiusInput.value = btn.dataset.r; calcRCF(); });
+  });
+  calcRCF();
+
+  const rcfTargetInput = document.getElementById('rcf-target-input');
+  const radius2Input = document.getElementById('radius2-input');
+  const rcfTargetVal = document.getElementById('rcf-target-val');
+  const radius2Val = document.getElementById('radius2-val');
+  const rpmResult = document.getElementById('rpm-result');
+
+  function calcRPM(){
+    const rcf = parseFloat(rcfTargetInput.value);
+    const r = parseFloat(radius2Input.value);
+    const rpm = Math.sqrt(rcf/(1.118e-5*r));
+    rcfTargetVal.textContent = rcf.toLocaleString('id-ID');
+    radius2Val.textContent = r.toFixed(1);
+    rpmResult.textContent = Math.round(rpm).toLocaleString('id-ID')+' RPM';
+  }
+  rcfTargetInput.addEventListener('input', calcRPM);
+  radius2Input.addEventListener('input', calcRPM);
+  document.querySelectorAll('#panel-rcf2rpm .chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ rcfTargetInput.value = btn.dataset.rcf; calcRPM(); });
+  });
+  calcRPM();
+
+  modeRpm2Rcf.addEventListener('click', ()=>{
+    modeRpm2Rcf.classList.add('active'); modeRcf2Rpm.classList.remove('active');
+    panelA.style.display='block'; panelB.style.display='none';
+  });
+  modeRcf2Rpm.addEventListener('click', ()=>{
+    modeRcf2Rpm.classList.add('active'); modeRpm2Rcf.classList.remove('active');
+    panelA.style.display='none'; panelB.style.display='block';
+  });
+
+  /* ---------- Purity calculator ---------- */
+  const naType = document.getElementById('na-type');
+  const dilution = document.getElementById('dilution');
+  const a260 = document.getElementById('a260');
+  const a280 = document.getElementById('a280');
+  const a230 = document.getElementById('a230');
+  const concResult = document.getElementById('conc-result');
+  const ratio280 = document.getElementById('ratio-280');
+  const ratio230 = document.getElementById('ratio-230');
+  const flag280 = document.getElementById('flag-280');
+  const flag230 = document.getElementById('flag-230');
+
+  function setFlag(el, cls, text){ el.className='flag '+cls; el.textContent=text; }
+
+  function calcPurity(){
+    const factor = parseFloat(naType.value);
+    const dil = parseFloat(dilution.value)||1;
+    const A260 = parseFloat(a260.value)||0;
+    const A280 = parseFloat(a280.value)||0.0001;
+    const A230 = parseFloat(a230.value)||0.0001;
+
+    const conc = A260*factor*dil;
+    concResult.textContent = conc.toFixed(1)+' ng/µL';
+
+    const r280 = A260/A280;
+    const r230 = A260/A230;
+    ratio280.textContent = r280.toFixed(2);
+    ratio230.textContent = r230.toFixed(2);
+
+    const isRNA = factor===40;
+    const target280 = isRNA ? 2.0 : 1.8;
+    if(Math.abs(r280-target280)<=0.1){
+      setFlag(flag280,'good','Bersih');
+    } else if(r280 < target280-0.1){
+      setFlag(flag280,'bad','Indikasi protein/fenol');
+    } else {
+      setFlag(flag280,'warn', isRNA? 'Cek kontaminasi DNA':'Indikasi kontaminasi RNA');
+    }
+
+    if(r230>=2.0 && r230<=2.4){
+      setFlag(flag230,'good','Bersih');
+    } else if(r230<2.0){
+      setFlag(flag230,'bad','Sisa garam/fenol/EDTA');
+    } else {
+      setFlag(flag230,'warn','Di atas kisaran umum');
+    }
+  }
+  [naType,dilution,a260,a280,a230].forEach(el=> el.addEventListener('input', calcPurity));
+  calcPurity();
+})();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

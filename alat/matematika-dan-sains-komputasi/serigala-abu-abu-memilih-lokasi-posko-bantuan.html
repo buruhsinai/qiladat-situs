@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Serigala Abu-Abu: Memilih Lokasi Posko Bantuan</title>
+<style>
+:root{--bg:#eaf0ee;--card:#fff;--ink:#0d333b;--dim:#4d6a70;--line:#c5d5d2;--soft:#f3f7f6;--lagoon:#17687a;--lagoon-ink:#fff;--buoy:#d9441a;--good:#1c7a45;--good-bg:#e2f3e8;--mid:#8a5a00;--mid-bg:#fdf0d2}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0b181d;--card:#12242b;--ink:#e6f1ee;--dim:#9bbbc0;--line:#27434d;--soft:#0f1f25;--lagoon:#5cc0d2;--lagoon-ink:#08262d;--buoy:#ff8059;--good:#7fdba3;--good-bg:#14352a;--mid:#f2c46a;--mid-bg:#3a2d10}}
+:root[data-theme="dark"]{--bg:#0b181d;--card:#12242b;--ink:#e6f1ee;--dim:#9bbbc0;--line:#27434d;--soft:#0f1f25;--lagoon:#5cc0d2;--lagoon-ink:#08262d;--buoy:#ff8059;--good:#7fdba3;--good-bg:#14352a;--mid:#f2c46a;--mid-bg:#3a2d10}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:22px 16px 80px}
+h1{font:700 clamp(1.6rem,4.6vw,2.3rem)/1.15 Georgia,"Times New Roman",serif;margin:0 0 8px}
+h2{font:700 1.08rem/1.3 Georgia,serif;margin:0 0 8px}
+.lead{color:var(--dim);max-width:66ch;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 350px;gap:18px;align-items:start}
+@media(max-width:920px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card+.card{margin-top:14px}
+.mapwrap{position:relative;border-radius:8px;overflow:hidden;border:1px solid var(--line);aspect-ratio:1/1;background:#efece3}
+canvas#map{width:100%;height:100%;display:block;cursor:crosshair;touch-action:manipulation}
+#three3d{position:absolute;inset:0;display:none;cursor:grab;touch-action:none;user-select:none}
+#three3d canvas{display:block;width:100%!important;height:100%!important}
+.cam3d{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:3}
+.cam3d[hidden]{display:none}
+.cam3d button{min-height:36px;padding:5px 10px;font-size:.85rem;background:rgba(255,255,255,.94);color:#0d333b;border-color:#9bb7bd}
+button{font:inherit;font-size:.95rem;min-height:42px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--ink);cursor:pointer}
+button.go{background:var(--lagoon);color:var(--lagoon-ink);border-color:var(--lagoon);font-weight:700}
+button[aria-pressed="true"]{outline:3px solid var(--lagoon);outline-offset:-1px;font-weight:700}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 0}
+.seg{display:inline-flex;gap:0;margin:0 0 10px}
+.seg button{border-radius:0;min-width:70px}
+.seg button:first-child{border-radius:10px 0 0 10px}.seg button:last-child{border-radius:0 10px 10px 0}
+.hint{margin:10px 0 0;color:var(--dim);font-size:.95rem}
+.story{margin:0;font-size:1rem}
+.prog{height:8px;background:var(--soft);border-radius:6px;margin-top:10px;overflow:hidden;border:1px solid var(--line)}
+#bar{height:100%;width:0;background:var(--lagoon)}
+.answer strong{display:block;font:700 1.35rem/1.2 Georgia,serif}
+.answer span{color:var(--dim);font-size:.95rem}
+.badge{display:inline-block;margin-top:8px;padding:3px 10px;border-radius:99px;background:var(--soft);border:1px solid var(--line);font-size:.85rem}
+.badge.good{background:var(--good-bg);color:var(--good)}.badge.mid{background:var(--mid-bg);color:var(--mid)}
+.field{margin:0 0 12px}.field label{display:flex;justify-content:space-between;font-size:.95rem;font-weight:600}
+.field input{width:100%}.field small{color:var(--dim);display:block;line-height:1.35}
+.note{color:var(--dim);font-size:.92rem}
+details.about,details.legend{margin-top:16px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+details summary{cursor:pointer;font-weight:700}
+.legendgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px;margin-top:10px;font-size:.92rem}
+.legendgrid span{display:flex;gap:8px;align-items:center}.legendgrid i{flex:none;width:18px;height:18px;border-radius:50%;display:inline-block}
+.warn{color:var(--buoy);min-height:1.2em;margin:6px 0 0;font-size:.92rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Serigala Abu-Abu: Di Mana Posko Bantuan Sebaiknya Didirikan?</h1>
+  <p class="lead">Banjir menggenangi sebagian kota. Beberapa kampung terdampak butuh bantuan, dan posko harus dekat dengan semuanya, tetapi tidak boleh berdiri di lahan yang tergenang. Sekawanan serigala, dipimpin tiga pemimpin (alpha, beta, delta), mencari lokasi terbaiknya.</p>
+
+  <div class="grid">
+    <div>
+      <div class="card">
+        <div class="seg" role="group" aria-label="Mode tampilan">
+          <button id="v2" type="button" aria-pressed="true">Peta 2D</button><button id="v3" type="button" aria-pressed="false">Maket 3D</button>
+        </div>
+        <div class="mapwrap" id="mapwrap">
+          <canvas id="map"></canvas>
+          <div id="three3d"></div>
+          <div class="cam3d" id="cam3d" hidden><button id="cTop" type="button">Dari atas</button><button id="cTilt" type="button">Miring</button></div>
+        </div>
+        <div class="seg" style="margin-top:12px" role="group" aria-label="Apa yang ditaruh saat peta diketuk">
+          <button id="mFlood" type="button" aria-pressed="true">🌊 Ketuk = genangi / keringkan lahan</button><button id="mDem" type="button" aria-pressed="false">🏠 Ketuk = tambah / hapus kampung</button>
+        </div>
+        <p class="hint" id="hint">Ketuk peta untuk membuat lahan terlarang (banjir) di sana. Ketuk banjir yang sudah ada untuk mengeringkannya. Di maket 3D, geser untuk memutar dan ketuk untuk menaruh.</p>
+        <p class="warn" id="msg" role="status"></p>
+        <div class="bar">
+          <button class="go" id="play" type="button">▶ Mulai pencarian</button>
+          <button id="reseed" type="button">↻ Ulangi</button>
+          <button id="sample" type="button">🎲 Kasus baru</button>
+          <button id="clearF" type="button">Keringkan semua</button>
+          <button id="voice" type="button" aria-pressed="false">🔇 Suara</button>
+          <button id="tour" type="button">❓ Tur singkat</button>
+        </div>
+        <details class="legend" open>
+          <summary>Arti gambar di peta</summary>
+          <div class="legendgrid">
+            <span><i style="background:rgba(27,134,201,.55)"></i>Lahan banjir (terlarang untuk posko)</span>
+            <span><i style="background:#d98e2a"></i>Kampung terdampak (angka = jumlah warga, ratusan)</span>
+            <span><i style="background:#4d6a70"></i>Serigala biasa (satu usulan lokasi tiap serigala)</span>
+            <span><i style="background:#d9441a"></i>α Alpha, pemimpin terbaik</span>
+            <span><i style="background:#e0a63a"></i>β Beta, pemimpin kedua</span>
+            <span><i style="background:#17687a"></i>δ Delta, pemimpin ketiga</span>
+            <span><i style="background:#fff;border:3px solid #1c7a45"></i>Lokasi terbaik hasil cek semua titik (muncul di akhir)</span>
+            <span><i style="background:#c62d2d"></i>Posko usulan (di akhir)</span>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" aria-live="polite">
+        <h2>Apa yang sedang terjadi?</h2>
+        <p class="story" id="story"></p>
+        <div class="prog" aria-hidden="true"><div id="bar"></div></div>
+        <div id="tourBox" hidden style="margin-top:12px;padding:10px 12px;border:1px dashed var(--lagoon);border-radius:10px"><b id="tT"></b><p id="tX" class="note" style="margin:6px 0"></p><div class="bar" style="margin:0"><button id="tP" type="button" aria-label="Sebelumnya">⏮</button><button id="tN" class="go" type="button">Lanjut ⏭</button><button id="tC" type="button">Tutup</button></div></div>
+      </div>
+      <div class="card" aria-live="polite">
+        <h2>Hasilnya</h2>
+        <div class="answer"><strong id="aMain">—</strong><span id="aSub">Hasil muncul setelah pencarian selesai.</span></div>
+        <span class="badge" id="aBadge">Belum dijalankan</span>
+        <p class="note" id="tally" aria-live="polite"></p>
+      </div>
+      <div class="card">
+        <h2>Atur sendiri</h2>
+        <div class="field"><label for="nW">Jumlah serigala <b id="nWV">15</b></label><input id="nW" type="range" min="3" max="40" value="15"><small>Makin banyak serigala, makin luas yang dijelajahi.</small></div>
+        <div class="field"><label for="rad">Lebar banjir yang ditaruh <b id="radV">10 m</b></label><input id="rad" type="range" min="4" max="20" value="10"></div>
+        <div class="field"><label for="wt">Warga kampung yang ditambah <b id="wtV">4 (400 jiwa)</b></label><input id="wt" type="range" min="1" max="10" value="4"></div>
+        <div class="field"><label for="spd">Kecepatan <b id="spdV">1×</b></label><input id="spd" type="range" min="0.25" max="4" step="0.25" value="1"><small>Tidak mengubah hasil, hanya lama tayangannya.</small></div>
+        <details>
+          <summary>Seberapa andal?</summary>
+          <p class="note">Mengulang pencarian 30 kali di peta ini, sekali dengan 5 serigala dan sekali dengan jumlah pengaturanmu, lalu menghitung berapa kali hasilnya meleset kurang dari 10 m dari titik terbaik sebenarnya.</p>
+          <button id="trial" type="button" style="width:100%">Bandingkan 5 dan banyak serigala</button>
+          <p class="note" id="trialOut" aria-live="polite"></p>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <details class="about">
+    <summary>Bagaimana kawanan serigala mencarinya?</summary>
+    <ol>
+      <li>Setiap serigala adalah satu usulan lokasi posko. Nilainya adalah rata-rata jarak warga ke posko (dibobot jumlah warga tiap kampung). Makin kecil makin baik. Lokasi di lahan banjir diberi hukuman besar, jadi serigala yang tersesat ke air kalah dari yang di darat.</li>
+      <li>Tiga serigala terbaik menjadi pemimpin: alpha (terbaik), beta, dan delta. Serigala lain tidak mengikuti satu pemimpin saja, tetapi ketiganya: tiap serigala menghitung arah dari alpha, dari beta, dan dari delta, lalu mengambil titik tengahnya.</li>
+      <li>Ada angka a yang menyusut dari 2 ke 0. Di awal, serigala boleh melompat jauh, bahkan melewati pemimpin (menjelajah). Di akhir, langkahnya mengecil dan mengepung mangsa (mempertajam).</li>
+      <li>Di akhir, posisi alpha menjadi posko usulan. Lalu seluruh peta diperiksa titik demi titik sebagai pembanding.</li>
+    </ol>
+    <ul>
+      <li>Ini miniatur. Jarak dihitung garis lurus, bukan lewat jalan, dan banjir digambarkan sebagai lingkaran. Jangan dipakai sendirian untuk keputusan penanggulangan bencana sungguhan.</li>
+      <li>Di peta sekecil ini, memeriksa semua titik sebenarnya lebih mudah. Keunggulan algoritma alam baru terasa pada ruang pencarian yang jauh lebih besar dan rumit.</li>
+      <li>Mengikuti Grey Wolf Optimizer (Mirjalili, Mirjalili, Lewis, 2014), versi ruang 2 dimensi dengan lahan terlarang sebagai hukuman nilai.</li>
+    </ul>
+  </details>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){'use strict';
+const $=id=>document.getElementById(id);
+const S=800,L=100,sc=S/L,U=S/640,MPU=10,T=100;
+const cv=$('map'),ctx=cv.getContext('2d');cv.width=cv.height=S;
+const clamp=v=>Math.max(0,Math.min(L,v));
+
+/* ===== kota (dipakai 2D dan 3D) ===== */
+const Rp=[12,30,50,69,88],Rw=[1.8,1.8,3.4,1.8,1.8];
+const edge=i=>[i===0?0:Rp[i-1]+Rw[i-1]/2,i===5?L:Rp[i]-Rw[i]/2];
+const blocks=[],lots=[];let sd=11;const rr=()=>(sd=sd*16807%2147483647)/2147483647;
+for(let i=0;i<=5;i++)for(let j=0;j<=5;j++){
+  const [x0,x1]=edge(i),[y0,y1]=edge(j),park=(i===3&&j===3);
+  blocks.push({x0,x1,y0,y1,park});
+  if(park)continue;
+  const cols=x1-x0>11?3:2,rows=y1-y0>11?3:2,gw=(x1-x0)/cols,gh=(y1-y0)/rows;
+  for(let a=0;a<cols;a++)for(let c=0;c<rows;c++){const m=.55+rr()*.5;lots.push({x0:x0+a*gw+m,x1:x0+(a+1)*gw-m,y0:y0+c*gh+m,y1:y0+(c+1)*gh-m,h:1+rr()*2.4});}
+}
+const base=document.createElement('canvas');base.width=base.height=S;
+(function(){const c=base.getContext('2d');c.fillStyle='#fbf8ef';c.fillRect(0,0,S,S);
+  for(const b of blocks){const x=b.x0*sc,y=b.y0*sc,w=(b.x1-b.x0)*sc,h=(b.y1-b.y0)*sc;c.fillStyle='#d7d1bd';c.fillRect(x-3,y-3,w+6,h+6);c.fillStyle=b.park?'#cfe3c0':'#ebe7dc';c.fillRect(x,y,w,h);}
+  for(const l of lots){const x=l.x0*sc,y=l.y0*sc,w=(l.x1-l.x0)*sc,h=(l.y1-l.y0)*sc;c.fillStyle='#dcd5c3';c.fillRect(x,y,w,h);c.strokeStyle='#b0a98f';c.lineWidth=1.5;c.strokeRect(x,y,w,h);}
+})();
+
+/* ===== keadaan ===== */
+let demand=[],floods=[],wolves=[],lead=[],it=0,playing=false,fr=1,spd=1,view='2d',mode='flood',done=false,gridC=null,dirty3=true;
+let trail=[],tally={a:0,b:0,c:0},runId=0,scored=-1,voiceOn=false,lastSpoken='',tNow=0;
+function defaults(){
+  demand=[{x:22,y:24,w:5},{x:30,y:62,w:3},{x:48,y:40,w:4},{x:62,y:28,w:6},{x:70,y:66,w:5},{x:82,y:46,w:2},{x:40,y:80,w:3}];
+  floods=[{x:50,y:46,r:12},{x:68,y:48,r:9}];
+}
+function randomCase(){
+  demand=[];const n=5+Math.floor(Math.random()*4);
+  for(let i=0;i<n;i++)demand.push({x:8+Math.random()*84,y:8+Math.random()*84,w:1+Math.floor(Math.random()*9)});
+  floods=[];const m=2+Math.floor(Math.random()*2);
+  let sx=0,sy=0,sw=0;for(const d of demand){sx+=d.x*d.w;sy+=d.y*d.w;sw+=d.w;}
+  floods.push({x:sx/sw,y:sy/sw,r:9+Math.random()*5});
+  for(let i=1;i<m;i++)floods.push({x:10+Math.random()*80,y:10+Math.random()*80,r:6+Math.random()*7});
+}
+const dist=(x,y)=>{let s=0,w=0;for(const d of demand){s+=d.w*Math.hypot(x-d.x,y-d.y);w+=d.w;}return s/w*MPU;};
+const flooded=(x,y)=>floods.some(z=>Math.hypot(x-z.x,y-z.y)<z.r);
+function cost(x,y){let f=dist(x,y);for(const z of floods){const d=Math.hypot(x-z.x,y-z.y);if(d<z.r)f+=500+(z.r-d)*20;}return f;}
+function farthest(x,y){let m=0;for(const d of demand)m=Math.max(m,Math.hypot(x-d.x,y-d.y)*MPU);return m;}
+function gridBest(){if(gridC)return gridC;let b={f:1e9,x:0,y:0};for(let x=0;x<=L;x+=.5)for(let y=0;y<=L;y+=.5){if(flooded(x,y))continue;const f=dist(x,y);if(f<b.f)b={f,x,y};}return gridC=b;}
+
+/* ===== GWO ===== */
+const nW=()=>+$('nW').value;
+function upd(w){const c={x:w.x,y:w.y,f:w.f};
+  if(w.f<lead[0].f){lead[2]=lead[1];lead[1]=lead[0];lead[0]=c;}
+  else if(w.f<lead[1].f){lead[2]=lead[1];lead[1]=c;}
+  else if(w.f<lead[2].f)lead[2]=c;}
+function seed(){
+  wolves=[];lead=[{f:Infinity},{f:Infinity},{f:Infinity}];it=0;done=false;fr=1;trail=[];runId++;lastSpoken='';
+  for(let i=0;i<nW();i++){const x=Math.random()*L,y=Math.random()*L,w={x,y,px:x,py:y,f:cost(x,y)};wolves.push(w);}
+  for(const w of wolves)upd(w);
+}
+function step(){
+  const a=2*(1-it/T);
+  const comp=(p,l)=>{const A=2*a*Math.random()-a,C=2*Math.random();return l-A*Math.abs(C*l-p);};
+  for(const w of wolves){w.px=w.x;w.py=w.y;
+    w.x=clamp((comp(w.x,lead[0].x)+comp(w.x,lead[1].x)+comp(w.x,lead[2].x))/3);
+    w.y=clamp((comp(w.y,lead[0].y)+comp(w.y,lead[1].y)+comp(w.y,lead[2].y))/3);}
+  for(const w of wolves){w.f=cost(w.x,w.y);}
+  for(const w of wolves)upd(w);
+  it++;trail.push({x:lead[0].x,y:lead[0].y});if(it>=T)done=true;
+}
+const meters=v=>Math.round(v*MPU);
+
+/* ===== gambar 2D ===== */
+function wolfPos(w){const e=Math.min(1,fr);return {x:w.px+(w.x-w.px)*e,y:w.py+(w.y-w.py)*e};}
+const LC=['#d9441a','#e0a63a','#17687a'],LN=['α','β','δ'];
+function draw2D(){
+  ctx.drawImage(base,0,0);
+  for(const z of floods){ctx.fillStyle='rgba(27,134,201,.48)';ctx.strokeStyle='#1b86c9';ctx.lineWidth=3*U*.7;ctx.setLineDash([10,7]);ctx.beginPath();ctx.arc(z.x*sc,z.y*sc,z.r*sc,0,6.2832);ctx.fill();ctx.stroke();ctx.setLineDash([]);
+    ctx.fillStyle='#0d4d77';ctx.font='bold '+13*U+'px system-ui';ctx.textAlign='center';ctx.fillText('BANJIR',z.x*sc,z.y*sc+4*U);}
+  for(const d of demand){const x=d.x*sc,y=d.y*sc,r=(6+d.w*1.3)*U;ctx.fillStyle='#d98e2a';ctx.strokeStyle='#fff';ctx.lineWidth=2.5*U;ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fill();ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font='bold '+13*U+'px system-ui';ctx.textAlign='center';ctx.fillText(d.w,x,y+4.5*U);}
+  if(done){const g=gridBest();ctx.strokeStyle='#1c7a45';ctx.lineWidth=4*U*.7;ctx.setLineDash([8,5]);ctx.beginPath();ctx.arc(g.x*sc,g.y*sc,13*U,0,6.2832);ctx.stroke();ctx.setLineDash([]);}
+  if(lead[0].f<Infinity){ctx.strokeStyle='rgba(13,51,59,.55)';ctx.lineWidth=2;ctx.setLineDash([6,6]);ctx.beginPath();ctx.moveTo(lead[0].x*sc,lead[0].y*sc);ctx.lineTo(lead[1].x*sc,lead[1].y*sc);ctx.lineTo(lead[2].x*sc,lead[2].y*sc);ctx.closePath();ctx.stroke();ctx.setLineDash([]);}
+  if(trail.length>1){ctx.strokeStyle='rgba(217,68,26,.7)';ctx.lineWidth=3*U*.7;ctx.beginPath();trail.forEach((q,i)=>i?ctx.lineTo(q.x*sc,q.y*sc):ctx.moveTo(q.x*sc,q.y*sc));ctx.stroke();}
+  for(const w of wolves){const p=wolfPos(w);ctx.fillStyle='#4d6a70';ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.arc(p.x*sc,p.y*sc,5*U,0,6.2832);ctx.fill();ctx.stroke();}
+  if(lead[0].f<Infinity)for(let k=2;k>=0;k--){const l=lead[k],x=l.x*sc,y=l.y*sc;ctx.fillStyle=LC[k];ctx.strokeStyle='#fff';ctx.lineWidth=3*U*.7;ctx.beginPath();ctx.arc(x,y,11*U,0,6.2832);ctx.fill();ctx.stroke();ctx.fillStyle='#fff';ctx.font='bold '+15*U+'px system-ui';ctx.textAlign='center';ctx.fillText(LN[k],x,y+5.5*U);}
+  if(done){const x=lead[0].x*sc,y=lead[0].y*sc,s=15*U;ctx.fillStyle='#c62d2d';ctx.strokeStyle='#fff';ctx.lineWidth=3*U*.7;ctx.fillRect(x-s,y-s-26*U,2*s,2*s);ctx.strokeRect(x-s,y-s-26*U,2*s,2*s);ctx.fillStyle='#fff';ctx.fillRect(x-3*U,y-s-26*U+5*U,6*U,2*s-10*U);ctx.fillRect(x-s+5*U,y-26*U-3*U,2*s-10*U,6*U);ctx.fillStyle='#c62d2d';ctx.beginPath();ctx.moveTo(x-5*U,y-s-26*U+2*s);ctx.lineTo(x+5*U,y-s-26*U+2*s);ctx.lineTo(x,y-4*U);ctx.fill();}
+}
+
+/* ===== maket 3D ===== */
+let R,SC,CAM,floodG,demG,wolfG,leadM=[],posko,cam={th:.55,ph:.95,r:108};
+function bx(x0,x1,y0,y1,h,col,y){const m=new THREE.Mesh(new THREE.BoxGeometry(x1-x0,h,y1-y0),new THREE.MeshLambertMaterial({color:col}));m.position.set((x0+x1)/2-50,(y||0)+h/2,(y0+y1)/2-50);return m;}
+function init3D(){
+  if(R)return true;
+  try{R=new THREE.WebGLRenderer({antialias:true});}catch(e){R=null;return false;}
+  R.setPixelRatio(Math.min(2,window.devicePixelRatio||1));$('three3d').appendChild(R.domElement);
+  SC=new THREE.Scene();SC.background=new THREE.Color(0xd6e6e3);CAM=new THREE.PerspectiveCamera(45,1,1,600);
+  SC.add(new THREE.AmbientLight(0xffffff,.75));const dl=new THREE.DirectionalLight(0xffffff,.7);dl.position.set(40,90,30);SC.add(dl);
+  const g=new THREE.Mesh(new THREE.PlaneGeometry(L,L),new THREE.MeshLambertMaterial({color:0xb9b5a6}));g.rotation.x=-Math.PI/2;SC.add(g);
+  for(const b of blocks)SC.add(bx(b.x0,b.x1,b.y0,b.y1,.3,b.park?0xcfe3c0:0xebe7dc));
+  for(const l of lots)SC.add(bx(l.x0,l.x1,l.y0,l.y1,l.h*1.3,0xd9d2bf,.3));
+  floodG=new THREE.Group();demG=new THREE.Group();wolfG=new THREE.Group();SC.add(floodG,demG,wolfG);
+  const cols=[0xd9441a,0xe0a63a,0x17687a];
+  for(let k=0;k<3;k++){const gr=new THREE.Group();const c=new THREE.Mesh(new THREE.CylinderGeometry(.9,.9,26,14),new THREE.MeshBasicMaterial({color:cols[k],transparent:true,opacity:.55}));c.position.y=13;const s=new THREE.Mesh(new THREE.SphereGeometry(2,16,12),new THREE.MeshLambertMaterial({color:cols[k]}));s.position.y=27;gr.add(c,s);SC.add(gr);leadM.push(gr);}
+  posko=new THREE.Group();posko.add(bx(-3,3,-3,3,6,0xc62d2d,0));
+  const w1=bx(-.7,.7,-3.1,3.1,.2,0xffffff,6),w2=bx(-3.1,3.1,-.7,.7,.2,0xffffff,6);posko.add(w1,w2);posko.visible=false;SC.add(posko);
+  bind3D();dirty3=true;return true;
+}
+function rebuild3D(){
+  const clr=g=>{while(g.children.length)g.remove(g.children[0]);};clr(floodG);clr(demG);clr(wolfG);
+  for(const z of floods){const m=new THREE.Mesh(new THREE.CylinderGeometry(z.r,z.r,2.4,48),new THREE.MeshLambertMaterial({color:0x1b86c9,transparent:true,opacity:.62}));m.position.set(z.x-50,1.2,z.y-50);floodG.add(m);}
+  for(const d of demand){const h=5+d.w*.9,m=new THREE.Mesh(new THREE.ConeGeometry(1.2+d.w*.3,h,14),new THREE.MeshLambertMaterial({color:0xd98e2a}));m.position.set(d.x-50,2.4+h/2,d.y-50);demG.add(m);}
+  for(let i=0;i<wolves.length;i++){const m=new THREE.Mesh(new THREE.ConeGeometry(1,2.6,6),new THREE.MeshLambertMaterial({color:0x4d6a70}));m.position.y=1.3;wolfG.add(m);}
+  dirty3=false;
+}
+function resize3D(){const b=$('three3d'),w=b.clientWidth,h=b.clientHeight;if(!w||!h)return;if(R.domElement.width!==Math.round(w*R.getPixelRatio())){R.setSize(w,h,false);CAM.aspect=w/h;CAM.updateProjectionMatrix();}}
+function draw3D(){
+  if(!R)return;if(dirty3||wolfG.children.length!==wolves.length)rebuild3D();resize3D();
+  wolves.forEach((w,i)=>{const p=wolfPos(w);wolfG.children[i].position.x=p.x-50;wolfG.children[i].position.z=p.y-50;wolfG.children[i].position.y=(floods.some(z=>Math.hypot(p.x-z.x,p.y-z.y)<z.r)?3.6:1.3)+Math.sin(tNow/250+i)*.25;});
+  floodG.children.forEach((m,i)=>{const k=1+Math.sin(tNow/700+i)*.015;m.material.opacity=.55+Math.sin(tNow/400+i)*.08;m.scale.set(k,1,k);});
+  leadM.forEach((g,k)=>g.children[1].scale.setScalar(1+Math.sin(tNow/200+k)*.12));
+  for(let k=0;k<3;k++){const l=lead[k];leadM[k].visible=l.f<Infinity;if(l.f<Infinity)leadM[k].position.set(l.x-50,0,l.y-50);}
+  posko.visible=done;if(done)posko.position.set(lead[0].x-50,2.4,lead[0].y-50);
+  CAM.position.set(cam.r*Math.sin(cam.ph)*Math.sin(cam.th),cam.r*Math.cos(cam.ph),cam.r*Math.sin(cam.ph)*Math.cos(cam.th));CAM.lookAt(0,0,0);R.render(SC,CAM);
+}
+function bind3D(){
+  const el=R.domElement;let drag=null;
+  el.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,mv:0};el.setPointerCapture(e.pointerId);$('three3d').style.cursor='grabbing';});
+  el.addEventListener('pointermove',e=>{if(!drag)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.mv+=Math.abs(dx)+Math.abs(dy);cam.th-=dx*.008;cam.ph=Math.max(.12,Math.min(1.45,cam.ph-dy*.008));drag.x=e.clientX;drag.y=e.clientY;});
+  el.addEventListener('pointerup',e=>{$('three3d').style.cursor='grab';if(drag&&drag.mv<6){const r=el.getBoundingClientRect(),v=new THREE.Vector2((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1),rc=new THREE.Raycaster();rc.setFromCamera(v,CAM);
+    const o=rc.ray.origin,d=rc.ray.direction;if(d.y<-1e-4){const t=-o.y/d.y,x=o.x+d.x*t+50,y=o.z+d.z*t+50;if(x>=0&&x<=L&&y>=0&&y<=L)mapClick(x,y);}}drag=null;});
+  el.addEventListener('wheel',e=>{e.preventDefault();cam.r=Math.max(45,Math.min(180,cam.r*(e.deltaY>0?1.08:.92)));},{passive:false});
+}
+
+/* ===== interaksi ===== */
+function mapClick(x,y){
+  $('msg').textContent='';
+  if(mode==='flood'){const i=floods.findIndex(z=>Math.hypot(x-z.x,y-z.y)<z.r);if(i>=0)floods.splice(i,1);else floods.push({x,y,r:+$('rad').value});}
+  else{const i=demand.findIndex(d=>Math.hypot(x-d.x,y-d.y)<3.2);
+    if(i>=0){if(demand.length>1)demand.splice(i,1);else $('msg').textContent='Minimal harus ada satu kampung terdampak.';}
+    else demand.push({x,y,w:+$('wt').value});}
+  changed();
+}
+cv.addEventListener('click',e=>{const r=cv.getBoundingClientRect();mapClick((e.clientX-r.left)/r.width*L,(e.clientY-r.top)/r.height*L);});
+function changed(){gridC=null;dirty3=true;playing=false;seed();refresh();}
+function setView(v){view=v;$('v2').setAttribute('aria-pressed',v==='2d');$('v3').setAttribute('aria-pressed',v==='3d');
+  if(v==='3d'){if(!init3D()){$('msg').textContent='Perangkat ini tidak mendukung tampilan 3D. Tampilan 2D tetap bisa dipakai.';view='2d';$('v2').setAttribute('aria-pressed',true);$('v3').setAttribute('aria-pressed',false);return;}}
+  cv.style.display=view==='2d'?'block':'none';$('three3d').style.display=view==='3d'?'block':'none';$('cam3d').hidden=view!=='3d';}
+$('v2').onclick=()=>setView('2d');$('v3').onclick=()=>setView('3d');
+$('cTop').onclick=()=>{cam.ph=.12;cam.th=0;};$('cTilt').onclick=()=>{cam.ph=.95;cam.th=.55;cam.r=108;};
+function setMode(m){mode=m;$('mFlood').setAttribute('aria-pressed',m==='flood');$('mDem').setAttribute('aria-pressed',m==='dem');}
+$('mFlood').onclick=()=>setMode('flood');$('mDem').onclick=()=>setMode('dem');
+$('play').onclick=()=>{if(done||it>=T){seed();}playing=!playing;if(playing)fr=1;refresh();};
+$('reseed').onclick=()=>{playing=false;seed();refresh();};
+$('sample').onclick=()=>{randomCase();changed();};
+$('clearF').onclick=()=>{floods=[];changed();};
+$('nW').oninput=()=>{$('nWV').textContent=nW();playing=false;seed();refresh();};
+$('rad').oninput=()=>$('radV').textContent=$('rad').value+' m';
+$('wt').oninput=()=>$('wtV').textContent=$('wt').value+' ('+$('wt').value*100+' jiwa)';
+$('spd').oninput=()=>{spd=+$('spd').value;$('spdV').textContent=spd+'×';};
+$('trial').onclick=()=>{
+  const g=gridBest(),n0=nW(),res=[];
+  for(const n of [5,n0]){$('nW').value=n;let ok=0;for(let t=0;t<30;t++){seed();while(it<T)step();if(lead[0].f-g.f<MPU*1&&!flooded(lead[0].x,lead[0].y))ok++;}res.push(ok);}
+  $('nW').value=n0;playing=false;seed();refresh();
+  $('trialOut').textContent='Dari 30 pencarian: 5 serigala tepat '+res[0]+' kali, '+n0+' serigala tepat '+res[1]+' kali (tepat = meleset kurang dari 10 m dari titik terbaik).';
+};
+
+/* ===== teks dan hasil ===== */
+function refresh(){
+  const p=it/T;$('bar').style.width=(p*100)+'%';
+  $('play').textContent=playing?'⏸ Jeda':(done?'▶ Cari lagi':(it>0?'▶ Lanjutkan':'▶ Mulai pencarian'));
+  const l=lead[0];
+  let s;
+  if(it===0)s='Kawanan tersebar acak. Setiap serigala mencoba satu lokasi posko. Yang di lahan banjir langsung kena hukuman. Tekan Mulai pencarian.';
+  else if(!done)s=(p<.35?'Menjelajah: langkah serigala masih lebar, kadang melompati pemimpin. ':p<.7?'Mulai menyempit: serigala berkumpul mengitari tiga pemimpin. ':'Mengepung: langkah mengecil dan mempertajam lokasi. ')+'Alpha sekarang di sekitar ('+meters(l.x)+' m, '+meters(l.y)+' m), rata-rata warga menempuh '+Math.round(dist(l.x,l.y))+' m.';
+  else s='Selesai. Alpha menetap, dan di situlah posko diusulkan. Lingkaran hijau putus-putus menunjukkan titik terbaik hasil memeriksa seluruh peta.';
+  $('story').textContent=s;speakMaybe(it===0?'0':done?'d':p<.35?'1':p<.7?'2':'3');
+  if(!done){$('aMain').textContent=it?'Sementara: ('+meters(l.x)+', '+meters(l.y)+') m':'—';$('aSub').textContent=it?'Pencarian belum selesai.':'Hasil muncul setelah pencarian selesai.';$('aBadge').textContent=it?'Sedang mencari':'Belum dijalankan';$('aBadge').className='badge';return;}
+  const g=gridBest(),gap=dist(l.x,l.y)-g.f,fl=flooded(l.x,l.y);
+  $('aMain').textContent='Posko di ('+meters(l.x)+', '+meters(l.y)+') m';
+  $('aSub').textContent=fl?'Posko jatuh di lahan banjir. Coba ulangi atau tambah serigala.':'Rata-rata warga menempuh '+Math.round(dist(l.x,l.y))+' m, kampung terjauh '+Math.round(farthest(l.x,l.y))+' m. Titik terbaik sebenarnya: '+Math.round(g.f)+' m rata-rata ('+(gap<0.5?'sama':'selisih '+Math.round(gap)+' m')+').';
+  const ok=!fl&&gap<10;if(scored!==runId){scored=runId;tally[ok?'a':fl?'c':'b']++;}$('tally').textContent='Catatan sesi ini: '+(tally.a+tally.b+tally.c)+' pencarian selesai, '+tally.a+' tepat, '+tally.b+' mendekati, '+tally.c+' gagal di lahan banjir.';$('aBadge').textContent=fl?'Gagal: di lahan banjir':ok?'Tepat':'Mendekati';$('aBadge').className='badge '+(ok?'good':'mid');
+}
+
+/* ===== putaran ===== */
+let last=0;
+function loop(t){requestAnimationFrame(loop);tNow=t;const dt=Math.min(.1,(t-last)/1000||0);last=t;if(document.hidden)return;
+  if(playing){fr+=dt*4*spd;if(fr>=1&&it<T){step();fr=0;refresh();if(done){playing=false;fr=1;refresh();}}}
+  if(view==='3d')draw3D();else draw2D();}
+const VT={'0':'Kawanan serigala tersebar acak. Setiap serigala mencoba satu lokasi posko. Yang berdiri di lahan banjir kena hukuman.','1':'Tahap menjelajah. Langkah serigala masih lebar, kadang melompati pemimpin.','2':'Kawanan mulai menyempit, berkumpul mengitari alpha, beta, dan delta.','3':'Tahap mengepung. Langkah mengecil dan lokasi dipertajam.','d':'Selesai. Posisi alpha menjadi posko usulan, dan hasilnya dibandingkan dengan pemeriksaan seluruh peta.'};
+function say(t){if(!voiceOn||!window.speechSynthesis)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='id-ID';const v=speechSynthesis.getVoices().find(x=>/^id/i.test(x.lang));if(v)u.voice=v;u.rate=.95;speechSynthesis.speak(u);}
+function speakMaybe(k){if(k===lastSpoken)return;lastSpoken=k;if(!tourOn)say(VT[k]);}
+if(!window.speechSynthesis)$('voice').disabled=true;
+$('voice').onclick=()=>{voiceOn=!voiceOn;$('voice').setAttribute('aria-pressed',voiceOn);$('voice').textContent=voiceOn?'🔊 Suara':'🔇 Suara';if(voiceOn){lastSpoken='';refresh();}else if(window.speechSynthesis)speechSynthesis.cancel();};
+let tourOn=false,ti=0;
+const TS=[['1. Masalahnya','Ada banjir (lingkaran biru) dan kampung terdampak (lingkaran oranye). Posko harus dekat dengan semua kampung, tetapi tidak boleh di lahan banjir.'],
+['2. Atur banjirnya','Ketuk peta untuk menggenangi lahan, ketuk lagi untuk mengeringkan. Coba genangi titik terbaik, lalu lihat kawanan mencari tempat lain.'],
+['3. Tiga pemimpin','Alpha (merah), beta (kuning), dan delta (biru) adalah tiga serigala terbaik. Serigala lain bergerak ke titik tengah dari arah ketiganya.'],
+['4. Lihat dari 3D','Maket 3D menampilkan hal yang sama. Geser untuk memutar, roda untuk zoom. Kolom cahaya adalah para pemimpin.'],
+['5. Mulai!','Tekan Mulai pencarian. Di akhir, hasilnya dibandingkan dengan pemeriksaan semua titik di peta.']];
+function showTour(){const s=TS[ti];$('tT').textContent=s[0];$('tX').textContent=s[1];$('tN').textContent=ti===TS.length-1?'Selesai':'Lanjut ⏭';$('tourBox').hidden=false;if(ti===3)setView('3d');else if(view==='3d')setView('2d');say(s[1]);}
+function endTour(){tourOn=false;$('tourBox').hidden=true;if(window.speechSynthesis)speechSynthesis.cancel();lastSpoken='';}
+$('tour').onclick=()=>{tourOn=true;ti=0;showTour();};
+$('tN').onclick=()=>{if(ti>=TS.length-1){endTour();return;}ti++;showTour();};
+$('tP').onclick=()=>{if(ti>0){ti--;showTour();}};
+$('tC').onclick=endTour;
+defaults();seed();refresh();requestAnimationFrame(loop);
+})();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

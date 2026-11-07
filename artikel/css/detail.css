@@ -1,0 +1,169 @@
+/* =========================================================
+   JAZMI — Halaman Artikel Detail
+   detail.css
+   Hanya menambah komponen baru khusus halaman detail.
+   Menggunakan token warna/tipografi dari css/style.css
+   (variabel :root), tidak menduplikasi atau mengubahnya.
+   Tidak mengubah artikel/css/artikel.css milik C02.
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Tautan kembali (atas halaman)
+   --------------------------------------------------------- */
+.detail-crumb-wrap {
+  padding-top: clamp(1.25rem, 3vw, 2rem);
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--emerald-deep);
+  transition: color 0.2s var(--ease);
+}
+.back-link:hover {
+  color: var(--emerald);
+}
+
+/* ---------------------------------------------------------
+   Header identitas artikel (judul, kategori, tanggal)
+   --------------------------------------------------------- */
+.article-identity {
+  padding-bottom: clamp(1rem, 3vw, 1.5rem);
+}
+.article-meta-row {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------------------------------------------------------
+   Isi artikel
+   --------------------------------------------------------- */
+.article-detail-inner {
+  max-width: 720px;
+}
+.article-body-content {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--ink);
+}
+.article-body-content p {
+  margin: 0 0 1.25rem;
+}
+.article-body-content p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---------------------------------------------------------
+   Label artikel (taksonomi topik) — daftar chip di atas
+   Tag Relasi, lihat HANDOFF-TAG-LABEL-ARTIKEL.md §1.2/1.3
+   --------------------------------------------------------- */
+.label-chip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.label-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--emerald);
+  color: var(--emerald-deep);
+  font-size: 0.85rem;
+  font-weight: 600;
+  background: transparent;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+.label-chip:hover,
+.label-chip:focus-visible {
+  background: var(--emerald-deep);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------
+   Tag Relasi Otomatis — daftar artikel terkait, tiap butir
+   diberi badge jenis relasi (sebelumnya/selanjutnya/serial-lain/
+   ranah-lain), lihat HANDOFF §1.1
+   --------------------------------------------------------- */
+.tag-relasi-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.tag-relasi-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.tag-type-badge {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--ink-faint);
+}
+.tag-type-badge[data-tipe="sebelumnya"],
+.tag-type-badge[data-tipe="selanjutnya"] {
+  background: var(--emerald-deep);
+}
+.tag-type-badge[data-tipe="serial-lain"] {
+  background: var(--emerald-soft);
+}
+.tag-type-badge[data-tipe="ranah-lain"] {
+  background: var(--emerald);
+}
+@media (min-width: 640px) {
+  .tag-relasi-item {
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.9rem;
+  }
+  .tag-type-badge {
+    flex: 0 0 auto;
+    min-width: 9.5rem;
+    text-align: center;
+  }
+}
+
+/* ---------------------------------------------------------
+   Keadaan fallback (404 / error)
+   --------------------------------------------------------- */
+.article-fallback {
+  max-width: 640px;
+  padding: clamp(2rem, 6vw, 3.5rem) 0;
+}
+.article-fallback .btn {
+  margin-top: clamp(1.25rem, 3vw, 1.75rem);
+}
+
+/* ---------------------------------------------------------
+   Navigasi bawah
+   --------------------------------------------------------- */
+.detail-bottom-nav {
+  padding-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+
+/* ---------------------------------------------------------
+   Responsive — mengikuti breakpoint resmi JAZMI (640/860)
+   --------------------------------------------------------- */
+@media (max-width: 639px) {
+  .article-body-content {
+    font-size: 1rem;
+  }
+}

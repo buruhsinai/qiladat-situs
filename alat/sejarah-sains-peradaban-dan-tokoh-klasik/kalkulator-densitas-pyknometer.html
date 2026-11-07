@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Densitas via Pyknometer — JAZMI</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Karla:wght@400;500;700&family=Amiri&display=swap');
+
+:root{
+  --bg: #12141c;
+  --bg-panel: #1b1f2b;
+  --bg-panel-2: #20263a;
+  --line: #333a4f;
+  --text: #eee7d6;
+  --text-dim: #a9a6ac;
+  --gold: #c9a15a;
+  --gold-soft: #8a713c;
+  --teal: #5a9c92;
+  --radius: 10px;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:'Karla', sans-serif;
+  line-height:1.6;
+}
+
+h1,h2,h3{
+  font-family:'Fraunces', serif;
+  font-weight:600;
+  letter-spacing:0.2px;
+  margin:0 0 0.5em;
+}
+
+.arabic{ font-family:'Amiri', serif; }
+
+a{ color: var(--gold); }
+
+.wrap{ max-width: 780px; margin:0 auto; padding: 0 20px; }
+
+/* HERO */
+.hero{
+  padding: 56px 0 40px;
+  border-bottom:1px solid var(--line);
+  text-align:center;
+}
+.hero .eyebrow{
+  text-transform:uppercase;
+  font-size:0.72rem;
+  letter-spacing:2.5px;
+  color: var(--gold);
+  margin-bottom:14px;
+}
+.hero h1{
+  font-size: clamp(1.7rem, 5vw, 2.5rem);
+  color:#fff;
+  margin-bottom:10px;
+}
+.hero p.tag{
+  color: var(--text-dim);
+  max-width:520px;
+  margin:0 auto 30px;
+  font-size:0.98rem;
+}
+
+.vessel{ width:180px; height:180px; margin:0 auto; }
+
+/* SECTIONS */
+section{ padding: 46px 0; border-bottom:1px solid var(--line); }
+section:last-of-type{ border-bottom:none; }
+
+.kicker{
+  display:flex; align-items:center; gap:10px;
+  margin-bottom: 20px;
+}
+.kicker .num{
+  font-family:'Fraunces', serif;
+  color: var(--gold);
+  font-size:0.85rem;
+  border:1px solid var(--gold-soft);
+  border-radius:50%;
+  width:28px; height:28px;
+  display:flex; align-items:center; justify-content:center;
+  flex-shrink:0;
+}
+.kicker h2{ font-size:1.35rem; margin:0; color:#fff; }
+
+p{ color: var(--text); }
+p.dim{ color: var(--text-dim); font-size:0.92rem; }
+
+blockquote{
+  border-left:3px solid var(--gold);
+  margin: 20px 0;
+  padding: 4px 0 4px 18px;
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* PANEL / CARD */
+.panel{
+  background: var(--bg-panel);
+  border:1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-top:18px;
+}
+
+/* TABS */
+.tabs{ display:flex; gap:8px; margin-bottom:20px; }
+.tab-btn{
+  flex:1;
+  background: var(--bg-panel-2);
+  border:1px solid var(--line);
+  color: var(--text-dim);
+  padding:10px 12px;
+  border-radius: var(--radius);
+  font-family:'Karla', sans-serif;
+  font-weight:700;
+  font-size:0.85rem;
+  cursor:pointer;
+  transition: all 0.15s ease;
+}
+.tab-btn.active{
+  color:#12141c;
+  background: var(--gold);
+  border-color: var(--gold);
+}
+.tab-panel{ display:none; }
+.tab-panel.active{ display:block; }
+
+label{
+  display:block;
+  font-size:0.85rem;
+  color: var(--text-dim);
+  margin: 14px 0 6px;
+}
+label:first-of-type{ margin-top:0; }
+input[type=number]{
+  width:100%;
+  background: #0e1017;
+  border:1px solid var(--line);
+  color: var(--text);
+  padding:10px 12px;
+  border-radius:8px;
+  font-family:'Karla', sans-serif;
+  font-size:1rem;
+}
+input[type=number]:focus{ outline:none; border-color: var(--gold); }
+
+.btn{
+  margin-top:20px;
+  width:100%;
+  background: var(--gold);
+  color:#12141c;
+  border:none;
+  padding:13px;
+  border-radius:8px;
+  font-family:'Karla', sans-serif;
+  font-weight:700;
+  font-size:0.95rem;
+  cursor:pointer;
+}
+.btn:hover{ background:#dab46e; }
+.btn.secondary{
+  background:transparent;
+  border:1px solid var(--teal);
+  color: var(--teal);
+}
+
+.result{
+  margin-top:18px;
+  padding:18px;
+  border-radius: var(--radius);
+  background: var(--bg-panel-2);
+  border:1px solid var(--gold-soft);
+  display:none;
+}
+.result.show{ display:block; }
+.result .big{
+  font-family:'Fraunces', serif;
+  font-size:2rem;
+  color: var(--gold);
+}
+.result .row{
+  display:flex; justify-content:space-between;
+  font-size:0.85rem; color: var(--text-dim);
+  padding:5px 0;
+  border-top:1px dashed var(--line);
+}
+.result .row:first-of-type{ border-top:none; margin-top:10px; }
+.error{ color:#d97f6f; font-size:0.85rem; margin-top:10px; display:none; }
+.error.show{ display:block; }
+
+table{ width:100%; border-collapse:collapse; margin-top:14px; font-size:0.88rem; }
+td, th{ padding:7px 4px; border-bottom:1px solid var(--line); text-align:left; }
+th{ color: var(--gold); font-weight:700; }
+td:last-child, th:last-child{ text-align:right; }
+
+.formula{
+  font-family:'Fraunces', serif;
+  font-style:italic;
+  background: var(--bg-panel-2);
+  border-radius:8px;
+  padding:14px 18px;
+  margin:14px 0;
+  overflow-x:auto;
+  color:#f4eede;
+}
+
+ul{ padding-left:20px; color:var(--text); }
+ul.batas li{ margin-bottom:10px; }
+
+.consult{
+  background: linear-gradient(135deg, var(--bg-panel-2), var(--bg-panel));
+  border:1px solid var(--gold-soft);
+  border-radius: var(--radius);
+  padding:22px;
+  text-align:center;
+}
+.consult a.wa{
+  display:inline-block;
+  margin-top:14px;
+  background: var(--teal);
+  color:#0e1017;
+  text-decoration:none;
+  font-weight:700;
+  padding:12px 26px;
+  border-radius:30px;
+}
+
+.refs li{ margin-bottom:12px; font-size:0.92rem; color: var(--text-dim); }
+.refs a{ color: var(--text); }
+
+footer{ text-align:center; padding:30px 0; color:var(--text-dim); font-size:0.8rem; }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div class="eyebrow">JAZMI · Laboratorium Sains</div>
+    <svg class="vessel" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="70,30 130,30 160,150 40,150" fill="none" stroke="#c9a15a" stroke-width="2.5"/>
+      <line x1="130" y1="55" x2="175" y2="65" stroke="#c9a15a" stroke-width="2.5"/>
+      <circle cx="177" cy="66" r="4" fill="#c9a15a"/>
+      <line x1="55" y1="150" x2="145" y2="150" stroke="#5a9c92" stroke-width="2" stroke-dasharray="3,3"/>
+      <rect x="150" y="120" width="34" height="24" fill="none" stroke="#5a9c92" stroke-width="2"/>
+      <text x="100" y="20" text-anchor="middle" fill="#a9a6ac" font-size="9" font-family="Karla">wadah kerucut</text>
+      <text x="177" y="55" text-anchor="middle" fill="#a9a6ac" font-size="8" font-family="Karla">lubang luap</text>
+      <text x="167" y="158" text-anchor="middle" fill="#a9a6ac" font-size="8" font-family="Karla">tampungan</text>
+    </svg>
+    <h1>Kalkulator Densitas via Pyknometer</h1>
+    <p class="tag">Menghitung massa jenis cairan atau padatan dari prinsip yang sama dipakai Al-Biruni seribu tahun lalu: bandingkan sampel dengan volume air yang diketahui pasti.</p>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- BELAJAR -->
+  <section id="belajar">
+    <div class="kicker"><div class="num">1</div><h2>Belajar</h2></div>
+
+    <p><strong>Densitas</strong> (massa jenis) adalah massa per satuan volume suatu zat, biasa ditulis dalam g/mL atau kg/m³. Istilah yang sering tertukar dengannya adalah <strong>berat jenis</strong> (specific gravity) — perbandingan densitas suatu zat terhadap densitas air pada suhu rujukan, sehingga nilainya tanpa satuan. Kalkulator ini menghitung keduanya sekaligus, karena metode pyknometer secara alami menghasilkan perbandingan terhadap air.</p>
+
+    <p>Kesulitan mengukur densitas bukan pada menimbang massa — timbangan sudah akurat sejak lama — melainkan pada mengukur <em>volume</em> secara presisi, terutama untuk cairan atau benda kecil dengan bentuk tak beraturan. Pyknometer (dan pendahulunya, wadah kerucut Al-Biruni) menyelesaikan ini dengan cara elegan: volume tidak diukur langsung, tapi diwakilkan oleh massa air yang mengisi ruang yang persis sama.</p>
+
+    <h3 style="margin-top:28px; font-size:1.05rem; color:#fff;">Sejarah singkat</h3>
+    <p>Abu Rayhan al-Biruni (973–1048 M), polimatik Persia yang juga menghitung jari-jari Bumi dengan galat sekitar 1%, merancang sebuah wadah berbentuk kerucut dengan lubang kecil di dekat leher. Ketika benda dicelupkan, air yang tumpah lewat lubang tersebut ditampung dan ditimbang — massa air yang tumpah itu <em>secara langsung merepresentasikan volume benda</em>, mengikuti prinsip Archimedes. Dengan cara ini ia mengukur berat jenis sekitar delapan belas logam dan permata, dan menurut catatan sejarawan sains, sebagian hasilnya mendekati nilai yang diterima ilmu modern saat ini.</p>
+    <p class="dim">Deskripsi wadah ini didokumentasikan muridnya, al-Khazini, sekitar satu abad kemudian. Instrumen itulah yang oleh sejarawan sains dianggap sebagai leluhur pyknometer yang dipakai di laboratorium modern.</p>
+
+    <blockquote class="arabic">و العلمُ لا يُدركُ إلا بالتجربة<br><span style="font-family:'Karla'; font-style:italic; color:var(--text-dim); font-size:0.85rem;">— semangat kerja Al-Biruni: pengetahuan sejati hanya tercapai lewat pengujian, bukan klaim semata.</span></blockquote>
+  </section>
+
+  <!-- KALKULATOR -->
+  <section id="hitung">
+    <div class="kicker"><div class="num">2</div><h2>Hitung</h2></div>
+    <p class="dim">Pilih jenis sampel. Kedua metode memakai prinsip yang sama: massa air pada volume acuan dipakai sebagai pembanding.</p>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('cairan')">Cairan</button>
+      <button class="tab-btn" onclick="switchTab('padatan')">Padatan (gaya Al-Biruni)</button>
+    </div>
+
+    <!-- CAIRAN -->
+    <div class="tab-panel active" id="tab-cairan">
+      <div class="panel">
+        <label>Massa pyknometer kosong, m₀ (gram)</label>
+        <input type="number" id="c_m0" step="any" placeholder="mis. 25.120">
+        <label>Massa pyknometer + air kalibrasi, m₁ (gram)</label>
+        <input type="number" id="c_m1" step="any" placeholder="mis. 50.340">
+        <label>Massa pyknometer + cairan sampel, m₂ (gram)</label>
+        <input type="number" id="c_m2" step="any" placeholder="mis. 47.890">
+        <label>Suhu air &amp; sampel saat pengukuran, T (°C)</label>
+        <input type="number" id="c_t" step="any" placeholder="mis. 25" value="25">
+        <button class="btn" onclick="hitungCairan()">Hitung densitas cairan</button>
+        <div class="error" id="err-cairan"></div>
+        <div class="result" id="res-cairan">
+          <div class="big" id="rc-density">–</div>
+          <div class="row"><span>Berat jenis (relatif terhadap air)</span><span id="rc-sg">–</span></div>
+          <div class="row"><span>Densitas air pada suhu ini</span><span id="rc-water">–</span></div>
+          <div class="row"><span>Massa air kalibrasi (m₁−m₀)</span><span id="rc-mair">–</span></div>
+          <div class="row"><span>Massa sampel (m₂−m₀)</span><span id="rc-msampel">–</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PADATAN -->
+    <div class="tab-panel" id="tab-padatan">
+      <div class="panel">
+        <label>Massa benda di udara, Wₐ (gram)</label>
+        <input type="number" id="p_wa" step="any" placeholder="mis. 38.500">
+        <label>Massa air yang tumpah / berpindah, Wₓ (gram)</label>
+        <input type="number" id="p_wx" step="any" placeholder="mis. 2.000">
+        <label>Suhu air saat pengukuran, T (°C)</label>
+        <input type="number" id="p_t" step="any" placeholder="mis. 25" value="25">
+        <button class="btn" onclick="hitungPadatan()">Hitung densitas padatan</button>
+        <div class="error" id="err-padatan"></div>
+        <div class="result" id="res-padatan">
+          <div class="big" id="rp-density">–</div>
+          <div class="row"><span>Berat jenis (relatif terhadap air)</span><span id="rp-sg">–</span></div>
+          <div class="row"><span>Densitas air pada suhu ini</span><span id="rp-water">–</span></div>
+          <div class="row"><span>Perkiraan volume benda</span><span id="rp-vol">–</span></div>
+        </div>
+      </div>
+    </div>
+
+    <table>
+      <tr><th>Zat rujukan</th><th>Densitas (g/mL)</th></tr>
+      <tr><td>Air (4°C)</td><td>1.000</td></tr>
+      <tr><td>Minyak zaitun</td><td>≈0.91</td></tr>
+      <tr><td>Madu</td><td>≈1.42</td></tr>
+      <tr><td>Perak</td><td>≈10.5</td></tr>
+      <tr><td>Emas</td><td>≈19.3</td></tr>
+    </table>
+    <p class="dim">Tabel ini sekadar pembanding kasar untuk membaca hasil, bukan bagian dari perhitungan.</p>
+  </section>
+
+  <!-- METODE -->
+  <section id="metode">
+    <div class="kicker"><div class="num">3</div><h2>Metode &amp; Rumus</h2></div>
+
+    <p><strong>Cairan (metode relatif):</strong> volume pyknometer tidak perlu diketahui secara terpisah karena ia dihilangkan dari perbandingan — ini mengapa metode relatif lebih akurat daripada mengandalkan volume tertera pada label alat, yang bisa berubah karena muai-susut kaca.</p>
+    <div class="formula">ρ<sub>sampel</sub> = [(m₂ − m₀) / (m₁ − m₀)] × ρ<sub>air</sub>(T)</div>
+
+    <p><strong>Padatan (prinsip Al-Biruni / Archimedes):</strong> massa air yang berpindah mewakili volume benda secara langsung.</p>
+    <div class="formula">ρ<sub>benda</sub> = (W<sub>a</sub> / W<sub>x</sub>) × ρ<sub>air</sub>(T)</div>
+
+    <p><strong>Densitas air terhadap suhu, ρ<sub>air</sub>(T):</strong> dihitung memakai persamaan empiris Tanaka dkk. (2001), berlaku akurat pada rentang 0–40°C:</p>
+    <div class="formula">ρ<sub>air</sub>(T) = a₅ × [1 − (T+a₁)²(T+a₂) / (a₃(T+a₄))]</div>
+    <p class="dim">dengan a₁=−3.983035, a₂=301.797, a₃=522528.9, a₄=69.34881, a₅=999.974950 (satuan kg/m³, hasil dibagi 1000 untuk g/mL).</p>
+  </section>
+
+  <!-- BATASAN -->
+  <section id="batasan">
+    <div class="kicker"><div class="num">4</div><h2>Batasan</h2></div>
+    <ul class="batas">
+      <li><strong>Rentang suhu:</strong> rumus densitas air hanya valid dan akurat pada 0–40°C. Di luar itu, hasil tidak bisa dipercaya.</li>
+      <li><strong>Bergantung pada input:</strong> kalkulator ini tidak mengukur apa pun secara fisik — akurasi hasil sepenuhnya bergantung pada ketelitian timbangan dan cara Anda mengukur massa di laboratorium.</li>
+      <li><strong>Gelembung udara &amp; zat terlarut:</strong> rumus mengasumsikan air murni bebas gelembung udara dan tanpa zat terlarut. Air keran atau air dengan gelembung akan menggeser hasil.</li>
+      <li><strong>Padatan berpori:</strong> metode perpindahan air kurang akurat untuk benda berpori atau menyerap air (mis. kayu, sebagian batuan), karena sebagian air ikut terserap dan tidak seluruhnya tumpah.</li>
+      <li>Alat ini adalah bantu-hitung untuk keperluan belajar dan estimasi, bukan pengganti pyknometer terkalibrasi untuk keperluan yang menuntut presisi tinggi (mis. uji kemurnian logam mulia untuk transaksi).</li>
+    </ul>
+  </section>
+
+  <!-- REFERENSI -->
+  <section id="referensi">
+    <div class="kicker"><div class="num">5</div><h2>Referensi</h2></div>
+    <ul class="refs">
+      <li>A.C. Sparavigna, <em>"The Science of al-Biruni"</em> — ringkasan riset al-Biruni tentang berat jenis logam dan gemstone memakai wadah kerucut, termasuk deskripsi al-Khazini atas instrumen tersebut.</li>
+      <li>Chemistry World, <em>"Al-Biruni's pyknometer"</em> — sejarah wadah kerucut sebagai leluhur pyknometer modern.</li>
+      <li>Muslim Heritage, <em>"The Science of al-Biruni"</em> — perbandingan metode al-Biruni dengan legenda Archimedes dan mahkota emas.</li>
+      <li>Tanaka M., Girard G., Davis R., Peuto A., Bignell N. (2001), <em>"Recommended table for the density of water..."</em>, Metrologia — sumber persamaan densitas air terhadap suhu yang dipakai di kalkulator ini.</li>
+    </ul>
+  </section>
+
+  <!-- KONSULTASI -->
+  <section id="konsultasi">
+    <div class="consult">
+      <h3 style="color:#fff;">Hasil terlihat janggal, atau ingin validasi untuk keperluan serius?</h3>
+      <p class="dim">Alat ini masih pengembangan versi awal. Untuk keperluan yang membutuhkan ketepatan tinggi, sangat dianjurkan menghubungi kami langsung.</p>
+      <a class="wa" id="wa-link" href="#" target="_blank">Hubungi via WhatsApp</a>
+    </div>
+  </section>
+
+</div>
+
+<footer>JAZMI — Laboratorium Pengetahuan Digital · Prototipe, belum masuk struktur menu utama.</footer>
+
+<script>
+function switchTab(name){
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function waterDensityGmL(T){
+  const a1=-3.983035, a2=301.797, a3=522528.9, a4=69.34881, a5=999.974950;
+  const num = Math.pow(T+a1,2)*(T+a2);
+  const den = a3*(T+a4);
+  const rhoKgM3 = a5*(1-num/den);
+  return rhoKgM3/1000;
+}
+
+function fmt(n, d=4){ return isFinite(n) ? n.toFixed(d) : '–'; }
+
+function updateWA(pesan){
+  const nomor = '6281356572588';
+  document.getElementById('wa-link').href = 'https://wa.me/'+nomor+'?text='+encodeURIComponent(pesan);
+}
+
+function hitungCairan(){
+  const err = document.getElementById('err-cairan');
+  const res = document.getElementById('res-cairan');
+  err.classList.remove('show'); res.classList.remove('show');
+
+  const m0 = parseFloat(document.getElementById('c_m0').value);
+  const m1 = parseFloat(document.getElementById('c_m1').value);
+  const m2 = parseFloat(document.getElementById('c_m2').value);
+  const T  = parseFloat(document.getElementById('c_t').value);
+
+  if([m0,m1,m2,T].some(isNaN)){ err.textContent='Lengkapi semua isian dengan angka.'; err.classList.add('show'); return; }
+  if(m1<=m0){ err.textContent='Massa air kalibrasi (m₁) harus lebih besar dari massa pyknometer kosong (m₀).'; err.classList.add('show'); return; }
+  if(T<0 || T>40){ err.textContent='Rumus densitas air hanya valid untuk suhu 0–40°C.'; err.classList.add('show'); return; }
+
+  const rhoAir = waterDensityGmL(T);
+  const massaAir = m1-m0;
+  const massaSampel = m2-m0;
+  const sg = massaSampel/massaAir;
+  const rho = sg*rhoAir;
+
+  document.getElementById('rc-density').textContent = fmt(rho,4)+' g/mL';
+  document.getElementById('rc-sg').textContent = fmt(sg,4);
+  document.getElementById('rc-water').textContent = fmt(rhoAir,5)+' g/mL';
+  document.getElementById('rc-mair').textContent = fmt(massaAir,3)+' g';
+  document.getElementById('rc-msampel').textContent = fmt(massaSampel,3)+' g';
+  res.classList.add('show');
+
+  updateWA('Assalamu\'alaikum, saya ingin validasi hasil Kalkulator Densitas Cairan JAZMI. m0='+m0+'g, m1='+m1+'g, m2='+m2+'g, T='+T+'°C. Hasil densitas: '+fmt(rho,4)+' g/mL.');
+}
+
+function hitungPadatan(){
+  const err = document.getElementById('err-padatan');
+  const res = document.getElementById('res-padatan');
+  err.classList.remove('show'); res.classList.remove('show');
+
+  const wa = parseFloat(document.getElementById('p_wa').value);
+  const wx = parseFloat(document.getElementById('p_wx').value);
+  const T  = parseFloat(document.getElementById('p_t').value);
+
+  if([wa,wx,T].some(isNaN)){ err.textContent='Lengkapi semua isian dengan angka.'; err.classList.add('show'); return; }
+  if(wx<=0){ err.textContent='Massa air yang berpindah harus lebih besar dari nol.'; err.classList.add('show'); return; }
+  if(T<0 || T>40){ err.textContent='Rumus densitas air hanya valid untuk suhu 0–40°C.'; err.classList.add('show'); return; }
+
+  const rhoAir = waterDensityGmL(T);
+  const sg = wa/wx;
+  const rho = sg*rhoAir;
+  const vol = wx/rhoAir;
+
+  document.getElementById('rp-density').textContent = fmt(rho,4)+' g/mL';
+  document.getElementById('rp-sg').textContent = fmt(sg,4);
+  document.getElementById('rp-water').textContent = fmt(rhoAir,5)+' g/mL';
+  document.getElementById('rp-vol').textContent = fmt(vol,3)+' mL';
+  res.classList.add('show');
+
+  updateWA('Assalamu\'alaikum, saya ingin validasi hasil Kalkulator Densitas Padatan JAZMI. Wa='+wa+'g, Wx='+wx+'g, T='+T+'°C. Hasil densitas: '+fmt(rho,4)+' g/mL.');
+}
+
+updateWA('Assalamu\'alaikum, saya ingin bertanya seputar Kalkulator Densitas via Pyknometer JAZMI.');
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

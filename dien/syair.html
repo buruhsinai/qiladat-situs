@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Syair — Dien — JAZMI | Jalinan Zamrud Islamiah</title>
+<meta name="description" content="Syair — Bank Syair JAZMI: kitab, penyair, bait, tag, series, Syair Pilihan, dan Bait Hari Ini, dihimpun dalam satu pintu masuk.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="syair.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (pola sama dengan HOME/C04) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../artikel/index.html">Artikel</a></li>
+        <li><a href="index.html" class="is-active" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= HERO / PENGENALAN ================= -->
+  <section class="identity">
+    <div class="identity-inner">
+      <p class="identity-eyebrow">Dien · Syair</p>
+      <h1 class="identity-title">Syair</h1>
+      <p class="syair-hero-desc">Dunia syair Arab JAZMI — dihimpun dari Bank Syair yang terus bertambah, dikurasi secara editorial, lalu dihadirkan di sini. Bukan sekadar kutipan lepas: setiap bait punya kitab, penyair, dan konteksnya sendiri.</p>
+    </div>
+  </section>
+
+  <!-- ================= BAIT HARI INI ================= -->
+  <section class="section bait-hari-ini" aria-labelledby="hari-ini-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Setiap Hari</p>
+        <h2 class="section-title" id="hari-ini-heading">Bait Hari Ini</h2>
+        <p class="section-desc">Satu bait dari Syair Pilihan, berganti setiap hari secara tetap — bukan acak, bukan berdasar skor.</p>
+      </div>
+      <div id="baitHariIniWrap">
+        <!-- diisi JavaScript dari syair-bank/*.json + syair-editorial/pilihan.json -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PENJELASAN HARI INI ================= -->
+  <!-- Target tombol "Baca penjelasan bait ini" di HOME (lihat
+       index.html#baitTautan). Berganti setiap hari: penjelasan
+       yang ditulis hari ini otomatis menjadi bagian arsip
+       "Artikel Syair" di bawah begitu tanggalnya berlalu — lihat
+       dien/data/penjelasan-syair.json. -->
+  <section class="section section-alt" id="penjelasan-hari-ini" aria-labelledby="penjelasan-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Penjelasan</p>
+        <h2 class="section-title" id="penjelasan-heading">Penjelasan Hari Ini</h2>
+        <p class="section-desc">Penjabaran singkat atas bait yang tampil hari ini di HOME. Begitu tanggal berganti, penjelasan ini pindah otomatis menjadi bagian dari Artikel Syair.</p>
+      </div>
+      <div id="penjelasanHariIniWrap">
+        <!-- diisi JavaScript dari dien/data/penjelasan-syair.json -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SYAIR PILIHAN ================= -->
+  <section class="section section-alt" aria-labelledby="pilihan-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Kurasi Editorial</p>
+        <h2 class="section-title" id="pilihan-heading">Syair Pilihan</h2>
+        <p class="section-desc">Bait yang dipilih secara editorial oleh pengelola JAZMI — bukan hasil algoritma atau skor otomatis.</p>
+      </div>
+      <div id="syairPilihanList">
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= JELAJAHI SYAIR ================= -->
+  <section class="section" aria-labelledby="jelajahi-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Korpus</p>
+        <h2 class="section-title" id="jelajahi-heading">Jelajahi Syair</h2>
+        <p class="section-desc">Menjelajah Bank Syair dari beberapa arah berbeda. Hanya bait berstatus dipublikasikan yang menentukan kitab, penyair, dan tag mana yang tampil di sini.</p>
+      </div>
+
+      <div class="jelajahi-tabs" role="tablist" aria-label="Jelajahi berdasarkan">
+        <button type="button" class="jelajahi-tab" role="tab" id="tabKitab" aria-selected="true" aria-controls="jelajahiPanelKitab">Kitab</button>
+        <button type="button" class="jelajahi-tab" role="tab" id="tabPenyair" aria-selected="false" aria-controls="jelajahiPanelPenyair">Penyair</button>
+        <button type="button" class="jelajahi-tab" role="tab" id="tabTag" aria-selected="false" aria-controls="jelajahiPanelTag">Tag</button>
+        <button type="button" class="jelajahi-tab" role="tab" id="tabSeries" aria-selected="false" aria-controls="jelajahiPanelSeries">Series</button>
+      </div>
+
+      <div class="jelajahi-panel" id="jelajahiPanelKitab" role="tabpanel" aria-labelledby="tabKitab">
+        <!-- diisi JavaScript -->
+      </div>
+      <div class="jelajahi-panel" id="jelajahiPanelPenyair" role="tabpanel" aria-labelledby="tabPenyair" hidden>
+        <!-- diisi JavaScript -->
+      </div>
+      <div class="jelajahi-panel" id="jelajahiPanelTag" role="tabpanel" aria-labelledby="tabTag" hidden>
+        <!-- diisi JavaScript -->
+      </div>
+      <div class="jelajahi-panel" id="jelajahiPanelSeries" role="tabpanel" aria-labelledby="tabSeries" hidden>
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= ARTIKEL SYAIR (ARSIP PENJELASAN) ================= -->
+  <!-- Setiap entri dien/data/penjelasan-syair.json yang tanggalnya
+       sudah berlalu (bukan hari ini) muncul di sini sebagai
+       artikel — dan juga tampil di /artikel/ dengan kategori
+       "Syair" (lihat artikel/js/artikel.js). Artikel jenis ini
+       SENGAJA tidak ikut muncul di /dien/artikel/ karena bukan
+       bagian dari data/articles.json — ia adalah model tersendiri. -->
+  <section class="section" aria-labelledby="artikel-syair-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Arsip</p>
+        <h2 class="section-title" id="artikel-syair-heading">Artikel Syair</h2>
+        <p class="section-desc">Penjelasan hari-hari sebelumnya, tersusun otomatis begitu tanggalnya berlalu. Juga tersedia lewat filter "Syair" di halaman Artikel.</p>
+      </div>
+      <div id="artikelSyairWrap">
+        <!-- diisi JavaScript dari dien/data/penjelasan-syair.json -->
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER (pola sama dengan HOME/C04) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="../index.html">Home</a>
+      <a href="../artikel/index.html">Artikel</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah. Halaman Syair, versi produksi awal.</p>
+  </div>
+</footer>
+
+<script src="syair.js"></script>
+</body>
+</html>

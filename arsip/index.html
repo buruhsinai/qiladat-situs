@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arsip — JAZMI | Jalinan Zamrud Islamiah</title>
+<meta name="description" content="Arsip Global JAZMI — ruang eksplorasi dan rujukan lintas ranah: artikel, buku, kajian, audio, video, dan dokumen dari Dien, Kesehatan, dan Sains dalam satu tempat.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="arsip.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (disalin persis dari kontrak C01, 6.1) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/" class="is-active">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= BREADCRUMB ================= -->
+  <nav class="breadcrumb" aria-label="Jejak navigasi">
+    <div class="section-inner breadcrumb-inner">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page">Arsip</span>
+    </div>
+  </nav>
+
+  <!-- ================= HERO ARSIP ================= -->
+  <section class="domain-hero">
+    <div class="section-inner domain-hero-inner">
+      <p class="domain-eyebrow">Arsip Global</p>
+      <h1 class="domain-title">Arsip JAZMI</h1>
+      <p class="domain-desc">Arsip menghimpun dua hal sekaligus. <strong>Tujuh koleksi</strong> — Gambar, Label, Khutbah, Modul, Rangkuman, Video, dan Audio — dikelola dan ditampilkan langsung di sini. Selain itu, Arsip juga menjadi <strong>rujukan cepat</strong> lintas ranah Dien, Kesehatan, dan Sains: hasil pencarian di bawah akan mengarahkan Anda kembali ke ranah pemilik bahan tersebut untuk menjelajahinya lebih lanjut.</p>
+    </div>
+  </section>
+
+  <!-- ================= KOLEKSI ARSIP ================= -->
+  <section class="section" aria-labelledby="koleksi-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">01 — Koleksi</p>
+        <h2 class="section-title" id="koleksi-heading">Koleksi Arsip</h2>
+        <p class="section-desc">Tujuh koleksi yang isinya dikelola langsung di Arsip — bukan sekadar tautan ke ranah lain.</p>
+      </div>
+
+      <div class="koleksi-grid" id="koleksiGrid">
+        <a class="koleksi-card" href="gambar/">
+          <span class="koleksi-card-tag">Galeri</span>
+          <h3 class="koleksi-card-title">Gambar</h3>
+          <p class="koleksi-card-desc">Poster, infografik, dan visual sinematik dari berbagai seri JAZMI, dihimpun dalam satu galeri.</p>
+          <p class="koleksi-card-meta" id="metaGambar">Memuat…</p>
+          <span class="koleksi-card-link">Buka Galeri Gambar →</span>
+        </a>
+
+        <a class="koleksi-card" href="label/">
+          <span class="koleksi-card-tag koleksi-tag-taksonomi">Taksonomi</span>
+          <h3 class="koleksi-card-title">Label</h3>
+          <p class="koleksi-card-desc">Topik lintas seluruh artikel JAZMI, dicocokkan otomatis dari kata kunci — tidak terikat ranah atau seri.</p>
+          <p class="koleksi-card-meta" id="metaLabel">Memuat…</p>
+          <span class="koleksi-card-link">Buka Label →</span>
+        </a>
+
+        <a class="koleksi-card" href="khutbah/">
+          <span class="koleksi-card-tag">Kajian</span>
+          <h3 class="koleksi-card-title">Khutbah</h3>
+          <p class="koleksi-card-desc">Naskah dan rekaman khutbah Jumat serta khutbah lain yang dihimpun JAZMI.</p>
+          <p class="koleksi-card-meta">Segera hadir — belum ada naskah yang diunggah.</p>
+          <span class="koleksi-card-link">Buka Khutbah →</span>
+        </a>
+
+        <a class="koleksi-card" href="modul/">
+          <span class="koleksi-card-tag">Kajian</span>
+          <h3 class="koleksi-card-title">Modul</h3>
+          <p class="koleksi-card-desc">Bahan belajar terstruktur — hasil kajian yang disusun menjadi modul untuk dipelajari mandiri.</p>
+          <p class="koleksi-card-meta">Segera hadir — belum ada modul yang diunggah.</p>
+          <span class="koleksi-card-link">Buka Modul →</span>
+        </a>
+
+        <a class="koleksi-card" href="rangkuman/">
+          <span class="koleksi-card-tag">Kajian</span>
+          <h3 class="koleksi-card-title">Rangkuman</h3>
+          <p class="koleksi-card-desc">Ringkasan kajian — inti pembahasan dalam bentuk yang ringkas dan mudah dirujuk kembali.</p>
+          <p class="koleksi-card-meta">Segera hadir — belum ada rangkuman yang diunggah.</p>
+          <span class="koleksi-card-link">Buka Rangkuman →</span>
+        </a>
+
+        <a class="koleksi-card" href="video/">
+          <span class="koleksi-card-tag">Media</span>
+          <h3 class="koleksi-card-title">Video</h3>
+          <p class="koleksi-card-desc">Koleksi tautan video YouTube dari ketiga ranah, diputar langsung tertanam di halaman Arsip.</p>
+          <p class="koleksi-card-meta">Segera hadir — belum ada video yang diunggah.</p>
+          <span class="koleksi-card-link">Buka Video →</span>
+        </a>
+
+        <a class="koleksi-card" href="audio/">
+          <span class="koleksi-card-tag">Media</span>
+          <h3 class="koleksi-card-title">Audio</h3>
+          <p class="koleksi-card-desc">Koleksi tautan audio SoundCloud dari ketiga ranah, diputar langsung tertanam di halaman Arsip.</p>
+          <p class="koleksi-card-meta">Segera hadir — belum ada audio yang diunggah.</p>
+          <span class="koleksi-card-link">Buka Audio →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= JELAJAHI ARSIP (pencarian + filter + hasil) ================= -->
+  <section class="section section-alt" aria-labelledby="jelajahi-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">02 — Cari Cepat</p>
+        <h2 class="section-title" id="jelajahi-heading">Cari &amp; Saring Lintas Ranah</h2>
+        <p class="section-desc">Cari berdasarkan judul, atau saring menurut tipe dan ranah bahan. Cakupannya adalah bahan dari ranah Dien, Kesehatan, dan Sains — bukan lima koleksi Arsip di atas, yang masing-masing sudah punya halaman jelajah sendiri.</p>
+      </div>
+
+      <p class="demo-badge">Data Demo — contoh sementara untuk menguji struktur, bukan arsip resmi JAZMI</p>
+
+      <div class="arsip-controls">
+        <div class="search-field">
+          <label class="sr-only" for="arsipSearch">Cari arsip berdasarkan judul</label>
+          <input type="search" id="arsipSearch" class="search-input" placeholder="Cari judul arsip…" autocomplete="off">
+        </div>
+
+        <div class="filter-bar" id="tipeFilterBar" role="group" aria-label="Saring berdasarkan tipe bahan">
+          <button type="button" class="filter-btn" data-tipe="semua" aria-pressed="true">Semua Tipe</button>
+          <button type="button" class="filter-btn" data-tipe="artikel" aria-pressed="false">Artikel</button>
+          <button type="button" class="filter-btn" data-tipe="buku" aria-pressed="false">Buku / PDF</button>
+          <button type="button" class="filter-btn" data-tipe="kajian" aria-pressed="false">Kajian</button>
+          <button type="button" class="filter-btn" data-tipe="audio" aria-pressed="false">Audio</button>
+          <button type="button" class="filter-btn" data-tipe="video" aria-pressed="false">Video</button>
+          <button type="button" class="filter-btn" data-tipe="dokumen" aria-pressed="false">Dokumen</button>
+        </div>
+
+        <div class="ranah-field">
+          <label class="ranah-label" for="ranahFilter">Ranah</label>
+          <select id="ranahFilter" class="ranah-select">
+            <option value="semua">Semua Ranah</option>
+            <option value="dien">Dien</option>
+            <option value="kesehatan">Kesehatan</option>
+            <option value="sains">Sains</option>
+            <option value="umum">Umum</option>
+          </select>
+        </div>
+      </div>
+
+      <p class="filter-status" id="filterStatus" aria-live="polite"><!-- diisi JavaScript --></p>
+
+      <p class="data-empty-note" id="arsipStateLoading">Memuat arsip…</p>
+      <p class="data-empty-note" id="arsipStateError" hidden>Data arsip belum dapat dimuat. Coba muat ulang halaman ini beberapa saat lagi.</p>
+      <p class="data-empty-note" id="arsipStateEmpty" hidden>Tidak ada bahan arsip yang cocok dengan pencarian/saringan ini.</p>
+
+      <div class="arsip-grid" id="arsipGrid" hidden>
+        <!-- diisi JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= JELAJAHI BERDASARKAN RANAH ================= -->
+  <section class="section section-alt" aria-labelledby="ranah-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">03 — Sumber</p>
+        <h2 class="section-title" id="ranah-heading">Jelajahi Berdasarkan Ranah</h2>
+        <p class="section-desc">Arsip merujuk ke ranah pemilik konten — kunjungi langsung perpustakaan tiap ranah.</p>
+      </div>
+
+      <nav class="ranah-grid" aria-label="Tautan menuju ranah JAZMI">
+        <a class="ranah-card" href="/dien/">
+          <h3 class="ranah-card-title">Dien</h3>
+          <p class="ranah-card-desc">Pondok, kajian, daring, syair, dan media DIEN.</p>
+        </a>
+        <a class="ranah-card" href="/kesehatan/">
+          <h3 class="ranah-card-title">Kesehatan</h3>
+          <p class="ranah-card-desc">Artikel, terapi, produk, dan media Kesehatan.</p>
+        </a>
+        <a class="ranah-card" href="/sains/">
+          <h3 class="ranah-card-title">Sains</h3>
+          <p class="ranah-card-desc">Artikel, astronomi, produk, dan media Sains.</p>
+        </a>
+        <a class="ranah-card" href="/artikel/">
+          <h3 class="ranah-card-title">Artikel</h3>
+          <p class="ranah-card-desc">Seluruh tulisan JAZMI dari ketiga ranah.</p>
+        </a>
+        <a class="ranah-card" href="/produk/">
+          <h3 class="ranah-card-title">Produk</h3>
+          <p class="ranah-card-desc">Etalase produk lintas-ekosistem JAZMI.</p>
+        </a>
+      </nav>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER (disalin persis dari kontrak C01, 6.1/4.2) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/artikel/">Artikel</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah. Arsip Global, versi produksi awal.</p>
+  </div>
+</footer>
+
+<script src="arsip.js"></script>
+</body>
+</html>

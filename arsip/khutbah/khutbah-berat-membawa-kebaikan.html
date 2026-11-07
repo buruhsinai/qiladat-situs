@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ketika yang Berat Ternyata Membawa Kebaikan — Khutbah JAZMI</title>
+<meta name="description" content="Naskah khutbah JAZMI: teks bersih untuk jamaah, atau tampilkan penanda intonasi untuk latihan khatib. Bisa dibagikan ke WhatsApp atau diunduh sebagai PDF.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #F6F1E4;
+  --bg-alt: #EEE6D2;
+  --surface: #FFFFFF;
+  --ink: #1E2A22;
+  --ink-soft: #4B5A50;
+  --ink-faint: #8A8672;
+
+  --emerald-deep: #0F3D2E;
+  --emerald: #1C5C42;
+  --emerald-soft: #2F7A57;
+
+  --brass: #A9812F;
+  --brass-soft: #D8C08A;
+  --brass-line: #D9CBA3;
+
+  --line: #DDD3B8;
+  --line-soft: #E9E1CC;
+
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-arabic: 'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
+
+  --radius: 4px;
+  --shadow-soft: 0 1px 2px rgba(15, 61, 46, 0.06), 0 8px 24px -12px rgba(15, 61, 46, 0.18);
+  --max-width: 760px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* warna penanda */
+  --marker-intonasi: #2F5D8A;
+  --marker-intonasi-bg: #E7EEF6;
+  --marker-jeda: #8A8672;
+  --marker-jeda-bg: #EEE6D2;
+  --marker-napas: #A9812F;
+  --marker-napas-bg: #F5EEDB;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ================= HEADER RINGKAS ================= */
+.proto-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.proto-header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1.1rem var(--gutter);
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.proto-header-link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: inherit;
+}
+.wordmark-mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--emerald-deep);
+  font-size: 1.1rem;
+}
+.proto-eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+}
+.breadcrumb-khutbah {
+  margin: 1.5rem 0 0;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+}
+.breadcrumb-khutbah a {
+  color: var(--emerald);
+  text-decoration: none;
+}
+.breadcrumb-khutbah a:hover {
+  color: var(--emerald-deep);
+  text-decoration: underline;
+}
+
+/* ================= HERO JUDUL ================= */
+.hero {
+  padding: 1.6rem 0 1rem;
+}
+.hero-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--brass);
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--emerald-deep);
+}
+.hero-sub {
+  margin: 0.6rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  max-width: 56ch;
+}
+
+/* ================= BAR KONTROL ================= */
+.kontrol-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.4rem 0;
+  padding: 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+.kontrol-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.toggle-khatib {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.toggle-track {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  background: var(--line);
+  border-radius: 999px;
+  transition: background 0.2s var(--ease);
+  flex-shrink: 0;
+}
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: var(--surface);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  transition: transform 0.2s var(--ease);
+}
+.toggle-khatib input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.toggle-khatib input:checked + .toggle-track {
+  background: var(--emerald);
+}
+.toggle-khatib input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(18px);
+}
+.toggle-khatib input:focus-visible + .toggle-track {
+  outline: 2px solid var(--emerald-deep);
+  outline-offset: 2px;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--bg-alt);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.65rem 1.1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  line-height: 1.2;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.btn:hover { border-color: var(--brass); }
+.btn:focus-visible { outline: 2px solid var(--emerald-deep); outline-offset: 2px; }
+.btn-emerald {
+  background: var(--emerald-deep);
+  border-color: var(--emerald-deep);
+  color: var(--surface);
+}
+.btn-emerald:hover { background: var(--emerald); border-color: var(--emerald); }
+
+@media (max-width: 560px) {
+  .kontrol-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.85rem;
+  }
+  .toggle-khatib { padding-bottom: 0.2rem; border-bottom: 1px solid var(--line-soft); margin-bottom: 0.15rem; }
+  .kontrol-actions { flex-direction: column; }
+  .btn { width: 100%; }
+}
+
+/* ================= TAUTAN TERKAIT (ramping) ================= */
+.terkait {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.6rem;
+}
+.terkait-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.82rem;
+  color: var(--ink);
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.terkait-item:hover { border-color: var(--brass); background: var(--bg-alt); }
+.terkait-icon { font-size: 0.95rem; line-height: 1; flex-shrink: 0; }
+.terkait-label { color: var(--brass); font-weight: 700; }
+.terkait-judul { font-weight: 600; }
+
+/* ================= LEGENDA PENANDA ================= */
+.legenda {
+  display: none;
+  margin: 0 0 1.4rem;
+  padding: 0.8rem 0.9rem;
+  background: var(--surface);
+  border: 1px dashed var(--brass-line);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+body.mode-khatib .legenda { display: block; }
+.legenda-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.15rem 0.9rem 0.15rem 0;
+}
+.legenda-swatch {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+/* ================= ISI KHUTBAH ================= */
+.khutbah-body {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.2rem, 4vw, 2.2rem);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 2.5rem;
+}
+
+.khutbah-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--emerald-deep);
+  margin: 2.2rem 0 1rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+.khutbah-body h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+
+.khutbah-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--brass);
+  margin: 1.8rem 0 0.8rem;
+  text-transform: none;
+}
+
+.khutbah-body p {
+  margin: 0 0 0.85rem;
+}
+
+.khutbah-body .arab {
+  direction: rtl;
+  font-family: var(--font-arabic);
+  font-size: 1.35rem;
+  line-height: 2.1;
+  color: var(--emerald-deep);
+  margin: 1rem 0;
+}
+
+.khutbah-body .terjemah {
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.khutbah-body .doa {
+  direction: rtl;
+  font-family: var(--font-arabic);
+  font-size: 1.2rem;
+  line-height: 2;
+  color: var(--emerald-deep);
+  margin: 0.5rem 0;
+}
+
+/* ================= PENANDA (marker) ================= */
+.marker {
+  display: none;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  margin: 0 0.25em;
+  vertical-align: middle;
+}
+body.mode-khatib .marker { display: inline; }
+
+.marker-intonasi {
+  color: var(--marker-intonasi);
+  background: var(--marker-intonasi-bg);
+}
+.marker-jeda {
+  color: var(--marker-jeda);
+  background: var(--marker-jeda-bg);
+}
+.marker-napas {
+  color: var(--marker-napas);
+  background: var(--marker-napas-bg);
+}
+
+/* ================= FOOTER ================= */
+.proto-footer {
+  text-align: center;
+  padding: 1.5rem 0 2.5rem;
+  color: var(--ink-faint);
+  font-size: 0.8rem;
+}
+
+/* ================= CETAK / PDF (A4, opsional 2/lembar utk A5 saat cetak fisik) ================= */
+@media print {
+  .no-print { display: none !important; }
+
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  body {
+    background: #fff;
+    font-size: 11pt;
+    line-height: 1.3;
+  }
+
+  .proto-header, .breadcrumb-khutbah, .kontrol-bar, .proto-footer { display: none; }
+
+  .wrap { max-width: none; padding: 0; }
+
+  .hero { padding: 0 0 0.2rem; }
+  .hero-eyebrow { font-size: 8pt; }
+  .hero-title { font-size: 16pt; }
+  .hero-sub { display: none; }
+
+  .legenda { font-size: 8pt; padding: 0.3rem 0.4rem; margin-bottom: 0.4rem; }
+
+  .khutbah-body {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+  .khutbah-body h2 {
+    font-size: 15pt;
+    margin: 0.6rem 0 0.4rem;
+    padding-top: 0.4rem;
+  }
+  /* Khutbah Kedua tidak dipaksa halaman baru — biarkan mengalir lanjut di
+     sisa ruang halaman sebelumnya kalau masih cukup (hemat kertas). Sebagai
+     pembatas visual, cukup garis panjang di atasnya, bukan halaman kosong. */
+  .khutbah-body h2:not(:first-child) {
+    margin-top: 1.1rem;
+    padding-top: 0.9rem;
+    border-top: 1.4pt solid var(--ink-faint);
+  }
+  .khutbah-body h3 {
+    font-size: 11.5pt;
+    margin: 0.6rem 0 0.25rem;
+    break-after: avoid;
+  }
+  .khutbah-body .arab { font-size: 13pt; line-height: 1.4; margin: 0.3rem 0; }
+  .khutbah-body .doa { font-size: 11.5pt; line-height: 1.3; margin: 0.3rem 0; }
+
+  .marker {
+    font-size: 6.5pt;
+    padding: 0.02rem 0.25rem;
+  }
+
+  /* Sambung-menyambung otomatis: semua paragraf naskah berbahasa Indonesia
+     (bukan ayat/hadis/doa berbahasa Arab) dijadikan satu aliran teks tanpa
+     baris baru atau jarak antar-paragraf saat cetak. Teks Arab (.arab, .doa)
+     tetap terpisah baris demi baris karena itu ayat/hadis/doa. */
+  .khutbah-body p:not(.arab):not(.doa) {
+    display: inline;
+    margin: 0;
+  }
+  .khutbah-body p:not(.arab):not(.doa) br { display: none; }
+  .khutbah-body .arab, .khutbah-body .doa { display: block; }
+  .khutbah-body .doa br { display: block; }
+}
+
+/* ================= UTIL ================= */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+</style>
+</head>
+<body>
+
+<header class="proto-header no-print">
+  <div class="proto-header-inner">
+    <a class="proto-header-link" href="/">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="proto-eyebrow">JAZMI · Arsip — Khutbah</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p class="breadcrumb-khutbah no-print"><a href="/">Home</a> / <a href="/arsip/">Arsip</a> / <a href="/arsip/khutbah/">Khutbah</a> / Ketika yang Berat Ternyata Membawa Kebaikan</p>
+
+  <section class="hero">
+    <p class="hero-eyebrow">Khutbah Jumat</p>
+    <h1 class="hero-title">Ketika yang Berat Ternyata Membawa Kebaikan</h1>
+    <p class="hero-sub">Satu naskah, dua kegunaan: nyalakan Panduan Khatib untuk melihat petunjuk intonasi dan jeda, atau matikan untuk membaca teks bersih.</p>
+  </section>
+
+  <div class="kontrol-bar no-print">
+    <label class="toggle-khatib">
+      <input type="checkbox" id="toggleKhatib">
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span>Tampilkan Panduan Khatib</span>
+    </label>
+    <div class="kontrol-actions">
+      <button type="button" class="btn" id="btnWhatsApp"><span aria-hidden="true">💬</span> Bagikan ke WhatsApp</button>
+      <button type="button" class="btn btn-emerald" id="btnPDF"><span aria-hidden="true">🖨️</span> Unduh PDF</button>
+    </div>
+  </div>
+
+  <p class="legenda no-print" id="legenda">
+    <span class="legenda-item"><span class="legenda-swatch" style="background:var(--marker-intonasi-bg); border:1px solid var(--marker-intonasi);"></span>Penanda intonasi/nada</span>
+    <span class="legenda-item"><span class="legenda-swatch" style="background:var(--marker-jeda-bg); border:1px solid var(--marker-jeda);"></span>Penanda jeda diam</span>
+    <span class="legenda-item"><span class="legenda-swatch" style="background:var(--marker-napas-bg); border:1px solid var(--marker-napas);"></span>Penanda tarik napas</span>
+    <br>Penanda ini petunjuk penyampaian untuk khatib, tidak dibaca saat khutbah. "Unduh PDF" menghasilkan halaman A4 siap baca. Ingin ukuran saku (A5)? Saat mencetak fisik, pilih "2 Halaman per Lembar".
+  </p>
+
+  <nav class="terkait no-print" aria-label="Tautan terkait">
+    <a class="terkait-item" href="/artikel/detail.html?slug=hujan-musim-semi-003" title="Artikel — setiap hari kita perlu kembali mengingat arah, sejalan dengan pesan 'agar mereka kembali' dalam khutbah ini.">
+      <span class="terkait-icon" aria-hidden="true">📖</span><span class="terkait-judul">Hujan Musim Semi — 003</span>
+    </a>
+    <a class="terkait-item" href="/alat/fikih-muamalah-dan-ibadah/tawakal.html" title="Alat — melatih sikap tawakal, respons inti ketika yang berat ternyata membawa kebaikan.">
+      <span class="terkait-icon" aria-hidden="true">🧭</span><span class="terkait-judul">Tawakal — Cara Menang yang Tak Terlihat</span>
+    </a>
+    <a class="terkait-item" href="/arsip/" title="Arsip — belum ada item resmi bertema serupa; ini pintu masuk umumnya dulu.">
+      <span class="terkait-icon" aria-hidden="true">🗂️</span><span class="terkait-judul">Jelajahi Arsip JAZMI</span>
+    </a>
+  </nav>
+
+  <article class="khutbah-body" id="khutbahBody">
+
+    <h2>Khutbah Pertama</h2>
+
+    <p>[DALAM] الحمد لله، نحمده ونستعينه ونستغفره، ونعوذ بالله من شرور أنفسنا ومن سيئات أعمالنا، من يهده الله فلا مضل له، ومن يضلل فلا هادي له.</p>
+    <p>وأشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أن محمدًا عبده ورسوله.</p>
+    <p>اللهم صل وسلم وبارك على نبينا محمد، وعلى آله وأصحابه أجمعين.</p>
+    <p>أما بعد،</p>
+
+    <p>[TINGGI] Jamaah Jumat yang dirahmati Allah,</p>
+    <p>[BIASA] Marilah kita bertakwa kepada Allah.</p>
+    <p>[RENDAH] Takwa bukan hanya ketika hidup kita sedang enak.<br>
+    Takwa juga bukan hanya ketika uang ada.<br>
+    Bukan hanya ketika sawah menghasilkan.<br>
+    Bukan hanya ketika badan sehat.</p>
+    <p>[DALAM] Tetapi takwa adalah tetap percaya kepada Allah ketika hidup kita sedang tidak sesuai dengan yang kita inginkan.</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[BIASA] Hadirin yang dirahmati Allah, coba kita pikirkan sebentar. Kalau kita diberi pilihan: mau sehat atau sakit? Mau banyak rezeki atau sedikit? Mau panen berhasil atau gagal? Mau rumah tenang atau banyak masalah? Mau anak-anak mudah diatur atau banyak masalah?</p>
+    <p>Tentu kita semua akan memilih yang enak.</p>
+
+    <p>[BIASA] Tidak ada orang normal yang berkata, "Ya Allah, kalau bisa saya pilih yang susah." Tidak. Kita semua ingin yang baik.</p>
+    <p>[DIAM 1 DETIK] Tetapi masalahnya adalah: kita sering hanya tahu apa yang kita sukai, tetapi kita tidak tahu apa yang sebenarnya baik bagi kita.</p>
+
+    <p>[DALAM] Allah berfirman:</p>
+    <p class="arab">وَعَسَىٰ أَنْ تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَكُمْ وَعَسَىٰ أَنْ تُحِبُّوا شَيْئًا وَهُوَ شَرٌّ لَكُمْ وَاللَّهُ يَعْلَمُ وَأَنْتُمْ لَا تَعْلَمُونَ</p>
+    <p class="terjemah">[RENDAH] "Boleh jadi kamu membenci sesuatu, padahal itu baik bagi kamu. Dan boleh jadi kamu menyukai sesuatu, padahal itu buruk bagi kamu. Allah mengetahui, sedangkan kamu tidak mengetahui." <span class="terjemah">(QS. Al-Baqarah: 216)</span></p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[TEGAS] Perhatikan baik-baik, jamaah. Allah tidak mengatakan, "Yang kamu sukai pasti baik." Tidak.</p>
+    <p>[DIAM 1 DETIK] Allah mengatakan:</p>
+    <p class="arab">وَاللَّهُ يَعْلَمُ وَأَنْتُمْ لَا تَعْلَمُونَ</p>
+    <p>[RENDAH] "Allah mengetahui, sedangkan kamu tidak mengetahui."</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Allah Tahu, Kita Tidak Tahu</h3>
+
+    <p>[LAMBAT] Kita melihat hari ini. Allah mengetahui hari ini, besok, lusa, tahun depan, bahkan sampai kita meninggal.</p>
+    <p>Kita melihat satu kejadian. Allah mengetahui seluruh akibat dari kejadian itu.</p>
+    <p>Kita melihat sakit. Allah mengetahui apa yang mungkin lahir dari sakit itu.</p>
+    <p>Kita melihat kehilangan. Allah mengetahui apa yang mungkin Allah selamatkan dari balik kehilangan itu.</p>
+    <p>Kita melihat rezeki berkurang. Allah mengetahui apakah berkurangnya harta itu justru menyelamatkan hati kita.</p>
+    <p>Kita melihat jalan hidup tertutup. Allah mengetahui mungkin di balik pintu yang tertutup itu ada jalan yang jauh lebih baik.</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[BIASA] Maka jangan cepat berkata, "Kenapa Allah kasih saya begini?"</p>
+    <p>Boleh kita menangis. Boleh kita sedih. Boleh kita mengadu kepada Allah.</p>
+    <p>[TEGAS] Tetapi jangan sampai hati kita menuduh Allah tidak sayang.</p>
+    <p>[DIAM 1 DETIK] Karena Allah lebih tahu tentang kita daripada kita mengetahui diri kita sendiri.</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <h3>Ujian Bukan Selalu Tanda Allah Membenci</h3>
+
+    <p>[BIASA] Jamaah yang dimuliakan Allah, ada orang ketika mendapat musibah berkata, "Berarti Allah tidak sayang saya." Tidak selalu demikian.</p>
+    <p>[DIAM 1 DETIK] Nabi kita ﷺ bersabda:</p>
+    <p class="arab">مَنْ يُرِدِ اللَّهُ بِهِ خَيْرًا يُصِبْ مِنْهُ</p>
+    <p>[DIAM 1 DETIK] "Barang siapa yang Allah kehendaki kebaikan baginya, Allah akan memberinya ujian." <span class="terjemah">(HR. Bukhari)</span></p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[BIASA] Jadi kadang-kadang justru ujian itu datang karena Allah menghendaki kebaikan. Bukan berarti setiap orang yang mendapat musibah pasti lebih dicintai daripada orang lain. Bukan itu maksudnya.</p>
+    <p>[DALAM] Tetapi seorang mukmin harus memahami: ujian tidak otomatis berarti Allah sedang membuang kita.</p>
+    <p>[RENDAH] Bisa jadi Allah sedang membersihkan kita.<br>
+    Bisa jadi Allah sedang mengingatkan kita.<br>
+    Bisa jadi Allah sedang mengangkat derajat kita.<br>
+    Bisa jadi Allah sedang mengembalikan hati kita kepada-Nya.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Orang Beriman Selalu Mempunyai Kebaikan</h3>
+
+    <p>[BIASA] Rasulullah ﷺ bersabda:</p>
+    <p class="arab">عَجَبًا لِأَمْرِ الْمُؤْمِنِ، إِنَّ أَمْرَهُ كُلَّهُ خَيْرٌ</p>
+    <p>[DIAM 1 DETIK] "Sungguh menakjubkan keadaan seorang mukmin. Sesungguhnya seluruh urusannya adalah kebaikan." <span class="terjemah">(HR. Muslim)</span></p>
+
+    <p>[BIASA] Kemudian Nabi ﷺ menjelaskan: jika mendapat kesenangan, dia bersyukur, maka itu baik baginya. Jika mendapat kesusahan, dia bersabar, maka itu juga baik baginya.</p>
+    <p>[DIAM 1 DETIK]</p>
+
+    <p>[TEGAS] Perhatikan! Bukan berarti semua yang terjadi itu selalu kita sukai. Tetapi orang beriman bisa mendapatkan kebaikan dari apa yang dia sukai maupun dari apa yang dia tidak sukai.</p>
+    <p>[RENDAH] Ketika diberi: syukur.<br>
+    Ketika diuji: sabar.<br>
+    Ketika berdosa: taubat.<br>
+    Ketika rezeki sempit: istighfar dan memperbaiki diri.<br>
+    Ketika kehilangan: kembali kepada Allah.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Bahkan Musibah Bisa Menghapus Dosa</h3>
+
+    <p>[BIASA] Jamaah yang dirahmati Allah, kadang kita merasa, "Musibah ini hanya membuat saya susah." Padahal kita tidak tahu berapa banyak dosa yang sedang Allah gugurkan.</p>
+    <p>[DIAM 1 DETIK] Nabi ﷺ bersabda:</p>
+    <p class="arab">مَا يُصِيبُ الْمُسْلِمَ مِنْ نَصَبٍ وَلَا وَصَبٍ وَلَا هَمٍّ وَلَا حُزْنٍ وَلَا أَذًى وَلَا غَمٍّ، حَتَّى الشَّوْكَةِ يُشَاكُهَا، إِلَّا كَفَّرَ اللَّهُ بِهَا مِنْ خَطَايَاهُ</p>
+    <p>[DIAM 1 DETIK] "Tidaklah seorang Muslim tertimpa kelelahan, penyakit, kesedihan, gangguan, kesusahan, bahkan duri yang menusuknya, kecuali Allah menghapus sebagian dosa-dosanya karena itu." <span class="terjemah">(HR. Bukhari)</span></p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[LAMBAT] Maka bisa jadi kita mengira sedang kehilangan, padahal Allah sedang menghapus dosa.</p>
+    <p>Kita mengira sedang mendapatkan kesusahan, padahal Allah sedang memberikan pahala kesabaran.</p>
+    <p>Kita mengira sedang dipukul oleh keadaan, padahal Allah sedang mengetuk hati kita agar kembali kepada-Nya.</p>
+    <p>[DIAM 5 DETIK]</p>
+
+    <h3>Tetapi Ada Satu Hal yang Harus Kita Perhatikan</h3>
+
+    <p>[BIASA] Jamaah sekalian, di sini kita jangan hanya berkata, "Musibah pasti ada hikmahnya." Lalu selesai. Tidak.</p>
+    <p>[DIAM 1 DETIK] Al-Qur'an mengajarkan kita untuk bercermin. Allah berfirman:</p>
+    <p class="arab">وَمَا أَصَابَكُمْ مِنْ مُصِيبَةٍ فَبِمَا كَسَبَتْ أَيْدِيكُمْ وَيَعْفُو عَنْ كَثِيرٍ</p>
+    <p class="terjemah">"Musibah apa pun yang menimpa kalian adalah disebabkan oleh perbuatan tangan kalian sendiri, dan Allah memaafkan banyak." <span class="terjemah">(QS. Asy-Syura: 30)</span></p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[TEGAS] Ayat ini seharusnya membuat kita bertanya kepada diri sendiri: "Ya Allah, apa yang harus saya perbaiki?" Bukan sibuk mencari siapa yang harus disalahkan.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Kekeringan dan Perbuatan Manusia</h3>
+
+    <p>[BIASA] Jamaah yang dirahmati Allah, terutama ketika kita melihat bumi kering. Sawah kering. Kebun tidak menghasilkan. Sumur berkurang airnya. Ternak kesulitan mendapatkan air.</p>
+    <p>Kita jangan hanya berkata, "Ini karena cuaca." Kita mengakui sebab-sebab alam. Tetapi seorang mukmin juga melihat sebab yang lebih dalam: apakah kita sudah kembali kepada Allah?</p>
+    <p>[DIAM 1 DETIK] Allah berfirman:</p>
+    <p class="arab">ظَهَرَ الْفَسَادُ فِي الْبَرِّ وَالْبَحْرِ بِمَا كَسَبَتْ أَيْدِي النَّاسِ لِيُذِيقَهُمْ بَعْضَ الَّذِي عَمِلُوا لَعَلَّهُمْ يَرْجِعُونَ</p>
+    <p class="terjemah">"Telah tampak kerusakan di darat dan di laut disebabkan oleh perbuatan tangan manusia, agar Allah merasakan kepada mereka sebagian dari akibat perbuatan mereka, supaya mereka kembali." <span class="terjemah">(QS. Ar-Rum: 41)</span></p>
+    <p>[BIASA] Sebagian penjelasan tafsir klasik tentang ayat ini mengaitkan kerusakan di darat dengan berkurangnya hasil tanaman dan buah-buahan akibat dosa.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[LAMBAT] Perhatikan ujung ayatnya. Allah tidak mengatakan, "...agar mereka semakin putus asa." Tetapi:</p>
+    <p class="arab">لَعَلَّهُمْ يَرْجِعُونَ</p>
+    <p>[TEGAS] "Agar mereka kembali."</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[BIASA] Jadi ketika datang musibah, yang pertama bukan hanya, "Bagaimana supaya keadaan kembali normal?"</p>
+    <p>[DALAM] Tetapi, "Bagaimana supaya kita kembali kepada Allah?"</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Kekeringan: Jalannya Bukan Hanya Menunggu Hujan</h3>
+
+    <p>[BIASA] Allah menceritakan nasihat Nabi Nuh kepada kaumnya:</p>
+    <p class="arab">فَقُلْتُ اسْتَغْفِرُوا رَبَّكُمْ إِنَّهُ كَانَ غَفَّارًا يُرْسِلِ السَّمَاءَ عَلَيْكُمْ مِدْرَارًا</p>
+    <p class="terjemah">"Maka aku berkata: Mohonlah ampun kepada Tuhan kalian. Sesungguhnya Dia Maha Pengampun. Niscaya Dia akan menurunkan hujan yang lebat kepada kalian." <span class="terjemah">(QS. Nuh: 10–11)</span></p>
+    <p>[DIAM 1 DETIK] Kemudian Allah menyebutkan:</p>
+    <p class="arab">وَيُمْدِدْكُمْ بِأَمْوَالٍ وَبَنِينَ</p>
+    <p class="terjemah">"Dan Dia akan menambah kalian dengan harta dan anak-anak." <span class="terjemah">(QS. Nuh: 12)</span></p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[TINGGI] Maka kalau kita ingin hujan, jangan hanya lihat ke langit. Lihat juga ke hati.</p>
+    <p>[RENDAH] Kalau kita meminta air dari langit, maka perbanyak istighfar kepada Dzat yang memiliki langit.<br>
+    Kalau kita ingin keberkahan bumi, maka perbaiki hubungan kita dengan Allah.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Jangan Menuduh Orang Tertentu</h3>
+
+    <p>[TEGAS] Tetapi jamaah sekalian, ayat tentang dosa dan musibah bukan berarti kita boleh menunjuk, "Ini gara-gara si A." "Ini gara-gara si B." "Orang itu banyak dosa." Tidak.</p>
+    <p>[DIAM 1 DETIK] Kita mulai dari diri sendiri.</p>
+    <p>[RENDAH] Saya. Anda. Keluarga kita. Rumah kita.<br>
+    Perdagangan kita. Utang kita. Shalat kita. Lisan kita. Pandangan kita.<br>
+    Hak tetangga kita. Hak istri dan anak kita. Hak orang lain yang mungkin pernah kita zalimi.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[DALAM] Musibah seharusnya membuat kita lebih rendah hati, bukan lebih sibuk menuduh orang lain.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Kesadaran yang Lebih Mahal daripada Harta</h3>
+
+    <p>[BIASA] Jamaah Jumat yang dimuliakan Allah, sekarang mari kita naik satu langkah lagi.</p>
+    <p>Kalau musibah membuat kita sadar, "Dunia ini bukan tujuan akhir," maka musibah itu telah mengajarkan sesuatu yang sangat mahal.</p>
+    <p>Kita sering berpikir: "Kalau saya punya rumah, saya bahagia." "Kalau punya kebun, saya bahagia." "Kalau punya uang, saya bahagia." "Kalau punya kendaraan, saya bahagia."</p>
+    <p>Semua itu boleh. Islam tidak melarang kita memiliki dunia.</p>
+    <p>[TEGAS] Tetapi ada sesuatu yang nilainya jauh lebih besar daripada dunia: hati yang sadar kepada Allah.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Dua Rakaat yang Lebih Baik daripada Dunia</h3>
+
+    <p>[BIASA] Rasulullah ﷺ bersabda tentang dua rakaat sunnah sebelum Subuh:</p>
+    <p class="arab">رَكْعَتَا الْفَجْرِ خَيْرٌ مِنَ الدُّنْيَا وَمَا فِيهَا</p>
+    <p>[DIAM 1 DETIK] "Dua rakaat sebelum Subuh lebih baik daripada dunia dan seluruh isinya." <span class="terjemah">(HR. Muslim)</span></p>
+    <p>[DIAM 5 DETIK]</p>
+
+    <p>[LAMBAT] Bayangkan. Dunia. Sawah kita. Kebun kita. Rumah kita. Motor kita. Mobil kita. Tabungan kita. Toko kita. Ternak kita.<br>
+    Semua yang kita lihat. Semua yang kita kumpulkan. Semua yang kita banggakan.</p>
+    <p>[DIAM 1 DETIK] Nabi ﷺ mengatakan: dua rakaat sebelum Subuh lebih baik daripada dunia dan seluruh isinya.</p>
+    <p>[BIASA] Bukan berarti kita tidak boleh punya dunia.</p>
+    <p>[TEGAS] Tetapi jangan sampai kita mempunyai dunia, sementara dunia justru mengambil hati kita dari Allah.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Maka Apa Hikmah Terbesar dari Musibah?</h3>
+
+    <p>[LAMBAT] Bisa jadi kita berdoa, "Ya Allah, turunkan hujan." Lalu Allah memberi hujan. Alhamdulillah.</p>
+    <p>Tetapi jangan sampai setelah hujan turun, kita kembali lupa kepada Allah.</p>
+    <p>Karena bisa jadi yang Allah inginkan bukan sekadar air turun dari langit. Tetapi: hati kita turun tunduk kepada Allah.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[RENDAH] Bisa jadi Allah mengambil sebagian harta, agar kita menemukan sesuatu yang jauh lebih mahal: kesadaran bahwa Allah lebih kita butuhkan daripada harta.<br>
+    Bisa jadi Allah membuat kita takut, agar kita kembali berdoa.<br>
+    Bisa jadi Allah membuat kita menangis, agar kita kembali sujud.<br>
+    Bisa jadi Allah membuat dunia terasa sempit, agar kita sadar bahwa hati tidak akan lapang kecuali dengan mengingat Allah.</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <h3>Penutup Khutbah Pertama</h3>
+
+    <p>[DALAM] Jamaah yang dirahmati Allah, maka mulai hari ini, kalau datang sesuatu yang berat, jangan langsung bertanya, "Mengapa Allah melakukan ini kepada saya?"</p>
+    <p>[BIASA] Cobalah bertanya:</p>
+    <p>[RENDAH] "Apa yang Allah ingin saya pelajari?"<br>
+    "Apa dosa yang harus saya tinggalkan?"<br>
+    "Apa kewajiban yang harus saya perbaiki?"<br>
+    "Apakah saya harus lebih banyak istighfar?"<br>
+    "Apakah hati saya selama ini terlalu bergantung kepada dunia?"</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[BIASA] Dan ingat satu perkara: kita tidak tahu semua hikmah di balik takdir Allah. Tidak harus kita mengetahui semuanya.</p>
+    <p>[TEGAS] Cukup kita yakin: Allah Mahatahu. Allah Mahabijaksana. Allah Maha Penyayang.</p>
+    <p>[DIAM 1 DETIK] Dan seorang mukmin belajar menerima takdir Allah dengan sabar, sambil memperbaiki apa yang memang harus diperbaiki.</p>
+
+    <p class="doa">اللهم اغفر لنا ذنوبنا، وإسرافنا في أمرنا، وثبت أقدامنا.<br>
+    اللهم إنا نسألك رحمتك، ونستغفرك من ذنوبنا.<br>
+    اللهم أصلح قلوبنا، وأصلح أعمالنا، وأصلح بيوتنا.<br>
+    اللهم تب علينا توبة نصوحًا.<br>
+    اللهم ارزقنا الصبر عند البلاء، والشكر عند النعماء.<br>
+    اللهم أنزل علينا الغيث ولا تجعلنا من القانطين.<br>
+    اللهم اسق عبادك وبهائمك، وانشر رحمتك، وأحي بلدك الميت.<br>
+    اللهم أغثنا، اللهم أغثنا، اللهم أغثنا.</p>
+
+    <p>[BIASA] أقول قولي هذا وأستغفر الله لي ولكم، فاستغفروه إنه هو الغفور الرحيم.</p>
+
+    <h2>Khutbah Kedua</h2>
+
+    <p>[DALAM] الحمد لله رب العالمين، والعاقبة للمتقين، ولا عدوان إلا على الظالمين.</p>
+    <p>وأشهد أن لا إله إلا الله وحده لا شريك له، وأشهد أن محمدًا عبده ورسوله.</p>
+    <p>اللهم صل وسلم على نبينا محمد، وعلى آله وصحبه أجمعين.</p>
+    <p>أما بعد،</p>
+
+    <p>[BIASA] Jamaah Jumat yang dirahmati Allah, saya ingin mengajak diri saya dan jamaah sekalian mengingat tiga kalimat.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Pertama: Jangan Menilai Takdir Allah Hanya dari Beratnya</h3>
+
+    <p>[BIASA] Yang berat bagi kita, belum tentu buruk bagi kita. Allah berfirman:</p>
+    <p class="arab">وَعَسَىٰ أَنْ تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَكُمْ</p>
+    <p class="terjemah">"Boleh jadi kamu membenci sesuatu, padahal ia baik bagi kamu."</p>
+    <p>[RENDAH] Allah tahu. Kita tidak tahu.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Kedua: Ketika Musibah Datang, Bercerminlah</h3>
+
+    <p>[BIASA] Jangan hanya bertanya, "Siapa yang salah?" Tanyakan, "Apa yang harus saya perbaiki?"</p>
+    <p>[DIAM 1 DETIK] Karena Allah berfirman:</p>
+    <p class="arab">وَمَا أَصَابَكُمْ مِنْ مُصِيبَةٍ فَبِمَا كَسَبَتْ أَيْدِيكُمْ وَيَعْفُو عَنْ كَثِيرٍ</p>
+    <p class="terjemah">"Musibah apa pun yang menimpa kalian adalah disebabkan oleh perbuatan tangan kalian, dan Allah memaafkan banyak." <span class="terjemah">(QS. Asy-Syura: 30)</span></p>
+    <p>[BIASA] Dan Allah juga berfirman:</p>
+    <p class="arab">لَعَلَّهُمْ يَرْجِعُونَ</p>
+    <p class="terjemah">"Agar mereka kembali." <span class="terjemah">(QS. Ar-Rum: 41)</span></p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[LAMBAT] Jadi tujuan kita bukan sekadar, "Semoga masalah ini hilang." Tetapi, "Semoga setelah masalah ini hilang, kita tidak kembali menjadi orang yang sama."</p>
+    <p>[DIAM 5 DETIK]</p>
+
+    <h3>Ketiga: Jangan Menukar Akhirat dengan Dunia</h3>
+
+    <p>[BIASA] Ingat dua rakaat sebelum Subuh. Rasulullah ﷺ bersabda:</p>
+    <p class="arab">رَكْعَتَا الْفَجْرِ خَيْرٌ مِنَ الدُّنْيَا وَمَا فِيهَا</p>
+    <p class="terjemah">"Dua rakaat sebelum Subuh lebih baik daripada dunia dan seluruh isinya." <span class="terjemah">(HR. Muslim)</span></p>
+
+    <p>[TINGGI] Kalau dua rakaat saja lebih baik daripada dunia seluruhnya, maka bagaimana dengan iman? tauhid? taubat? sujud? ikhlas? surga?</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[RENDAH] Jangan sampai kita menangisi harta yang hilang, tetapi tidak menangisi shalat yang kita tinggalkan.<br>
+    Jangan sampai kita takut sawah kering, tetapi tidak takut hati kita kering dari mengingat Allah.<br>
+    Jangan sampai kita gelisah karena rezeki berkurang, tetapi tidak gelisah karena dosa bertambah.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Penutup yang Diharapkan Menempel di Ingatan</h3>
+
+    <p>[RENDAH, LAMBAT] Jamaah yang dirahmati Allah... tadi kita mulai dengan satu kenyataan: kita semua ingin mendapatkan yang baik.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[BIASA] Tetapi hari ini kita belajar: kita tidak selalu tahu apa yang baik. Allah tahu.</p>
+    <p>Kita tidak selalu tahu mengapa Allah menunda. Allah tahu.</p>
+    <p>Kita tidak selalu tahu mengapa Allah mengambil. Allah tahu.</p>
+    <p>Kita tidak selalu tahu mengapa Allah memberi ujian. Allah tahu.</p>
+    <p>[DIAM 5 DETIK]</p>
+
+    <p>[BIASA] Maka kalau suatu hari pulang dari masjid, kemudian kita menemukan masalah di rumah... ingat khutbah ini.</p>
+    <p>Kalau rezeki sedang sempit... ingat khutbah ini.<br>
+    Kalau sawah belum menghasilkan... ingat khutbah ini.<br>
+    Kalau hujan belum turun... ingat khutbah ini.<br>
+    Kalau hati sedang sedih... ingat khutbah ini.</p>
+
+    <p>[DIAM 1 DETIK] Lalu katakan kepada diri sendiri:</p>
+    <p>[RENDAH] "Allah tahu, saya tidak tahu."<br>
+    "Saya akan sabar."<br>
+    "Saya akan memperbaiki diri."<br>
+    "Saya akan memperbanyak istighfar."<br>
+    "Saya tidak akan berputus asa dari rahmat Allah."</p>
+
+    <p>[DIAM 1 DETIK] Karena Allah sendiri berfirman:</p>
+    <p class="arab">لَا تَقْنَطُوا مِنْ رَحْمَةِ اللَّهِ</p>
+    <p class="terjemah">"Janganlah kalian berputus asa dari rahmat Allah." <span class="terjemah">(QS. Az-Zumar: 53)</span></p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[RENDAH, LAMBAT] Dan mungkin, apa yang hari ini kita sebut musibah, kelak kita sadari sebagai jalan yang Allah gunakan untuk menyelamatkan kita.</p>
+    <p>[DIAM 5 DETIK]</p>
+
+    <p>[BIASA] Maka jangan hanya minta kepada Allah, "Ya Allah, hilangkan kesulitan saya."</p>
+    <p>[TEGAS] Tetapi mintalah juga, "Ya Allah, jangan biarkan kesulitan ini berlalu sebelum Engkau memperbaiki hati saya."</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p class="doa">اللهم أصلح قلوبنا.<br>
+    اللهم ردنا إليك ردًا جميلًا.<br>
+    اللهم لا تجعل الدنيا أكبر همنا ولا مبلغ علمنا.<br>
+    اللهم اجعل مصائبنا كفارة لذنوبنا، ورفعة لدرجاتنا، وسببًا لرجوعنا إليك.<br>
+    اللهم اغفر لنا ولوالدينا ولجميع المسلمين والمسلمات، الأحياء منهم والأموات.<br>
+    اللهم اسقنا الغيث ولا تجعلنا من القانطين.<br>
+    اللهم أنزل علينا رحمتك وبركاتك.<br>
+    اللهم اجعل هذا البلد آمنًا مطمئنًا وسائر بلاد المسلمين.</p>
+
+    <p>[TEGAS] عباد الله،</p>
+    <p class="arab">إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالإِحْسَانِ وَإِيتَاءِ ذِي الْقُرْبَىٰ وَيَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنْكَرِ وَالْبَغْيِ ۚ يَعِظُكُمْ لَعَلَّكُمْ تَذَكَّرُونَ</p>
+    <p>[DIAM 2 DETIK]</p>
+    <p>فاذكروا الله العظيم يذكركم، واشكروه على نعمه يزدكم، ولذكر الله أكبر، والله يعلم ما تصنعون.</p>
+
+  </article>
+
+</main>
+
+<footer class="proto-footer no-print">
+  <p>© 2026 JAZMI — Jalinan Zamrud Islamiah.</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var KEY_MODE = "jazmi-khutbah-mode-khatib";
+
+  function initToggle() {
+    var checkbox = document.getElementById("toggleKhatib");
+    if (!checkbox) return;
+
+    var tersimpan = null;
+    try { tersimpan = localStorage.getItem(KEY_MODE); } catch (e) {}
+
+    function terapkan(aktif) {
+      document.body.classList.toggle("mode-khatib", aktif);
+      checkbox.checked = aktif;
+    }
+
+    terapkan(tersimpan === "1");
+
+    checkbox.addEventListener("change", function () {
+      terapkan(checkbox.checked);
+      try { localStorage.setItem(KEY_MODE, checkbox.checked ? "1" : "0"); } catch (e) {}
+    });
+  }
+
+  function initWhatsApp() {
+    var btn = document.getElementById("btnWhatsApp");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var judul = document.querySelector(".hero-title").textContent.trim();
+      var pesan = "Khutbah: " + judul + "\n" + window.location.href;
+      var url = "https://wa.me/?text=" + encodeURIComponent(pesan);
+      window.open(url, "_blank", "noopener");
+    });
+  }
+
+  function initPDF() {
+    var btn = document.getElementById("btnPDF");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      window.print();
+    });
+  }
+
+  /* Bungkus semua penanda [...] dalam teks jadi <span class="marker ...">,
+     supaya bisa disembunyikan/ditampilkan lewat toggle Panduan Khatib. */
+  function bungkusPenanda(root) {
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var node;
+    var target = [];
+    while ((node = walker.nextNode())) {
+      if (node.nodeValue.indexOf("[") !== -1) target.push(node);
+    }
+    target.forEach(function (textNode) {
+      var teks = textNode.nodeValue;
+      var regex = /\[([^\]]+)\]/g;
+      if (!regex.test(teks)) return;
+      regex.lastIndex = 0;
+
+      var frag = document.createDocumentFragment();
+      var lastIndex = 0;
+      var match;
+      while ((match = regex.exec(teks)) !== null) {
+        if (match.index > lastIndex) {
+          frag.appendChild(document.createTextNode(teks.slice(lastIndex, match.index)));
+        }
+        var isi = match[1];
+        var kelas = "marker marker-intonasi";
+        if (/^DIAM/i.test(isi)) kelas = "marker marker-jeda";
+        else if (/TARIK NAPAS/i.test(isi)) kelas = "marker marker-napas";
+
+        var span = document.createElement("span");
+        span.className = kelas;
+        span.textContent = "[" + isi + "]";
+        frag.appendChild(span);
+
+        lastIndex = regex.lastIndex;
+      }
+      if (lastIndex < teks.length) {
+        frag.appendChild(document.createTextNode(teks.slice(lastIndex)));
+      }
+      textNode.parentNode.replaceChild(frag, textNode);
+    });
+  }
+
+  function init() {
+    var body = document.getElementById("khutbahBody");
+    if (body) bungkusPenanda(body);
+    initToggle();
+    initWhatsApp();
+    initPDF();
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+
+</body>
+</html>

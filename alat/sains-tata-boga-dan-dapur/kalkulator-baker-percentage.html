@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kalkulator Persentase Baker — JAZMI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --emerald-deep:#0F3D2E; --emerald-mid:#1D5C43; --ivory:#FAF6ED; --ivory-soft:#F1EADA;
+    --ink:#1C2B24; --gold:#B8934A; --gold-soft:#E7D2A0; --line:rgba(15,61,46,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--ivory);color:var(--ink);font-family:'Karla',sans-serif;line-height:1.65;}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;color:var(--emerald-deep);letter-spacing:-0.01em;}
+  .wrap{max-width:800px;margin:0 auto;padding:0 24px;}
+
+  .versi-awal{background:var(--emerald-deep);color:var(--ivory);padding:14px 24px;}
+  .versi-awal .wrap{display:flex;align-items:center;gap:14px;flex-wrap:wrap;max-width:800px;}
+  .versi-awal .badge{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;background:var(--gold);color:var(--emerald-deep);padding:4px 9px;border-radius:2px;flex-shrink:0;}
+  .versi-awal p{margin:0;font-size:14px;color:rgba(250,246,237,0.92);flex:1;min-width:220px;}
+  .versi-awal a.wa-inline{color:var(--gold-soft);font-weight:700;text-decoration:underline;white-space:nowrap;}
+
+  .crumb{padding:20px 24px 0;max-width:800px;margin:0 auto;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;color:var(--emerald-mid);opacity:0.75;}
+  .crumb span{color:var(--ink);opacity:0.4;margin:0 6px;}
+
+  .hero{padding:32px 0 24px;}
+  .eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:14px;}
+  .eyebrow::before{content:"";width:18px;height:1px;background:var(--gold);display:inline-block;}
+  .hero h1{font-size:clamp(24px,4.5vw,34px);margin:0 0 12px;line-height:1.2;}
+  .hero p.lede{font-size:16px;color:var(--emerald-deep);opacity:0.85;max-width:60ch;margin:0;}
+
+  section{padding:32px 0;border-top:1px solid var(--line);}
+  section:first-of-type{border-top:none;}
+  .label{font-size:12px;letter-spacing:0.09em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;}
+  section h2{font-size:20px;margin:0 0 14px;}
+  section p{margin:0 0 12px;font-size:15px;}
+  ul.plain{margin:0 0 12px;padding-left:20px;}
+  ul.plain li{margin-bottom:8px;font-size:15px;}
+  code.formula{display:block;background:var(--ivory-soft);padding:12px 14px;border-radius:3px;font-family:monospace;font-size:13.5px;margin:10px 0;color:var(--emerald-deep);overflow-x:auto;}
+
+  .kartu{background:var(--emerald-deep);color:var(--ivory);border-radius:4px;padding:26px;}
+  .kartu h3{color:var(--ivory);margin:0 0 18px;font-size:17px;}
+
+  .tab-mode{display:flex;gap:2px;margin-bottom:22px;background:rgba(250,246,237,0.08);padding:3px;border-radius:4px;}
+  .tab-mode button{flex:1;padding:11px;border:none;background:transparent;color:rgba(250,246,237,0.7);font-family:'Karla',sans-serif;font-weight:700;font-size:13.5px;border-radius:3px;cursor:pointer;}
+  .tab-mode button.aktif{background:var(--gold);color:var(--emerald-deep);}
+  .panel-mode{display:none;}
+  .panel-mode.tampil{display:block;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:13px;margin-bottom:6px;color:var(--gold-soft);}
+  .field input, .field select{width:100%;padding:10px 12px;border-radius:3px;border:1px solid rgba(231,210,160,0.35);background:rgba(250,246,237,0.06);color:var(--ivory);font-family:'Karla',sans-serif;font-size:14.5px;}
+  .field .hint{font-size:12px;color:rgba(250,246,237,0.55);margin-top:5px;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:560px){.grid2{grid-template-columns:1fr;}}
+  .radio-inline{display:flex;gap:16px;margin-bottom:14px;}
+  .radio-inline label{display:flex;align-items:center;gap:6px;font-size:13.5px;color:rgba(250,246,237,0.85);cursor:pointer;}
+  .radio-inline input{width:auto;}
+
+  button.hitung{width:100%;padding:13px;border:none;border-radius:3px;background:var(--gold);color:var(--emerald-deep);font-family:'Karla',sans-serif;font-weight:700;font-size:14.5px;cursor:pointer;margin-top:4px;}
+  button.hitung:hover{background:var(--gold-soft);}
+
+  .hasil{margin-top:22px;padding-top:20px;border-top:1px solid rgba(231,210,160,0.22);display:none;}
+  .hasil.tampil{display:block;}
+  .baris-hasil{display:flex;justify-content:space-between;font-size:14.5px;padding:8px 0;border-bottom:1px solid rgba(231,210,160,0.15);}
+  .baris-hasil:last-child{border-bottom:none;font-weight:700;color:var(--gold-soft);}
+  .baris-hasil .persen{color:rgba(250,246,237,0.55);font-size:12.5px;margin-left:6px;}
+  .flag{display:inline-block;margin-left:8px;padding:1px 7px;border-radius:2px;font-size:11px;font-weight:700;}
+  .flag.normal{background:rgba(123,174,143,0.25);color:#7BAE8F;}
+  .flag.beda{background:rgba(199,123,91,0.25);color:#C77B5B;}
+
+  .rentang-box{background:var(--ivory-soft);border-radius:4px;padding:16px 18px;margin:14px 0;font-size:14px;}
+  .rentang-box .baris-r{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line);}
+  .rentang-box .baris-r:last-child{border-bottom:none;}
+
+  .langkah{border-left:2px solid var(--gold-soft);padding-left:16px;margin-bottom:14px;}
+  .langkah .no{font-family:'Fraunces',serif;color:var(--gold);font-size:13px;margin-bottom:3px;}
+
+  .batasan-item{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+  .batasan-item .dot{width:6px;height:6px;border-radius:50%;background:var(--gold);margin-top:8px;flex-shrink:0;}
+  .disclaimer-box{background:var(--ivory-soft);border-left:3px solid var(--gold);padding:14px 16px;border-radius:2px;font-size:14px;margin-top:14px;}
+
+  .konsultasi{margin-top:8px;padding:20px;border:1px dashed var(--line);border-radius:4px;text-align:center;}
+  .konsultasi p{font-size:14px;margin-bottom:12px;color:var(--emerald-deep);}
+  .btn-konsul{display:inline-block;padding:10px 22px;border-radius:3px;background:var(--emerald-mid);color:var(--ivory);font-family:'Karla',sans-serif;font-weight:600;font-size:14px;cursor:pointer;text-decoration:none;}
+
+  footer{padding:24px 24px 50px;font-size:13px;color:var(--emerald-mid);opacity:0.7;max-width:800px;margin:0 auto;}
+</style>
+</head>
+<body>
+
+<div class="versi-awal">
+  <div class="wrap">
+    <span class="badge">Versi Awal</span>
+    <p>Rentang persentase yang dipakai di sini adalah patokan umum roti berbahan tepung terigu biasa — jenis tepung, kelembapan, dan ketinggian tempat bisa mengubah hasil nyata di dapur Anda.</p>
+    <a class="wa-inline" href="https://wa.me/6281356572588?text=Assalamu%27alaikum%2C%20saya%20ingin%20diskusi%20terkait%20Kalkulator%20Persentase%20Baker%20JAZMI." target="_blank" rel="noopener">Diskusikan via WhatsApp →</a>
+  </div>
+</div>
+
+<div class="crumb">JAZMI <span>/</span> Alat <span>/</span> Persentase Baker</div>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">Alat — Sains Tata Boga</div>
+    <h1>Kalkulator Persentase Baker</h1>
+    <p class="lede">Mengubah rasio air, garam, dan ragi dalam adonan roti menjadi angka presisi — teknik yang dipakai dapur profesional untuk membuat resep bisa diskalakan dan dianalisis, bukan sekadar diingat.</p>
+  </div>
+
+  <section id="belajar" style="border-top:none;padding-top:0;">
+    <div class="label">01 — Belajar</div>
+    <h2>Kenapa tepung selalu dianggap 100%?</h2>
+    <p>Dalam pembuatan roti, hampir semua bahan lain diukur <strong>sebagai persentase dari berat tepung</strong> — bukan dari total adonan. Tepung selalu jadi patokan 100%, lalu air, garam, ragi, dan lemak dinyatakan relatif terhadapnya. Air 65% berarti beratnya 65% dari berat tepung, bukan 65% dari total adonan.</p>
+    <p>Ini bukan sekadar gaya penulisan resep — ini adalah bentuk formal dari fondasi <strong>panas-air-lemak-garam</strong> yang jadi dasar belajar masak: hidrasi (air), kadar garam, dan lemak adalah variabel yang benar-benar menentukan tekstur dan rasa akhir, dan menuliskannya sebagai rasio membuatnya bisa diskalakan ke ukuran berapa pun tanpa mengubah karakter adonan.</p>
+    <ul class="plain">
+      <li><strong>Hidrasi (air)</strong> — menentukan kekenyalan/kepadatan crumb. Rendah (&lt;60%) untuk roti padat, tinggi (&gt;75%) untuk roti berpori seperti ciabatta.</li>
+      <li><strong>Garam</strong> — bukan cuma rasa, tapi mengontrol aktivitas ragi dan memperkuat gluten.</li>
+      <li><strong>Ragi</strong> — menentukan kecepatan fermentasi; makin sedikit, makin lambat naik tapi rasa makin kompleks.</li>
+    </ul>
+  </section>
+
+  <section id="kalkulator">
+    <div class="label">02 — Eksplorasi</div>
+    <div class="kartu">
+      <h3>Hitung adonan Anda</h3>
+      <div class="tab-mode">
+        <button id="tabHitung" class="aktif" onclick="pilihMode('hitung')">Dari Persentase → Gram</button>
+        <button id="tabAnalisis" onclick="pilihMode('analisis')">Dari Resep → Persentase</button>
+      </div>
+
+      <!-- MODE: Hitung dari persentase -->
+      <div class="panel-mode tampil" id="panelHitung">
+        <div class="radio-inline">
+          <label><input type="radio" name="basisHitung" value="tepung" checked onchange="onBasisChange()"> Mulai dari berat tepung</label>
+          <label><input type="radio" name="basisHitung" value="total" onchange="onBasisChange()"> Mulai dari target total adonan</label>
+        </div>
+        <div class="field" id="fieldTepung">
+          <label for="beratTepung">Berat tepung (gram)</label>
+          <input type="number" id="beratTepung" placeholder="Contoh: 500" min="0">
+        </div>
+        <div class="field" id="fieldTotal" style="display:none;">
+          <label for="beratTotal">Target total adonan (gram)</label>
+          <input type="number" id="beratTotal" placeholder="Contoh: 1000" min="0">
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="persenAir">Hidrasi / air (%)</label>
+            <input type="number" id="persenAir" value="65" min="0">
+          </div>
+          <div class="field">
+            <label for="persenGaram">Garam (%)</label>
+            <input type="number" id="persenGaram" value="2" min="0" step="0.1">
+          </div>
+          <div class="field">
+            <label for="persenRagi">Ragi instan (%)</label>
+            <input type="number" id="persenRagi" value="1.4" min="0" step="0.1">
+          </div>
+          <div class="field">
+            <label for="persenLemak">Lemak/minyak (%)</label>
+            <input type="number" id="persenLemak" value="0" min="0" step="0.1">
+          </div>
+          <div class="field">
+            <label for="persenGula">Gula (%)</label>
+            <input type="number" id="persenGula" value="0" min="0" step="0.1">
+          </div>
+        </div>
+        <button class="hitung" onclick="hitungDariPersentase()">Hitung Gram</button>
+        <div class="hasil" id="hasilHitung"></div>
+      </div>
+
+      <!-- MODE: Analisis dari resep -->
+      <div class="panel-mode" id="panelAnalisis">
+        <div class="grid2">
+          <div class="field">
+            <label for="aTepung">Tepung (gram)</label>
+            <input type="number" id="aTepung" placeholder="Contoh: 500" min="0">
+          </div>
+          <div class="field">
+            <label for="aAir">Air (gram)</label>
+            <input type="number" id="aAir" placeholder="Contoh: 325" min="0">
+          </div>
+          <div class="field">
+            <label for="aGaram">Garam (gram)</label>
+            <input type="number" id="aGaram" placeholder="Contoh: 10" min="0">
+          </div>
+          <div class="field">
+            <label for="aRagi">Ragi (gram)</label>
+            <input type="number" id="aRagi" placeholder="Contoh: 7" min="0">
+          </div>
+          <div class="field">
+            <label for="aLemak">Lemak/minyak (gram)</label>
+            <input type="number" id="aLemak" placeholder="0" min="0">
+          </div>
+          <div class="field">
+            <label for="aGula">Gula (gram)</label>
+            <input type="number" id="aGula" placeholder="0" min="0">
+          </div>
+        </div>
+        <button class="hitung" onclick="analisisResep()">Analisis Persentase</button>
+        <div class="hasil" id="hasilAnalisis"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="metode">
+    <div class="label">03 — Metode</div>
+    <h2>Bagaimana alat ini menghitung</h2>
+    <div class="langkah">
+      <div class="no">Langkah 1</div>
+      <p>Setiap bahan dinyatakan sebagai persentase dari berat tepung.</p>
+      <code class="formula">berat_bahan = berat_tepung × (persen_bahan / 100)</code>
+    </div>
+    <div class="langkah">
+      <div class="no">Langkah 2</div>
+      <p>Jika yang diketahui adalah target total adonan (bukan berat tepung), berat tepung dicari mundur dari total persentase seluruh bahan (termasuk tepung = 100%).</p>
+      <code class="formula">berat_tepung = total_adonan × 100 / (100 + jumlah_semua_persen)</code>
+    </div>
+    <div class="langkah">
+      <div class="no">Langkah 3</div>
+      <p>Untuk arah sebaliknya (analisis resep), setiap bahan dibagi berat tepung — sudah diuji bolak-balik: resep 500g tepung/325g air/10g garam/7g ragi menghasilkan persis 65% / 2% / 1,4%, dan sebaliknya.</p>
+    </div>
+
+    <h2 style="margin-top:24px;">Rentang umum sebagai pembanding</h2>
+    <div class="rentang-box">
+      <div class="baris-r"><span>Hidrasi — roti padat/roti tawar sederhana</span><strong>55–65%</strong></div>
+      <div class="baris-r"><span>Hidrasi — roti lembut/roti sobek</span><strong>65–75%</strong></div>
+      <div class="baris-r"><span>Hidrasi — ciabatta/roti berpori tinggi</span><strong>75–90%</strong></div>
+      <div class="baris-r"><span>Garam — hampir semua jenis roti</span><strong>1,8–2,2%</strong></div>
+      <div class="baris-r"><span>Ragi instan — metode langsung (direct)</span><strong>1–2%</strong></div>
+    </div>
+  </section>
+
+  <section id="batasan">
+    <div class="label">04 — Batasan</div>
+    <h2>Yang perlu diperhatikan</h2>
+    <div class="batasan-item"><div class="dot"></div><p>Rentang di atas untuk <strong>tepung terigu protein sedang-tinggi</strong> gaya roti Barat/modern — tepung lokal (tapioka, beras, mocaf) punya daya serap air sangat berbeda dan tidak mengikuti rentang ini.</p></div>
+    <div class="batasan-item"><div class="dot"></div><p>Kelembapan udara, suhu ruangan, dan ketinggian tempat memengaruhi hasil nyata — persentase yang sama bisa terasa berbeda di dapur yang berbeda.</p></div>
+    <div class="batasan-item"><div class="dot"></div><p>Ragi alami (sourdough/biang) tidak mengikuti persentase ragi instan di atas — perhitungannya berbeda karena melibatkan starter yang sudah mengandung tepung dan air sendiri.</p></div>
+    <div class="disclaimer-box">Alat ini membantu perhitungan rasio berdasarkan teknik baker's percentage yang umum dipakai dapur profesional. Hasil akhir tetap bergantung pada jenis bahan, teknik, dan kondisi dapur Anda — anggap ini titik awal, bukan jaminan hasil.</div>
+  </section>
+
+  <section id="konsultasi">
+    <div class="konsultasi">
+      <p>Mau menganalisis resep keluarga/resep tradisional Nusantara dan mengubahnya jadi format yang bisa diskalakan?</p>
+      <a class="btn-konsul" href="https://wa.me/6281356572588?text=Assalamu%27alaikum%2C%20saya%20ingin%20diskusi%20terkait%20analisis%20resep%20dengan%20Kalkulator%20Persentase%20Baker%20JAZMI." target="_blank" rel="noopener">Diskusikan via WhatsApp</a>
+    </div>
+  </section>
+
+  <footer>
+    <p>Bagian dari Laboratorium Alat JAZMI. Prototipe berdiri sendiri — belum terhubung ke Beranda atau modul lain.</p>
+  </footer>
+</div>
+
+<script>
+function pilihMode(mode){
+  document.getElementById('tabHitung').classList.toggle('aktif', mode==='hitung');
+  document.getElementById('tabAnalisis').classList.toggle('aktif', mode==='analisis');
+  document.getElementById('panelHitung').classList.toggle('tampil', mode==='hitung');
+  document.getElementById('panelAnalisis').classList.toggle('tampil', mode==='analisis');
+}
+
+function onBasisChange(){
+  const basisTotal = document.querySelector('input[name="basisHitung"]:checked').value === 'total';
+  document.getElementById('fieldTepung').style.display = basisTotal ? 'none' : 'block';
+  document.getElementById('fieldTotal').style.display = basisTotal ? 'block' : 'none';
+}
+
+function formatG(n){ return n.toLocaleString('id-ID', {maximumFractionDigits:1}) + ' g'; }
+
+function hitungDariPersentase(){
+  const basisTotal = document.querySelector('input[name="basisHitung"]:checked').value === 'total';
+  const persen = {
+    Air: parseFloat(document.getElementById('persenAir').value) || 0,
+    Garam: parseFloat(document.getElementById('persenGaram').value) || 0,
+    Ragi: parseFloat(document.getElementById('persenRagi').value) || 0,
+    Lemak: parseFloat(document.getElementById('persenLemak').value) || 0,
+    Gula: parseFloat(document.getElementById('persenGula').value) || 0,
+  };
+  const jumlahPersen = Object.values(persen).reduce((a,b)=>a+b, 0);
+
+  let beratTepung;
+  if (basisTotal){
+    const total = parseFloat(document.getElementById('beratTotal').value);
+    if (isNaN(total) || total<=0){ alert('Masukkan target total adonan yang valid.'); return; }
+    beratTepung = total * 100 / (100 + jumlahPersen);
+  } else {
+    beratTepung = parseFloat(document.getElementById('beratTepung').value);
+    if (isNaN(beratTepung) || beratTepung<=0){ alert('Masukkan berat tepung yang valid.'); return; }
+  }
+
+  let html = `<div class="baris-hasil"><span>Tepung <span class="persen">(100%)</span></span><span>${formatG(beratTepung)}</span></div>`;
+  let totalAdonan = beratTepung;
+  for (const [nama, p] of Object.entries(persen)){
+    if (p <= 0) continue;
+    const berat = beratTepung * p / 100;
+    totalAdonan += berat;
+    html += `<div class="baris-hasil"><span>${nama} <span class="persen">(${p}%)</span></span><span>${formatG(berat)}</span></div>`;
+  }
+  html += `<div class="baris-hasil"><span>Total adonan</span><span>${formatG(totalAdonan)}</span></div>`;
+
+  const box = document.getElementById('hasilHitung');
+  box.innerHTML = html;
+  box.classList.add('tampil');
+}
+
+function analisisResep(){
+  const tepung = parseFloat(document.getElementById('aTepung').value);
+  if (isNaN(tepung) || tepung<=0){ alert('Masukkan berat tepung yang valid.'); return; }
+
+  const bahan = {
+    Air: parseFloat(document.getElementById('aAir').value) || 0,
+    Garam: parseFloat(document.getElementById('aGaram').value) || 0,
+    Ragi: parseFloat(document.getElementById('aRagi').value) || 0,
+    Lemak: parseFloat(document.getElementById('aLemak').value) || 0,
+    Gula: parseFloat(document.getElementById('aGula').value) || 0,
+  };
+
+  const rentangNormal = {
+    Air: [55, 90],
+    Garam: [1.8, 2.2],
+    Ragi: [1, 2],
+  };
+
+  let html = `<div class="baris-hasil"><span>Tepung</span><span>100%</span></div>`;
+  for (const [nama, g] of Object.entries(bahan)){
+    if (g <= 0) continue;
+    const persen = (g / tepung) * 100;
+    let flag = '';
+    if (rentangNormal[nama]){
+      const [min, max] = rentangNormal[nama];
+      flag = (persen>=min && persen<=max)
+        ? `<span class="flag normal">dalam rentang umum</span>`
+        : `<span class="flag beda">di luar rentang umum (${min}–${max}%)</span>`;
+    }
+    html += `<div class="baris-hasil"><span>${nama}${flag}</span><span>${persen.toFixed(1)}%</span></div>`;
+  }
+
+  const box = document.getElementById('hasilAnalisis');
+  box.innerHTML = html;
+  box.classList.add('tampil');
+}
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

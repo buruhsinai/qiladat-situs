@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rangkuman — Dien — JAZMI | Jalinan Zamrud Islamiah</title>
+<meta name="description" content="Rangkuman — etalase dan perpustakaan bahan kajian JAZMI: rangkuman kajian, modul belajar, khutbah Jumat, dan bahan pembelajaran lain.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="rangkuman.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (pola sama dengan HOME/C04) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="../index.html" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="../artikel/index.html">Artikel</a></li>
+        <li><a href="index.html" class="is-active" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= HERO / PENGENALAN ================= -->
+  <section class="identity">
+    <div class="identity-inner">
+      <p class="identity-eyebrow">Dien · Rangkuman</p>
+      <h1 class="identity-title">Rangkuman</h1>
+      <p class="rangkuman-hero-desc">Etalase sekaligus perpustakaan bahan kajian JAZMI — rangkuman kajian yang telah berlangsung, bahan yang sudah disiapkan, khutbah Jumat, dan bahan belajar lain. Bukan folder PDF, tetapi ruang yang memberi konteks sebelum dokumen dibuka.</p>
+    </div>
+  </section>
+
+  <!-- ================= NILAI TAMBAH JAZMI ================= -->
+  <section class="section" aria-labelledby="nilai-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Sebelum Membuka Dokumen</p>
+        <h2 class="section-title" id="nilai-heading">Konteks Lebih Dulu, Baru Dokumen</h2>
+        <p class="section-desc">Sebelum membuka sebuah bahan, JAZMI berusaha memberi tahu apa isinya, untuk siapa bahan ini cocok, dan bagaimana hubungannya dengan kajian atau khutbah terkait — bukan sekadar tautan unduhan.</p>
+      </div>
+      <ul class="nilai-list">
+        <li>Apa isi bahan ini</li>
+        <li>Untuk siapa bahan ini cocok</li>
+        <li>Konteks kemunculannya</li>
+        <li>Hubungan dengan kajian/khutbah terkait, jika ada</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= FILTER BAHAN ================= -->
+  <section class="section section-alt" aria-labelledby="bahan-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Perpustakaan</p>
+        <h2 class="section-title" id="bahan-heading">Bahan Belajar</h2>
+        <p class="section-desc">Rangkuman kajian, modul, dan PDF panduan. Format PDF adalah format utama untuk saat ini, tetapi susunan halaman ini terbuka terhadap format lain di masa depan.</p>
+      </div>
+
+      <div class="rangkuman-filter" id="bahanFilter" role="group" aria-label="Filter tipe bahan">
+        <button type="button" class="rangkuman-filter-btn is-active" data-tipe="semua">Semua</button>
+        <button type="button" class="rangkuman-filter-btn" data-tipe="rangkuman">Rangkuman</button>
+        <button type="button" class="rangkuman-filter-btn" data-tipe="modul">Modul</button>
+        <button type="button" class="rangkuman-filter-btn" data-tipe="pdf">PDF</button>
+      </div>
+
+      <div class="material-list" id="bahanList">
+        <!-- diisi JavaScript dari data/bahan.json -->
+      </div>
+      <p class="rangkuman-demo-note" id="bahanDemoNote"></p>
+    </div>
+  </section>
+
+  <!-- ================= KHUTBAH JUMAT ================= -->
+  <section class="section" aria-labelledby="khutbah-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Mimbar</p>
+        <h2 class="section-title" id="khutbah-heading">Khutbah Jumat</h2>
+      </div>
+      <div class="rangkuman-khutbah-list" id="khutbahList">
+        <!-- diisi JavaScript dari data/khutbah.json -->
+      </div>
+      <p class="rangkuman-demo-note" id="khutbahDemoNote"></p>
+    </div>
+  </section>
+
+  <!-- ================= KAJIAN & TAKLIM ================= -->
+  <section class="section section-alt" aria-labelledby="kajian-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Katalog Referensi</p>
+        <h2 class="section-title" id="kajian-heading">Kajian &amp; Taklim</h2>
+        <p class="section-desc">Satu kajian dapat memiliki beberapa output — rangkuman, PDF, video, atau audio. Video dan audio ditangani modul Media (di luar cakupan halaman ini); di sini hanya ditampilkan sebagai referensi keterkaitan.</p>
+      </div>
+      <div class="rangkuman-kajian-list" id="kajianList">
+        <!-- diisi JavaScript dari data/kajian.json -->
+      </div>
+      <p class="rangkuman-demo-note" id="kajianDemoNote"></p>
+    </div>
+  </section>
+
+  <!-- ================= VERSI VISUAL / TELEGRAM ================= -->
+  <section class="section" aria-labelledby="visual-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Format Lain</p>
+        <h2 class="section-title" id="visual-heading">Versi Poster / Serial Gambar</h2>
+      </div>
+      <div class="rangkuman-status-card">
+        <span class="rangkuman-status-tag">Belum tersedia</span>
+        <p>Sebagian bahan dapat memiliki versi visual (poster atau serial gambar) yang didistribusikan lewat Telegram. Tautan resmi akan ditampilkan di sini begitu tersedia.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= HUBUNGAN DENGAN ARTIKEL & DARING ================= -->
+  <section class="section section-alt" aria-labelledby="hubungan-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Keterkaitan</p>
+        <h2 class="section-title" id="hubungan-heading">Hubungan dengan Artikel dan Daring</h2>
+      </div>
+      <div class="rangkuman-statement">
+        <p>Jika ada artikel yang relevan dengan sebuah bahan, Rangkuman dapat mengarah ke artikel tersebut — tetapi Artikel tetap Artikel, Rangkuman tetap Rangkuman, isinya tidak diduplikasi.</p>
+        <p>Rangkuman juga dapat menjadi sumber bahan bagi jalur Daring di masa depan, meski C05 tidak membangun sistem Daring itu sendiri.</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER (pola sama dengan HOME/C04) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="../index.html">Home</a>
+      <a href="../artikel/index.html">Artikel</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah. Halaman Rangkuman, versi produksi awal.</p>
+  </div>
+</footer>
+
+<script src="rangkuman.js"></script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+{
+  "_catatan": "DATA DEMO — dibuat oleh C09 hanya untuk menguji struktur halaman Terapi. Bukan data resmi JAZMI, bukan rekomendasi medis. Ganti dengan data nyata yang telah dikurasi sebelum dipublikasikan.",
+  "status": "demo",
+  "terapi": [
+    {
+      "id": "fisioterapi",
+      "nama": "Fisioterapi",
+      "kategori": "Konvensional",
+      "status": "demo",
+      "ringkasan": "Pendekatan medis konvensional untuk memulihkan gerak dan fungsi tubuh melalui latihan terarah dan penanganan fisik.",
+      "deskripsi": [
+        "Fisioterapi adalah cabang perawatan kesehatan konvensional yang berfokus pada pemulihan, pemeliharaan, dan peningkatan gerak serta fungsi fisik seseorang. Pendekatan ini umumnya melibatkan evaluasi kondisi tubuh, lalu menyusun program latihan atau penanganan yang disesuaikan dengan kebutuhan individu.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman — bukan panduan atau rekomendasi medis. Untuk kondisi kesehatan nyata, konsultasikan dengan tenaga medis berlisensi."
+      ],
+      "sumberReferensi": [
+        "Placeholder — referensi resmi akan diisi pada tahap data nyata."
+      ],
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    },
+    {
+      "id": "terapi-wicara",
+      "nama": "Terapi Wicara",
+      "kategori": "Konvensional",
+      "status": "demo",
+      "ringkasan": "Penanganan konvensional untuk membantu kemampuan komunikasi, bahasa, dan menelan.",
+      "deskripsi": [
+        "Terapi wicara adalah bentuk penanganan konvensional yang membantu seseorang mengatasi hambatan komunikasi, baik dalam berbicara, memahami bahasa, maupun proses menelan. Biasanya ditangani oleh tenaga profesional yang terlatih di bidang ini.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman — bukan panduan atau rekomendasi medis. Untuk kondisi kesehatan nyata, konsultasikan dengan tenaga medis berlisensi."
+      ],
+      "sumberReferensi": [
+        "Placeholder — referensi resmi akan diisi pada tahap data nyata."
+      ],
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    },
+    {
+      "id": "bekam-hijamah",
+      "nama": "Bekam (Hijamah)",
+      "kategori": "Tradisional",
+      "status": "demo",
+      "ringkasan": "Terapi tradisional yang dikenal luas dalam khazanah Thibbun Nabawi, memanfaatkan penghisapan pada titik-titik tertentu di tubuh.",
+      "deskripsi": [
+        "Bekam atau hijamah adalah salah satu terapi tradisional yang dikenal dalam khazanah Thibbun Nabawi, dilakukan dengan memanfaatkan alat penghisap pada titik-titik tertentu di permukaan kulit. Praktiknya dikenal luas di berbagai budaya, termasuk dalam tradisi kesehatan dunia Islam.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman, disusun secara umum dan tidak mengklaim manfaat medis spesifik. Praktik bekam sebaiknya dilakukan oleh praktisi terlatih dan higienis, serta dikonsultasikan dengan tenaga medis untuk kondisi kesehatan tertentu."
+      ],
+      "sumberReferensi": [
+        "Placeholder — referensi resmi (termasuk rujukan Thibbun Nabawi) akan diisi pada tahap data nyata."
+      ],
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    },
+    {
+      "id": "akupunktur",
+      "nama": "Akupunktur",
+      "kategori": "Tradisional",
+      "status": "demo",
+      "ringkasan": "Terapi tradisional Tiongkok yang menggunakan jarum halus pada titik-titik tubuh tertentu.",
+      "deskripsi": [
+        "Akupunktur adalah terapi tradisional yang berasal dari khazanah pengobatan Tiongkok, menggunakan jarum-jarum halus yang ditempatkan pada titik-titik tertentu di tubuh. Praktik ini telah dikenal dan digunakan secara luas di berbagai negara.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman — bukan panduan atau rekomendasi medis. Untuk kondisi kesehatan nyata, konsultasikan dengan tenaga medis berlisensi."
+      ],
+      "sumberReferensi": [
+        "Placeholder — referensi resmi akan diisi pada tahap data nyata."
+      ],
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    },
+    {
+      "id": "herbal-thibbun-nabawi",
+      "nama": "Herbal (Thibbun Nabawi)",
+      "kategori": "Tradisional",
+      "status": "demo",
+      "ringkasan": "Pemanfaatan bahan-bahan alami yang dikenal dalam khazanah Thibbun Nabawi, seperti madu dan habbatussauda.",
+      "deskripsi": [
+        "Herbal dalam tradisi Thibbun Nabawi merujuk pada pemanfaatan bahan-bahan alami yang disebutkan dalam khazanah keislaman, seperti madu, habbatussauda, dan bahan alami lainnya, sebagai bagian dari upaya menjaga kesehatan tubuh.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman, disusun secara umum tanpa mengklaim khasiat medis spesifik. Penggunaan herbal untuk kondisi kesehatan tertentu sebaiknya dikonsultasikan dengan tenaga medis."
+      ],
+      "sumberReferensi": [
+        "Placeholder — referensi resmi (termasuk rujukan Thibbun Nabawi) akan diisi pada tahap data nyata."
+      ],
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    },
+    {
+      "id": "aromaterapi",
+      "nama": "Aromaterapi",
+      "kategori": "Komplementer",
+      "status": "demo",
+      "ringkasan": "Pendekatan komplementer yang memanfaatkan aroma minyak esensial untuk relaksasi.",
+      "deskripsi": [
+        "Aromaterapi adalah pendekatan komplementer yang memanfaatkan aroma dari minyak esensial tumbuhan sebagai bagian dari upaya relaksasi dan menjaga kenyamanan tubuh serta pikiran.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman — bukan panduan atau rekomendasi medis."
+      ],
+      "sumberReferensi": [
+        "Placeholder — referensi resmi akan diisi pada tahap data nyata."
+      ],
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    },
+    {
+      "id": "pijat-relaksasi",
+      "nama": "Pijat Relaksasi",
+      "kategori": "Komplementer",
+      "status": "demo",
+      "ringkasan": "Terapi sentuh komplementer yang membantu meredakan ketegangan otot dan pikiran.",
+      "deskripsi": [
+        "Pijat relaksasi adalah bentuk terapi sentuh komplementer yang bertujuan meredakan ketegangan otot dan memberi rasa nyaman bagi tubuh serta pikiran, umumnya dilakukan oleh terapis terlatih.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman — bukan panduan atau rekomendasi medis."
+      ],
+      "sumberReferensi": [
+        "Placeholder — referensi resmi akan diisi pada tahap data nyata."
+      ],
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    }
+  ]
+}

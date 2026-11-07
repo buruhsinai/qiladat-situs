@@ -1,0 +1,410 @@
+/* =========================================================
+   JAZMI — Dien · Pendidikan · Ponpes
+   ponpes.css
+   Adaptasi dari dien/pondok.css (C05) — konten & komponen sama
+   persis, hanya dipindah ke /dien/pendidikan/ponpes/. Menggunakan
+   token warna/tipografi/breakpoint yang sama dari ../../../css/style.css
+   (variabel :root, ditautkan lebih dulu di index.html) — tidak
+   menduplikasi atau mengubahnya, mengikuti pola yang sudah dipakai
+   di seluruh situs (tidak ada mekanisme import lintas file CSS).
+   Ditambah: blok .breadcrumb (dipakai halaman ini, belum ada
+   sebelumnya di pondok.css karena pondok.html lama tidak memakainya).
+   ========================================================= */
+
+.breadcrumb {
+  border-bottom: 1px solid var(--line-soft);
+}
+.breadcrumb-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.85rem;
+  padding-bottom: 0.85rem;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+}
+.breadcrumb a { color: var(--ink-soft); font-weight: 600; }
+.breadcrumb a:hover { color: var(--emerald-deep); }
+.breadcrumb-sep { color: var(--ink-faint); }
+.breadcrumb [aria-current="page"] { color: var(--emerald-deep); font-weight: 600; }
+
+/* ---------------------------------------------------------
+   Hero Pondok
+   --------------------------------------------------------- */
+.pondok-hero-desc {
+  max-width: 62ch;
+  color: var(--ink-soft);
+  font-size: 1.05rem;
+}
+
+.pondok-hero-meta {
+  margin-top: 1.25rem;
+  font-size: 0.88rem;
+  color: var(--ink-faint);
+}
+
+/* ---------------------------------------------------------
+   Blok pernyataan (Apa yang kami bangun, Pendidikan Gratis,
+   Tradisi Berbagi, Keseriusan Calon Santri) — kutipan/pernyataan
+   editorial dengan garis brass di kiri, versi lebih tenang dari
+   khutbah-card.
+   --------------------------------------------------------- */
+.pondok-statement {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--brass);
+  border-radius: var(--radius);
+  padding: clamp(1.5rem, 4vw, 2.25rem);
+  max-width: 720px;
+}
+.pondok-statement p {
+  color: var(--ink-soft);
+  margin: 0 0 1rem;
+}
+.pondok-statement p:last-child { margin-bottom: 0; }
+.pondok-statement .pondok-statement-lead {
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 2.2vw, 1.35rem);
+  color: var(--emerald-deep);
+  font-weight: 600;
+}
+.pondok-statement .pondok-principle {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--emerald-deep);
+}
+
+/* ---------------------------------------------------------
+   Sistem Pendidikan — tiga jalur (Pengkaderan, Tahfidz, Bahasa
+   Arab), versi tenang dari material-item.
+   --------------------------------------------------------- */
+.pendidikan-grid {
+  display: grid;
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .pendidikan-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.pendidikan-item {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+}
+.pendidikan-item h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: var(--emerald-deep);
+  margin: 0 0 0.6rem;
+}
+.pendidikan-item p {
+  color: var(--ink-soft);
+  margin: 0 0 0.6rem;
+  font-size: 0.95rem;
+}
+.pendidikan-item p:last-child { margin-bottom: 0; }
+.pendidikan-note {
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------
+   31 Kitab · 31 Ilmu — pendekatan editorial bertahap
+   (Fondasi → 6 Kelompok Besar), pakai <details> native
+   supaya tidak perlu JS accordion.
+   --------------------------------------------------------- */
+.kurikulum-intro {
+  max-width: 62ch;
+  color: var(--ink-soft);
+  margin: 0 0 1.5rem;
+}
+.kurikulum-tangga {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  color: var(--emerald-deep);
+  font-size: 0.95rem;
+  margin: 0 0 2rem;
+}
+.kurikulum-tangga span.sep {
+  color: var(--ink-faint);
+  font-family: var(--font-body);
+}
+
+.kurikulum-fondasi {
+  background: var(--bg-alt);
+  border: 1px solid var(--brass-line);
+  border-radius: var(--radius);
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  margin: 0 0 1.5rem;
+}
+.kurikulum-fondasi-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brass);
+  margin: 0 0 0.35rem;
+}
+.kurikulum-fondasi h3 {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--emerald-deep);
+  margin: 0;
+}
+
+.kurikulum-list {
+  display: grid;
+  gap: 0.75rem;
+}
+.kurikulum-kelompok {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.kurikulum-kelompok summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--emerald-deep);
+}
+.kurikulum-kelompok summary::-webkit-details-marker { display: none; }
+.kurikulum-kelompok summary .kurikulum-count {
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--emerald);
+  background: var(--bg-alt);
+  border: 1px solid var(--brass-line);
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+}
+.kurikulum-kelompok summary .kurikulum-chevron {
+  font-family: var(--font-body);
+  color: var(--ink-faint);
+  transition: transform 0.2s var(--ease);
+}
+.kurikulum-kelompok[open] summary .kurikulum-chevron { transform: rotate(180deg); }
+
+.kurikulum-ilmu {
+  margin: 0;
+  padding: 0 1.25rem 1.25rem;
+  border-top: 1px solid var(--line-soft);
+}
+.kurikulum-ilmu li {
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed var(--line-soft);
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+.kurikulum-ilmu li:last-child { border-bottom: none; }
+.kurikulum-ilmu li span {
+  display: inline-block;
+  min-width: 1.5rem;
+  color: var(--ink-faint);
+  font-size: 0.8rem;
+}
+
+.kurikulum-catatan {
+  margin: 1.5rem 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  max-width: 62ch;
+}
+
+/* ---------------------------------------------------------
+   Kehidupan Santri / Kemandirian — daftar ringkas
+   --------------------------------------------------------- */
+.kemandirian-list {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 640px;
+}
+@media (min-width: 640px) {
+  .kemandirian-list { grid-template-columns: repeat(2, 1fr); }
+}
+.kemandirian-list li {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.75rem 1rem;
+  font-size: 0.92rem;
+  color: var(--ink-soft);
+}
+
+/* ---------------------------------------------------------
+   Keterampilan Tambahan — chip list
+   --------------------------------------------------------- */
+.keterampilan-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 1rem 0 0;
+}
+.keterampilan-list li {
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+}
+
+/* ---------------------------------------------------------
+   Belajar Tanpa Menjadi Santri / Laboratorium Karya Santri —
+   kartu status/roadmap jujur
+   --------------------------------------------------------- */
+.pondok-status-card {
+  background: var(--surface);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  max-width: 680px;
+  color: var(--ink-soft);
+}
+.pondok-status-card p { margin: 0 0 0.75rem; }
+.pondok-status-card p:last-child { margin-bottom: 0; }
+.pondok-status-tag {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border: 1px solid var(--line);
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  margin-bottom: 0.75rem;
+}
+
+/* ---------------------------------------------------------
+   Pendiri
+   --------------------------------------------------------- */
+.pendiri-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  max-width: 480px;
+}
+.pendiri-mark {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--emerald-deep);
+  color: var(--brass-soft);
+  font-family: var(--font-arabic);
+  font-size: 1.3rem;
+}
+.pendiri-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--emerald-deep);
+  margin: 0;
+}
+.pendiri-role {
+  font-size: 0.85rem;
+  color: var(--ink-faint);
+  margin: 0.2rem 0 0;
+}
+
+/* ---------------------------------------------------------
+   Tanya tentang Pondok (CTA WhatsApp)
+   --------------------------------------------------------- */
+.pondok-cta {
+  background: var(--emerald-deep);
+  border-radius: var(--radius);
+  padding: clamp(1.75rem, 5vw, 2.5rem);
+  color: #fff;
+}
+.pondok-cta h2 {
+  color: #fff;
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  margin: 0 0 0.6rem;
+}
+.pondok-cta p {
+  color: rgba(255,255,255,0.82);
+  margin: 0 0 1.5rem;
+  max-width: 55ch;
+}
+.pondok-cta .btn-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.5rem;
+  border-radius: var(--radius);
+  background: var(--brass);
+  color: var(--emerald-deep);
+  font-weight: 700;
+  transition: background-color 0.2s var(--ease);
+}
+.pondok-cta .btn-cta:hover { background: var(--brass-soft); }
+
+/* ---------------------------------------------------------
+   Facebook — status jujur (URL belum tersedia dari brief)
+   --------------------------------------------------------- */
+.pondok-facebook {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+  max-width: 520px;
+}
+.pondok-facebook p { margin: 0; color: var(--ink-soft); font-size: 0.92rem; }
+.pondok-facebook .status-belum {
+  font-size: 0.75rem;
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+/* ---------------------------------------------------------
+   Bagikan Halaman
+   --------------------------------------------------------- */
+.pondok-share {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+.pondok-share button,
+.pondok-share a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  border: 1px solid var(--emerald);
+  color: var(--emerald-deep);
+  background: none;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease), color 0.2s var(--ease);
+}
+.pondok-share button:hover,
+.pondok-share a:hover { background: var(--emerald-deep); color: #fff; border-color: var(--emerald-deep); }
+.pondok-share .is-copied { background: var(--emerald-deep); color: #fff; }

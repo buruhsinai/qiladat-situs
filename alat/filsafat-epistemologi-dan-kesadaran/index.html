@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kategori Alat — JAZMI</title>
+<meta name="description" content="Kategori alat interaktif JAZMI.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../alat.css">
+</head>
+<body>
+
+<!-- =========================================================
+     HALAMAN INI ADALAH TEMPLATE YANG SAMA PERSIS DI SETIAP
+     FOLDER KATEGORI /alat/<slug>/. Nama, deskripsi, jumlah, dan
+     daftar alat SEMUA diisi oleh alat.js dari
+     /alat/data/alat-manifest.json -- slug kategori dideteksi
+     otomatis dari URL folder ini. Menambah kategori baru cukup:
+     salin folder ini (dengan index.html ini apa adanya), lalu
+     tambahkan entrinya di alat-manifest.json. Tidak ada teks
+     kategori yang perlu diketik ulang di file ini.
+     ========================================================= -->
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (disalin persis dari kontrak C01, 6.1) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/" class="is-active">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= BREADCRUMB (nama kategori diisi JS) ================= -->
+  <nav class="breadcrumb" aria-label="Jejak navigasi">
+    <div class="section-inner breadcrumb-inner">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <a href="/alat/">Alat</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page" id="breadcrumbKategori">…</span>
+    </div>
+  </nav>
+
+  <!-- ================= HERO KATEGORI (seluruhnya diisi JS) ================= -->
+  <section class="domain-hero">
+    <div class="section-inner domain-hero-inner">
+      <p class="domain-eyebrow">Kategori Alat</p>
+      <h1 class="domain-title" id="kategoriNama">Memuat…</h1>
+      <p class="domain-desc" id="kategoriDeskripsi"></p>
+
+      <div class="stat-strip">
+        <div class="stat-card">
+          <p class="stat-number" id="statJumlahKategori">—</p>
+          <p class="stat-label">Alat dalam kategori ini</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= DAFTAR ALAT (dinamis, dari alat-manifest.json) ================= -->
+  <section class="section" aria-labelledby="daftar-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">01 — Daftar</p>
+        <h2 class="section-title" id="daftar-heading">Daftar Alat</h2>
+        <p class="section-desc">Nama alat sesuai manifest kategori.</p>
+      </div>
+
+      <p class="data-empty-note" id="toolStateLoading">Memuat daftar alat…</p>
+      <p class="data-empty-note" id="toolStateError" hidden>Data alat belum dapat dimuat. Coba muat ulang halaman ini beberapa saat lagi.</p>
+      <p class="data-empty-note" id="toolStateEmpty" hidden>Belum ada alat pada kategori ini.</p>
+
+      <ul class="tool-list" id="toolList" hidden>
+        <!-- diisi JavaScript dari data/alat-manifest.json -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= JELAJAHI LEBIH LANJUT ================= -->
+  <section class="section section-alt" aria-labelledby="relasi-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">02 — Jelajahi Lebih Lanjut</p>
+        <h2 class="section-title" id="relasi-heading">Kembali Menjelajah</h2>
+      </div>
+
+      <div class="relasi-block">
+        <a class="btn btn-outline" href="/alat/">Semua Kategori Alat →</a>
+        <a class="btn btn-outline" href="/">Kembali ke Beranda →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER (disalin dari HOME/C13 — path disesuaikan) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/artikel/">Artikel</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah.</p>
+  </div>
+</footer>
+
+<script src="../alat.js"></script>
+</body>
+</html>

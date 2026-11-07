@@ -1,0 +1,114 @@
+{
+  "_catatan": "DATA DEMO — dibuat oleh C10 hanya untuk menguji struktur halaman Produk Kesehatan. Bukan data produk resmi JAZMI, bukan katalog jual-beli aktif. Ganti dengan data nyata yang telah dikurasi sebelum dipublikasikan.",
+  "status": "demo",
+  "produk": [
+    {
+      "id": "minyak-habbatussauda",
+      "nama": "Minyak Habbatussauda",
+      "kategori": "Herbal",
+      "status": "demo",
+      "ringkasan": "Minyak dari biji jintan hitam yang dikenal luas dalam khazanah Thibbun Nabawi sebagai bahan alami untuk menjaga daya tahan tubuh.",
+      "deskripsi": [
+        "Habbatussauda (jintan hitam) adalah salah satu bahan yang disebut dalam khazanah Thibbun Nabawi dan telah lama dimanfaatkan sebagai bagian dari upaya menjaga kesehatan secara alami.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman — bukan produk yang benar-benar dijual, dan bukan klaim khasiat medis. Informasi produk nyata akan menyusul pada tahap data resmi."
+      ],
+      "sumberReferensi": [
+        "Placeholder — referensi resmi (termasuk rujukan Thibbun Nabawi) akan diisi pada tahap data nyata."
+      ],
+      "terapiTerkait": {
+        "id": "herbal-thibbun-nabawi",
+        "nama": "Herbal (Thibbun Nabawi)",
+        "tautan": "/kesehatan/terapi.html?id=herbal-thibbun-nabawi",
+        "_catatan": "Hubungan DEMO menuju entri Terapi (C09) yang memang benar-benar ada di data C09 saat ini — hanya untuk menguji mekanisme relasi, bukan klaim medis."
+      },
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    },
+    {
+      "id": "madu-murni",
+      "nama": "Madu Murni",
+      "kategori": "Herbal",
+      "status": "demo",
+      "ringkasan": "Madu alami tanpa campuran, salah satu bahan yang disebut dalam Al-Qur'an dan hadis sebagai sumber kebaikan bagi tubuh.",
+      "deskripsi": [
+        "Madu murni dikenal luas dalam tradisi kesehatan Islam sebagai bahan alami yang bermanfaat, dan disebut dalam beberapa riwayat terkait Thibbun Nabawi.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman — bukan produk yang benar-benar dijual, dan bukan klaim khasiat medis spesifik."
+      ],
+      "sumberReferensi": [
+        "Placeholder — referensi resmi akan diisi pada tahap data nyata."
+      ],
+      "terapiTerkait": null,
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    },
+    {
+      "id": "minyak-zaitun-extra-virgin",
+      "nama": "Minyak Zaitun Extra Virgin",
+      "kategori": "Herbal",
+      "status": "demo",
+      "ringkasan": "Minyak zaitun murni, buah yang disebut sebagai buah yang diberkahi dalam Al-Qur'an.",
+      "deskripsi": [
+        "Minyak zaitun extra virgin diperas dari buah zaitun tanpa proses kimiawi, dan dikenal sebagai salah satu bahan alami yang disebut dalam Al-Qur'an.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman, bukan produk yang benar-benar dijual."
+      ],
+      "sumberReferensi": [
+        "Placeholder — referensi resmi akan diisi pada tahap data nyata."
+      ],
+      "terapiTerkait": null,
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    },
+    {
+      "id": "set-bekam-hijamah",
+      "nama": "Set Alat Bekam (Hijamah)",
+      "kategori": "Alat Kesehatan",
+      "status": "demo",
+      "ringkasan": "Perlengkapan dasar untuk praktik bekam, ditujukan bagi praktisi terlatih dan higienis.",
+      "deskripsi": [
+        "Set alat bekam mencakup perlengkapan dasar yang umum digunakan dalam praktik hijamah oleh praktisi yang telah terlatih.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman. Penggunaan alat ini sebaiknya hanya oleh praktisi terlatih dan memperhatikan kebersihan serta keamanan."
+      ],
+      "sumberReferensi": [
+        "Placeholder — referensi resmi akan diisi pada tahap data nyata."
+      ],
+      "terapiTerkait": {
+        "id": "bekam-hijamah",
+        "nama": "Bekam (Hijamah)",
+        "tautan": "/kesehatan/terapi.html?id=bekam-hijamah",
+        "_catatan": "Hubungan DEMO menuju entri Terapi (C09) yang memang benar-benar ada di data C09 saat ini."
+      },
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    },
+    {
+      "id": "timbangan-badan-digital",
+      "nama": "Timbangan Badan Digital",
+      "kategori": "Alat Kesehatan",
+      "status": "demo",
+      "ringkasan": "Alat bantu sederhana untuk memantau berat badan sebagai bagian dari menjaga amanah kesehatan tubuh.",
+      "deskripsi": [
+        "Timbangan badan digital membantu memantau perkembangan berat badan secara berkala, sebagai bagian dari kebiasaan menjaga kesehatan tubuh.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman, bukan produk yang benar-benar dijual."
+      ],
+      "sumberReferensi": [],
+      "terapiTerkait": null,
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    },
+    {
+      "id": "suplemen-multivitamin-keluarga",
+      "nama": "Suplemen Multivitamin Keluarga",
+      "kategori": "Suplemen",
+      "status": "demo",
+      "ringkasan": "Suplemen vitamin harian yang ditujukan untuk melengkapi kebutuhan gizi keluarga.",
+      "deskripsi": [
+        "Suplemen multivitamin ditujukan sebagai pelengkap asupan gizi harian, bukan pengganti pola makan sehat maupun anjuran tenaga medis.",
+        "Konten ini adalah data DEMO untuk menguji struktur halaman. Untuk kebutuhan gizi dan suplemen yang tepat, konsultasikan dengan tenaga medis atau ahli gizi."
+      ],
+      "sumberReferensi": [],
+      "terapiTerkait": null,
+      "artikelTerkait": null,
+      "mediaTerkait": null
+    }
+  ]
+}

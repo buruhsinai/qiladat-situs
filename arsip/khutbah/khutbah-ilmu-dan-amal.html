@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ilmu yang Berubah Menjadi Amal — Prototipe Khutbah JAZMI</title>
+<meta name="description" content="Prototipe metode penyajian naskah khutbah JAZMI: teks bersih untuk jamaah, atau tampilkan penanda intonasi untuk latihan khatib. Bisa dibagikan ke WhatsApp atau diunduh sebagai PDF.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg: #F6F1E4;
+  --bg-alt: #EEE6D2;
+  --surface: #FFFFFF;
+  --ink: #1E2A22;
+  --ink-soft: #4B5A50;
+  --ink-faint: #8A8672;
+
+  --emerald-deep: #0F3D2E;
+  --emerald: #1C5C42;
+  --emerald-soft: #2F7A57;
+
+  --brass: #A9812F;
+  --brass-soft: #D8C08A;
+  --brass-line: #D9CBA3;
+
+  --line: #DDD3B8;
+  --line-soft: #E9E1CC;
+
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Karla', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-arabic: 'Amiri', 'Traditional Arabic', 'Scheherazade New', serif;
+
+  --radius: 4px;
+  --shadow-soft: 0 1px 2px rgba(15, 61, 46, 0.06), 0 8px 24px -12px rgba(15, 61, 46, 0.18);
+  --max-width: 760px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* warna penanda */
+  --marker-intonasi: #2F5D8A;
+  --marker-intonasi-bg: #E7EEF6;
+  --marker-jeda: #8A8672;
+  --marker-jeda-bg: #EEE6D2;
+  --marker-napas: #A9812F;
+  --marker-napas-bg: #F5EEDB;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.02rem;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+/* ================= HEADER RINGKAS ================= */
+.proto-header {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface);
+}
+.proto-header-inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 1.1rem var(--gutter);
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+.wordmark-mark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--emerald-deep);
+  font-size: 1.1rem;
+}
+.proto-eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+}
+.proto-header-link {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  text-decoration: none;
+  color: inherit;
+}
+.breadcrumb-khutbah {
+  margin: 1.5rem 0 0;
+  font-size: 0.82rem;
+  color: var(--ink-faint);
+}
+.breadcrumb-khutbah a {
+  color: var(--emerald);
+  text-decoration: none;
+}
+.breadcrumb-khutbah a:hover {
+  color: var(--emerald-deep);
+  text-decoration: underline;
+}
+
+/* ================= BADGE PROTOTIPE ================= */
+.prototype-badge {
+  margin: 1.5rem 0 0;
+  padding: 0.6rem 0.9rem;
+  background: var(--bg-alt);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+
+/* ================= HERO JUDUL ================= */
+.hero {
+  padding: 1.6rem 0 1rem;
+}
+.hero-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  color: var(--brass);
+  font-weight: 600;
+  margin: 0 0 0.4rem;
+}
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 4vw, 2.4rem);
+  font-weight: 600;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--emerald-deep);
+}
+.hero-sub {
+  margin: 0.6rem 0 0;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+  max-width: 56ch;
+}
+
+/* ================= BAR KONTROL ================= */
+.kontrol-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem 1rem;
+  align-items: center;
+  justify-content: space-between;
+  margin: 1.4rem 0;
+  padding: 0.9rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+.kontrol-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.toggle-khatib {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.92rem;
+  color: var(--ink);
+}
+.toggle-track {
+  position: relative;
+  width: 42px;
+  height: 24px;
+  background: var(--line);
+  border-radius: 999px;
+  transition: background 0.2s var(--ease);
+  flex-shrink: 0;
+}
+.toggle-thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  background: var(--surface);
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  transition: transform 0.2s var(--ease);
+}
+.toggle-khatib input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.toggle-khatib input:checked + .toggle-track {
+  background: var(--emerald);
+}
+.toggle-khatib input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(18px);
+}
+.toggle-khatib input:focus-visible + .toggle-track {
+  outline: 2px solid var(--emerald-deep);
+  outline-offset: 2px;
+}
+
+.btn {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--bg-alt);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.65rem 1.1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  line-height: 1.2;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.btn:hover { border-color: var(--brass); }
+.btn:focus-visible { outline: 2px solid var(--emerald-deep); outline-offset: 2px; }
+.btn-emerald {
+  background: var(--emerald-deep);
+  border-color: var(--emerald-deep);
+  color: var(--surface);
+}
+.btn-emerald:hover { background: var(--emerald); border-color: var(--emerald); }
+
+@media (max-width: 560px) {
+  .kontrol-bar {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.85rem;
+  }
+  .toggle-khatib { padding-bottom: 0.2rem; border-bottom: 1px solid var(--line-soft); margin-bottom: 0.15rem; }
+  .kontrol-actions { flex-direction: column; }
+  .btn { width: 100%; }
+}
+
+/* ================= TAUTAN TERKAIT (ramping) ================= */
+.terkait {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0 0 1.6rem;
+}
+.terkait-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.85rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  text-decoration: none;
+  font-size: 0.82rem;
+  color: var(--ink);
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+.terkait-item:hover { border-color: var(--brass); background: var(--bg-alt); }
+.terkait-icon { font-size: 0.95rem; line-height: 1; flex-shrink: 0; }
+.terkait-label { color: var(--brass); font-weight: 700; }
+.terkait-judul { font-weight: 600; }
+
+/* ================= LEGENDA PENANDA ================= */
+.legenda {
+  display: none;
+  margin: 0 0 1.4rem;
+  padding: 0.8rem 0.9rem;
+  background: var(--surface);
+  border: 1px dashed var(--brass-line);
+  border-radius: var(--radius);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+}
+body.mode-khatib .legenda { display: block; }
+.legenda-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.15rem 0.9rem 0.15rem 0;
+}
+.legenda-swatch {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+/* ================= ISI KHUTBAH ================= */
+.khutbah-body {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: clamp(1.2rem, 4vw, 2.2rem);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 2.5rem;
+}
+
+.khutbah-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--emerald-deep);
+  margin: 2.2rem 0 1rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--line);
+}
+.khutbah-body h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
+
+.khutbah-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.08rem;
+  font-weight: 600;
+  color: var(--brass);
+  margin: 1.8rem 0 0.8rem;
+  text-transform: none;
+}
+
+.khutbah-body p {
+  margin: 0 0 0.85rem;
+}
+
+.khutbah-body .arab {
+  direction: rtl;
+  font-family: var(--font-arabic);
+  font-size: 1.35rem;
+  line-height: 2.1;
+  color: var(--emerald-deep);
+  margin: 1rem 0;
+}
+
+.khutbah-body .terjemah {
+  color: var(--ink-soft);
+  font-style: italic;
+}
+
+.khutbah-body .doa {
+  direction: rtl;
+  font-family: var(--font-arabic);
+  font-size: 1.2rem;
+  line-height: 2;
+  color: var(--emerald-deep);
+  margin: 0.5rem 0;
+}
+
+/* ================= PENANDA (marker) ================= */
+.marker {
+  display: none;
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  white-space: nowrap;
+  margin: 0 0.25em;
+  vertical-align: middle;
+}
+body.mode-khatib .marker { display: inline; }
+
+.marker-intonasi {
+  color: var(--marker-intonasi);
+  background: var(--marker-intonasi-bg);
+}
+.marker-jeda {
+  color: var(--marker-jeda);
+  background: var(--marker-jeda-bg);
+}
+.marker-napas {
+  color: var(--marker-napas);
+  background: var(--marker-napas-bg);
+}
+
+/* ================= FOOTER ================= */
+.proto-footer {
+  text-align: center;
+  padding: 1.5rem 0 2.5rem;
+  color: var(--ink-faint);
+  font-size: 0.8rem;
+}
+
+/* ================= CETAK / PDF (A4, opsional 2/lembar utk A5 saat cetak fisik) ================= */
+@media print {
+  .no-print { display: none !important; }
+
+  @page {
+    size: A4;
+    margin: 14mm;
+  }
+
+  body {
+    background: #fff;
+    font-size: 11pt;
+    line-height: 1.3;
+  }
+
+  .proto-header, .breadcrumb-khutbah, .kontrol-bar, .proto-footer { display: none; }
+
+  .wrap { max-width: none; padding: 0; }
+
+  .hero { padding: 0 0 0.2rem; }
+  .hero-eyebrow { font-size: 8pt; }
+  .hero-title { font-size: 16pt; }
+  .hero-sub { display: none; }
+
+  .legenda { font-size: 8pt; padding: 0.3rem 0.4rem; margin-bottom: 0.4rem; }
+
+  .khutbah-body {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    margin: 0;
+  }
+  .khutbah-body h2 {
+    font-size: 15pt;
+    margin: 0.6rem 0 0.4rem;
+    padding-top: 0.4rem;
+  }
+  /* Khutbah Kedua tidak dipaksa halaman baru — biarkan mengalir lanjut di
+     sisa ruang halaman sebelumnya kalau masih cukup (hemat kertas). Sebagai
+     pembatas visual, cukup garis panjang di atasnya, bukan halaman kosong. */
+  .khutbah-body h2:not(:first-child) {
+    margin-top: 1.1rem;
+    padding-top: 0.9rem;
+    border-top: 1.4pt solid var(--ink-faint);
+  }
+  .khutbah-body h3 {
+    font-size: 11.5pt;
+    margin: 0.6rem 0 0.25rem;
+    break-after: avoid;
+  }
+  .khutbah-body .arab { font-size: 13pt; line-height: 1.4; margin: 0.3rem 0; }
+  .khutbah-body .doa { font-size: 11.5pt; line-height: 1.3; margin: 0.3rem 0; }
+
+  .marker {
+    font-size: 6.5pt;
+    padding: 0.02rem 0.25rem;
+  }
+
+  /* Sambung-menyambung otomatis: semua paragraf naskah berbahasa Indonesia
+     (bukan ayat/hadis/doa berbahasa Arab) dijadikan satu aliran teks tanpa
+     baris baru atau jarak antar-paragraf saat cetak. Teks Arab (.arab, .doa)
+     tetap terpisah baris demi baris karena itu ayat/hadis/doa. */
+  .khutbah-body p:not(.arab):not(.doa) {
+    display: inline;
+    margin: 0;
+  }
+  .khutbah-body p:not(.arab):not(.doa) br { display: none; }
+  .khutbah-body .arab, .khutbah-body .doa { display: block; }
+  .khutbah-body .doa br { display: block; }
+}
+
+/* ================= UTIL ================= */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+</style>
+</head>
+<body>
+
+<header class="proto-header no-print">
+  <div class="proto-header-inner">
+    <a class="proto-header-link" href="/">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="proto-eyebrow">JAZMI · Arsip — Khutbah</span>
+    </a>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p class="breadcrumb-khutbah no-print"><a href="/">Home</a> / <a href="/arsip/">Arsip</a> / <a href="/arsip/khutbah/">Khutbah</a> / Ilmu yang Berubah Menjadi Amal</p>
+
+  <section class="hero">
+    <p class="hero-eyebrow">Khutbah Jumat</p>
+    <h1 class="hero-title">Ilmu yang Berubah Menjadi Amal</h1>
+    <p class="hero-sub">Satu naskah, dua kegunaan: nyalakan Panduan Khatib untuk melihat petunjuk intonasi dan jeda, atau matikan untuk membaca teks bersih.</p>
+  </section>
+
+  <div class="kontrol-bar no-print">
+    <label class="toggle-khatib">
+      <input type="checkbox" id="toggleKhatib">
+      <span class="toggle-track"><span class="toggle-thumb"></span></span>
+      <span>Tampilkan Panduan Khatib</span>
+    </label>
+    <div class="kontrol-actions">
+      <button type="button" class="btn" id="btnWhatsApp"><span aria-hidden="true">💬</span> Bagikan ke WhatsApp</button>
+      <button type="button" class="btn btn-emerald" id="btnPDF"><span aria-hidden="true">🖨️</span> Unduh PDF</button>
+    </div>
+  </div>
+
+  <p class="legenda no-print" id="legenda">
+    <span class="legenda-item"><span class="legenda-swatch" style="background:var(--marker-intonasi-bg); border:1px solid var(--marker-intonasi);"></span>Penanda intonasi/nada</span>
+    <span class="legenda-item"><span class="legenda-swatch" style="background:var(--marker-jeda-bg); border:1px solid var(--marker-jeda);"></span>Penanda jeda diam</span>
+    <span class="legenda-item"><span class="legenda-swatch" style="background:var(--marker-napas-bg); border:1px solid var(--marker-napas);"></span>Penanda tarik napas</span>
+    <br>Penanda ini petunjuk penyampaian untuk khatib, tidak dibaca saat khutbah. "Unduh PDF" menghasilkan halaman A4 siap baca. Ingin ukuran saku (A5)? Saat mencetak fisik, pilih "2 Halaman per Lembar".
+  </p>
+
+  <nav class="terkait no-print" aria-label="Tautan terkait">
+    <a class="terkait-item" href="/artikel/detail.html?slug=ketika-banyak-ilmu-belum-menjadi-satu-cara-berpikir" title="Artikel — ilmu yang terkumpul tetapi belum menyatu jadi cara berpikir/bertindak, sejalan dengan tema ilmu yang harus berubah jadi amal.">
+      <span class="terkait-icon" aria-hidden="true">📖</span><span class="terkait-judul">Ketika Banyak Ilmu Belum Menjadi Satu Cara Berpikir</span>
+    </a>
+    <a class="terkait-item" href="/alat/fikih-muamalah-dan-ibadah/pesantren-siklus.html" title="Alat — simulator siklus pendidikan pondok pesantren, melengkapi pembahasan tentang menuntut ilmu dan mengamalkannya.">
+      <span class="terkait-icon" aria-hidden="true">🧭</span><span class="terkait-judul">Siklus Pendidikan Pondok Pesantren</span>
+    </a>
+    <a class="terkait-item" href="/arsip/" title="Arsip — belum ada item resmi bertema serupa; ini pintu masuk umumnya dulu.">
+      <span class="terkait-icon" aria-hidden="true">🗂️</span><span class="terkait-judul">Jelajahi Arsip JAZMI</span>
+    </a>
+  </nav>
+
+  <article class="khutbah-body" id="khutbahBody">
+
+    <h2>Khutbah Pertama</h2>
+
+    <p>[BIASA] إِنَّ الْحَمْدَ لِلَّهِ، نَحْمَدُهُ وَنَسْتَعِينُهُ وَنَسْتَغْفِرُهُ، وَنَعُوذُ بِاللَّهِ مِنْ شُرُورِ أَنْفُسِنَا وَمِنْ سَيِّئَاتِ أَعْمَالِنَا، مَنْ يَهْدِهِ اللَّهُ فَلَا مُضِلَّ لَهُ، وَمَنْ يُضْلِلْ فَلَا هَادِيَ لَهُ.</p>
+    <p>وَأَشْهَدُ أَنْ لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، وَأَشْهَدُ أَنَّ مُحَمَّدًا عَبْدُهُ وَرَسُولُهُ.</p>
+    <p>اللَّهُمَّ صَلِّ وَسَلِّمْ وَبَارِكْ عَلَى عَبْدِكَ وَرَسُولِكَ مُحَمَّدٍ، وَعَلَى آلِهِ وَأَصْحَابِهِ أَجْمَعِينَ.</p>
+
+    <p>[DIAM 2 DETIK] أَمَّا بَعْدُ،</p>
+    <p>[TEGAS] فَيَا عِبَادَ اللَّهِ، أُوصِيكُمْ وَنَفْسِي بِتَقْوَى اللَّهِ.</p>
+
+    <p>[BIASA] Jamaah Jumat yang dimuliakan Allah.</p>
+    <p>[DALAM] Marilah kita bertakwa kepada Allah عز وجل dengan takwa yang sesungguhnya.</p>
+    <p>[DIAM 2 DETIK] Takwa bukan sekadar mengetahui apa yang Allah perintahkan.</p>
+    <p>[RENDAH] Takwa adalah mengetahui, lalu mengerjakannya.<br>
+    Mengetahui apa yang dilarang, lalu meninggalkannya.<br>
+    Mengetahui apa yang Allah cintai, lalu berusaha mengamalkannya.</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[BIASA] Hari ini kita akan berbicara tentang sesuatu yang sangat mulia, sesuatu yang mengangkat derajat seseorang di sisi Allah. Yaitu ilmu.</p>
+
+    <h3>Kemuliaan Ilmu dalam Al-Qur'an</h3>
+
+    <p>[DALAM] Allah Ta'ala berfirman:</p>
+    <p class="arab">[SEDIKIT LAMBAT] يَرْفَعِ اللَّهُ الَّذِينَ آمَنُوا مِنْكُمْ وَالَّذِينَ أُوتُوا الْعِلْمَ دَرَجَاتٍ</p>
+    <p class="terjemah">[BIASA] "Allah akan mengangkat orang-orang yang beriman di antara kalian dan orang-orang yang diberi ilmu beberapa derajat." <span class="terjemah">(QS. Al-Mujadilah: 11)</span></p>
+
+    <p>[RENDAH] Perhatikan, jamaah. Allah menyebut iman dan ilmu — bukan sekadar harta, bukan sekadar jabatan, bukan sekadar keturunan, bukan pula ketenaran.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[BIASA] Bahkan Allah memerintahkan Nabi-Nya ﷺ sendiri untuk meminta tambahan ilmu. Allah berfirman:</p>
+    <p class="arab">وَقُلْ رَبِّ زِدْنِي عِلْمًا</p>
+    <p class="terjemah">"Dan katakanlah: Wahai Rabbku, tambahkanlah kepadaku ilmu." <span class="terjemah">(QS. Thaha: 114)</span></p>
+
+    <p>[TEGAS] Perhatikan baik-baik. Nabi Muhammad ﷺ, manusia paling berilmu, tetap diperintahkan meminta tambahan ilmu.</p>
+    <p>[DIAM 2 DETIK] Maka jangan pernah kita merasa sudah cukup dengan ilmu yang kita miliki.</p>
+    <p>[RENDAH] Jangan berkata, "saya sudah tahu."<br>
+    "Saya sudah sering mendengar."<br>
+    "Saya sudah ikut kajian."<br>
+    "Saya sudah membaca banyak buku."</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[BIASA] Nabi ﷺ juga bersabda tentang keutamaan mempelajari dan mengajarkan Al-Qur'an:</p>
+    <p class="arab">خَيْرُكُمْ مَنْ تَعَلَّمَ الْقُرْآنَ وَعَلَّمَهُ</p>
+    <p>[DIAM 1 DETIK] "Sebaik-baik kalian adalah yang mempelajari Al-Qur'an dan mengajarkannya." <span class="terjemah">(HR. Bukhari no. 5027)</span></p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Tanda Ilmu yang Bermanfaat</h3>
+
+    <p>[BIASA] Karena ilmu itu bukan sekadar banyaknya informasi yang masuk ke kepala. Allah berfirman:</p>
+    <p class="arab">إِنَّمَا يَخْشَى اللَّهَ مِنْ عِبَادِهِ الْعُلَمَاءُ</p>
+    <p class="terjemah">"Sesungguhnya yang benar-benar takut kepada Allah di antara hamba-hamba-Nya hanyalah orang-orang yang berilmu." <span class="terjemah">(QS. Fathir: 28)</span></p>
+
+    <p>[RENDAH] Maka salah satu tanda ilmu itu bermanfaat adalah bertambahnya rasa takut kita kepada Allah.<br>
+    Bertambah hati-hati ketika berbicara.<br>
+    Bertambah hati-hati ketika mencari nafkah.<br>
+    Bertambah baik shalat kita.<br>
+    Bertambah lembut sikap kita kepada keluarga.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[BIASA] Rasulullah ﷺ bersabda:</p>
+    <p class="arab">مَنْ يُرِدِ اللَّهُ بِهِ خَيْرًا يُفَقِّهْهُ فِي الدِّينِ</p>
+    <p>[DIAM 1 DETIK] "Barang siapa Allah kehendaki kebaikan baginya, niscaya Allah akan memahamkannya dalam agama." <span class="terjemah">(HR. Bukhari no. 71)</span></p>
+
+    <p>[TEGAS] Maka belajar agama adalah tanda kebaikan yang Allah kehendaki bagi seorang hamba.</p>
+    <p>[DIAM 2 DETIK] Tetapi jamaah, ada satu persoalan besar.</p>
+    <p>[BIASA] Kita bisa belajar, tetapi belum tentu berubah. Kita bisa mendengar banyak kajian, tetapi belum tentu bertambah amal.</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <h3>Ketika Ilmu Tidak Menjadi Amal</h3>
+
+    <p>[DALAM] Allah Ta'ala berfirman dengan sangat keras:</p>
+    <p class="arab">يَا أَيُّهَا الَّذِينَ آمَنُوا لِمَ تَقُولُونَ مَا لَا تَفْعَلُونَ</p>
+    <p class="arab">كَبُرَ مَقْتًا عِنْدَ اللَّهِ أَنْ تَقُولُوا مَا لَا تَفْعَلُونَ</p>
+    <p class="terjemah">[RENDAH] "Wahai orang-orang yang beriman, mengapa kalian mengatakan sesuatu yang tidak kalian kerjakan? Sangat besar kebencian di sisi Allah bahwa kalian mengatakan apa yang tidak kalian kerjakan." <span class="terjemah">(QS. Ash-Shaff: 2–3)</span></p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[TEGAS] Ayat ini bukan hanya untuk ustadz. Bukan hanya untuk guru. Bukan hanya untuk orang yang berdiri di mimbar.</p>
+    <p>[DIAM 1 DETIK] Ayat ini untuk kita semua.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[BIASA] Kita berkata kepada anak, "jangan bohong" — tetapi apakah kita sendiri tidak pernah berdusta di depan mereka?<br>
+    Kita berkata, "jangan tinggalkan shalat" — tetapi bagaimana dengan shalat kita sendiri?<br>
+    Kita berkata, "jangan sibuk dengan HP" — tetapi apakah anak melihat kita terus memegangnya?</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <h3>Mulai dari Diri Sendiri</h3>
+
+    <p>[DALAM] Anak-anak kita bukan hanya mendengar nasihat kita.</p>
+    <p>[TEGAS] Mereka melihat hidup kita.</p>
+    <p>[DIAM 2 DETIK] Mereka melihat bagaimana ayahnya shalat, bagaimana ibunya berbicara, bagaimana orang tuanya menghadapi masalah dan memperlakukan tetangga. Mereka melihat apakah Al-Qur'an benar-benar dibaca, atau hanya disimpan di rak.</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[BIASA] Rasulullah ﷺ mengajarkan sebuah kaidah penting dalam berbuat kebaikan:</p>
+    <p class="arab">ابْدَأْ بِنَفْسِكَ</p>
+    <p>[DIAM 1 DETIK] "Mulailah dari dirimu sendiri." <span class="terjemah">(HR. Muslim no. 997)</span></p>
+
+    <p>[RENDAH] Maka kalau kita ingin keluarga kita mengenal Allah, jangan hanya menyuruh mereka belajar.</p>
+    <p>[TEGAS] Mulailah dari diri kita sendiri.</p>
+    <p>[DIAM 2 DETIK] Allah berfirman:</p>
+
+    <p class="arab">يَا أَيُّهَا الَّذِينَ آمَنُوا قُوا أَنْفُسَكُمْ وَأَهْلِيكُمْ نَارًا</p>
+    <p class="terjemah">"Wahai orang-orang yang beriman, jagalah diri kalian dan keluarga kalian dari api neraka." <span class="terjemah">(QS. At-Tahrim: 6)</span></p>
+
+    <p>[TEGAS] Perhatikan urutannya. قُوا أَنْفُسَكُمْ — "jagalah diri kalian" — baru kemudian وَأَهْلِيكُمْ — "dan keluarga kalian."</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <h3>Keteladanan yang Diwariskan</h3>
+
+    <p>[BIASA] Al-Qur'an mengabadikan bagaimana Luqman mendidik anaknya, bukan dengan perintah kosong, melainkan dengan nasihat yang penuh hikmah. Allah berfirman:</p>
+    <p class="arab">يَا بُنَيَّ أَقِمِ الصَّلَاةَ وَأْمُرْ بِالْمَعْرُوفِ وَانْهَ عَنِ الْمُنْكَرِ وَاصْبِرْ عَلَىٰ مَا أَصَابَكَ</p>
+    <p class="terjemah">[RENDAH] "Wahai anakku, dirikanlah shalat, perintahkanlah yang makruf, cegahlah yang mungkar, dan bersabarlah atas apa yang menimpamu." <span class="terjemah">(QS. Luqman: 17)</span></p>
+
+    <p>[DIAM 2 DETIK] Dan Allah memuji Nabi Ismail عليه السلام:</p>
+    <p class="arab">وَكَانَ يَأْمُرُ أَهْلَهُ بِالصَّلَاةِ وَالزَّكَاةِ وَكَانَ عِنْدَ رَبِّهِ مَرْضِيًّا</p>
+    <p class="terjemah">"Dan dia menyuruh keluarganya melaksanakan shalat dan menunaikan zakat, dan dia seorang yang diridai di sisi Rabbnya." <span class="terjemah">(QS. Maryam: 55)</span></p>
+
+    <p>[DALAM] Perhatikan, jamaah. Sebelum disebut "diridai di sisi Rabbnya," Ismail lebih dulu disebut sebagai orang yang menyuruh keluarganya menegakkan shalat.</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[BIASA] Maka kalau kita ingin anak rajin shalat, perbaiki dahulu shalat kita.<br>
+    Kalau kita ingin anak mencintai Al-Qur'an, biarkan mereka melihat kita membacanya.<br>
+    Kalau kita ingin anak jujur, jadilah orang tua yang jujur.<br>
+    Kalau kita ingin anak menghormati orang lain, biarkan mereka melihat kita menghormati orang lain.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <h3>Penutup Khutbah Pertama</h3>
+
+    <p>[BIASA] Rasulullah ﷺ juga bersabda:</p>
+    <p class="arab">مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا سَهَّلَ اللَّهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ</p>
+    <p>[DIAM 1 DETIK] "Barang siapa menempuh jalan untuk mencari ilmu, Allah akan memudahkan baginya jalan menuju surga." <span class="terjemah">(HR. Muslim no. 2699)</span></p>
+
+    <p>[TEGAS] Maka teruslah belajar.</p>
+    <p>[DIAM 1 DETIK] Tetapi setelah belajar, tanyakan kepada diri sendiri:</p>
+    <p>[RENDAH] "Ilmu apa yang sudah saya amalkan?"<br>
+    "Akhlak apa yang sudah berubah?"<br>
+    "Dosa apa yang sudah saya tinggalkan?"</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[DALAM] Sebagai penutup, marilah kita renungkan satu surah pendek yang merangkum semuanya. Allah berfirman:</p>
+    <p class="arab">وَالْعَصْرِ ۝ إِنَّ الْإِنْسَانَ لَفِي خُسْرٍ ۝ إِلَّا الَّذِينَ آمَنُوا وَعَمِلُوا الصَّالِحَاتِ وَتَوَاصَوْا بِالْحَقِّ وَتَوَاصَوْا بِالصَّبْرِ</p>
+    <p class="terjemah">[RENDAH, LAMBAT] "Demi masa. Sesungguhnya manusia benar-benar berada dalam kerugian, kecuali orang-orang yang beriman, mengerjakan amal saleh, saling menasihati dalam kebenaran, dan saling menasihati dalam kesabaran." <span class="terjemah">(QS. Al-'Ashr: 1–3)</span></p>
+    <p>[DIAM 4 DETIK]</p>
+
+    <p>[TEGAS] Iman saja tidak cukup tanpa amal. Amal saja tidak cukup tanpa saling menasihati. Dan semua itu membutuhkan kesabaran.</p>
+    <p>[DIAM 3 DETIK] Semoga Allah menjadikan ilmu kita ilmu yang bermanfaat, dan menjadikan kita hamba yang mengamalkannya.</p>
+
+    <p>[BIASA] أَقُولُ قَوْلِي هَذَا، وَأَسْتَغْفِرُ اللَّهَ لِي وَلَكُمْ، فَاسْتَغْفِرُوهُ، إِنَّهُ هُوَ الْغَفُورُ الرَّحِيمُ.</p>
+
+    <h2>Khutbah Kedua</h2>
+
+    <p>[BIASA] الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ، وَالصَّلَاةُ وَالسَّلَامُ عَلَى نَبِيِّنَا مُحَمَّدٍ، وَعَلَى آلِهِ وَصَحْبِهِ أَجْمَعِينَ.</p>
+    <p>أَمَّا بَعْدُ،</p>
+    <p>[TEGAS] فَيَا عِبَادَ اللَّهِ، اتَّقُوا اللَّهَ حَقَّ تُقَاتِهِ.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[BIASA] Jamaah Jumat rahimakumullah, sekali lagi: carilah ilmu, dengarkan kajian, baca Al-Qur'an, tanyakan perkara yang tidak kita ketahui. Allah berfirman:</p>
+    <p class="arab">فَاسْأَلُوا أَهْلَ الذِّكْرِ إِنْ كُنْتُمْ لَا تَعْلَمُونَ</p>
+    <p class="terjemah">"Maka bertanyalah kepada orang yang mempunyai pengetahuan jika kalian tidak mengetahui." <span class="terjemah">(QS. An-Nahl: 43)</span></p>
+
+    <p>[DIAM 2 DETIK] Tetapi setelah mengetahui,</p>
+    <p>[TEGAS] amalkan.</p>
+    <p>[DIAM 1 DETIK] Allah memuji orang yang menyeru kepada kebaikan sekaligus mengerjakannya:</p>
+
+    <p class="arab">وَمَنْ أَحْسَنُ قَوْلًا مِمَّنْ دَعَا إِلَى اللَّهِ وَعَمِلَ صَالِحًا وَقَالَ إِنَّنِي مِنَ الْمُسْلِمِينَ</p>
+    <p class="terjemah">[RENDAH] "Dan siapakah yang lebih baik perkataannya daripada orang yang menyeru kepada Allah, mengerjakan amal saleh, dan berkata, 'Sesungguhnya aku termasuk orang-orang muslim'?" <span class="terjemah">(QS. Fushshilat: 33)</span></p>
+
+    <p>[DIAM 3 DETIK] Perhatikan, jamaah. Ayat ini menempatkan "mengerjakan amal saleh" tepat di tengah, antara menyeru kepada Allah dan mengaku sebagai muslim.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[BIASA] Rasulullah ﷺ memberi peringatan yang sangat berat bagi orang yang menyuruh kebaikan tetapi tidak mengerjakannya. Beliau ﷺ mengabarkan tentang seseorang di neraka yang ususnya terburai, lalu ditanya:</p>
+    <p>[DIAM 1 DETIK] "Bukankah dahulu engkau memerintahkan kami berbuat baik dan melarang kami dari kemungkaran?"</p>
+    <p class="arab">بَلَى، كُنْتُ آمُرُكُمْ بِالْمَعْرُوفِ وَلَا آتِيهِ، وَأَنْهَاكُمْ عَنِ الْمُنْكَرِ وَآتِيهِ</p>
+    <p>[DIAM 1 DETIK] "Benar, dahulu aku memerintahkan kalian berbuat baik, tetapi aku sendiri tidak mengerjakannya. Dan aku melarang kalian dari kemungkaran, tetapi aku sendiri melakukannya." <span class="terjemah">(HR. Bukhari no. 3267, Muslim no. 2989)</span></p>
+    <p>[DIAM 4 DETIK]</p>
+    <p>[TEGAS] نَعُوذُ بِاللَّهِ مِنْ ذَلِكَ.</p>
+    <p>[DIAM 2 DETIK]</p>
+
+    <p>[BIASA] Karena itu, sebelum sibuk memperbaiki orang lain, bertanyalah dahulu:</p>
+    <p>[RENDAH] "Bagaimana shalat saya?"<br>
+    "Bagaimana lisan saya?"<br>
+    "Bagaimana keadaan rumah saya?"</p>
+    <p>[DIAM 3 DETIK] Allah memerintahkan:</p>
+
+    <p class="arab">وَأْمُرْ أَهْلَكَ بِالصَّلَاةِ وَاصْطَبِرْ عَلَيْهَا</p>
+    <p class="terjemah">"Perintahkanlah keluargamu untuk melaksanakan shalat dan bersabarlah dalam mengerjakannya." <span class="terjemah">(QS. Thaha: 132)</span></p>
+
+    <p>[TEGAS] وَاصْطَبِرْ عَلَيْهَا — "bersabarlah dalam mengerjakannya."</p>
+    <p>[DIAM 1 DETIK] Mendidik keluarga bukan pekerjaan sehari-dua hari. Ada proses, ada kesabaran, ada keteladanan, ada doa.</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[RENDAH] Maka mulai hari ini, jangan pulang hanya membawa catatan khutbah.</p>
+    <p>[TEGAS] Bawa pulang satu amal.</p>
+    <p>[DIAM 1 DETIK] Kalau shalat masih berantakan, perbaiki. Kalau lisan masih menyakiti, tahan. Tidak perlu menunggu sempurna.</p>
+    <p>[TEGAS] Mulai.</p>
+    <p>[DIAM 3 DETIK]</p>
+
+    <p>[BIASA] Jamaah Jumat yang dirahmati Allah, mari kita berdoa.</p>
+
+    <p class="doa">اللَّهُمَّ إِنَّا نَسْأَلُكَ عِلْمًا نَافِعًا، وَعَمَلًا صَالِحًا، وَقَلْبًا خَاشِعًا.<br>
+    اللَّهُمَّ عَلِّمْنَا مَا يَنْفَعُنَا، وَانْفَعْنَا بِمَا عَلَّمْتَنَا، وَزِدْنَا عِلْمًا.<br>
+    اللَّهُمَّ أَصْلِحْنَا وَأَصْلِحْ أَهْلَنَا وَأَوْلَادَنَا.<br>
+    اللَّهُمَّ اجْعَلْنَا مِمَّنْ يَسْمَعُونَ الْقَوْلَ فَيَتَّبِعُونَ أَحْسَنَهُ.<br>
+    اللَّهُمَّ اجْعَلْ عِلْمَنَا حُجَّةً لَنَا، وَلَا تَجْعَلْهُ حُجَّةً عَلَيْنَا.<br>
+    اللَّهُمَّ أَصْلِحْ أَئِمَّتَنَا وَوُلَاةَ أُمُورِنَا، وَأَصْلِحْ عُلَمَاءَنَا وَدُعَاتَنَا.<br>
+    اللَّهُمَّ احْفَظْنَا وَاحْفَظْ أَهْلَنَا وَأَوْلَادَنَا مِنَ الْفِتَنِ مَا ظَهَرَ مِنْهَا وَمَا بَطَنَ.<br>
+    اللَّهُمَّ اغْفِرْ لَنَا وَلِوَالِدِينَا وَلِجَمِيعِ الْمُسْلِمِينَ وَالْمُسْلِمَاتِ، وَالْمُؤْمِنِينَ وَالْمُؤْمِنَاتِ، الْأَحْيَاءِ مِنْهُمْ وَالْأَمْوَاتِ.<br>
+    رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً، وَفِي الْآخِرَةِ حَسَنَةً، وَقِنَا عَذَابَ النَّارِ.</p>
+
+    <p>[TEGAS] عِبَادَ اللَّهِ،</p>
+    <p>[DIAM 1 DETIK]</p>
+    <p class="arab">إِنَّ اللَّهَ يَأْمُرُ بِالْعَدْلِ وَالإِحْسَانِ وَإِيتَاءِ ذِي الْقُرْبَىٰ وَيَنْهَىٰ عَنِ الْفَحْشَاءِ وَالْمُنْكَرِ وَالْبَغْيِ ۚ يَعِظُكُمْ لَعَلَّكُمْ تَذَكَّرُونَ</p>
+    <p>[DIAM 2 DETIK]</p>
+    <p>فَاذْكُرُوا اللَّهَ يَذْكُرْكُمْ، وَاشْكُرُوهُ عَلَى نِعَمِهِ يَزِدْكُمْ، وَلَذِكْرُ اللَّهِ أَكْبَرُ، وَاللَّهُ يَعْلَمُ مَا تَصْنَعُونَ.</p>
+
+  </article>
+
+</main>
+
+<footer class="proto-footer no-print">
+  <p>© 2026 JAZMI — Jalinan Zamrud Islamiah. Prototipe Metode Khutbah, versi awal.</p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var KEY_MODE = "jazmi-khutbah-mode-khatib";
+
+  function initToggle() {
+    var checkbox = document.getElementById("toggleKhatib");
+    if (!checkbox) return;
+
+    var tersimpan = null;
+    try { tersimpan = localStorage.getItem(KEY_MODE); } catch (e) {}
+
+    function terapkan(aktif) {
+      document.body.classList.toggle("mode-khatib", aktif);
+      checkbox.checked = aktif;
+    }
+
+    terapkan(tersimpan === "1");
+
+    checkbox.addEventListener("change", function () {
+      terapkan(checkbox.checked);
+      try { localStorage.setItem(KEY_MODE, checkbox.checked ? "1" : "0"); } catch (e) {}
+    });
+  }
+
+  function initWhatsApp() {
+    var btn = document.getElementById("btnWhatsApp");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      var judul = document.querySelector(".hero-title").textContent.trim();
+      var pesan = "Khutbah: " + judul + "\n" + window.location.href;
+      var url = "https://wa.me/?text=" + encodeURIComponent(pesan);
+      window.open(url, "_blank", "noopener");
+    });
+  }
+
+  function initPDF() {
+    var btn = document.getElementById("btnPDF");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      window.print();
+    });
+  }
+
+  /* Bungkus semua penanda [...] dalam teks jadi <span class="marker ...">,
+     supaya bisa disembunyikan/ditampilkan lewat toggle Panduan Khatib. */
+  function bungkusPenanda(root) {
+    var walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    var node;
+    var target = [];
+    while ((node = walker.nextNode())) {
+      if (node.nodeValue.indexOf("[") !== -1) target.push(node);
+    }
+    target.forEach(function (textNode) {
+      var teks = textNode.nodeValue;
+      var regex = /\[([^\]]+)\]/g;
+      if (!regex.test(teks)) return;
+      regex.lastIndex = 0;
+
+      var frag = document.createDocumentFragment();
+      var lastIndex = 0;
+      var match;
+      while ((match = regex.exec(teks)) !== null) {
+        if (match.index > lastIndex) {
+          frag.appendChild(document.createTextNode(teks.slice(lastIndex, match.index)));
+        }
+        var isi = match[1];
+        var kelas = "marker marker-intonasi";
+        if (/^DIAM/i.test(isi)) kelas = "marker marker-jeda";
+        else if (/TARIK NAPAS/i.test(isi)) kelas = "marker marker-napas";
+
+        var span = document.createElement("span");
+        span.className = kelas;
+        span.textContent = "[" + isi + "]";
+        frag.appendChild(span);
+
+        lastIndex = regex.lastIndex;
+      }
+      if (lastIndex < teks.length) {
+        frag.appendChild(document.createTextNode(teks.slice(lastIndex)));
+      }
+      textNode.parentNode.replaceChild(frag, textNode);
+    });
+  }
+
+  function init() {
+    var body = document.getElementById("khutbahBody");
+    if (body) bungkusPenanda(body);
+    initToggle();
+    initWhatsApp();
+    initPDF();
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+
+</body>
+</html>

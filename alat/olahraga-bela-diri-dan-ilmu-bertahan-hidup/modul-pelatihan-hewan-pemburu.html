@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul Pelatihan Hewan Pemburu — Falconry & Anjing Pemburu | Tools Qiladat JAZMI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12160E;
+  --panel:#181D13;
+  --panel-2:#1D2317;
+  --line:rgba(228,217,180,0.14);
+  --line-strong:rgba(228,217,180,0.30);
+  --parchment:#E3D8B2;
+  --text:#EAE3CC;
+  --muted:#96A184;
+  --brass:#C68A3D;
+  --brass-dim:rgba(198,138,61,0.16);
+  --rust:#A6472E;
+  --rust-dim:rgba(166,71,46,0.16);
+  --moss:#7C9A5E;
+  --moss-dim:rgba(124,154,94,0.16);
+  --sil:#0A0A08;
+  --radius:2px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--ink);
+  color:var(--text);
+  font-family:'Karla',sans-serif;
+  font-size:16px;line-height:1.55;
+}
+@media (prefers-reduced-motion: reduce){*{animation-duration:0.01ms !important;animation-iteration-count:1 !important;transition-duration:0.01ms !important;}}
+.wrap{max-width:920px;margin:0 auto;padding:0 18px 80px;}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:600;letter-spacing:-0.01em;margin:0 0 6px;}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--brass);display:flex;align-items:center;gap:8px;margin-bottom:10px;}
+.eyebrow::before{content:"";width:18px;height:1px;background:var(--brass);display:inline-block;}
+
+/* ===== HERO with dusk gradient & silhouette ===== */
+.hero{
+  background:linear-gradient(180deg, #24314A 0%, #4B4A3E 42%, #7A5A3A 68%, #1B1712 100%);
+  margin:0 -18px 22px;padding:34px 18px 0;position:relative;overflow:hidden;
+}
+.hero-inner{max-width:920px;margin:0 auto;position:relative;z-index:2;}
+.hero h1{font-size:clamp(26px,5vw,38px);line-height:1.08;color:#F4EEDC;}
+.hero p.sub{color:#DED3B2;font-size:15px;max-width:60ch;margin:10px 0 22px;}
+.hero-stage{position:relative;height:150px;margin-top:6px;}
+.hero-stage svg{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:150px;width:auto;}
+.hero-ground{position:absolute;bottom:0;left:0;right:0;height:3px;background:rgba(10,10,8,0.5);}
+.toggle-row{display:flex;gap:10px;position:relative;z-index:3;margin-top:16px;flex-wrap:wrap;padding-bottom:20px;}
+.toggle-btn{
+  font-family:'Karla',sans-serif;font-weight:700;font-size:13.5px;
+  background:rgba(18,22,14,0.55);color:#F4EEDC;border:1px solid rgba(244,238,220,0.35);
+  padding:9px 16px;border-radius:20px;cursor:pointer;backdrop-filter:blur(2px);
+}
+.toggle-btn.active{background:var(--brass);color:#1a1206;border-color:var(--brass);}
+
+/* ===== sheet ===== */
+.sheet{position:relative;background:var(--panel);border:1px solid var(--line-strong);border-radius:var(--radius);padding:20px;margin-bottom:18px;}
+.sheet::before,.sheet::after{content:"";position:absolute;width:9px;height:9px;top:-1px;left:-1px;border-top:1.5px solid var(--brass);border-left:1.5px solid var(--brass);}
+.sheet::after{top:auto;left:auto;bottom:-1px;right:-1px;border-top:none;border-left:none;border-bottom:1.5px solid var(--brass);border-right:1.5px solid var(--brass);}
+.sheet h2{font-size:19px;}
+.tag{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;display:block;}
+
+.warn{background:var(--rust-dim);border:1px solid rgba(166,71,46,0.45);border-left:4px solid var(--rust);padding:14px 16px;border-radius:var(--radius);margin-bottom:20px;}
+.warn .tag{color:var(--rust);}
+.warn p{margin:6px 0 0;font-size:14.5px;}
+.warn p strong{color:#fff;}
+.warn ul{margin:8px 0 0;padding-left:18px;font-size:14px;}
+.warn ul li{margin-bottom:4px;}
+
+/* species cards */
+.species-grid{display:grid;grid-template-columns:1fr;gap:10px;}
+@media(min-width:640px){.species-grid{grid-template-columns:1fr 1fr 1fr;}}
+.species-card{
+  background:var(--panel-2);border:1px solid var(--line-strong);border-radius:var(--radius);
+  padding:14px;cursor:pointer;text-align:left;color:var(--text);font-family:'Karla',sans-serif;
+}
+.species-card:hover{border-color:var(--brass);}
+.species-card.active{border-color:var(--brass);background:var(--brass-dim);}
+.species-card .icon{height:52px;display:flex;align-items:flex-end;justify-content:center;margin-bottom:8px;}
+.species-card .icon svg{height:44px;width:auto;}
+.species-card h3{font-size:14.5px;margin:0 0 3px;}
+.species-card p{font-size:12px;color:var(--muted);margin:0;}
+.species-card .lvl{display:inline-block;margin-top:6px;font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 8px;border-radius:10px;}
+.lvl.pemula{background:var(--moss-dim);color:var(--moss);}
+.lvl.umum{background:var(--brass-dim);color:var(--brass);}
+.lvl.lanjut{background:var(--rust-dim);color:var(--rust);}
+
+/* form bits */
+.grid{display:grid;grid-template-columns:1fr;gap:14px;}
+@media(min-width:640px){.grid.cols-2{grid-template-columns:1fr 1fr;}}
+@media(min-width:720px){.grid.cols-3{grid-template-columns:1fr 1fr 1fr;}}
+label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:5px;font-family:'JetBrains Mono',monospace;letter-spacing:0.02em;}
+input[type=number],input[type=date],input[type=text],select{
+  width:100%;background:var(--ink);border:1px solid var(--line-strong);color:var(--text);
+  padding:9px 10px;border-radius:var(--radius);font-family:'JetBrains Mono',monospace;font-size:14.5px;
+}
+input:focus,select:focus{outline:2px solid var(--brass);outline-offset:1px;border-color:var(--brass);}
+.field-note{font-size:12px;color:var(--muted);margin-top:4px;}
+button{font-family:'Karla',sans-serif;font-weight:600;font-size:13.5px;background:transparent;color:var(--text);border:1px solid var(--line-strong);padding:8px 14px;border-radius:var(--radius);cursor:pointer;}
+button:hover{border-color:var(--brass);color:var(--brass);}
+button.primary{background:var(--brass);color:#1a1206;border-color:var(--brass);}
+button.primary:hover{opacity:0.9;color:#1a1206;}
+button.small{padding:5px 10px;font-size:12px;}
+
+/* timeline */
+.timeline{display:flex;width:100%;height:34px;border-radius:4px;overflow:hidden;margin-top:14px;border:1px solid var(--line-strong);}
+.tl-seg{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:#1a1206;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px;}
+.tl-legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px;font-size:12px;color:var(--muted);}
+.tl-legend span.dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:-1px;}
+.progress-outer{background:var(--ink);border:1px solid var(--line-strong);border-radius:20px;height:10px;overflow:hidden;margin-top:8px;}
+.progress-inner{height:100%;background:var(--brass);transition:width 0.3s ease;}
+
+/* stage cards */
+.stage{border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;background:var(--panel-2);}
+.stage-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:6px;}
+.stage-head h3{font-size:15.5px;font-family:'Karla',sans-serif;font-weight:700;margin:0;}
+.stage-dur{font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--brass);}
+.stage-desc{font-size:13px;color:var(--muted);margin:0 0 10px;}
+.checklist{list-style:none;margin:0;padding:0;}
+.checklist li{display:flex;align-items:flex-start;gap:9px;padding:6px 0;border-top:1px dashed var(--line);font-size:13.5px;}
+.checklist li:first-child{border-top:none;}
+.checklist input[type=checkbox]{margin-top:3px;width:15px;height:15px;accent-color:var(--brass);flex-shrink:0;}
+.checklist label{color:var(--text);font-family:'Karla',sans-serif;font-size:13.5px;margin:0;cursor:pointer;}
+.checklist li.done label{color:var(--muted);text-decoration:line-through;}
+
+table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:13px;margin-top:8px;}
+th,td{padding:7px 8px;text-align:right;border-bottom:1px solid var(--line);}
+th:first-child,td:first-child{text-align:left;}
+th{color:var(--muted);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:0.04em;}
+.tblwrap{overflow-x:auto;}
+.badge{display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:11.5px;padding:3px 9px;border-radius:20px;border:1px solid var(--line-strong);}
+.badge.safe{border-color:rgba(124,154,94,0.5);color:var(--moss);background:var(--moss-dim);}
+.badge.warnb{border-color:rgba(166,71,46,0.5);color:var(--rust);background:var(--rust-dim);}
+.badge.info{border-color:rgba(198,138,61,0.5);color:var(--brass);background:var(--brass-dim);}
+
+.mini-chart{width:100%;height:80px;margin-top:10px;}
+.stat-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;}
+.stat{background:var(--ink);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;}
+.stat .label{font-family:'JetBrains Mono',monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.08em;color:var(--muted);}
+.stat .value{font-family:'Fraunces',serif;font-size:20px;font-weight:600;color:var(--brass);margin-top:2px;}
+
+.refs{font-size:13px;color:var(--muted);}
+.refs li{margin-bottom:6px;}
+
+.consult{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;background:linear-gradient(135deg,var(--panel-2),var(--panel));border:1px solid var(--brass);border-radius:var(--radius);padding:16px 18px;}
+.consult p{margin:0;font-size:14px;max-width:52ch;}
+.consult a.wa{font-family:'Karla',sans-serif;font-weight:700;text-decoration:none;background:var(--brass);color:#1a1206;padding:10px 18px;border-radius:var(--radius);white-space:nowrap;font-size:14px;}
+.consult a.wa:hover{opacity:0.9;}
+footer.foot{margin-top:30px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;text-align:center;}
+.small{font-size:12px;color:var(--muted);}
+hr.rule{border:none;border-top:1px dashed var(--line-strong);margin:18px 0;}
+.rowbtns{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Tools Qiladat · JAZMI · Laboratorium Etologi Terapan</div>
+    <h1>Modul Pelatihan Hewan Pemburu</h1>
+    <p class="sub">Peta tahapan, checklist, dan kalkulator jadwal untuk melatih burung pemangsa (falconry) atau anjing pemburu — dari fondasi hingga siap lapangan, berdasarkan prinsip pengondisian operan &amp; habituasi bertahap.</p>
+    <div class="toggle-row" id="categoryToggle"></div>
+  </div>
+  <div class="hero-stage"><svg id="heroSvg" viewBox="0 0 300 200"></svg></div>
+  <div class="hero-ground"></div>
+</div>
+
+<div class="wrap">
+
+  <div class="warn">
+    <span class="tag">⚠ Baca dulu sebelum memakai</span>
+    <p><strong>Ini peta perencanaan &amp; edukasi, bukan pengganti pendamping berpengalaman.</strong> Melatih hewan pemburu sungguhan — terutama burung pemangsa liar — melibatkan nuansa yang tidak bisa dipelajari dari teks/alat semata.</p>
+    <ul>
+      <li><strong>Legalitas dulu, sebelum apa pun.</strong> Di banyak negara/wilayah, memelihara &amp; melatih burung pemangsa liar wajib izin resmi (lisensi falconry). Anjing pemburu juga bisa terikat aturan lokal soal senjata api &amp; area berburu. Periksa regulasi setempat Anda.</li>
+      <li><strong>Kontrol berat pada falconry menyangkut kesejahteraan hewan.</strong> "Berat terbang" yang ideal ditentukan lewat observasi individual bersama falconer berpengalaman &amp; dokter hewan unggas — bukan rumus tetap. Penurunan berat berlebihan atau tergesa dapat membahayakan burung.</li>
+      <li>Rentang hari/pekan di alat ini adalah <strong>perkiraan umum dari literatur</strong>, bukan jadwal pasti. Tiap individu hewan (dan tiap kombinasi pelatih-hewan) punya laju belajar berbeda.</li>
+      <li>Tahap berburu sungguhan (baik burung maupun anjing dengan senjata api) <strong>wajib didampingi pemburu/falconer senior</strong> — bagian ini secara eksplisit disebutkan sumber ilmu yang Anda berikan sendiri.</li>
+    </ul>
+  </div>
+
+  <section class="sheet">
+    <span class="tag">Belajar — Pertanyaan Ilmiah</span>
+    <h2>Apa sebenarnya yang sedang "dilatih"?</h2>
+    <p style="font-size:14.5px;">Dua prinsip ilmiah yang mendasari seluruh modul ini:</p>
+    <ol style="font-size:14.5px;padding-left:20px;">
+      <li><strong>Pengondisian operan (operant conditioning)</strong> — perilaku yang diikuti hasil positif (makanan, kembali ke glove/handler) cenderung diulang. Semua tahap "manning", "jumping to fist", dan retrieve-training pada dasarnya membangun rantai asosiasi ini secara bertahap.</li>
+      <li><strong>Habituasi bertahap (systematic desensitization)</strong> — paparan stimulus mengejutkan (suara tembakan, keramaian, buruan sungguhan) dimulai dari intensitas/jarak yang <em>tidak</em> memicu stres, lalu ditingkatkan perlahan hanya setelah hewan menunjukkan tenang di tahap sebelumnya.</li>
+    </ol>
+    <p class="small">Yang membedakan falconry dari pelatihan anjing: falconry memakai <strong>berat badan sebagai pengungkit motivasi terukur</strong> (burung terlalu kenyang = tidak termotivasi datang; terlalu lapar = stres/berisiko), sedangkan anjing lebih mengandalkan penguatan sosial &amp; permainan. Kalkulator di bawah menyesuaikan dengan perbedaan ini.</p>
+  </section>
+
+  <section class="sheet">
+    <span class="tag" id="speciesTag">1 — Pilih Hewan</span>
+    <h2 id="speciesHeading">Jenis Burung Pemangsa</h2>
+    <div class="species-grid" id="speciesGrid"></div>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">2 — Kalkulator Jadwal Program</span>
+    <h2>Perkiraan Rentang Waktu</h2>
+    <div class="grid cols-2">
+      <div>
+        <label for="startDate">Tanggal mulai pelatihan</label>
+        <input type="date" id="startDate">
+      </div>
+      <div>
+        <label for="paceMode">Intensitas sesi</label>
+        <select id="paceMode">
+          <option value="1.3">Santai (lebih jarang sesi → mendekati batas atas rentang)</option>
+          <option value="1.0" selected>Standar (sesuai rentang literatur)</option>
+          <option value="0.75">Intensif &amp; konsisten (mendekati batas bawah rentang)</option>
+        </select>
+        <p class="field-note">Ini mengubah skala rentang hari, bukan mempercepat insting hewan itu sendiri.</p>
+      </div>
+    </div>
+    <div class="timeline" id="timelineBar"></div>
+    <div class="tl-legend" id="timelineLegend"></div>
+    <div class="stat-row">
+      <div class="stat"><div class="label">Total tercepat</div><div class="value" id="totMin">–</div></div>
+      <div class="stat"><div class="label">Total realistis</div><div class="value" id="totMax">–</div></div>
+      <div class="stat"><div class="label">Perkiraan selesai</div><div class="value" id="totDate" style="font-size:15px;">–</div></div>
+    </div>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">3 — Tahapan &amp; Checklist</span>
+    <h2>Peta Jalan Pelatihan</h2>
+    <p class="small">Progres tersimpan hanya selama tab ini terbuka (alat ini murni HTML/JS, tanpa server/basis data).</p>
+    <div class="progress-outer"><div class="progress-inner" id="progressBar" style="width:0%;"></div></div>
+    <p class="small" id="progressLabel" style="margin-top:6px;">0 dari 0 item selesai</p>
+    <div id="stagesContainer" style="margin-top:16px;"></div>
+  </section>
+
+  <section class="sheet" id="specialCalcSection">
+    <span class="tag" id="specialTag">4 — Kalkulator Khusus</span>
+    <h2 id="specialHeading"></h2>
+    <div id="specialBody"></div>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">Batasan</span>
+    <h2>Kapan Alat Ini Tidak Boleh Dipercaya</h2>
+    <ul style="font-size:14px;padding-left:20px;">
+      <li><strong>Bukan sertifikasi, bukan izin.</strong> Menyelesaikan checklist di alat ini tidak menggantikan uji kompetensi, lisensi falconry, atau sertifikasi pelatihan anjing berburu resmi bila diwajibkan wilayah Anda.</li>
+      <li><strong>Rentang hari bersifat generik</strong> — dirangkum dari pola umum yang dilaporkan literatur/praktik falconry &amp; gun dog training, bukan hasil studi terkontrol per spesies/breed spesifik. Individu bisa jauh lebih cepat atau lambat.</li>
+      <li><strong>Kalkulator berat falconry tidak menentukan berat "benar"</strong> — ia hanya membantu mencatat tren &amp; menandai zona berdasarkan target yang <em>Anda</em> input, yang seharusnya berasal dari observasi bersama falconer berpengalaman.</li>
+      <li><strong>Jadwal gun-proofing berbasis rumus penurunan jarak geometris</strong> — ini templat awal, bukan aturan kaku. Kemajuan sesungguhnya harus kontinjen pada respons tenang anjing di tiap sesi, bisa lebih lambat dari templat bila anjing menunjukkan stres.</li>
+      <li>Tidak mencakup aspek kesehatan (parasit, nutrisi, cedera), yang tetap wajib pemeriksaan dokter hewan rutin.</li>
+    </ul>
+  </section>
+
+  <section class="sheet">
+    <span class="tag">Referensi</span>
+    <ul class="refs">
+      <li>Prinsip umum manajemen berat &amp; motivasi dalam praktik falconry modern — sebagaimana diajarkan klub-klub falconry berlisensi (mis. International Association for Falconry/IAF dan asosiasi falconry nasional).</li>
+      <li>Prinsip pengondisian operan — B.F. Skinner, dasar teori penguatan perilaku yang dipakai luas dalam pelatihan hewan modern.</li>
+      <li>Prinsip habituasi &amp; desensitisasi sistematis — dasar umum psikologi perilaku, diterapkan pada "gun-proofing" anjing pemburu.</li>
+      <li>Pola tahapan gun dog training (fondasi → insting → lapangan → pemantapan) — praktik umum yang dipakai luas komunitas pelatih anjing pemburu (retriever/pointer/hound).</li>
+    </ul>
+  </section>
+
+  <div class="consult">
+    <p><strong>Setiap hewan berbeda — checklist ini titik awal, bukan resep pasti.</strong> Untuk pendampingan langsung (terutama tahap berburu sungguhan), hubungi kami.</p>
+    <a class="wa" id="waLink" href="#" target="_blank" rel="noopener">Konsultasi via WhatsApp →</a>
+  </div>
+
+  <footer class="foot">Tools Qiladat / JAZMI — laboratorium alat &amp; keilmuan. Dibangun mengikuti metode Belajar → Model → Uji → Tool.</footer>
+</div>
+
+<script>
+/* ===================== SILUET HEWAN (hitam pekat, tanpa detail interior) ===================== */
+const SIL_FALCON = `
+  <path d="M120,58 C150,58 174,88 177,128 C179,158 169,188 150,203 C163,206 176,210 184,217 L118,217 C90,217 70,204 64,179 C59,149 64,109 89,79 C99,67 109,58 120,58 Z" fill="#0A0A08"/>
+  <circle cx="93" cy="54" r="27" fill="#0A0A08"/>
+  <path d="M67,49 L44,57 L67,65 Z" fill="#0A0A08"/>
+  <path d="M99,206 L91,220 L108,220 Z" fill="#0A0A08"/>
+  <path d="M138,205 L130,220 L147,220 Z" fill="#0A0A08"/>
+`;
+const SIL_DOG = `
+  <ellipse cx="150" cy="112" rx="70" ry="30" fill="#0A0A08"/>
+  <circle cx="222" cy="92" r="25" fill="#0A0A08"/>
+  <path d="M243,90 L270,97 L244,105 Z" fill="#0A0A08"/>
+  <path d="M213,70 L203,46 L227,66 Z" fill="#0A0A08"/>
+  <path d="M83,104 C63,94 54,74 59,54 C67,79 77,94 91,107 Z" fill="#0A0A08"/>
+  <rect x="195" y="120" width="12" height="46" rx="5" fill="#0A0A08"/>
+  <rect x="170" y="122" width="12" height="44" rx="5" fill="#0A0A08"/>
+  <rect x="115" y="122" width="12" height="44" rx="5" fill="#0A0A08"/>
+  <rect x="92" y="120" width="12" height="46" rx="5" fill="#0A0A08"/>
+`;
+function heroMarkup(inner, perch){
+  return `<line x1="15" y1="222" x2="285" y2="222" stroke="rgba(198,138,61,0.55)" stroke-width="4" stroke-linecap="round"/>${inner}`;
+}
+
+/* ===================== DATA ===================== */
+const FALCONRY_SPECIES = [
+  {id:'kestrel', label:'Alap-alap (Kestrel)', lvl:'pemula', mult:0.85, note:'Burung kecil, respons cepat — pilihan umum untuk pemula.'},
+  {id:'harris', label:"Elang Harris (Harris's Hawk)", lvl:'umum', mult:1.0, note:'Sosial, relatif mudah dilatih — paling umum di falconry modern.'},
+  {id:'goshawk', label:'Goshawk / Elang Alap Besar', lvl:'lanjut', mult:1.35, note:'Temperamen sensitif, butuh falconer berpengalaman.'}
+];
+const DOG_TYPES = [
+  {id:'retriever', label:'Retriever', lvl:'umum', note:'Fokus insting mengambil (retrieve) — darat lalu air.'},
+  {id:'pointer', label:'Pointer / Setter', lvl:'umum', note:'Fokus insting "pointing" — diam menunjuk posisi buruan.'},
+  {id:'hound', label:'Hound / Scent Dog', lvl:'lanjut', note:'Fokus insting penciuman &amp; tracking jejak.'}
+];
+
+const FALCONRY_STAGES_BASE = [
+  {name:'Persiapan Dasar', min:3, max:10,
+    desc:'Legalitas, peralatan, dan lingkungan disiapkan sebelum burung datang.',
+    items:['Izin/lisensi falconry (bila diwajibkan wilayah Anda) sudah diperiksa','Peralatan lengkap: jesses, glove, hood, perch, timbangan digital','Kandang/mews memenuhi standar kesejahteraan hewan','Sumber pakan segar &amp; higienis tersedia rutin']},
+  {name:'Manning (Penjinakan Awal)', min:7, max:21,
+    desc:'Burung dibiasakan dengan kehadiran &amp; sentuhan manusia lewat kontak rutin dan makan dari glove.',
+    items:['Kontak harian dengan burung berlangsung tenang (bating berkurang)','Burung mau makan langsung dari glove secara konsisten','Berat badan harian dicatat (lihat kalkulator berat)','Burung tidak lagi menunjukkan stres berlebih saat didekati']},
+  {name:'Latihan Terbang', min:14, max:35,
+    desc:'Dari "jumping to fist" jarak dekat, bertahap memakai creance, sampai siap terbang bebas.',
+    items:['Jumping to fist dari jarak dekat berhasil konsisten','Jarak dengan creance diperpanjang bertahap tanpa ragu','Respons panggil balik &gt;90% dari percobaan','Burung dinilai siap dilepas dari creance']},
+  {name:'Latihan Berburu', min:21, max:60,
+    desc:'Lure diperkenalkan lebih dulu sebelum transisi ke buruan sungguhan, didampingi falconer senior.',
+    items:['Lure (umpan tiruan) direspons stabil &amp; cepat','Sesi di lingkungan terkontrol berhasil berulang','Pendamping/falconer senior terlibat untuk sesi lapangan terbuka','Transisi ke buruan sungguhan dievaluasi tahap demi tahap']}
+];
+
+function dogStages(type){
+  const instinctItem = type==='retriever'
+    ? 'Retrieve dummy dari darat dikuasai, dilanjutkan retrieve dari air'
+    : type==='pointer'
+      ? '"Pointing" stabil pada dummy bersayap tanpa maju duluan'
+      : 'Tracking jejak bau buatan dikuasai sebelum jejak alami';
+  return [
+    {name:'Fondasi Dasar', min:60, max:180,
+      desc:'Usia pup hingga ~6 bulan — obedience dasar &amp; sosialisasi suara.',
+      items:['Obedience dasar dikuasai: duduk, diam, datang, tinggal (heel)','Sosialisasi suara dasar dilakukan (tembakan jarak jauh, air, semak)','Bonding harian dengan handler jadi rutinitas','Anjing tenang di berbagai lingkungan baru']},
+    {name:'Pengenalan Insting', min:28, max:56,
+      desc:'Insting bawaan diarahkan lewat latihan terstruktur sesuai tipe anjing.',
+      items:[instinctItem,'Motivasi &amp; antusiasme terhadap latihan tetap tinggi','Perintah dasar tetap terjaga di tengah distraksi insting']},
+    {name:'Latihan Lapangan', min:60, max:120,
+      desc:'Area berburu sungguhan diperkenalkan bertahap sambil melatih steadiness.',
+      items:['Area berburu sungguhan diperkenalkan bertahap','Steadiness terlatih — tidak lari sebelum diperintah','Gun-proofing dilalui tanpa tanda stres (lihat kalkulator jarak)']},
+    {name:'Pemantapan', min:30, max:90,
+      desc:'Skenario nyata berulang dengan evaluasi rutin.',
+      items:['Latihan rutin dengan skenario mendekati kondisi nyata dijalani','Evaluasi perilaku lapangan dicatat berkala','Anjing dinilai siap untuk sesi berburu terdampingi']}
+  ];
+}
+
+const STAGE_COLORS = ['#7C9A5E','#C68A3D','#A6472E','#5F7A9E'];
+
+/* ===================== STATE ===================== */
+let state = {
+  category: 'falconry', // 'falconry' | 'dog'
+  falconSpecies: 'harris',
+  dogType: 'retriever',
+  checks: {}, // key: stageIdx-itemIdx -> bool
+  weightLog: [], // {date, weight}
+};
+
+/* ===================== RENDER: HERO / TOGGLE ===================== */
+function renderHero(){
+  document.getElementById('heroSvg').innerHTML = heroMarkup(state.category==='falconry'? SIL_FALCON : SIL_DOG);
+}
+function renderToggle(){
+  const el = document.getElementById('categoryToggle');
+  el.innerHTML = `
+    <button class="toggle-btn ${state.category==='falconry'?'active':''}" data-cat="falconry">🦅 Falconry — Burung Pemangsa</button>
+    <button class="toggle-btn ${state.category==='dog'?'active':''}" data-cat="dog">🐕 Anjing Pemburu</button>
+  `;
+  el.querySelectorAll('.toggle-btn').forEach(b=>b.addEventListener('click', ()=>{
+    state.category = b.dataset.cat;
+    state.checks = {};
+    fullRender();
+  }));
+}
+
+/* ===================== RENDER: SPECIES ===================== */
+function renderSpecies(){
+  document.getElementById('speciesHeading').textContent = state.category==='falconry' ? 'Jenis Burung Pemangsa' : 'Tipe Anjing Pemburu';
+  const grid = document.getElementById('speciesGrid');
+  const list = state.category==='falconry' ? FALCONRY_SPECIES : DOG_TYPES;
+  const activeId = state.category==='falconry' ? state.falconSpecies : state.dogType;
+  const sil = state.category==='falconry' ? SIL_FALCON : SIL_DOG;
+  const vb = state.category==='falconry' ? '0 0 240 240' : '0 0 300 200';
+  grid.innerHTML = list.map(s=>`
+    <button class="species-card ${s.id===activeId?'active':''}" data-id="${s.id}">
+      <div class="icon"><svg viewBox="${vb}">${sil}</svg></div>
+      <h3>${s.label}</h3>
+      <p>${s.note}</p>
+      <span class="lvl ${s.lvl==='pemula'?'pemula':s.lvl==='lanjut'?'lanjut':'umum'}">${s.lvl==='pemula'?'Pemula':s.lvl==='lanjut'?'Lanjutan':'Umum'}</span>
+    </button>
+  `).join('');
+  grid.querySelectorAll('.species-card').forEach(c=>c.addEventListener('click', ()=>{
+    if(state.category==='falconry') state.falconSpecies = c.dataset.id;
+    else state.dogType = c.dataset.id;
+    fullRender();
+  }));
+}
+
+/* ===================== STAGES + duration helper ===================== */
+function getStages(){
+  if(state.category==='falconry'){
+    const sp = FALCONRY_SPECIES.find(s=>s.id===state.falconSpecies);
+    return FALCONRY_STAGES_BASE.map(st=>({...st, min:Math.round(st.min*sp.mult), max:Math.round(st.max*sp.mult)}));
+  } else {
+    return dogStages(state.dogType);
+  }
+}
+
+/* ===================== RENDER: TIMELINE ===================== */
+function renderTimeline(){
+  const stages = getStages();
+  const pace = parseFloat(document.getElementById('paceMode').value);
+  const startVal = document.getElementById('startDate').value;
+  const bar = document.getElementById('timelineBar');
+  const legend = document.getElementById('timelineLegend');
+
+  const scaled = stages.map(s=>({name:s.name, min:Math.round(s.min*pace), max:Math.round(s.max*pace)}));
+  const totMin = scaled.reduce((a,s)=>a+s.min,0);
+  const totMax = scaled.reduce((a,s)=>a+s.max,0);
+
+  bar.innerHTML = scaled.map((s,i)=>{
+    const widthPct = (s.max/totMax*100).toFixed(2);
+    return `<div class="tl-seg" style="width:${widthPct}%;background:${STAGE_COLORS[i%STAGE_COLORS.length]};">${s.name}</div>`;
+  }).join('');
+
+  legend.innerHTML = scaled.map((s,i)=>`<span><span class="dot" style="background:${STAGE_COLORS[i%STAGE_COLORS.length]};"></span>${s.name}: ${s.min}–${s.max} hari</span>`).join('');
+
+  document.getElementById('totMin').textContent = totMin+' hari';
+  document.getElementById('totMax').textContent = totMax+' hari';
+
+  if(startVal){
+    const d = new Date(startVal+'T00:00:00');
+    const dEnd = new Date(d.getTime() + totMax*86400000);
+    document.getElementById('totDate').textContent = dEnd.toLocaleDateString('id-ID',{day:'numeric',month:'long',year:'numeric'});
+  } else {
+    document.getElementById('totDate').textContent = `≈ ${Math.round(totMax/7)} pekan dari mulai`;
+  }
+}
+
+/* ===================== RENDER: STAGE CHECKLISTS ===================== */
+function renderStages(){
+  const stages = getStages();
+  const cont = document.getElementById('stagesContainer');
+  cont.innerHTML = stages.map((st,si)=>`
+    <div class="stage">
+      <div class="stage-head">
+        <h3>${si+1}. ${st.name}</h3>
+        <span class="stage-dur">≈ ${st.min}–${st.max} hari</span>
+      </div>
+      <p class="stage-desc">${st.desc}</p>
+      <ul class="checklist">
+        ${st.items.map((it,ii)=>{
+          const key = si+'-'+ii;
+          const checked = !!state.checks[key];
+          return `<li class="${checked?'done':''}">
+            <input type="checkbox" id="c-${key}" data-key="${key}" ${checked?'checked':''}>
+            <label for="c-${key}">${it}</label>
+          </li>`;
+        }).join('')}
+      </ul>
+    </div>
+  `).join('');
+  cont.querySelectorAll('input[type=checkbox]').forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      state.checks[cb.dataset.key] = cb.checked;
+      renderStages();
+      updateProgress();
+    });
+  });
+  updateProgress();
+}
+function updateProgress(){
+  const stages = getStages();
+  let total=0, done=0;
+  stages.forEach((st,si)=>st.items.forEach((it,ii)=>{
+    total++;
+    if(state.checks[si+'-'+ii]) done++;
+  }));
+  const pct = total>0 ? Math.round(done/total*100) : 0;
+  document.getElementById('progressBar').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = `${done} dari ${total} item selesai (${pct}%)`;
+}
+
+/* ===================== SPECIAL CALC: FALCONRY WEIGHT LOG ===================== */
+function renderFalconryCalc(){
+  document.getElementById('specialHeading').textContent = 'Log Berat &amp; Zona Motivasi';
+  const body = document.getElementById('specialBody');
+  body.innerHTML = `
+    <p style="font-size:14px;">Berat "gemuk" (baseline) adalah berat burung saat makan sepuasnya tanpa batasan. Berat terbang ideal biasanya beberapa persen di bawahnya — <strong>rentang persisnya wajib ditentukan bersama falconer/dokter hewan berpengalaman</strong>, bukan angka baku.</p>
+    <div class="grid cols-3">
+      <div><label for="obeseW">Berat gemuk/baseline (gram)</label><input type="number" id="obeseW" value="900" step="1"></div>
+      <div><label for="pctLow">Batas bawah target (%)</label><input type="number" id="pctLow" value="88" step="1"></div>
+      <div><label for="pctHigh">Batas atas target (%)</label><input type="number" id="pctHigh" value="95" step="1"></div>
+    </div>
+    <div class="stat-row" style="grid-template-columns:1fr 1fr;">
+      <div class="stat"><div class="label">Target berat terbang</div><div class="value" id="targetRange" style="font-size:17px;">–</div></div>
+      <div class="stat"><div class="label">Entri tercatat</div><div class="value" id="logCount">0</div></div>
+    </div>
+    <hr class="rule">
+    <div class="grid cols-3">
+      <div><label for="logDate">Tanggal timbang</label><input type="date" id="logDate"></div>
+      <div><label for="logWeight">Berat terukur (gram)</label><input type="number" id="logWeight" step="1" placeholder="mis. 810"></div>
+      <div style="display:flex;align-items:flex-end;"><button class="primary" id="addLog" style="width:100%;">+ Catat</button></div>
+    </div>
+    <svg class="mini-chart" id="weightChart" viewBox="0 0 400 100"></svg>
+    <div class="tblwrap">
+      <table id="weightTable"><thead><tr><th>Tanggal</th><th>Berat (g)</th><th>% dari baseline</th><th>Zona</th><th></th></tr></thead><tbody></tbody></table>
+    </div>
+  `;
+  ['obeseW','pctLow','pctHigh'].forEach(id=>document.getElementById(id).addEventListener('input', renderWeightOutputs));
+  document.getElementById('addLog').addEventListener('click', ()=>{
+    const d = document.getElementById('logDate').value || new Date().toISOString().slice(0,10);
+    const w = parseFloat(document.getElementById('logWeight').value);
+    if(!w) return;
+    state.weightLog.push({date:d, weight:w});
+    state.weightLog.sort((a,b)=>a.date.localeCompare(b.date));
+    document.getElementById('logWeight').value='';
+    renderWeightOutputs();
+  });
+  renderWeightOutputs();
+}
+function renderWeightOutputs(){
+  const obese = parseFloat(document.getElementById('obeseW').value)||1;
+  const pctLow = parseFloat(document.getElementById('pctLow').value)||0;
+  const pctHigh = parseFloat(document.getElementById('pctHigh').value)||100;
+  const lowW = obese*pctLow/100, highW = obese*pctHigh/100;
+  document.getElementById('targetRange').textContent = `${Math.round(lowW)}–${Math.round(highW)} g`;
+  document.getElementById('logCount').textContent = state.weightLog.length;
+
+  const tbody = document.querySelector('#weightTable tbody');
+  tbody.innerHTML = state.weightLog.map((e,i)=>{
+    const pct = (e.weight/obese*100);
+    let zone='info', zoneLabel='dalam target';
+    if(e.weight < lowW){ zone='warnb'; zoneLabel='di bawah target'; }
+    else if(e.weight > highW){ zone='safe'; zoneLabel='di atas target (kenyang)'; }
+    return `<tr><td>${e.date}</td><td>${e.weight}</td><td>${pct.toFixed(1)}%</td><td><span class="badge ${zone}">${zoneLabel}</span></td><td><button class="small delLog" data-i="${i}">✕</button></td></tr>`;
+  }).join('');
+  tbody.querySelectorAll('.delLog').forEach(b=>b.addEventListener('click', ()=>{
+    state.weightLog.splice(parseInt(b.dataset.i),1);
+    renderWeightOutputs();
+  }));
+
+  // mini chart
+  const svg = document.getElementById('weightChart');
+  if(state.weightLog.length<1){ svg.innerHTML=''; return; }
+  const ws = state.weightLog.map(e=>e.weight);
+  const minW = Math.min(...ws, lowW)*0.98, maxW = Math.max(...ws, highW)*1.02;
+  const x = i => 20 + i*((360)/Math.max(state.weightLog.length-1,1));
+  const y = w => 90 - ((w-minW)/(maxW-minW))*80;
+  let path = state.weightLog.map((e,i)=>`${i===0?'M':'L'}${x(i)},${y(e.weight)}`).join(' ');
+  const bandTop = y(highW), bandBot = y(lowW);
+  svg.innerHTML = `
+    <rect x="20" y="${Math.min(bandTop,bandBot)}" width="360" height="${Math.abs(bandBot-bandTop)}" fill="var(--brass)" opacity="0.12"></rect>
+    <path d="${path}" fill="none" stroke="var(--brass)" stroke-width="2"></path>
+    ${state.weightLog.map((e,i)=>`<circle cx="${x(i)}" cy="${y(e.weight)}" r="3" fill="var(--brass)"></circle>`).join('')}
+  `;
+}
+
+/* ===================== SPECIAL CALC: DOG GUN-PROOFING STEPPER ===================== */
+function renderDogCalc(){
+  document.getElementById('specialHeading').textContent = 'Jadwal Gun-Proofing (Templat Jarak)';
+  const body = document.getElementById('specialBody');
+  body.innerHTML = `
+    <p style="font-size:14px;">Templat penurunan jarak suara tembakan secara bertahap. Jarak dibuat menurun lebih rapat saat sudah dekat (karena sensitivitas meningkat) — <strong>maju ke sesi berikutnya hanya jika anjing tetap tenang di sesi saat ini.</strong></p>
+    <div class="grid cols-3">
+      <div><label for="distStart">Jarak awal (meter)</label><input type="number" id="distStart" value="300" step="10"></div>
+      <div><label for="distEnd">Jarak akhir target (meter)</label><input type="number" id="distEnd" value="8" step="1"></div>
+      <div><label for="nSessions">Jumlah sesi</label><input type="number" id="nSessions" value="8" step="1" min="2" max="20"></div>
+    </div>
+    <div class="tblwrap">
+      <table id="gunTable"><thead><tr><th>Sesi</th><th>Jarak (m)</th><th>Status</th></tr></thead><tbody></tbody></table>
+    </div>
+  `;
+  ['distStart','distEnd','nSessions'].forEach(id=>document.getElementById(id).addEventListener('input', renderGunTable));
+  renderGunTable();
+}
+function renderGunTable(){
+  const start = parseFloat(document.getElementById('distStart').value)||300;
+  const end = parseFloat(document.getElementById('distEnd').value)||8;
+  const n = Math.max(2, Math.min(20, parseInt(document.getElementById('nSessions').value)||8));
+  const rows=[];
+  for(let i=0;i<n;i++){
+    const t = i/(n-1);
+    const dist = start*Math.pow(end/start, t);
+    rows.push(dist);
+  }
+  const tbody = document.querySelector('#gunTable tbody');
+  tbody.innerHTML = rows.map((d,i)=>`<tr><td>Sesi ${i+1}</td><td>${d.toFixed(0)} m</td><td><span class="badge info">lanjut jika tenang di sesi sebelumnya</span></td></tr>`).join('');
+}
+
+/* ===================== FULL RENDER ===================== */
+function fullRender(){
+  renderHero();
+  renderToggle();
+  renderSpecies();
+  renderTimeline();
+  renderStages();
+  if(state.category==='falconry') renderFalconryCalc();
+  else renderDogCalc();
+  updateWA();
+}
+function updateWA(){
+  const wa = document.getElementById('waLink');
+  const label = state.category==='falconry'
+    ? `jenis burung: ${FALCONRY_SPECIES.find(s=>s.id===state.falconSpecies).label}`
+    : `tipe anjing: ${DOG_TYPES.find(s=>s.id===state.dogType).label}`;
+  const msg = encodeURIComponent(`Halo, saya ingin konsultasi pendampingan pelatihan hewan pemburu JAZMI. Kategori: ${state.category==='falconry'?'Falconry':'Anjing Pemburu'}, ${label}.`);
+  wa.href = `https://wa.me/6281356572588?text=${msg}`;
+}
+
+document.getElementById('paceMode').addEventListener('change', renderTimeline);
+document.getElementById('startDate').addEventListener('change', renderTimeline);
+
+fullRender();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

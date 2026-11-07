@@ -1,0 +1,54 @@
+{
+  "_catatan": "DATA DEMO — dibuat oleh C10 hanya untuk menguji struktur halaman Media Kesehatan. Bukan media resmi JAZMI, dan tautan bukan tautan aktif nyata karena konten sesungguhnya belum tersedia. Ganti dengan data nyata (beserta tautan sah) sebelum dipublikasikan.",
+  "status": "demo",
+  "media": [
+    {
+      "id": "buku-panduan-thibbun-nabawi",
+      "judul": "Panduan Ringkas Thibbun Nabawi",
+      "tipe": "buku",
+      "status": "demo",
+      "ringkasan": "Rangkuman pengantar mengenai prinsip menjaga kesehatan dalam khazanah Thibbun Nabawi.",
+      "tautan": null
+    },
+    {
+      "id": "video-gaya-hidup-sehat-islami",
+      "judul": "Pengantar Gaya Hidup Sehat Islami",
+      "tipe": "video",
+      "status": "demo",
+      "ringkasan": "Video pengantar mengenai kebiasaan menjaga kesehatan tubuh dalam bingkai adab keseharian.",
+      "tautan": null
+    },
+    {
+      "id": "audio-kajian-adab-kesehatan",
+      "judul": "Kajian Singkat: Adab Menjaga Kesehatan",
+      "tipe": "audio",
+      "status": "demo",
+      "ringkasan": "Rekaman kajian ringkas seputar adab menjaga amanah kesehatan tubuh.",
+      "tautan": null
+    },
+    {
+      "id": "gambar-infografis-sunnah-tubuh",
+      "judul": "Infografis Sunnah Menjaga Tubuh",
+      "tipe": "gambar",
+      "status": "demo",
+      "ringkasan": "Ringkasan visual kebiasaan menjaga tubuh yang disebut dalam sunnah.",
+      "tautan": null
+    },
+    {
+      "id": "buku-adab-makan-minum",
+      "judul": "Adab Makan dan Minum dalam Islam",
+      "tipe": "buku",
+      "status": "demo",
+      "ringkasan": "Kumpulan adab makan dan minum yang berkaitan erat dengan menjaga kesehatan tubuh.",
+      "tautan": null
+    },
+    {
+      "id": "audio-zikir-pagi-petang",
+      "judul": "Zikir Pagi Petang untuk Ketenangan Jiwa",
+      "tipe": "audio",
+      "status": "demo",
+      "ringkasan": "Rekaman zikir pagi dan petang, bagian dari menjaga kesehatan jiwa.",
+      "tautan": null
+    }
+  ]
+}

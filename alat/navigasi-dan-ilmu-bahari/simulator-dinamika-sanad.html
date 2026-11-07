@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Dinamika Sanad — JAZMI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700;1,500&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#1c2536;
+    --ink-soft:#3a4459;
+    --parchment:#ece3d0;
+    --parchment-deep:#ddd0b3;
+    --paper:#f7f2e6;
+    --gold:#a9803f;
+    --gold-deep:#8a6a30;
+    --brick:#9c4a3c;
+    --brick-soft:#c9776a;
+    --gray-dead:#8b8478;
+    --sage:#5c7461;
+    --line:#c9bd9e;
+    --radius:3px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--ink);
+    font-family:'Karla',sans-serif;
+    line-height:1.55;
+  }
+  .amiri{font-family:'Amiri',serif;}
+  .wrap{max-width:760px;margin:0 auto;}
+
+  /* HEADER */
+  header{
+    background:var(--ink);
+    color:var(--parchment);
+    padding:44px 22px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  header::before{
+    content:"الجرح والتعديل";
+    position:absolute;
+    right:-10px;top:-18px;
+    font-family:'Amiri',serif;
+    font-size:5.4rem;
+    color:rgba(233,213,158,0.07);
+    white-space:nowrap;
+  }
+  header .eyebrow{
+    color:var(--gold);
+    font-family:'Amiri',serif;
+    font-size:1.05rem;
+    margin-bottom:10px;
+  }
+  header h1{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:2.05rem;
+    line-height:1.18;
+    margin:0 0 14px;
+    max-width:16ch;
+  }
+  header p{
+    color:#c8bfa8;
+    max-width:44ch;
+    margin:0;
+    font-size:0.98rem;
+  }
+
+  main{background:var(--paper);}
+  section{padding:34px 22px;border-bottom:1px solid var(--line);}
+  section:last-of-type{border-bottom:none;}
+
+  h2{
+    font-family:'Fraunces',serif;
+    font-weight:600;
+    font-size:1.35rem;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .section-lede{
+    color:var(--ink-soft);
+    font-size:0.92rem;
+    margin:0 0 22px;
+    max-width:52ch;
+  }
+
+  /* BELAJAR accordion */
+  .term{border-top:1px solid var(--line);}
+  .term:last-child{border-bottom:1px solid var(--line);}
+  .term button{
+    width:100%;
+    text-align:left;
+    background:none;
+    border:none;
+    padding:14px 4px;
+    font-family:'Fraunces',serif;
+    font-size:1.02rem;
+    font-weight:500;
+    color:var(--ink);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    cursor:pointer;
+  }
+  .term button .plus{
+    font-family:'Karla',sans-serif;
+    font-size:1.3rem;
+    color:var(--gold-deep);
+    transition:transform .2s ease;
+  }
+  .term.open button .plus{transform:rotate(45deg);}
+  .term .body{
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .25s ease;
+  }
+  .term.open .body{max-height:400px;}
+  .term .body p{
+    padding:0 4px 16px;
+    margin:0;
+    color:var(--ink-soft);
+    font-size:0.93rem;
+  }
+
+  /* SIMULATOR */
+  .tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+  .tab-btn{
+    font-family:'Karla',sans-serif;
+    font-weight:600;
+    font-size:0.85rem;
+    padding:8px 14px;
+    border-radius:20px;
+    border:1px solid var(--line);
+    background:var(--parchment);
+    color:var(--ink-soft);
+    cursor:pointer;
+  }
+  .tab-btn.active{
+    background:var(--ink);
+    color:var(--parchment);
+    border-color:var(--ink);
+  }
+  .tab-btn.add{
+    background:transparent;
+    border-style:dashed;
+    color:var(--gold-deep);
+  }
+
+  .chain-panel{display:none;}
+  .chain-panel.active{display:block;}
+
+  .flow-line{
+    width:2px;
+    height:16px;
+    background:var(--line);
+    margin:0 auto;
+  }
+  .flow-line:first-child{display:none;}
+
+  .narrator-card{
+    background:var(--parchment);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:16px;
+    position:relative;
+  }
+  .narrator-card .gen-tag{
+    font-size:0.72rem;
+    color:var(--gold-deep);
+    font-weight:700;
+    letter-spacing:0.02em;
+    margin-bottom:8px;
+    display:block;
+  }
+  .narrator-card input[type=text]{
+    width:100%;
+    font-family:'Fraunces',serif;
+    font-size:1.05rem;
+    border:none;
+    background:transparent;
+    border-bottom:1px solid var(--line);
+    padding:2px 0 6px;
+    margin-bottom:12px;
+    color:var(--ink);
+  }
+  .narrator-card input[type=text]:focus{outline:none;border-color:var(--gold-deep);}
+  select.gen-select{
+    font-family:'Karla',sans-serif;
+    font-size:0.82rem;
+    border:1px solid var(--line);
+    background:var(--paper);
+    border-radius:20px;
+    padding:4px 10px;
+    margin-bottom:12px;
+    color:var(--ink-soft);
+  }
+  .slider-row{margin-bottom:10px;}
+  .slider-row .lbl{
+    display:flex;
+    justify-content:space-between;
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    margin-bottom:3px;
+  }
+  .slider-row .lbl b{color:var(--ink);font-weight:600;}
+  input[type=range]{
+    width:100%;
+    accent-color:var(--gold-deep);
+    height:20px;
+  }
+  .flags{display:flex;flex-direction:column;gap:8px;margin-top:10px;}
+  .flags label{
+    font-size:0.8rem;
+    color:var(--ink-soft);
+    display:flex;
+    align-items:center;
+    gap:6px;
+  }
+  .flags input[type=text]{
+    font-family:'Karla',sans-serif;
+    font-size:0.8rem;
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:3px 10px;
+    width:130px;
+    margin:0;
+  }
+  .status-badge{
+    position:absolute;
+    top:16px;right:16px;
+    font-size:0.7rem;
+    font-weight:700;
+    padding:4px 9px;
+    border-radius:20px;
+    color:#fff;
+  }
+  .t3{background:var(--sage);}
+  .t2{background:var(--gold-deep);}
+  .t1{background:var(--brick-soft);}
+  .t0{background:var(--gray-dead);}
+
+  .remove-narrator{
+    position:absolute;
+    bottom:14px;right:16px;
+    font-size:0.72rem;
+    color:var(--brick);
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-decoration:underline;
+  }
+
+  .add-narrator-btn{
+    display:block;
+    width:100%;
+    margin-top:16px;
+    padding:11px;
+    background:none;
+    border:1px dashed var(--gold-deep);
+    border-radius:var(--radius);
+    color:var(--gold-deep);
+    font-weight:600;
+    font-size:0.85rem;
+    cursor:pointer;
+  }
+  .remove-chain-btn{
+    display:block;
+    margin:10px auto 0;
+    background:none;
+    border:none;
+    color:var(--brick);
+    font-size:0.78rem;
+    text-decoration:underline;
+    cursor:pointer;
+  }
+
+  /* VERDICT */
+  .verdict-box{
+    margin-top:26px;
+    padding:20px;
+    border-radius:var(--radius);
+    border:1px solid var(--line);
+  }
+  .verdict-box h3{
+    font-family:'Fraunces',serif;
+    font-size:1.1rem;
+    margin:0 0 6px;
+  }
+  .verdict-box p{margin:0;font-size:0.9rem;color:var(--ink-soft);}
+  .verdict-chain{
+    font-size:0.85rem;
+    padding:8px 0;
+    border-top:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .verdict-chain:first-of-type{border-top:none;margin-top:10px;}
+
+  .preset-btn{
+    background:var(--ink);
+    color:var(--parchment);
+    border:none;
+    border-radius:20px;
+    padding:9px 16px;
+    font-size:0.82rem;
+    font-weight:600;
+    cursor:pointer;
+    margin-bottom:20px;
+  }
+
+  /* METODE / BATASAN / REFERENSI */
+  .plain-list{margin:0;padding-left:1.1em;color:var(--ink-soft);font-size:0.92rem;}
+  .plain-list li{margin-bottom:8px;}
+
+  .disclaimer{
+    background:var(--parchment-deep);
+    border-left:3px solid var(--brick);
+    padding:14px 16px;
+    font-size:0.86rem;
+    color:var(--ink-soft);
+    margin-top:16px;
+    border-radius:0 var(--radius) var(--radius) 0;
+  }
+
+  .consult{
+    margin-top:18px;
+    display:block;
+    text-align:center;
+    background:var(--gold-deep);
+    color:#fff;
+    padding:13px;
+    border-radius:var(--radius);
+    text-decoration:none;
+    font-weight:600;
+    font-size:0.92rem;
+  }
+
+  footer{
+    background:var(--ink);
+    color:#867d68;
+    padding:24px 22px 40px;
+    font-size:0.78rem;
+    text-align:center;
+  }
+
+  @media(min-width:600px){
+    header{padding:60px 40px 52px;}
+    header h1{font-size:2.5rem;}
+    section{padding:44px 40px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="eyebrow">ilmu naqd al-ḥadīts</div>
+    <h1>Simulator Dinamika Sanad</h1>
+    <p>Sebuah rawi yang jujur dan kuat hafalannya tetap bisa keliru — bila gurunya lemah. Susun sendiri jalur periwayatan dan lihat bagaimana kualitas satu orang menjalar ke seluruh rantai.</p>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <!-- BELAJAR -->
+  <section id="belajar">
+    <h2>Belajar dulu</h2>
+    <p class="section-lede">Sebelum menggeser satu slider pun, kenali istilah yang menentukan hasil simulasi ini.</p>
+
+    <div id="accordion"></div>
+  </section>
+
+  <!-- SIMULATOR -->
+  <section id="simulator">
+    <h2>Susun Sanad</h2>
+    <p class="section-lede">Setiap jalur adalah satu rangkaian rawi dari sahabat hingga penulis kitab. Tambahkan jalur lain untuk menguji apakah ia benar-benar menguatkan, atau justru menyingkap kelemahan yang sama.</p>
+
+    <button class="preset-btn" id="loadPreset">Muat contoh: Jali, Asep &amp; Aco</button>
+
+    <div class="tabs" id="tabs"></div>
+    <div id="chainPanels"></div>
+
+    <div class="verdict-box" id="verdictBox"></div>
+  </section>
+
+  <!-- METODE -->
+  <section id="metode">
+    <h2>Metode</h2>
+    <p class="section-lede">Bagaimana simulator ini menghitung hukum sebuah jalur.</p>
+    <ul class="plain-list">
+      <li><b>Status per-rawi</b> ditentukan dari dua sumbu: ‘adālah (kejujuran/integritas) dan ḍabṭ (kekuatan hafalan). Keduanya tinggi → tsiqah. Keduanya cukup → ṣadūq/hasan. Salah satu rendah → ḍa‘īf. Sangat rendah → matrūk.</li>
+      <li><b>Hukum satu jalur</b> mengikuti mata rantai terlemahnya — sekuat apa pun rawi lain dalam jalur itu, satu titik lemah menurunkan seluruh sanad.</li>
+      <li><b>Penyelisihan (mukhālafah)</b> — bila sebuah rawi ditandai "menyelisihi mayoritas dari guru yang sama", jalurnya otomatis dianggap syadz walau seluruh rawi tampak tsiqah, karena keabsahan tidak hanya soal kredibilitas pribadi, tapi juga kesesuaian dengan riwayat yang lebih kuat.</li>
+      <li><b>Gabungan antar-jalur</b> — dua jalur ḍa‘īf (bukan matrūk) yang benar-benar tidak bertemu pada satu sumber lemah yang sama bisa saling menguatkan menjadi hasan li-ghairihi. Tapi jika beberapa jalur ternyata bermuara pada satu "titik temu" yang lemah, simulator menolak menaikkan statusnya — itu bukan penguat, itu satu kelemahan yang kelihatan berkali-kali.</li>
+    </ul>
+  </section>
+
+  <!-- BATASAN -->
+  <section id="batasan">
+    <h2>Batasan</h2>
+    <div class="disclaimer">
+      Alat ini adalah model pedagogis yang disederhanakan untuk memahami <em>logika</em> kritik sanad — bukan mesin penilai keabsahan hadits yang sesungguhnya. Penilaian hadits nyata memerlukan rujukan kitab-kitab rijal (Tahdzib al-Kamal, Mizan al-I‘tidal, dsb.), pengecekan riwayat aktual, serta ijtihad ulama hadits yang berpengalaman. Jangan gunakan hasil simulasi ini untuk menghukumi status hadits tertentu — konsultasikan dengan ahlinya.
+    </div>
+    <a class="consult" href="#">Diskusikan sanad sungguhan dengan pakar →</a>
+  </section>
+
+  <!-- REFERENSI -->
+  <section id="referensi">
+    <h2>Referensi &amp; Artikel Terkait</h2>
+    <ul class="plain-list">
+      <li>Ibn al-Ṣalāḥ, <i>Muqaddimah Ibn al-Ṣalāḥ fī ‘Ulūm al-Ḥadīts</i> — kerangka klasik pembagian sahih/hasan/da‘if.</li>
+      <li>Al-‘Irāqī &amp; al-Suyūṭī, kitab-kitab syarah muṣṭalaḥ al-ḥadīts mengenai i‘tibār, mutāba‘ah, dan syawāhid.</li>
+      <li>Kasus Ibnu Abbas vs. Maimunah radhiyallahu ‘anhuma tentang waktu pernikahan Nabi ﷺ — contoh klasik mukhālafah rawi tepercaya terhadap pelaku peristiwa langsung.</li>
+    </ul>
+  </section>
+
+</div>
+</main>
+
+<footer>JAZMI — Laboratorium Pengetahuan Digital · Level 4: Tool, dibangun di atas Level 1–3 studi ilmiah</footer>
+
+<script>
+/* ---------- DATA: istilah untuk Belajar ---------- */
+const TERMS = [
+  ["‘Adālah (integritas)","Kejujuran dan keteguhan agama seorang rawi — apakah ia diketahui berdusta, fasik, atau justru terjaga amanahnya. Ini menilai orangnya, bukan hafalannya."],
+  ["Ḍabṭ (kekuatan hafalan)","Kemampuan rawi menjaga riwayat persis seperti yang ia terima, baik dengan hafalan maupun catatan tertulis yang terpelihara. Orang jujur bisa saja tetap ḍabṭ-nya lemah."],
+  ["Tsiqah","Gabungan ‘adālah tinggi dan ḍabṭ tinggi. Riwayatnya diterima sendirian tanpa perlu penguat."],
+  ["Ḍa‘īf (lemah)","‘Adālah atau ḍabṭ-nya kurang, sehingga riwayatnya tidak cukup dipegang sendirian — butuh jalur lain untuk naik derajat."],
+  ["Tafarrud","Seorang rawi menyendiri meriwayatkan sesuatu yang tidak disampaikan oleh murid-murid lain dari guru yang sama. Tidak otomatis salah, tapi memunculkan pertanyaan: mengapa hanya dia?"],
+  ["Mutāba‘ah","Rawi lain yang meriwayatkan dari guru yang sama, memperkuat rawi yang tafarrud tadi — asal jalurnya benar-benar terpisah, bukan bermuara pada sumber lemah yang sama."],
+  ["Syawāhid","Riwayat serupa yang datang dari sahabat yang berbeda sama sekali, menguatkan makna hadits secara keseluruhan meski lafaznya mungkin berbeda."],
+  ["‘Illah (cacat tersembunyi)","Kelemahan yang tidak tampak dari luar sanad, baru ketahuan setelah ditelusuri — misalnya beberapa jalur yang tampak independen ternyata semuanya bersumber dari satu rawi lemah yang sama."],
+  ["Syudzūdz / Mukhālafah","Seorang rawi tsiqah tetap bisa ditolak riwayatnya jika ia menyelisihi rawi-rawi yang lebih banyak atau lebih kuat dari guru yang sama, atau menyelisihi pelaku langsung peristiwa itu sendiri."],
+  ["Hasan li-ghairihi","Status naik dari ḍa‘īf menjadi dapat diterima, karena didukung jalur lain yang benar-benar independen — bukan sekadar terlihat banyak."]
+];
+
+/* ---------- STATE ---------- */
+let chainCounter = 0;
+let narratorCounter = 0;
+const GEN = ["Sahabat","Tabi'in","Tabi' Tabi'in","Angkatan ke-4","Angkatan ke-5","Mukharrij (penulis kitab)"];
+
+function newNarrator(name, gen, adalah, dhabt){
+  narratorCounter++;
+  return {id:'n'+narratorCounter, name, gen, adalah, dhabt, menyelisihi:false, titikTemu:''};
+}
+function newChain(label, narrators){
+  chainCounter++;
+  return {id:'c'+chainCounter, label, narrators};
+}
+
+let state = { chains:[
+  newChain('Jalur 1', [
+    newNarrator('','Sahabat',90,90),
+    newNarrator('','Tabi\'in',85,80),
+    newNarrator('','Mukharrij (penulis kitab)',90,85),
+  ])
+]};
+let activeChain = state.chains[0].id;
+
+/* ---------- COMPUTE ---------- */
+function narratorStatus(n){
+  if(n.adalah<30 || n.dhabt<15) return {tier:0,label:'Matrūk'};
+  if(n.adalah<50 || n.dhabt<40) return {tier:1,label:"Ḍa‘īf"};
+  if(n.adalah<70 || n.dhabt<70) return {tier:2,label:'Ṣadūq/Hasan'};
+  return {tier:3,label:'Tsiqah'};
+}
+function chainVerdict(chain){
+  let minTier = 3, syadz=false;
+  chain.narrators.forEach(n=>{
+    const s = narratorStatus(n);
+    if(s.tier<minTier) minTier = s.tier;
+    if(n.menyelisihi) syadz = true;
+  });
+  if(syadz && minTier>=2) return {tier:1, label:'Syadz — ditolak karena menyelisihi mayoritas', syadz:true};
+  const labels = ["Matrūk — riwayat ditinggalkan","Ḍa‘īf — lemah, perlu penguat","Hasan — dapat diterima","Ṣaḥīḥ — kuat berdiri sendiri"];
+  return {tier:minTier, label:labels[minTier], syadz:false};
+}
+function weakPoints(chain){
+  return chain.narrators.filter(n=>narratorStatus(n).tier<=1 && n.titikTemu.trim()!=='').map(n=>n.titikTemu.trim().toLowerCase());
+}
+
+function overallVerdict(){
+  const results = state.chains.map(c=>({chain:c, v:chainVerdict(c)}));
+  const weakChains = results.filter(r=>r.v.tier===1 && !r.v.syadz);
+  let note = '';
+  let upgraded = false;
+
+  if(weakChains.length>=2){
+    // check shared weak titik temu among weak chains
+    const pointSets = weakChains.map(r=>new Set(weakPoints(r.chain)));
+    let shared = false;
+    for(let i=0;i<pointSets.length;i++){
+      for(let j=i+1;j<pointSets.length;j++){
+        for(const p of pointSets[i]){
+          if(p && pointSets[j].has(p)){ shared = true; }
+        }
+      }
+    }
+    if(shared){
+      note = 'Beberapa jalur ḍa‘īf ini bermuara pada satu titik lemah yang sama. Ini bukan penguatan — ini satu kelemahan yang kelihatan berulang. Perhatikan sebagai ‘illah, bukan sebagai i‘tibar yang menguatkan.';
+    } else {
+      note = 'Jalur-jalur ḍa‘īf ini benar-benar terpisah sumbernya. Saling menguatkan → status gabungan naik menjadi hasan li-ghairihi.';
+      upgraded = true;
+    }
+  }
+  return {results, note, upgraded};
+}
+
+/* ---------- RENDER: BELAJAR ---------- */
+function renderAccordion(){
+  const el = document.getElementById('accordion');
+  el.innerHTML = TERMS.map((t,i)=>`
+    <div class="term" data-i="${i}">
+      <button type="button">${t[0]}<span class="plus">+</span></button>
+      <div class="body"><p>${t[1]}</p></div>
+    </div>
+  `).join('');
+  el.querySelectorAll('.term button').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      btn.closest('.term').classList.toggle('open');
+    });
+  });
+}
+
+/* ---------- RENDER: SIMULATOR ---------- */
+function renderTabs(){
+  const el = document.getElementById('tabs');
+  let html = state.chains.map(c=>`<button class="tab-btn ${c.id===activeChain?'active':''}" data-id="${c.id}">${c.label}</button>`).join('');
+  html += `<button class="tab-btn add" id="addChain">+ Tambah jalur</button>`;
+  el.innerHTML = html;
+  el.querySelectorAll('.tab-btn[data-id]').forEach(b=>{
+    b.addEventListener('click',()=>{activeChain=b.dataset.id; renderAll();});
+  });
+  document.getElementById('addChain').addEventListener('click',()=>{
+    const c = newChain('Jalur '+(state.chains.length+1), [newNarrator('','Sahabat',60,60)]);
+    state.chains.push(c);
+    activeChain = c.id;
+    renderAll();
+  });
+}
+
+function renderChainPanels(){
+  const wrap = document.getElementById('chainPanels');
+  wrap.innerHTML = state.chains.map(c=>`
+    <div class="chain-panel ${c.id===activeChain?'active':''}" data-id="${c.id}">
+      ${c.narrators.map((n,i)=>renderNarratorCard(c,n,i)).join('<div class="flow-line"></div>')}
+      <button class="add-narrator-btn" data-chain="${c.id}">+ Tambah rawi berikutnya</button>
+      ${state.chains.length>1 ? `<button class="remove-chain-btn" data-chain="${c.id}">Hapus jalur ini</button>` : ''}
+    </div>
+  `).join('');
+
+  wrap.querySelectorAll('.add-narrator-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const c = state.chains.find(x=>x.id===b.dataset.chain);
+      c.narrators.push(newNarrator('','Angkatan ke-4',60,60));
+      renderAll();
+    });
+  });
+  wrap.querySelectorAll('.remove-chain-btn').forEach(b=>{
+    b.addEventListener('click',()=>{
+      state.chains = state.chains.filter(x=>x.id!==b.dataset.chain);
+      activeChain = state.chains[0].id;
+      renderAll();
+    });
+  });
+  wrap.querySelectorAll('.remove-narrator').forEach(b=>{
+    b.addEventListener('click',()=>{
+      const c = state.chains.find(x=>x.id===b.dataset.chain);
+      if(c.narrators.length>1){
+        c.narrators = c.narrators.filter(n=>n.id!==b.dataset.n);
+        renderAll();
+      }
+    });
+  });
+
+  // bind inputs
+  wrap.querySelectorAll('.narrator-card').forEach(card=>{
+    const chain = state.chains.find(x=>x.id===card.dataset.chain);
+    const n = chain.narrators.find(x=>x.id===card.dataset.n);
+
+    card.querySelector('.name-input').addEventListener('input',e=>{ n.name=e.target.value; });
+    card.querySelector('.gen-select').addEventListener('change',e=>{ n.gen=e.target.value; });
+    const adalahRange = card.querySelector('.adalah-range');
+    const dhabtRange = card.querySelector('.dhabt-range');
+    adalahRange.addEventListener('input',e=>{ n.adalah=+e.target.value; updateBadgeAndVerdict(); });
+    dhabtRange.addEventListener('input',e=>{ n.dhabt=+e.target.value; updateBadgeAndVerdict(); });
+    card.querySelector('.menyelisihi-chk').addEventListener('change',e=>{ n.menyelisihi=e.target.checked; renderVerdict(); });
+    card.querySelector('.titik-input').addEventListener('input',e=>{ n.titikTemu=e.target.value; renderVerdict(); });
+  });
+}
+
+function renderNarratorCard(chain,n,i){
+  const s = narratorStatus(n);
+  const genOptions = GEN.map(g=>`<option value="${g}" ${g===n.gen?'selected':''}>${g}</option>`).join('');
+  return `
+  <div class="narrator-card" data-chain="${chain.id}" data-n="${n.id}">
+    <span class="status-badge t${s.tier}" data-role="badge">${s.label}</span>
+    <span class="gen-tag">Angkatan ${i+1}</span>
+    <input type="text" class="name-input" placeholder="Nama rawi (misal: Jali)" value="${n.name}">
+    <select class="gen-select">${genOptions}</select>
+    <div class="slider-row">
+      <div class="lbl"><span>‘Adālah (kejujuran)</span><b data-role="adalah-val">${n.adalah}</b></div>
+      <input type="range" class="adalah-range" min="0" max="100" value="${n.adalah}">
+    </div>
+    <div class="slider-row">
+      <div class="lbl"><span>Ḍabṭ (hafalan)</span><b data-role="dhabt-val">${n.dhabt}</b></div>
+      <input type="range" class="dhabt-range" min="0" max="100" value="${n.dhabt}">
+    </div>
+    <div class="flags">
+      <label><input type="checkbox" class="menyelisihi-chk" ${n.menyelisihi?'checked':''}> Menyelisihi mayoritas rawi lain dari guru yang sama</label>
+      <label>Titik temu (opsional) <input type="text" class="titik-input" placeholder="mis. Budi" value="${n.titikTemu}"></label>
+    </div>
+    ${chain.narrators.length>1 ? `<button class="remove-narrator" data-chain="${chain.id}" data-n="${n.id}">Hapus rawi</button>` : ''}
+  </div>`;
+}
+
+function updateBadgeAndVerdict(){
+  // lightweight refresh of badges + numeric labels without full re-render (keeps focus)
+  document.querySelectorAll('.narrator-card').forEach(card=>{
+    const chain = state.chains.find(x=>x.id===card.dataset.chain);
+    const n = chain.narrators.find(x=>x.id===card.dataset.n);
+    const s = narratorStatus(n);
+    const badge = card.querySelector('[data-role=badge]');
+    badge.className = 'status-badge t'+s.tier;
+    badge.textContent = s.label;
+    card.querySelector('[data-role=adalah-val]').textContent = n.adalah;
+    card.querySelector('[data-role=dhabt-val]').textContent = n.dhabt;
+  });
+  renderVerdict();
+}
+
+function renderVerdict(){
+  const box = document.getElementById('verdictBox');
+  const {results, note, upgraded} = overallVerdict();
+  let html = `<h3>Hukum gabungan</h3>`;
+  html += results.map(r=>`<div class="verdict-chain"><span>${r.chain.label}</span><span>${r.v.label}</span></div>`).join('');
+  if(note){
+    html += `<p style="margin-top:12px;${upgraded?'color:var(--sage);':'color:var(--brick);'}">${note}</p>`;
+  } else if(results.length===1){
+    html += `<p style="margin-top:12px;">Tambahkan jalur lain (mutāba‘ah) untuk melihat apakah kelemahan jalur ini bisa terangkat atau justru terbukti berasal dari satu sumber yang sama.</p>`;
+  }
+  box.innerHTML = html;
+}
+
+function renderAll(){
+  renderTabs();
+  renderChainPanels();
+  renderVerdict();
+}
+
+/* ---------- PRESET: Jali, Asep, Aco ---------- */
+document.getElementById('loadPreset').addEventListener('click',()=>{
+  chainCounter = 0; narratorCounter = 0;
+  state = { chains:[
+    newChain('Jalur Jali', [
+      newNarrator('Budi','Tabi\' Tabi\'in',35,35),
+      newNarrator('Jali','Angkatan ke-4',75,45),
+      newNarrator('Perawi Kitab A','Mukharrij (penulis kitab)',85,80),
+    ]),
+    newChain('Jalur Asep', [
+      newNarrator('Budi','Tabi\' Tabi\'in',35,35),
+      newNarrator('Asep','Angkatan ke-4',70,42),
+      newNarrator('Perawi Kitab B','Mukharrij (penulis kitab)',85,80),
+    ]),
+    newChain('Jalur Aco', [
+      newNarrator('Budi','Tabi\' Tabi\'in',35,35),
+      newNarrator('Aco','Angkatan ke-4',72,40),
+      newNarrator('Perawi Kitab C','Mukharrij (penulis kitab)',85,80),
+    ]),
+  ]};
+  // mark the shared weak point
+  state.chains.forEach(c=>{ c.narrators[0].titikTemu = 'Budi'; });
+  activeChain = state.chains[0].id;
+  renderAll();
+});
+
+renderAccordion();
+renderAll();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

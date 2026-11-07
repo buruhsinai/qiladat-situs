@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Meja Kerja — Ekstraksi Fenol-Kloroform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0F1E2B; --bench:#16283A; --panel:#1D3348; --ink:#E7EEF3; --ink-soft:#9BB0C0;
+    --blue:#2E7DB8; --blue-bright:#5CA8DA; --line:#2C4A63;
+    --good:#3FA66B; --warn:#D9A441; --bad:#D9564A; --steel:#7C8FA0;
+    --aqueous:#BFE3F0; --interphase:#F2EFE4; --organic:#E8B4A0; --emulsion:#D7D2C4; --pellet:#EAF3F7;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;line-height:1.6;}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .wrap{max-width:820px;margin:0 auto;padding:0 20px 80px;}
+  header.hero{padding:44px 20px 30px;border-bottom:1px solid var(--line);}
+  .eyebrow{color:var(--blue-bright);font-size:0.85rem;margin:0 0 6px;font-weight:600;letter-spacing:0.02em;}
+  h1{font-size:clamp(1.5rem,4vw,2.1rem);margin:0 0 10px;font-weight:700;}
+  .lede{max-width:600px;color:var(--ink-soft);font-size:1rem;margin:0;}
+
+  .progress{display:flex;gap:4px;margin:24px auto 0;max-width:820px;padding:0 20px;}
+  .progress .seg{flex:1;height:4px;background:var(--line);border-radius:2px;}
+  .progress .seg.done{background:var(--blue-bright);}
+  .progress .seg.current{background:var(--good);}
+
+  .stage{padding:36px 0;}
+  .bench-row{display:grid;grid-template-columns:1fr 280px;gap:22px;margin-top:18px;}
+  @media (max-width:680px){.bench-row{grid-template-columns:1fr;}}
+
+  .bench{background:var(--bench);border:1px solid var(--line);border-radius:10px;padding:20px;min-height:300px;display:flex;align-items:center;justify-content:center;}
+  svg{display:block;max-width:100%;}
+
+  .side{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px;}
+  .side h3{font-size:0.95rem;margin:0 0 10px;color:var(--blue-bright);}
+  .side p{font-size:0.85rem;color:var(--ink-soft);margin:0 0 12px;}
+  .field{margin-bottom:14px;}
+  .field label{display:block;font-size:0.78rem;color:var(--ink-soft);margin-bottom:5px;}
+  .field input[type=range]{width:100%;accent-color:var(--blue-bright);}
+  .field .value{font-family:'JetBrains Mono',monospace;color:var(--blue-bright);font-weight:600;}
+
+  button{font-family:'Space Grotesk',sans-serif;background:var(--blue);color:#fff;border:none;padding:10px 18px;border-radius:6px;font-size:0.85rem;cursor:pointer;font-weight:600;}
+  button:hover:not(:disabled){background:var(--blue-bright);}
+  button:disabled{opacity:0.35;cursor:not-allowed;}
+  button.secondary{background:transparent;border:1px solid var(--blue);color:var(--blue-bright);}
+  button.choice{background:var(--panel);border:1px solid var(--line);color:var(--ink);}
+  button.choice.active{background:var(--blue);border-color:var(--blue);color:#fff;}
+  .btn-row{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;}
+
+  .protocol-title{font-size:1.15rem;font-weight:700;margin:0 0 4px;}
+  .protocol-note{color:var(--ink-soft);font-size:0.9rem;margin:0 0 4px;}
+
+  .timer-display{font-family:'JetBrains Mono',monospace;font-size:1.6rem;color:var(--warn);text-align:center;margin-top:10px;}
+  .status-line{text-align:center;font-size:0.85rem;color:var(--ink-soft);margin-top:6px;}
+  .status-line.risk{color:var(--bad);}
+
+  .result-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px;}
+  .result-card{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:16px;text-align:center;}
+  .result-card .n{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;color:var(--blue-bright);}
+  .result-card .label{font-size:0.72rem;color:var(--ink-soft);margin-top:4px;}
+  .verdict{margin-top:18px;padding:16px 18px;border-radius:8px;font-size:0.95rem;}
+  .verdict.good{background:rgba(63,166,107,0.15);border:1px solid var(--good);color:#B8E6C8;}
+  .verdict.warn{background:rgba(217,164,65,0.15);border:1px solid var(--warn);color:#F0D9A0;}
+  .verdict.bad{background:rgba(217,86,74,0.15);border:1px solid var(--bad);color:#F2B8B2;}
+
+  footer{padding:26px 20px;text-align:center;color:var(--ink-soft);font-size:0.8rem;border-top:1px solid var(--line);}
+  a{color:var(--blue-bright);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">WET LAB TOOLS · Alat 004 — Simulasi Pengalaman</p>
+    <h1>Meja Kerja: Ekstraksi Fenol-Kloroform</h1>
+    <p class="lede">Protokol klasik biologi molekuler dengan momen paling menegangkan di semua ekstraksi asam nukleat: memindahkan fase cair tepat di atas garis interphase, tanpa menyentuhnya.</p>
+  </div>
+</header>
+
+<div class="progress" id="progress"></div>
+
+<div class="wrap">
+  <div class="stage" id="stage"></div>
+</div>
+
+<footer>Wet Lab Tools · Simulasi konseptual untuk pembelajaran, bukan pengganti pelatihan laboratorium sungguhan</footer>
+
+<script>
+(function(){
+  const STAGE = document.getElementById('stage');
+  const PROGRESS = document.getElementById('progress');
+  const STEP_COUNT = 10;
+  let step = 0;
+  let extractionSlider = 60;
+  let didSecondExtraction = null;
+  let temp = 'dingin';
+  let precipTime = 20;
+  let didWash = null;
+  let eluteVolume = 50;
+
+  function renderProgress(){
+    PROGRESS.innerHTML='';
+    for(let i=0;i<STEP_COUNT;i++){
+      const seg = document.createElement('div');
+      seg.className = 'seg' + (i<step?' done':(i===step?' current':''));
+      PROGRESS.appendChild(seg);
+    }
+  }
+
+  function simpleTube(color,h){
+    return '<svg viewBox="0 0 200 260" width="170"><rect x="70" y="20" width="60" height="180" rx="10" fill="none" stroke="#7C8FA0" stroke-width="3"/>'+
+      '<clipPath id="c1"><rect x="72" y="22" width="56" height="176" rx="8"/></clipPath>'+
+      '<g clip-path="url(#c1)"><rect x="72" y="'+(198-h)+'" width="56" height="'+h+'" fill="'+color+'"/></g></svg>';
+  }
+
+  function layeredTube(topH, midH, botH, pipetteY){
+    const totalH = topH+midH+botH;
+    const baseY = 198;
+    const topY = baseY-totalH;
+    const midY = topY+topH;
+    const botY = midY+midH;
+    let pipette='';
+    if(pipetteY!==undefined){
+      pipette = '<line x1="65" y1="10" x2="65" y2="'+pipetteY+'" stroke="#C9CFB8" stroke-width="4"/>'+
+                '<circle cx="65" cy="'+pipetteY+'" r="3" fill="#F2EFE4"/>'+
+                '<line x1="55" y1="'+pipetteY+'" x2="145" y2="'+pipetteY+'" stroke="#F2EFE4" stroke-width="1" stroke-dasharray="3 3" opacity="0.6"/>';
+    }
+    return '<svg viewBox="0 0 200 260" width="170"><rect x="70" y="20" width="60" height="180" rx="10" fill="none" stroke="#7C8FA0" stroke-width="3"/>'+
+      '<clipPath id="c2"><rect x="72" y="22" width="56" height="176" rx="8"/></clipPath>'+
+      '<g clip-path="url(#c2)">'+
+      (topH>0?'<rect x="72" y="'+topY+'" width="56" height="'+topH+'" fill="var(--aqueous)"/>':'')+
+      (midH>0?'<rect x="72" y="'+midY+'" width="56" height="'+midH+'" fill="var(--interphase)"/>':'')+
+      (botH>0?'<rect x="72" y="'+botY+'" width="56" height="'+botH+'" fill="var(--organic)"/>':'')+
+      '</g>'+pipette+'</svg>';
+  }
+
+  function renderStep(){
+    renderProgress();
+    let html='';
+
+    if(step===0){
+      html+='<h2 class="protocol-title">Ekstraksi Fenol-Kloroform</h2>';
+      html+='<p class="protocol-note">Sampel lisat sel/jaringan sudah siap. Anda akan memisahkan asam nukleat dari protein memakai fenol-kloroform — protokol tertua dan paling "manual" dalam biologi molekuler, di mana ketepatan tangan sungguh menentukan hasil.</p>';
+      html+='<div class="btn-row"><button id="btn-start">Mulai Protokol →</button></div>';
+    }
+
+    else if(step===1){
+      html+=bench('Langkah 1 — Tambahkan Fenol:Kloroform',
+        'Tambahkan larutan fenol:kloroform (1:1) ke lisat, lalu vortex kuat hingga terbentuk emulsi keruh merata.',
+        '🧪 Tambahkan &amp; Vortex');
+    }
+    else if(step===2){
+      html+=bench('Langkah 2 — Sentrifugasi Pemisahan Fase',
+        'Sentrifugasi memisahkan campuran menjadi tiga lapisan: fase air bening di atas (berisi asam nukleat), interphase putih tipis di tengah (protein), dan fase organik di bawah (fenol-kloroform).',
+        '🌀 Jalankan Sentrifuga (12.000×g, 5 menit)');
+    }
+    else if(step===3){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 3 — Ekstraksi Fase Air</h3>'+
+        '<p>Ambil fase air dengan pipet <strong>tanpa menyentuh interphase</strong>. Semakin dalam Anda mengambil, semakin banyak yield — tapi risiko ikut menyedot protein dari interphase juga meningkat.</p>'+
+        '<div class="field"><label>Kedalaman pengambilan — <span class="value" id="extract-val">60</span>%</label>'+
+        '<input type="range" id="extract-slider" min="20" max="100" step="1" value="60"></div>'+
+        '<div class="status-line" id="risk-preview"></div>'+
+        '<div class="btn-row"><button id="btn-action">🧫 Ambil Fase Air ke Tabung Baru</button></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+    else if(step===4){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 4 — Ekstraksi Kedua? (Opsional)</h3>'+
+        '<p>Mengulang ekstraksi dengan kloroform saja akan menghilangkan sisa fenol yang mungkin masih terbawa — tapi memakan waktu tambahan dan berisiko kehilangan sedikit yield.</p>'+
+        '<div class="btn-row">'+
+        '<button class="choice" id="btn-yes">Ya, ekstraksi kedua</button>'+
+        '<button class="choice" id="btn-no">Lewati, langsung presipitasi</button>'+
+        '</div></div></div>';
+    }
+    else if(step===5){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 5 — Presipitasi Etanol</h3>'+
+        '<p>Tambahkan garam (natrium asetat) dan etanol. Suhu dan waktu inkubasi menentukan seberapa lengkap asam nukleat mengendap.</p>'+
+        '<div class="field"><label>Suhu inkubasi</label>'+
+        '<div class="btn-row">'+
+        '<button class="choice" data-temp="dingin">❄ Dingin (-20°C)</button>'+
+        '<button class="choice" data-temp="ruang">🌡 Suhu Ruang</button>'+
+        '<button class="choice" data-temp="hangat">🔥 Hangat (37°C)</button>'+
+        '</div></div>'+
+        '<div class="field"><label>Waktu inkubasi — <span class="value" id="precip-time-val">20</span> menit</label>'+
+        '<input type="range" id="precip-time" min="5" max="60" step="5" value="20"></div>'+
+        '<div class="btn-row"><button id="btn-action">🧊 Inkubasi</button></div>'+
+        '<div class="timer-display" id="timer-display"></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+    else if(step===6){
+      html+=bench('Langkah 6 — Sentrifugasi Pelet',
+        'Sentrifugasi mengendapkan asam nukleat yang sudah mengendap menjadi pelet kecil bening keputihan di dasar tabung.',
+        '🌀 Jalankan Sentrifuga (15.000×g, 15 menit)');
+    }
+    else if(step===7){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 7 — Cuci dengan Etanol 70%?</h3>'+
+        '<p>Mencuci pelet dengan etanol 70% membilas sisa garam yang menempel. Melewatkan langkah ini menghemat waktu tapi akan menurunkan rasio kemurnian A260/A230.</p>'+
+        '<div class="btn-row">'+
+        '<button class="choice" id="btn-wash-yes">Cuci dengan etanol 70%</button>'+
+        '<button class="choice" id="btn-wash-no">Lewati pencucian</button>'+
+        '</div></div></div>';
+    }
+    else if(step===8){
+      html+='<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+        '<h3>Langkah 8 — Keringkan &amp; Larutkan Kembali</h3>'+
+        '<p>Setelah pelet mengering dari sisa etanol, larutkan kembali dalam buffer TE atau air. Volume kecil → pekat. Volume besar → lebih encer tapi mudah dipipet.</p>'+
+        '<div class="field"><label>Volume pelarutan — <span class="value" id="elute-vol-val">50</span> µL</label>'+
+        '<input type="range" id="elute-vol" min="15" max="150" step="5" value="50"></div>'+
+        '<div class="btn-row"><button id="btn-action">🧬 Larutkan Kembali</button></div>'+
+        '<div class="status-line" id="status-line"></div>'+
+        '</div></div>';
+    }
+    else if(step===9){
+      const contamRisk = extractionSlider>70 ? (extractionSlider-70)/30 : 0;
+      const recovery = 0.5+0.5*(extractionSlider/100);
+      const secondExtractionBonus = didSecondExtraction ? 0.15 : 0;
+      const secondExtractionYieldPenalty = didSecondExtraction ? 0.05 : 0;
+
+      const tempFactor = temp==='dingin' ? 1.0 : (temp==='ruang' ? 0.75 : 0.5);
+      const timeFactor = Math.min(1, precipTime/30);
+      const precipEfficiency = tempFactor*(0.5+0.5*timeFactor);
+
+      const washPenalty = didWash ? 0 : 0.25;
+
+      const purity280 = Math.max(1.3, Math.min(1.9, 1.85 - contamRisk*0.5 + secondExtractionBonus*0.2));
+      const purity230 = Math.max(1.2, Math.min(2.3, 2.2 - contamRisk*0.6 - washPenalty - (didSecondExtraction?0:0.15)));
+
+      const baseYield = 5000 * recovery * precipEfficiency * (1-secondExtractionYieldPenalty);
+      const finalYield = baseYield;
+      const finalConc = finalYield/eluteVolume;
+
+      let verdictClass='good', verdictText='Hasil bersih — rasio kemurnian dan yield berada di kisaran yang layak dipakai untuk aplikasi hilir seperti PCR atau kloning.';
+      if(contamRisk>0.5 || purity230<1.7 || precipEfficiency<0.5){
+        verdictClass='bad';
+        verdictText='Ada kontaminasi atau yield rendah yang cukup signifikan. Kemungkinan penyebab: pengambilan fase air terlalu dalam (menyentuh interphase), presipitasi tidak cukup dingin/lama, atau pencucian etanol dilewati.';
+      } else if(contamRisk>0.2 || purity230<2.0 || precipEfficiency<0.75){
+        verdictClass='warn';
+        verdictText='Hasil masih dapat dipakai, tapi belum optimal. Coba turunkan kedalaman pengambilan fase air, gunakan suhu dingin untuk presipitasi, dan jangan lewati pencucian etanol.';
+      }
+
+      html+='<h2 class="protocol-title">Hasil Akhir</h2>';
+      html+='<div class="result-grid">'+
+        '<div class="result-card"><div class="n">'+finalConc.toFixed(1)+' ng/µL</div><div class="label">KONSENTRASI</div></div>'+
+        '<div class="result-card"><div class="n">'+purity280.toFixed(2)+'</div><div class="label">A260/A280</div></div>'+
+        '<div class="result-card"><div class="n">'+purity230.toFixed(2)+'</div><div class="label">A260/A230</div></div>'+
+        '<div class="result-card"><div class="n">'+finalYield.toFixed(0)+' ng</div><div class="label">TOTAL YIELD</div></div>'+
+        '</div>';
+      html+='<div class="verdict '+verdictClass+'">'+verdictText+'</div>';
+      html+='<div class="btn-row"><button id="btn-restart">↺ Ulangi dari Awal</button></div>';
+    }
+
+    STAGE.innerHTML=html;
+    attach();
+  }
+
+  function bench(title, desc, actionLabel){
+    return '<div class="bench-row"><div class="bench" id="bench-vis"></div><div class="side">'+
+      '<h3>'+title+'</h3><p>'+desc+'</p>'+
+      '<div class="btn-row"><button id="btn-action">'+actionLabel+'</button></div>'+
+      '<div class="timer-display" id="timer-display"></div>'+
+      '<div class="status-line" id="status-line"></div>'+
+      '</div></div>';
+  }
+
+  function nextBtn(target, label){
+    const nb=document.createElement('button');
+    nb.textContent=label||'Lanjut →';
+    document.querySelector('#stage .btn-row').appendChild(nb);
+    nb.addEventListener('click', ()=>{ step=target; renderStep(); });
+  }
+
+  function attach(){
+    if(step===0){
+      document.getElementById('btn-start').addEventListener('click', ()=>{ step=1; renderStep(); });
+    }
+    if(step===1){
+      document.getElementById('bench-vis').innerHTML = simpleTube('var(--aqueous)',100);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        let t=0;
+        const iv=setInterval(()=>{
+          t++;
+          document.getElementById('bench-vis').innerHTML = simpleTube('var(--emulsion)',120);
+          if(t>=5){ clearInterval(iv); document.getElementById('status-line').textContent='Emulsi keruh terbentuk merata.'; nextBtn(2); }
+        },150);
+      });
+    }
+    if(step===2){
+      document.getElementById('bench-vis').innerHTML = simpleTube('var(--emulsion)',120);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        document.getElementById('status-line').textContent='Berputar…';
+        let t=0;
+        const iv=setInterval(()=>{
+          t++;
+          if(t>=8){
+            clearInterval(iv);
+            document.getElementById('bench-vis').innerHTML = layeredTube(60,10,50);
+            document.getElementById('status-line').textContent='Tiga lapisan terpisah jelas: air (atas), interphase putih (tengah), organik (bawah).';
+            nextBtn(3);
+          }
+        },100);
+      });
+    }
+    if(step===3){
+      const topH=60, midH=10, botH=50;
+      const topY = 198-(topH+midH+botH);
+      function pipetteYFromSlider(v){
+        // v=20 (safe, far above interphase) .. 100 (right at interphase)
+        const minY = topY+6;
+        const maxY = topY+topH-2; // near interphase boundary
+        return minY + ((v-20)/80)*(maxY-minY);
+      }
+      function render(v){
+        document.getElementById('bench-vis').innerHTML = layeredTube(topH,midH,botH, pipetteYFromSlider(v));
+        const risk = document.getElementById('risk-preview');
+        if(v>70){ risk.className='status-line risk'; risk.textContent='⚠ Ujung pipet mendekati/menyentuh interphase — risiko kontaminasi protein.'; }
+        else { risk.className='status-line'; risk.textContent='Aman — masih jauh dari interphase.'; }
+      }
+      render(60);
+      const slider = document.getElementById('extract-slider');
+      const val = document.getElementById('extract-val');
+      slider.addEventListener('input', ()=>{ val.textContent=slider.value; render(parseInt(slider.value,10)); });
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        extractionSlider = parseInt(slider.value,10);
+        document.getElementById('bench-vis').innerHTML = simpleTube('var(--aqueous)',90);
+        document.getElementById('status-line').textContent = extractionSlider>70 ? 'Fase air dipindahkan — sejumlah interphase kemungkinan ikut terbawa.' : 'Fase air dipindahkan dengan bersih.';
+        nextBtn(4);
+      });
+    }
+    if(step===4){
+      document.getElementById('bench-vis').innerHTML = simpleTube('var(--aqueous)',90);
+      document.getElementById('btn-yes').addEventListener('click', ()=>{ didSecondExtraction=true; step=5; renderStep(); });
+      document.getElementById('btn-no').addEventListener('click', ()=>{ didSecondExtraction=false; step=5; renderStep(); });
+    }
+    if(step===5){
+      document.getElementById('bench-vis').innerHTML = simpleTube('var(--aqueous)',90);
+      document.querySelectorAll('[data-temp]').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          document.querySelectorAll('[data-temp]').forEach(b=>b.classList.remove('active'));
+          btn.classList.add('active'); temp = btn.dataset.temp;
+        });
+      });
+      document.querySelector('[data-temp="dingin"]').classList.add('active');
+      const timeS = document.getElementById('precip-time');
+      const timeVal = document.getElementById('precip-time-val');
+      timeS.addEventListener('input', ()=> timeVal.textContent = timeS.value);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        precipTime = parseInt(timeS.value,10);
+        let elapsed=0; const dur=2200;
+        const iv=setInterval(()=>{
+          elapsed+=100;
+          document.getElementById('timer-display').textContent = Math.round((elapsed/dur)*precipTime)+' menit';
+          if(elapsed>=dur){
+            clearInterval(iv);
+            document.getElementById('bench-vis').innerHTML = simpleTube('var(--aqueous)',110);
+            document.getElementById('status-line').textContent = temp==='dingin' ? 'Untaian halus asam nukleat mulai terlihat mengendap.' : 'Presipitasi berjalan, tapi kurang optimal pada suhu ini.';
+            nextBtn(6);
+          }
+        },100);
+      });
+    }
+    if(step===6){
+      document.getElementById('bench-vis').innerHTML = simpleTube('var(--aqueous)',110);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        document.getElementById('status-line').textContent='Berputar…';
+        let t=0;
+        const iv=setInterval(()=>{
+          t++;
+          if(t>=8){
+            clearInterval(iv);
+            document.getElementById('bench-vis').innerHTML = simpleTube('var(--aqueous)',0)+ '<div style="text-align:center;color:#9BB0C0;font-size:0.8rem;margin-top:6px;">Pelet kecil bening keputihan terlihat di dasar tabung</div>';
+            document.getElementById('status-line').textContent='Supernatan dibuang, pelet DNA/RNA tersisa di dasar.';
+            nextBtn(7);
+          }
+        },100);
+      });
+    }
+    if(step===7){
+      document.getElementById('bench-vis').innerHTML = simpleTube('var(--aqueous)',0);
+      document.getElementById('btn-wash-yes').addEventListener('click', ()=>{ didWash=true; step=8; renderStep(); });
+      document.getElementById('btn-wash-no').addEventListener('click', ()=>{ didWash=false; step=8; renderStep(); });
+    }
+    if(step===8){
+      document.getElementById('bench-vis').innerHTML = simpleTube('var(--aqueous)',0);
+      const eluteS = document.getElementById('elute-vol');
+      const eluteVal = document.getElementById('elute-vol-val');
+      eluteS.addEventListener('input', ()=> eluteVal.textContent = eluteS.value);
+      document.getElementById('btn-action').addEventListener('click', function(){
+        this.disabled=true;
+        eluteVolume = parseInt(eluteS.value,10);
+        document.getElementById('bench-vis').innerHTML = simpleTube('var(--aqueous)', 30+eluteVolume*0.5);
+        document.getElementById('status-line').textContent='Pelet larut kembali menjadi larutan akhir.';
+        nextBtn(9,'Lihat Hasil →');
+      });
+    }
+    if(step===9){
+      document.getElementById('btn-restart').addEventListener('click', ()=>{
+        step=0; extractionSlider=60; didSecondExtraction=null; temp='dingin'; precipTime=20; didWash=null; eluteVolume=50;
+        renderStep();
+      });
+    }
+  }
+
+  renderStep();
+})();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

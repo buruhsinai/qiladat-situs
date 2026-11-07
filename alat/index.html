@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alat — JAZMI</title>
+<meta name="description" content="Alat JAZMI — kumpulan halaman interaktif (kalkulator, simulator, generator, dan alat peraga) yang dihimpun berdasarkan kategori keilmuan.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="alat.css">
+</head>
+<body>
+
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+
+<!-- ================= HEADER / NAVIGASI (disalin persis dari kontrak C01, 6.1) ================= -->
+<header class="site-header" id="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text">
+        <span class="wordmark-main">JAZMI</span>
+        <span class="wordmark-sub">Jalinan Zamrud Islamiah</span>
+      </span>
+    </a>
+
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi">
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+      <span class="nav-toggle-bar"></span>
+    </button>
+
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/artikel/">Artikel</a></li>
+        <li><a href="/dien/" data-domain="dien">Dien</a></li>
+        <li><a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a></li>
+        <li><a href="/sains/" data-domain="sains">Sains</a></li>
+        <li><a href="/produk/">Produk</a></li>
+        <li><a href="/alat/" class="is-active">Alat</a></li>
+        <li><a href="/arsip/">Arsip</a></li>
+        <li><a href="/info/">Info</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="konten-utama">
+
+  <!-- ================= BREADCRUMB ================= -->
+  <nav class="breadcrumb" aria-label="Jejak navigasi">
+    <div class="section-inner breadcrumb-inner">
+      <a href="/">Home</a>
+      <span class="breadcrumb-sep" aria-hidden="true">/</span>
+      <span aria-current="page">Alat</span>
+    </div>
+  </nav>
+
+  <!-- ================= HERO ALAT ================= -->
+  <section class="domain-hero">
+    <div class="section-inner domain-hero-inner">
+      <p class="domain-eyebrow">Laboratorium Interaktif</p>
+      <h1 class="domain-title">Alat JAZMI</h1>
+      <p class="domain-desc">Kumpulan halaman interaktif — kalkulator, simulator, generator, dan alat peraga — yang dibangun untuk membantu belajar lewat mencoba, bukan sekadar membaca. Setiap alat berdiri sendiri (satu file, tanpa server), dihimpun berdasarkan ranah keilmuannya.</p>
+
+      <!-- Angka di bawah dihitung otomatis dari data/alat-manifest.json saat halaman dimuat -->
+      <div class="stat-strip">
+        <div class="stat-card">
+          <p class="stat-number" id="statTotalAlat">—</p>
+          <p class="stat-label">Total alat interaktif</p>
+        </div>
+        <div class="stat-card">
+          <p class="stat-number" id="statTotalKategori">—</p>
+          <p class="stat-label">Kategori keilmuan</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PENCARIAN ALAT (dari alat-manifest.json) ================= -->
+  <section class="section alat-cari" aria-labelledby="cari-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">Cari</p>
+        <h2 class="section-title" id="cari-heading">Cari Alat</h2>
+        <p class="section-desc">Ketik sepotong kata — misalnya &ldquo;kurir&rdquo;, &ldquo;orbit&rdquo;, atau &ldquo;fiqh&rdquo; — untuk menampilkan alat yang namanya memuat kata itu.</p>
+      </div>
+
+      <div class="cari-box" role="search">
+        <label class="cari-label" for="cariInput">Kata kunci</label>
+        <div class="cari-field">
+          <input type="search" id="cariInput" class="cari-input" placeholder="Cari nama alat…" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" disabled>
+          <button type="button" class="cari-clear" id="cariClear" aria-label="Hapus pencarian" hidden>&times;</button>
+        </div>
+        <p class="cari-status" id="cariStatus" role="status" aria-live="polite"></p>
+      </div>
+
+      <ul class="cari-hasil" id="cariHasil" hidden>
+        <!-- diisi JavaScript -->
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= RAGAM KATEGORI (dinamis, dari alat-manifest.json) ================= -->
+  <section class="section" aria-labelledby="kategori-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">01 — Ragam</p>
+        <h2 class="section-title" id="kategori-heading">Kategori Alat</h2>
+        <p class="section-desc">Pilih kategori untuk melihat daftar alat di dalamnya, lengkap dengan jumlah masing-masing.</p>
+      </div>
+
+      <p class="data-empty-note" id="kategoriStateLoading">Memuat kategori…</p>
+      <p class="data-empty-note" id="kategoriStateError" hidden>Data kategori belum dapat dimuat. Coba muat ulang halaman ini beberapa saat lagi.</p>
+      <p class="data-empty-note" id="kategoriStateEmpty" hidden>Belum ada alat yang dapat ditampilkan saat ini.</p>
+
+      <div class="kategori-grid" id="kategoriGrid" hidden>
+        <!-- diisi JavaScript dari data/alat-manifest.json -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= JELAJAHI LEBIH LANJUT ================= -->
+  <section class="section section-alt" aria-labelledby="relasi-heading">
+    <div class="section-inner">
+      <div class="section-head">
+        <p class="section-eyebrow">02 — Jelajahi Lebih Lanjut</p>
+        <h2 class="section-title" id="relasi-heading">Ranah Lain JAZMI</h2>
+        <p class="section-desc">Alat ini melengkapi ranah lain yang sudah ada di JAZMI.</p>
+      </div>
+
+      <div class="relasi-block">
+        <a class="btn btn-outline" href="/sains/">Sains JAZMI →</a>
+        <a class="btn btn-outline" href="/produk/">Produk JAZMI →</a>
+        <a class="btn btn-outline" href="/artikel/">Baca Artikel JAZMI →</a>
+        <a class="btn btn-outline" href="/">Kembali ke Beranda →</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER (disalin dari HOME/C13 — path disesuaikan) ================= -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-identity">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <div>
+        <p class="footer-title">JAZMI</p>
+        <p class="footer-sub">Jalinan Zamrud Islamiah</p>
+      </div>
+    </div>
+
+    <nav class="footer-nav" aria-label="Tautan footer">
+      <a href="/dien/" data-domain="dien">Dien</a>
+      <a href="/kesehatan/" data-domain="kesehatan">Kesehatan</a>
+      <a href="/sains/" data-domain="sains">Sains</a>
+      <a href="/artikel/">Artikel</a>
+      <a href="/arsip/">Arsip</a>
+      <a href="/produk/">Produk</a>
+      <a href="/alat/">Alat</a>
+      <a href="/info/">Info</a>
+    </nav>
+
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah.</p>
+  </div>
+</footer>
+
+<script src="alat.js"></script>
+</body>
+</html>

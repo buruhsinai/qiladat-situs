@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulator Jam Air Archimedes</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Karla:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#14161D;--panel:#1A1D27;--panel2:#22252D;--ink:#E9E7DE;--dim:#A6AAB2;--dimmer:#6D717A;
+--line:rgba(233,231,222,.1);--blue:#5B9BD5;--amber:#CBA134;--green:#3FAE7A;--red:#C4634F;
+--bsoft:rgba(91,155,213,.14);--gsoft:rgba(63,174,122,.14);--rsoft:rgba(196,99,79,.14);}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Karla',sans-serif;line-height:1.65}
+.mono{font-family:'JetBrains Mono',monospace}
+h1,h2,h3{font-family:'Fraunces',serif;font-weight:500;margin:0}
+.wrap{max-width:720px;margin:0 auto;padding:30px 18px 70px}
+.kicker{font-size:.85rem;color:var(--blue);font-weight:600;margin-bottom:14px}
+h1{font-size:1.5rem;line-height:1.3;margin-bottom:12px}
+header p{color:var(--dim);font-size:.95rem}
+section{padding:36px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:none}
+h2{font-size:1.2rem;margin-bottom:12px}
+p{margin:0 0 14px;color:var(--dim)}
+.lab{background:linear-gradient(180deg,var(--panel),var(--panel2));border:1px solid var(--line);border-radius:18px;padding:22px 20px;margin:16px 0}
+.slider-row label{display:flex;justify-content:space-between;font-size:.84rem;color:var(--dimmer);margin-bottom:8px}
+input[type=range]{width:100%;-webkit-appearance:none;height:4px;border-radius:4px;background:var(--line)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--blue);border:3px solid var(--bg);cursor:pointer}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:4px}
+.btn{padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--dim);font-size:.82rem;cursor:pointer}
+.btn.active{background:var(--bsoft);border-color:var(--blue);color:var(--blue);font-weight:600}
+.stage{display:flex;gap:18px;flex-wrap:wrap;align-items:flex-start;margin-top:16px}
+canvas#vessel{background:rgba(0,0,0,.2);border-radius:12px;border:1px solid var(--line)}
+canvas#chart{width:100%;background:rgba(0,0,0,.2);border-radius:12px;border:1px solid var(--line);margin-top:14px}
+.readout-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:14px}
+.ro{background:rgba(0,0,0,.18);border-radius:10px;padding:10px 12px}
+.ro .k{font-size:.72rem;color:var(--dimmer);margin-bottom:3px}
+.ro .v{font-family:'Fraunces',serif;font-size:1.05rem}
+.legend{display:flex;gap:16px;flex-wrap:wrap;font-size:.78rem;color:var(--dimmer);margin-top:8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:14px;height:3px;border-radius:2px;display:inline-block}
+.result-box{padding:16px 18px;border-radius:12px;margin-top:14px;border:1px solid}
+.rb-ok{background:var(--gsoft);border-color:rgba(63,174,122,.4)}
+.rb-info{background:var(--bsoft);border-color:rgba(91,155,213,.4)}
+.result-box .k{font-size:.76rem;color:var(--dimmer);margin-bottom:6px}
+.result-box .v{font-family:'Fraunces',serif;font-size:1.1rem}
+footer{margin-top:30px;font-size:.8rem;color:var(--dimmer)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <p class="kicker">Laboratorium JAZMI — Rekayasa Klasik</p>
+  <h1>Simulator Jam Air Archimedes</h1>
+  <p>Dalam manuskrip Arab <i>Kitab Arshimidas fi 'Amal al-Binkamat</i> ("Kitab Archimedes tentang Konstruksi Jam Air"), bejana jam air jarang berbentuk silinder polos. Tool ini mensimulasikan alasan fisisnya: kenapa bentuk bejana harus dirancang khusus agar air turun dengan kecepatan yang benar-benar konstan — bukan sekadar hiasan geometris.</p>
+</header>
+
+<section id="sim">
+  <h2>1. Rancang Bejanamu, Lihat Airnya Turun</h2>
+  <p>Air keluar dari lubang di dasar bejana mengikuti hukum Torricelli: makin tinggi air, makin deras alirannya. Geser parameter di bawah untuk melihat langsung bagaimana bentuk bejana menentukan apakah permukaan air turun rata (linear) atau melengkung.</p>
+
+  <div class="lab">
+    <div class="slider-row">
+      <label>Diameter lubang keluar (mm) <span id="dPos" class="mono"></span></label>
+      <input type="range" id="dSlider" min="1" max="15" step="0.5" value="5">
+    </div>
+    <div class="slider-row">
+      <label>Tinggi air awal (cm) <span id="hPos" class="mono"></span></label>
+      <input type="range" id="hSlider" min="10" max="60" step="1" value="30">
+    </div>
+    <div class="slider-row">
+      <label>Radius bejana di permukaan awal (cm) <span id="rPos" class="mono"></span></label>
+      <input type="range" id="rSlider" min="3" max="15" step="0.5" value="8">
+    </div>
+
+    <div class="slider-row" style="margin-top:6px;">
+      <label>Bentuk profil bejana</label>
+    </div>
+    <div class="btn-row" id="shapeBtns">
+      <button class="btn active" data-n="0">Silinder biasa</button>
+      <button class="btn" data-n="0.25">Kerucut Terkompensasi</button>
+      <button class="btn" data-n="custom">Custom</button>
+    </div>
+    <div id="customRow" style="display:none;margin-top:12px;">
+      <div class="slider-row">
+        <label>Eksponen profil n — r(h) = r₀·(h/h₀)ⁿ <span id="nPos" class="mono"></span></label>
+        <input type="range" id="nSlider" min="0" max="0.6" step="0.01" value="0.25">
+      </div>
+    </div>
+
+    <div class="stage">
+      <canvas id="vessel" width="180" height="260"></canvas>
+      <div style="flex:1;min-width:220px;">
+        <canvas id="chart" height="180"></canvas>
+        <div class="legend">
+          <span><span class="sw" style="background:var(--blue);"></span>Ketinggian air aktual</span>
+          <span><span class="sw" style="background:var(--dimmer);border-top:1px dashed var(--dimmer);height:0;"></span>Referensi garis lurus ideal</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="slider-row" style="margin-top:16px;">
+      <label>Putar waktu <span id="tPos" class="mono"></span></label>
+      <input type="range" id="timeSlider" min="0" max="1000" step="1" value="0">
+    </div>
+    <div class="btn-row">
+      <button class="btn" id="btnPlay">▶ Putar</button>
+      <button class="btn" id="btnReset">Ulangi dari Awal</button>
+    </div>
+
+    <div class="readout-grid">
+      <div class="ro"><div class="k">Total waktu mengalir</div><div class="v" id="roTotal">–</div></div>
+      <div class="ro"><div class="k">Laju alir saat ini</div><div class="v" id="roFlow">–</div></div>
+      <div class="ro"><div class="k">Penyimpangan dari garis lurus</div><div class="v" id="roLin">–</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="teori">
+  <h2>2. Kenapa Eksponen 0,25 Istimewa?</h2>
+  <p>Debit keluar sebanding dengan akar ketinggian air: Q ∝ √h (hukum Torricelli). Supaya permukaan air turun dengan laju tetap (dh/dt konstan), luas penampang bejana pada ketinggian h harus mengimbangi tepat akar itu: A(h) ∝ √h, yang berarti jari-jari bejana r(h) ∝ h<sup>1/4</sup>. Coba geser tombol "Custom" ke atas dan bawah 0,25 — perhatikan kurva biru di grafik melengkung ke arah berlawanan begitu Anda melewatinya.</p>
+  <div class="result-box rb-info" id="qConstBox"></div>
+</section>
+
+<footer>Bagian dari Laboratorium JAZMI — dibangun mengikuti metode "Belajar → Memodelkan → Menguji → Membuat Tool".</footer>
+</div>
+
+<script>
+const Cd = 0.6, g = 9.81;
+let pts = [];
+let totalT = 0;
+let playTimer = null;
+let currentN = 0;
+
+function simulate(dMm, h0cm, r0cm, n){
+  const a = Math.PI * Math.pow(dMm/2000, 2);
+  const h0 = h0cm/100, r0 = r0cm/100;
+  const A0 = Math.PI * r0*r0;
+  const Test = (A0/(Cd*a)) * Math.sqrt(2*h0/g);
+  const dt = Math.max(Test/2000, 0.001);
+  const maxSteps = 8000;
+  let h = h0, t = 0;
+  const arr = [{t:0,h:h0}];
+  let steps = 0;
+  while(h > h0*0.002 && steps < maxSteps){
+    const r = r0 * Math.pow(Math.max(h,1e-9)/h0, n);
+    const A = Math.PI*r*r;
+    const Q = Cd*a*Math.sqrt(2*g*Math.max(h,0));
+    const dh = -(Q/A)*dt;
+    h = Math.max(0, h+dh);
+    t += dt;
+    arr.push({t,h});
+    steps++;
+  }
+  return arr;
+}
+
+function fmtTime(s){
+  if(s < 90) return s.toFixed(1)+' dtk';
+  const m = Math.floor(s/60), sec = Math.round(s%60);
+  return `${m} mnt ${sec} dtk`;
+}
+
+function recompute(){
+  const dMm = +document.getElementById('dSlider').value;
+  const h0cm = +document.getElementById('hSlider').value;
+  const r0cm = +document.getElementById('rSlider').value;
+  document.getElementById('dPos').textContent = dMm+' mm';
+  document.getElementById('hPos').textContent = h0cm+' cm';
+  document.getElementById('rPos').textContent = r0cm+' cm';
+
+  pts = simulate(dMm, h0cm, r0cm, currentN);
+  totalT = pts[pts.length-1].t;
+  document.getElementById('roTotal').textContent = fmtTime(totalT);
+
+  // linearity error: mean abs deviation from ideal straight line, normalized by h0
+  const h0m = h0cm/100;
+  let sumDev = 0;
+  pts.forEach(p=>{
+    const idealH = h0m * (1 - p.t/totalT);
+    sumDev += Math.abs(p.h - idealH);
+  });
+  const avgDevPct = (sumDev/pts.length)/h0m*100;
+  document.getElementById('roLin').textContent = avgDevPct.toFixed(1)+'%';
+
+  // Q at h0 for constant-head explanation
+  const a = Math.PI * Math.pow(dMm/2000, 2);
+  const Q0 = Cd*a*Math.sqrt(2*g*h0m); // m3/s
+  const Q0mLs = Q0*1e6;
+  document.getElementById('qConstBox').innerHTML =
+    `<div class="k">Jika dipasok dari tangki berkepala tetap (overflow) alih-alih bejana yang mengering sendiri</div>
+     <div class="v">Debit akan konstan di ≈ ${Q0mLs.toFixed(1)} mL/detik sepanjang waktu — pendekatan lain yang sama-sama dipakai insinyur klasik selain mengubah bentuk bejana.</div>`;
+
+  drawVessel(r0cm, h0cm, currentN);
+  const timeSlider = document.getElementById('timeSlider');
+  timeSlider.value = 0;
+  renderAtFraction(0);
+}
+
+function drawVessel(r0cm, h0cm, n){
+  const canvas = document.getElementById('vessel');
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  const marginTop = 20, marginBottom = 20;
+  const usableH = H - marginTop - marginBottom;
+  const maxR = r0cm; // widest point at top for n>=0 (since r increases with h)
+  const scale = (W/2 - 14) / Math.max(maxR, 1);
+
+  ctx.clearRect(0,0,W,H);
+  ctx.strokeStyle = 'rgba(233,231,222,.35)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  const N = 40;
+  for(let i=0;i<=N;i++){
+    const hFrac = i/N;
+    const hCm = hFrac*h0cm;
+    const r = r0cm * Math.pow(Math.max(hFrac,0.0001), n);
+    const x = W/2 + r*scale;
+    const y = marginTop + (1-hFrac)*usableH;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  for(let i=N;i>=0;i--){
+    const hFrac = i/N;
+    const r = r0cm * Math.pow(Math.max(hFrac,0.0001), n);
+    const x = W/2 - r*scale;
+    const y = marginTop + (1-hFrac)*usableH;
+    ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.stroke();
+
+  // orifice mark
+  ctx.fillStyle = 'var(--amber)'.startsWith('var') ? '#CBA134' : '#CBA134';
+  ctx.beginPath();
+  ctx.arc(W/2, marginTop+usableH+2, 3, 0, 7);
+  ctx.fill();
+
+  canvas._geom = {marginTop, usableH, scale, r0cm, h0cm, n};
+}
+
+function drawWaterAndChart(hCurrentCm, fraction){
+  const canvas = document.getElementById('vessel');
+  const ctx = canvas.getContext('2d');
+  const {marginTop, usableH, scale, r0cm, h0cm, n} = canvas._geom;
+  const W = canvas.width;
+
+  drawVessel(r0cm, h0cm, n);
+
+  const hFracLevel = hCurrentCm/h0cm;
+  ctx.fillStyle = 'rgba(91,155,213,0.35)';
+  ctx.beginPath();
+  const N = 24;
+  const yTop = marginTop + (1-hFracLevel)*usableH;
+  for(let i=0;i<=N;i++){
+    const hf = hFracLevel*(i/N);
+    const r = r0cm*Math.pow(Math.max(hf,0.0001), n);
+    const x = W/2 + r*scale;
+    const y = marginTop + (1-hf)*usableH;
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  }
+  for(let i=N;i>=0;i--){
+    const hf = hFracLevel*(i/N);
+    const r = r0cm*Math.pow(Math.max(hf,0.0001), n);
+    const x = W/2 - r*scale;
+    const y = marginTop + (1-hf)*usableH;
+    ctx.lineTo(x,y);
+  }
+  ctx.closePath();
+  ctx.fill();
+  ctx.strokeStyle = '#5B9BD5';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.moveTo(W/2 - r0cm*Math.pow(Math.max(hFracLevel,0.0001),n)*scale, yTop);
+  ctx.lineTo(W/2 + r0cm*Math.pow(Math.max(hFracLevel,0.0001),n)*scale, yTop);
+  ctx.stroke();
+
+  drawChart(fraction);
+}
+
+function drawChart(fraction){
+  const canvas = document.getElementById('chart');
+  canvas.width = canvas.clientWidth || 400;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  const pad = 22;
+  const h0m = pts[0].h;
+
+  ctx.strokeStyle = 'rgba(233,231,222,.15)';
+  ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,H-pad); ctx.lineTo(W-pad,H-pad); ctx.stroke();
+
+  // ideal linear reference
+  ctx.strokeStyle = '#6D717A';
+  ctx.setLineDash([4,4]);
+  ctx.beginPath();
+  ctx.moveTo(pad, pad);
+  ctx.lineTo(W-pad, H-pad);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // actual curve
+  ctx.strokeStyle = '#5B9BD5';
+  ctx.lineWidth = 1.8;
+  ctx.beginPath();
+  pts.forEach((p,i)=>{
+    const x = pad + (p.t/totalT)*(W-2*pad);
+    const y = pad + (1-p.h/h0m)*(H-2*pad);
+    if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+  });
+  ctx.stroke();
+
+  // marker
+  const mx = pad + fraction*(W-2*pad);
+  const idx = Math.min(pts.length-1, Math.round(fraction*(pts.length-1)));
+  const my = pad + (1-pts[idx].h/h0m)*(H-2*pad);
+  ctx.fillStyle = '#F5C28B';
+  ctx.beginPath(); ctx.arc(mx,my,4,0,7); ctx.fill();
+}
+
+function renderAtFraction(fraction){
+  const idx = Math.min(pts.length-1, Math.round(fraction*(pts.length-1)));
+  const p = pts[idx];
+  const hCm = p.h*100;
+  const canvas = document.getElementById('vessel');
+  drawWaterAndChart(hCm, fraction);
+
+  document.getElementById('tPos').textContent = fmtTime(p.t)+` / ${fmtTime(totalT)}`;
+  const dMm = +document.getElementById('dSlider').value;
+  const a = Math.PI * Math.pow(dMm/2000, 2);
+  const Q = Cd*a*Math.sqrt(2*g*Math.max(p.h,0));
+  document.getElementById('roFlow').textContent = (Q*1e6).toFixed(2)+' mL/dtk';
+}
+
+document.getElementById('timeSlider').addEventListener('input', (e)=>{
+  renderAtFraction((+e.target.value)/1000);
+});
+document.getElementById('btnReset').addEventListener('click', ()=>{
+  stopPlay();
+  document.getElementById('timeSlider').value = 0;
+  renderAtFraction(0);
+});
+function stopPlay(){
+  if(playTimer){ clearInterval(playTimer); playTimer=null; }
+  document.getElementById('btnPlay').textContent = '▶ Putar';
+}
+document.getElementById('btnPlay').addEventListener('click', (e)=>{
+  if(playTimer){ stopPlay(); return; }
+  e.target.textContent = '⏸ Jeda';
+  const slider = document.getElementById('timeSlider');
+  playTimer = setInterval(()=>{
+    let v = +slider.value + 6;
+    if(v >= 1000){ v = 1000; stopPlay(); }
+    slider.value = v;
+    renderAtFraction(v/1000);
+  }, 40);
+});
+
+document.querySelectorAll('#shapeBtns .btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('#shapeBtns .btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const val = btn.dataset.n;
+    if(val === 'custom'){
+      document.getElementById('customRow').style.display = 'block';
+      currentN = +document.getElementById('nSlider').value;
+    } else {
+      document.getElementById('customRow').style.display = 'none';
+      currentN = +val;
+    }
+    recompute();
+  });
+});
+document.getElementById('nSlider').addEventListener('input', (e)=>{
+  currentN = +e.target.value;
+  document.getElementById('nPos').textContent = currentN.toFixed(2);
+  recompute();
+});
+document.getElementById('nPos').textContent = '0.25';
+
+['dSlider','hSlider','rSlider'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', recompute);
+});
+
+recompute();
+</script>
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>

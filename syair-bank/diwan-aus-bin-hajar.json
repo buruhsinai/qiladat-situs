@@ -1,0 +1,622 @@
+{
+ "_catatan": "BANK DIWAN #002 — Aus bin Hajar (2 qasidah dari aldiwan.net: poem368 dan poem361). Dibuat 24 Okt 2026 (T1, Mode Cepat). 11 bait, semuanya 'dipublikasikan'; bait bertanda DUGAAN: dicatat di metadataKurasi.catatanVerifikasi. Hanya bait yang berpotensi bagus diambil; sisanya sengaja dilewati. Harakat mengikuti aldiwan; terjemahan Indonesia disusun sendiri. Skor kurasi dikosongkan. jenis 'pilihan-diwan' = usulan v2.1.",
+ "kitab": [
+  {
+   "id": "kitab-diwan-aus-tankkarat",
+   "judulArab": "تَنَكَّرَتْ مِنَّا بَعْدَ مَعْرِفَةٍ لَمِي",
+   "judulLatin": "Tanakkarat Minnā ba'da Ma'rifatin Lami",
+   "penyairMatanId": "penyair-aus-bin-hajar",
+   "penulisSyarahId": null,
+   "periode": "Era Jahiliyah",
+   "jenis": "Qasidah (diwan) — pilihan dari aldiwan.net",
+   "jumlahBait": null,
+   "sumber": "aldiwan.net — https://www.aldiwan.net/poem368.html",
+   "status": "diseleksi",
+   "prioritas": "sedang",
+   "catatan": "Qasidah panjang; hanya bait pilihan. Jumlah total bait belum dihitung. Bait di bank: 7."
+  },
+  {
+   "id": "kitab-diwan-aus-abadulayjah",
+   "judulArab": "أَبَا دُلَيْجَةَ مَنْ لِحَيٍّ مُفْرَدِ",
+   "judulLatin": "Abā Dulayjata man li-Ḥayyin Mufradin",
+   "penyairMatanId": "penyair-aus-bin-hajar",
+   "penulisSyarahId": null,
+   "periode": "Era Jahiliyah",
+   "jenis": "Qasidah (diwan) — pilihan dari aldiwan.net",
+   "jumlahBait": null,
+   "sumber": "aldiwan.net — https://www.aldiwan.net/poem361.html",
+   "status": "diseleksi",
+   "prioritas": "sedang",
+   "catatan": "Qasidah pendek (8 baris di halaman); hanya bait yang jelas dan layak diambil. Konteks qasidah belum ditelusuri. Bait di bank: 4."
+  }
+ ],
+ "penyair": [
+  {
+   "id": "penyair-aus-bin-hajar",
+   "namaArab": "أوس بن حجر",
+   "namaLatin": "Aus bin Hajar",
+   "periode": "Era Jahiliyah",
+   "infoSingkat": null,
+   "catatan": "Atribusi tiap qasidah mengikuti aldiwan.net; belum diverifikasi ke sumber lain."
+  }
+ ],
+ "bait": [
+  {
+   "id": "bait-diwan-aus-bin-hajar-001",
+   "kitabId": "kitab-diwan-aus-tankkarat",
+   "urutanBank": 1,
+   "teksArab": "تَنَكَّرَتْ مِنَّا بَعْدَ مَعْرِفَةٍ لَمِي ... وَبَعْدَ التَّصَابِي وَالشَّبَابِ الْمُكَرَّمِ",
+   "syatrA": "تَنَكَّرَتْ مِنَّا بَعْدَ مَعْرِفَةٍ لَمِي",
+   "syatrB": "وَبَعْدَ التَّصَابِي وَالشَّبَابِ الْمُكَرَّمِ",
+   "terjemahan": "Lama menjadi asing bagi kami setelah sempat saling mengenal, setelah masa bercanda dan masa muda yang mulia.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-aus-bin-hajar",
+   "tagIds": [
+    "tag-syair",
+    "tag-jahiliyah",
+    "tag-rindu"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Tanakkarat Minnā ba'da Ma'rifatin Lami",
+    "halamanPdf": null,
+    "bagianBab": "Pembuka: kenangan masa muda",
+    "nomorSumber": 1,
+    "catatan": "URL: https://www.aldiwan.net/poem368.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 70,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Pembuka: kenangan masa muda",
+    "alasanRekomendasi": "Pembuka qasidah yang lembut tentang jarak setelah kedekatan.",
+    "catatanVerifikasi": "DUGAAN: 'تنكرت' dibaca sebagai 'dia (Lama) menjadi asing' berdasarkan judul halaman; Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-aus-bin-hajar-002",
+   "kitabId": "kitab-diwan-aus-tankkarat",
+   "urutanBank": 2,
+   "teksArab": "يَحُلُّ بِأَوْعَارٍ وَسَهْلٍ بُيُوتُهُ ... لِمَنْ نَابَهُ مِنْ مُسْتَجِيرٍ وَمُنْعِمِ",
+   "syatrA": "يَحُلُّ بِأَوْعَارٍ وَسَهْلٍ بُيُوتُهُ",
+   "syatrB": "لِمَنْ نَابَهُ مِنْ مُسْتَجِيرٍ وَمُنْعِمِ",
+   "terjemahan": "Kemahnya berdiri di tanah berbatu maupun tanah datar, bagi siapa saja yang datang kepadanya, baik yang meminta perlindungan maupun yang mengharap kebaikan.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-aus-bin-hajar",
+   "tagIds": [
+    "tag-syair",
+    "tag-jahiliyah",
+    "tag-kedermawanan",
+    "tag-pujian"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Tanakkarat Minnā ba'da Ma'rifatin Lami",
+    "halamanPdf": null,
+    "bagianBab": "Pujian: keramahan dan perlindungan",
+    "nomorSumber": 10,
+    "catatan": "URL: https://www.aldiwan.net/poem368.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 70,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Pujian: keramahan dan perlindungan",
+    "alasanRekomendasi": "Gambaran tuan rumah yang pintunya terbuka di medan sulit maupun mudah.",
+    "catatanVerifikasi": "DUGAAN: makna 'مُنْعِم' diterjemahkan 'yang mengharap kebaikan'; Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-aus-bin-hajar-003",
+   "kitabId": "kitab-diwan-aus-tankkarat",
+   "urutanBank": 3,
+   "teksArab": "فَعِنْدِي قُرُوضُ الْخَيْرِ وَالشَّرِّ كُلِّهِ ... فَبُؤْسَى لَدَى بُؤْسَى وَنُعْمَى لِأَنْعُمِ",
+   "syatrA": "فَعِنْدِي قُرُوضُ الْخَيْرِ وَالشَّرِّ كُلِّهِ",
+   "syatrB": "فَبُؤْسَى لَدَى بُؤْسَى وَنُعْمَى لِأَنْعُمِ",
+   "terjemahan": "Padaku ada balasan untuk kebaikan dan keburukan semuanya: kesusahan bagi yang menyusahkan, dan nikmat bagi yang memberi nikmat.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-aus-bin-hajar",
+   "tagIds": [
+    "tag-syair",
+    "tag-jahiliyah",
+    "tag-hikmah",
+    "tag-akhlak"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Tanakkarat Minnā ba'da Ma'rifatin Lami",
+    "halamanPdf": null,
+    "bagianBab": "Hikmah: balasan setimpal",
+    "nomorSumber": 22,
+    "catatan": "URL: https://www.aldiwan.net/poem368.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 85,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Hikmah: balasan setimpal",
+    "alasanRekomendasi": "Prinsip timbal balik yang ringkas dan mudah dihafal.",
+    "catatanVerifikasi": "Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-aus-bin-hajar-004",
+   "kitabId": "kitab-diwan-aus-tankkarat",
+   "urutanBank": 4,
+   "teksArab": "فَإِنَّا وَجَدْنَا الْعِرْضَ أَحْوَجَ سَاعَةٍ ... إِلَى الصَّوْنِ مِنْ رَيْطٍ يَمَانٍ مُسَهَّمِ",
+   "syatrA": "فَإِنَّا وَجَدْنَا الْعِرْضَ أَحْوَجَ سَاعَةٍ",
+   "syatrB": "إِلَى الصَّوْنِ مِنْ رَيْطٍ يَمَانٍ مُسَهَّمِ",
+   "terjemahan": "Sungguh kami dapati kehormatan diri lebih membutuhkan penjagaan, pada saat kapan pun, daripada kain Yaman bergaris yang mahal.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-aus-bin-hajar",
+   "tagIds": [
+    "tag-syair",
+    "tag-jahiliyah",
+    "tag-hikmah",
+    "tag-akhlak"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Tanakkarat Minnā ba'da Ma'rifatin Lami",
+    "halamanPdf": null,
+    "bagianBab": "Hikmah: menjaga kehormatan",
+    "nomorSumber": 26,
+    "catatan": "URL: https://www.aldiwan.net/poem368.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 70,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Hikmah: menjaga kehormatan",
+    "alasanRekomendasi": "Perumpamaan kuat: kehormatan lebih patut dijaga daripada pakaian mahal.",
+    "catatanVerifikasi": "DUGAAN: harakat 'أَحْوَجَ سَاعَةٍ' (apakah 'سَاعَةً') mengikuti dugaan tata bahasa; Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-aus-bin-hajar-005",
+   "kitabId": "kitab-diwan-aus-tankkarat",
+   "urutanBank": 5,
+   "teksArab": "تَرَكْتُ الْخَبِيثَ لَمْ أُشَارِكْ وَلَمْ أَذِقْ ... وَلَكِنْ أَعَفَّ اللهُ مَالِي وَمَطْعَمِي",
+   "syatrA": "تَرَكْتُ الْخَبِيثَ لَمْ أُشَارِكْ وَلَمْ أَذِقْ",
+   "syatrB": "وَلَكِنْ أَعَفَّ اللهُ مَالِي وَمَطْعَمِي",
+   "terjemahan": "Kutinggalkan yang kotor, tidak ikut serta dan tidak mencicipinya; tetapi Allah menjaga kesucian hartaku dan makananku.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-aus-bin-hajar",
+   "tagIds": [
+    "tag-syair",
+    "tag-jahiliyah",
+    "tag-hikmah",
+    "tag-akhlak"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Tanakkarat Minnā ba'da Ma'rifatin Lami",
+    "halamanPdf": null,
+    "bagianBab": "Hikmah: menjaga harta dan makanan yang bersih",
+    "nomorSumber": 32,
+    "catatan": "URL: https://www.aldiwan.net/poem368.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 85,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Hikmah: menjaga harta dan makanan yang bersih",
+    "alasanRekomendasi": "Prinsip kehati-hatian dalam harta dan makanan yang mudah dipahami.",
+    "catatanVerifikasi": "Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-aus-bin-hajar-006",
+   "kitabId": "kitab-diwan-aus-tankkarat",
+   "urutanBank": 6,
+   "teksArab": "بَنِيَّ وَمَالِي دُونَ عِرْضِي مُسَلَّمٌ ... وَقَوْلِي كَوَقْعِ الْمَشْرَفِيِّ الْمُصَمَّمِ",
+   "syatrA": "بَنِيَّ وَمَالِي دُونَ عِرْضِي مُسَلَّمٌ",
+   "syatrB": "وَقَوْلِي كَوَقْعِ الْمَشْرَفِيِّ الْمُصَمَّمِ",
+   "terjemahan": "Anak-anakku dan hartaku kuserahkan demi menjaga kehormatanku, dan ucapanku bagai hantaman pedang Masyrafi yang tajam.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-aus-bin-hajar",
+   "tagIds": [
+    "tag-syair",
+    "tag-jahiliyah",
+    "tag-fakhr",
+    "tag-hamasah"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Tanakkarat Minnā ba'da Ma'rifatin Lami",
+    "halamanPdf": null,
+    "bagianBab": "Fakhr: harta dan keluarga demi kehormatan",
+    "nomorSumber": 41,
+    "catatan": "URL: https://www.aldiwan.net/poem368.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 85,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Fakhr: harta dan keluarga demi kehormatan",
+    "alasanRekomendasi": "Kebanggaan yang tegas dengan citra pedang yang kuat.",
+    "catatanVerifikasi": "Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-aus-bin-hajar-007",
+   "kitabId": "kitab-diwan-aus-tankkarat",
+   "urutanBank": 7,
+   "teksArab": "تَجِدْنِي مِنْ أَشْرَافِهِمْ وَخِيَارِهِمْ ... حَفِيظاً عَلَى عَوْرَاتِهِمْ غَيْرَ مُجْرِمِ",
+   "syatrA": "تَجِدْنِي مِنْ أَشْرَافِهِمْ وَخِيَارِهِمْ",
+   "syatrB": "حَفِيظاً عَلَى عَوْرَاتِهِمْ غَيْرَ مُجْرِمِ",
+   "terjemahan": "Engkau akan mendapatiku di antara para bangsawan dan yang terbaik dari mereka, penjaga aib-aib mereka, bukan pelaku kejahatan.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-aus-bin-hajar",
+   "tagIds": [
+    "tag-syair",
+    "tag-jahiliyah",
+    "tag-fakhr",
+    "tag-akhlak"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Tanakkarat Minnā ba'da Ma'rifatin Lami",
+    "halamanPdf": null,
+    "bagianBab": "Fakhr: menjaga aib kaumnya",
+    "nomorSumber": 45,
+    "catatan": "URL: https://www.aldiwan.net/poem368.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 85,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Fakhr: menjaga aib kaumnya",
+    "alasanRekomendasi": "Kebanggaan yang berakhlak: kemuliaan berarti menutup aib, bukan menyebarkannya.",
+    "catatanVerifikasi": "Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-aus-bin-hajar-008",
+   "kitabId": "kitab-diwan-aus-abadulayjah",
+   "urutanBank": 8,
+   "teksArab": "وَإِذَا ذَكَرْتُ أَبَا دُلَيْجَةَ أَسْبَلَتْ ... عَيْنِي فَبَلَّ وَكِيفُهَا سِرْبَالِي",
+   "syatrA": "وَإِذَا ذَكَرْتُ أَبَا دُلَيْجَةَ أَسْبَلَتْ",
+   "syatrB": "عَيْنِي فَبَلَّ وَكِيفُهَا سِرْبَالِي",
+   "terjemahan": "Setiap kali kuingat Abu Dulaijah, mataku mencurahkan air mata hingga alirannya membasahi bajuku.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-aus-bin-hajar",
+   "tagIds": [
+    "tag-syair",
+    "tag-jahiliyah",
+    "tag-ratsa"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Abā Dulayjata man li-Ḥayyin Mufradin",
+    "halamanPdf": null,
+    "bagianBab": "Ratsa': mengenang sahabat",
+    "nomorSumber": 2,
+    "catatan": "URL: https://www.aldiwan.net/poem361.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 70,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Ratsa': mengenang sahabat",
+    "alasanRekomendasi": "Ungkapan duka yang sederhana dan menyentuh.",
+    "catatanVerifikasi": "DUGAAN: 'وَكِيفُهَا' dibaca 'alirannya' (dari وكف); Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-aus-bin-hajar-009",
+   "kitabId": "kitab-diwan-aus-abadulayjah",
+   "urutanBank": 9,
+   "teksArab": "لَا زَالَ رَيْحَانٌ وَفَغْوٌ نَاضِرٌ ... يَجْرِي عَلَيْكَ بِمُسْبِلٍ هَطَّالِ",
+   "syatrA": "لَا زَالَ رَيْحَانٌ وَفَغْوٌ نَاضِرٌ",
+   "syatrB": "يَجْرِي عَلَيْكَ بِمُسْبِلٍ هَطَّالِ",
+   "terjemahan": "Semoga tak henti-henti tumbuh tanaman harum dan bunga yang segar, mengalir atasmu bersama hujan lebat yang deras.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-aus-bin-hajar",
+   "tagIds": [
+    "tag-syair",
+    "tag-jahiliyah",
+    "tag-ratsa"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Abā Dulayjata man li-Ḥayyin Mufradin",
+    "halamanPdf": null,
+    "bagianBab": "Ratsa': doa agar kuburan dihujani rahmat",
+    "nomorSumber": 5,
+    "catatan": "URL: https://www.aldiwan.net/poem361.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 70,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Ratsa': doa agar kuburan dihujani rahmat",
+    "alasanRekomendasi": "Doa yang indah dengan citra hujan dan tumbuhan.",
+    "catatanVerifikasi": "DUGAAN: makna 'فَغْو' (jenis bunga) dan konteks doa untuk yang telah tiada ditebak dari rangkaian bait; Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-aus-bin-hajar-010",
+   "kitabId": "kitab-diwan-aus-abadulayjah",
+   "urutanBank": 10,
+   "teksArab": "فَلَنِعْمَ رِفْدُ الْحَيِّ يَنْتَظِرُونَهُ ... وَلَنِعْمَ حَشْوُ الدِّرْعِ وَالسِّرْبَالِ",
+   "syatrA": "فَلَنِعْمَ رِفْدُ الْحَيِّ يَنْتَظِرُونَهُ",
+   "syatrB": "وَلَنِعْمَ حَشْوُ الدِّرْعِ وَالسِّرْبَالِ",
+   "terjemahan": "Sebaik-baik penolong bagi kabilah yang menantikannya, dan sebaik-baik orang yang mengisi baju zirah dan pakaian perang.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-aus-bin-hajar",
+   "tagIds": [
+    "tag-syair",
+    "tag-jahiliyah",
+    "tag-pujian",
+    "tag-hamasah"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Abā Dulayjata man li-Ḥayyin Mufradin",
+    "halamanPdf": null,
+    "bagianBab": "Pujian: penolong kaumnya",
+    "nomorSumber": 6,
+    "catatan": "URL: https://www.aldiwan.net/poem361.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 85,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Pujian: penolong kaumnya",
+    "alasanRekomendasi": "Pujian ringkas untuk lelaki yang diandalkan kaumnya.",
+    "catatanVerifikasi": "Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  },
+  {
+   "id": "bait-diwan-aus-bin-hajar-011",
+   "kitabId": "kitab-diwan-aus-abadulayjah",
+   "urutanBank": 11,
+   "teksArab": "وَلَنِعْمَ مَأْوَى الْمُسْتَضِيفِ إِذَا دَعَا ... وَالْخَيْلُ خَارِجَةٌ مِنَ الْقَسْطَالِ",
+   "syatrA": "وَلَنِعْمَ مَأْوَى الْمُسْتَضِيفِ إِذَا دَعَا",
+   "syatrB": "وَالْخَيْلُ خَارِجَةٌ مِنَ الْقَسْطَالِ",
+   "terjemahan": "Dan sebaik-baik tempat bernaung bagi tamu ketika ia memanggil, sementara pasukan berkuda keluar dari debu pertempuran.",
+   "statusTerjemahan": "ada",
+   "status": "dipublikasikan",
+   "jenis": "pilihan-diwan",
+   "penyairId": "penyair-aus-bin-hajar",
+   "tagIds": [
+    "tag-syair",
+    "tag-jahiliyah",
+    "tag-pujian",
+    "tag-kedermawanan"
+   ],
+   "seriesIds": [],
+   "sumberReferensi": {
+    "sumber": "aldiwan.net — Abā Dulayjata man li-Ḥayyin Mufradin",
+    "halamanPdf": null,
+    "bagianBab": "Pujian: pelindung tamu",
+    "nomorSumber": 7,
+    "catatan": "URL: https://www.aldiwan.net/poem361.html (nomorSumber = urutan baris pada halaman, bukan nomor bait baku)"
+   },
+   "metadataKurasi": {
+    "textConfidence": 85,
+    "sourceConfidence": 70,
+    "literaryStrength": null,
+    "meaningStrength": null,
+    "meaningDensity": null,
+    "learningPotential": null,
+    "recommendationScore": null,
+    "tema": "Pujian: pelindung tamu",
+    "alasanRekomendasi": "Keramahan yang tetap terjaga bahkan di tengah peperangan.",
+    "catatanVerifikasi": "Transkripsi dibaca dari gambar PDF aldiwan (24 Okt 2026); harakat mengikuti sumber."
+   },
+   "outputTerkait": {
+    "artikelId": null,
+    "audioUrl": null,
+    "videoUrl": null,
+    "gambarUrl": null,
+    "halamanDetail": null
+   },
+   "catatan": null
+  }
+ ],
+ "tag": [
+  {
+   "id": "tag-syair",
+   "nama": "Syair",
+   "slug": "syair",
+   "deskripsi": null
+  },
+  {
+   "id": "tag-jahiliyah",
+   "nama": "Jahiliyah",
+   "slug": "jahiliyah",
+   "deskripsi": "Bait dari penyair era Jahiliyah."
+  },
+  {
+   "id": "tag-fakhr",
+   "nama": "Fakhr",
+   "slug": "fakhr",
+   "deskripsi": "Bait kebanggaan diri/kabilah."
+  },
+  {
+   "id": "tag-hamasah",
+   "nama": "Hamasah",
+   "slug": "hamasah",
+   "deskripsi": "Bait keberanian dan medan perang."
+  },
+  {
+   "id": "tag-hikmah",
+   "nama": "Hikmah",
+   "slug": "hikmah",
+   "deskripsi": "Bait berisi pelajaran hidup."
+  },
+  {
+   "id": "tag-rindu",
+   "nama": "Rindu",
+   "slug": "rindu",
+   "deskripsi": "Bait bertema rindu dan perpisahan."
+  },
+  {
+   "id": "tag-pujian",
+   "nama": "Pujian",
+   "slug": "pujian",
+   "deskripsi": "Bait pujian dan doa kepada seseorang."
+  },
+  {
+   "id": "tag-ratsa",
+   "nama": "Ratsa'",
+   "slug": "ratsa",
+   "deskripsi": "Bait ratapan dan doa untuk orang yang telah tiada."
+  },
+  {
+   "id": "tag-akhlak",
+   "nama": "Akhlak",
+   "slug": "akhlak",
+   "deskripsi": "Bait tentang kehormatan diri dan perangai luhur."
+  },
+  {
+   "id": "tag-kedermawanan",
+   "nama": "Kedermawanan",
+   "slug": "kedermawanan",
+   "deskripsi": "Bait tentang kemurahan hati dan keramahan kepada tamu."
+  }
+ ],
+ "series": []
+}

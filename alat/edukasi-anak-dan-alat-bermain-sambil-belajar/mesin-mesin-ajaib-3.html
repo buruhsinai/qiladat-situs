@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mesin-Mesin Ajaib 3</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#fdf6e8; --card:#ffffff; --line:#f0e2c4;
+    --ink:#3a3226; --dim:#8a7c62;
+    --accent:#7a5fa8; --accent-soft:#ece5f5;
+    --display:'Fredoka',sans-serif; --sans:'Quicksand',sans-serif; --mono:'JetBrains Mono',monospace;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);line-height:1.6;}
+  .wrap{max-width:520px;margin:0 auto;padding:0 18px 70px;}
+
+  .hero{padding:36px 10px 18px;text-align:center;}
+  .hero h1{font-family:var(--display);font-weight:700;font-size:clamp(24px,6.5vw,32px);margin:0 0 8px;color:#4a3068;}
+  .hero p{color:var(--dim);font-size:14px;max-width:440px;margin:0 auto;}
+
+  .tab-nav{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:18px;}
+  .tab-btn{font-family:var(--display);font-weight:600;font-size:11px;background:#fff;border:2px solid var(--line);
+    color:var(--dim);padding:11px 3px;border-radius:12px;cursor:pointer;text-align:center;line-height:1.3;}
+  .tab-btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+
+  .tab-panel{display:none;}
+  .tab-panel.active{display:block;}
+
+  .card{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:20px 18px;margin-bottom:16px;}
+  .card p.desc{font-size:13.5px;color:var(--dim);margin:0 0 16px;}
+
+  .stage{position:relative;height:200px;margin-bottom:16px;}
+  .stage svg{width:100%;height:100%;}
+
+  .field{margin-bottom:16px;}
+  .field label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:12px;color:var(--dim);margin-bottom:7px;}
+  .field label .val{color:var(--accent);font-weight:700;}
+  input[type=range]{width:100%;height:4px;-webkit-appearance:none;appearance:none;background:var(--line);border-radius:4px;outline:none;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #fff;box-shadow:0 2px 4px rgba(0,0,0,.15);}
+  input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--accent);cursor:pointer;border:3px solid #fff;}
+
+  .result-panel{background:var(--accent-soft);border-radius:14px;padding:16px;text-align:center;margin-top:6px;}
+  .result-num{font-family:var(--display);font-weight:700;font-size:24px;color:#4a3068;}
+  .result-sub{font-size:12.5px;color:var(--dim);margin-top:4px;}
+  .compare-row{display:flex;justify-content:space-around;margin-top:12px;padding-top:12px;border-top:1px dashed #d6c5e8;}
+  .compare-box .n{font-family:var(--display);font-weight:700;font-size:16px;color:#4a3068;}
+  .compare-box .l{font-size:10.5px;color:var(--dim);font-family:var(--mono);}
+
+  .play-btn{width:100%;font-family:var(--display);font-weight:700;font-size:15px;padding:14px;border-radius:14px;border:none;
+    cursor:pointer;background:var(--accent);color:#fff;box-shadow:0 5px 0 rgba(0,0,0,.08);margin-top:8px;}
+  .play-btn:active{transform:translateY(3px);box-shadow:0 2px 0 rgba(0,0,0,.08);}
+
+  .note-card{background:var(--accent-soft);border-radius:14px;padding:14px 16px;font-size:12.5px;color:#4a3068;margin-top:14px;}
+  .note-card strong{color:#2f1f45;}
+
+  footer{text-align:center;padding-top:26px;color:#b9ad94;font-size:11.5px;font-family:var(--mono);}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>⚙️ Mesin-Mesin Ajaib 3</h1>
+    <p>Menuntaskan enam mesin sederhana klasik (roda &amp; as), plus tiga mekanisme seru lainnya.</p>
+  </div>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="rodaas">🎡 Roda&amp;As</button>
+    <button class="tab-btn" data-tab="hidrolik">🛢️ Hidrolik</button>
+    <button class="tab-btn" data-tab="gesekan">🧱 Gesekan</button>
+    <button class="tab-btn" data-tab="katapel">🎯 Katapel</button>
+  </div>
+
+  <!-- ===================== RODA & AS ===================== -->
+  <div class="tab-panel active" id="tab-rodaas">
+    <div class="card">
+      <p class="desc">Roda besar yang diputar menggulung tali di as yang kecil di tengahnya — seperti gagang sumur timba atau setir mobil.</p>
+      <div class="stage"><svg id="rodaasSvg" viewBox="0 0 300 200"></svg></div>
+
+      <div class="field">
+        <label>Jari-jari Roda Besar (cm) <span class="val" id="rodaasRVal">15</span></label>
+        <input type="range" id="rodaasR" min="8" max="30" value="15">
+      </div>
+      <div class="field">
+        <label>Jari-jari As Kecil (cm) <span class="val" id="rodaasrVal">3</span></label>
+        <input type="range" id="rodaasr" min="1" max="10" value="3">
+      </div>
+      <div class="field">
+        <label>Berat Beban (kg) <span class="val" id="rodaasBebanVal">30</span></label>
+        <input type="range" id="rodaasBeban" min="5" max="100" value="30">
+      </div>
+
+      <div class="result-panel">
+        <div class="result-num" id="rodaasHasil">6,0 kg</div>
+        <div class="result-sub">Gaya yang kamu butuhkan memutar roda besar</div>
+      </div>
+      <button class="play-btn" onclick="putarRodaAs()">🎡 Putar!</button>
+    </div>
+    <div class="note-card"><strong>Kenapa begitu?</strong> Tanganmu bergerak jauh lebih jauh (sekeliling roda besar) untuk setiap putaran, dibanding tali yang cuma bergulung sedikit di as yang kecil — jarak yang lebih jauh itulah yang "dibayar" dengan gaya yang lebih ringan.</div>
+  </div>
+
+  <!-- ===================== HIDROLIK ===================== -->
+  <div class="tab-panel" id="tab-hidrolik">
+    <div class="card">
+      <p class="desc">Cairan meneruskan tekanan sama rata ke segala arah — dorong piston kecil, piston besar terangkat dengan gaya berkali lipat lebih besar.</p>
+      <div class="stage"><svg id="hidrolikSvg" viewBox="0 0 300 200"></svg></div>
+
+      <div class="field">
+        <label>Luas Piston Kecil (cm²) <span class="val" id="hidrolikKecilVal">5</span></label>
+        <input type="range" id="hidrolikKecil" min="2" max="15" value="5">
+      </div>
+      <div class="field">
+        <label>Luas Piston Besar (cm²) <span class="val" id="hidrolikBesarVal">40</span></label>
+        <input type="range" id="hidrolikBesar" min="15" max="100" value="40">
+      </div>
+      <div class="field">
+        <label>Gaya Dorong Piston Kecil (kg) <span class="val" id="hidrolikGayaVal">10</span></label>
+        <input type="range" id="hidrolikGaya" min="1" max="30" value="10">
+      </div>
+
+      <div class="result-panel">
+        <div class="result-num" id="hidrolikHasil">80 kg</div>
+        <div class="result-sub">Gaya angkat yang muncul di piston besar</div>
+      </div>
+      <button class="play-btn" onclick="tekanHidrolik()">🛢️ Tekan!</button>
+    </div>
+    <div class="note-card"><strong>Kenapa bisa berlipat ganda?</strong> Prinsip ini ditemukan Blaise Pascal — tekanan zat cair itu sama di semua titik, jadi permukaan yang lebih luas menerima gaya total yang lebih besar meski tekanannya sama persis. Ini prinsip yang dipakai dongkrak mobil.</div>
+  </div>
+
+  <!-- ===================== GESEKAN ===================== -->
+  <div class="tab-panel" id="tab-gesekan">
+    <div class="card">
+      <p class="desc">Permukaan yang lebih kasar butuh gaya lebih besar untuk mulai menggeser benda di atasnya — coba ubah kekasarannya.</p>
+      <div class="stage"><svg id="gesekanSvg" viewBox="0 0 300 200"></svg></div>
+
+      <div class="field">
+        <label>Berat Benda (kg) <span class="val" id="gesekanBebanVal">10</span></label>
+        <input type="range" id="gesekanBeban" min="1" max="40" value="10">
+      </div>
+      <div class="field">
+        <label>Kekasaran Permukaan <span class="val" id="gesekanKoefVal">0.4 (sedang)</span></label>
+        <input type="range" id="gesekanKoef" min="0.1" max="1" step="0.05" value="0.4">
+      </div>
+
+      <div class="result-panel">
+        <div class="result-num" id="gesekanHasil">4,0 kg</div>
+        <div class="result-sub">Gaya minimum untuk mulai menggeser benda</div>
+      </div>
+    </div>
+    <div class="note-card"><strong>Kenapa ada gesekan?</strong> Setiap permukaan, meski kelihatan halus, punya tonjolan-tonjolan sangat kecil yang saling mengunci. Permukaan es licin karena tonjolannya sangat sedikit; aspal kasar karena tonjolannya besar dan rapat.</div>
+  </div>
+
+  <!-- ===================== KATAPEL ===================== -->
+  <div class="tab-panel" id="tab-katapel">
+    <div class="card">
+      <p class="desc">Lengan katapel menyimpan tenaga lalu melontarkannya ke proyektil — atur panjang lengan dan kekuatannya, lalu lontarkan!</p>
+      <div class="stage"><svg id="katapelSvg" viewBox="0 0 300 200"></svg></div>
+
+      <div class="field">
+        <label>Panjang Lengan (cm) <span class="val" id="katapelLenganVal">20</span></label>
+        <input type="range" id="katapelLengan" min="10" max="40" value="20">
+      </div>
+      <div class="field">
+        <label>Kekuatan Lontar <span class="val" id="katapelKuatVal">5</span></label>
+        <input type="range" id="katapelKuat" min="1" max="10" value="5">
+      </div>
+
+      <div class="result-panel">
+        <div class="result-num" id="katapelHasil">— cm</div>
+        <div class="result-sub">Perkiraan jarak lontar</div>
+      </div>
+      <button class="play-btn" onclick="lontarkanKatapel()">🎯 Lontarkan!</button>
+    </div>
+    <div class="note-card"><strong>Kenapa lengan lebih panjang melontar lebih jauh?</strong> Ujung lengan yang lebih panjang bergerak lebih cepat untuk sudut putaran yang sama — kecepatan lebih tinggi saat pelepasan itulah yang membuat proyektil terbang lebih jauh.</div>
+  </div>
+
+  <footer>Laboratorium Fisika Anak — Bank Alat JAZMI/Qiladat</footer>
+</div>
+
+<script>
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ===================== RODA & AS =====================
+  let rodaasSpinning = false;
+  function renderRodaAs(rotasi){
+    rotasi = rotasi || 0;
+    const R = parseFloat(document.getElementById('rodaasR').value);
+    const r = parseFloat(document.getElementById('rodaasr').value);
+    const beban = parseFloat(document.getElementById('rodaasBeban').value);
+    document.getElementById('rodaasRVal').textContent = R;
+    document.getElementById('rodaasrVal').textContent = r;
+    document.getElementById('rodaasBebanVal').textContent = beban;
+
+    const gaya = beban / (R/r);
+    document.getElementById('rodaasHasil').textContent = gaya.toFixed(1).replace('.',',') + ' kg';
+
+    const cx = 100, cy = 90;
+    const Rpx = 20 + R*2.2, rpx = 8 + r*2.5;
+
+    const svg = document.getElementById('rodaasSvg');
+    svg.innerHTML = `
+      <g style="transform:rotate(${rotasi}deg); transform-origin:${cx}px ${cy}px;">
+        <circle cx="${cx}" cy="${cy}" r="${Rpx}" fill="none" stroke="#7a5fa8" stroke-width="4"/>
+        <line x1="${cx}" y1="${cy-Rpx}" x2="${cx}" y2="${cy+Rpx}" stroke="#c9c0a4" stroke-width="1.5"/>
+        <line x1="${cx-Rpx}" y1="${cy}" x2="${cx+Rpx}" y2="${cy}" stroke="#c9c0a4" stroke-width="1.5"/>
+        <circle cx="${cx}" cy="${cy}" r="${rpx}" fill="#5a8a7c"/>
+      </g>
+      <line x1="${cx+rpx}" y1="${cy}" x2="230" y2="${cy}" stroke="#8a7c62" stroke-width="2"/>
+      <line x1="230" y1="${cy}" x2="230" y2="150" stroke="#8a7c62" stroke-width="2"/>
+      <rect x="216" y="150" width="28" height="24" rx="3" fill="#c9784f"/>
+      <text x="230" y="167" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#fff">${beban}kg</text>
+    `;
+  }
+  function putarRodaAs(){
+    let rot = 0;
+    const iv = setInterval(() => {
+      rot += 15;
+      renderRodaAs(rot);
+      if(rot >= 360){ clearInterval(iv); renderRodaAs(0); }
+    }, 40);
+  }
+  ['rodaasR','rodaasr','rodaasBeban'].forEach(id => document.getElementById(id).addEventListener('input', () => renderRodaAs(0)));
+
+  // ===================== HIDROLIK =====================
+  function renderHidrolik(pistonOffset){
+    pistonOffset = pistonOffset || 0;
+    const kecil = parseFloat(document.getElementById('hidrolikKecil').value);
+    const besar = parseFloat(document.getElementById('hidrolikBesar').value);
+    const gaya = parseFloat(document.getElementById('hidrolikGaya').value);
+    document.getElementById('hidrolikKecilVal').textContent = kecil;
+    document.getElementById('hidrolikBesarVal').textContent = besar;
+    document.getElementById('hidrolikGayaVal').textContent = gaya;
+
+    const gayaBesar = gaya * (besar/kecil);
+    document.getElementById('hidrolikHasil').textContent = gayaBesar.toFixed(0) + ' kg';
+
+    const wKecil = 10 + kecil*2, wBesar = 10 + Math.sqrt(besar)*7;
+    const baseY = 170;
+    const pistonKecilY = 60 + pistonOffset;
+    const pistonBesarY = 60 - pistonOffset*(kecil/besar);
+
+    const svg = document.getElementById('hidrolikSvg');
+    svg.innerHTML = `
+      <rect x="30" y="40" width="${wKecil}" height="130" fill="none" stroke="#7a5fa8" stroke-width="2"/>
+      <rect x="${230-wBesar}" y="40" width="${wBesar}" height="130" fill="none" stroke="#7a5fa8" stroke-width="2"/>
+      <rect x="30" y="${baseY-30}" width="${wKecil}" height="30" fill="#5a9cc9" opacity="0.5"/>
+      <rect x="${230-wBesar}" y="${baseY-30}" width="${wBesar}" height="30" fill="#5a9cc9" opacity="0.5"/>
+      <line x1="${30+wKecil}" y1="${baseY-15}" x2="${230-wBesar}" y2="${baseY-15}" stroke="#5a9cc9" stroke-width="8" opacity="0.5"/>
+      <rect x="28" y="${pistonKecilY}" width="${wKecil+4}" height="12" fill="#c9784f"/>
+      <rect x="${228-wBesar}" y="${pistonBesarY}" width="${wBesar+4}" height="12" fill="#c9784f"/>
+    `;
+  }
+  function tekanHidrolik(){
+    let t = 0;
+    const iv = setInterval(() => {
+      t += 3;
+      renderHidrolik(t);
+      if(t >= 60){ clearInterval(iv); setTimeout(() => renderHidrolik(0), 500); }
+    }, 30);
+  }
+  ['hidrolikKecil','hidrolikBesar','hidrolikGaya'].forEach(id => document.getElementById(id).addEventListener('input', () => renderHidrolik(0)));
+
+  // ===================== GESEKAN =====================
+  function renderGesekan(){
+    const beban = parseFloat(document.getElementById('gesekanBeban').value);
+    const koef = parseFloat(document.getElementById('gesekanKoef').value);
+    document.getElementById('gesekanBebanVal').textContent = beban;
+
+    let label = koef < 0.3 ? 'licin' : (koef < 0.6 ? 'sedang' : 'kasar');
+    document.getElementById('gesekanKoefVal').textContent = koef.toFixed(2) + ' (' + label + ')';
+
+    const gayaGesek = beban * koef;
+    document.getElementById('gesekanHasil').textContent = gayaGesek.toFixed(1).replace('.',',') + ' kg';
+
+    let tekstur = '';
+    const jumlahBump = Math.round(koef * 20);
+    for(let i=0;i<jumlahBump;i++){
+      const x = 20 + i*(260/jumlahBump);
+      tekstur += `<circle cx="${x}" cy="150" r="${1.5+koef*2}" fill="#8a7c62"/>`;
+    }
+
+    const svg = document.getElementById('gesekanSvg');
+    svg.innerHTML = `
+      <line x1="10" y1="150" x2="290" y2="150" stroke="#3a3226" stroke-width="3"/>
+      ${tekstur}
+      <rect x="120" y="110" width="60" height="40" rx="4" fill="#c9784f"/>
+      <text x="150" y="134" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="#fff">${beban}kg</text>
+      <line x1="180" y1="130" x2="215" y2="130" stroke="#7a5fa8" stroke-width="3"/>
+      <polygon points="215,124 215,136 225,130" fill="#7a5fa8"/>
+    `;
+  }
+  ['gesekanBeban','gesekanKoef'].forEach(id => document.getElementById(id).addEventListener('input', renderGesekan));
+
+  // ===================== KATAPEL =====================
+  function renderKatapel(armAngle){
+    armAngle = armAngle !== undefined ? armAngle : -60;
+    const lengan = parseFloat(document.getElementById('katapelLengan').value);
+    const kuat = parseFloat(document.getElementById('katapelKuat').value);
+    document.getElementById('katapelLenganVal').textContent = lengan;
+    document.getElementById('katapelKuatVal').textContent = kuat;
+
+    const pivotX = 70, pivotY = 150;
+    const armLenPx = 20 + lengan*3;
+    const rad = armAngle * Math.PI/180;
+    const tipX = pivotX + armLenPx*Math.cos(rad), tipY = pivotY + armLenPx*Math.sin(rad);
+
+    const svg = document.getElementById('katapelSvg');
+    svg.innerHTML = `
+      <line x1="10" y1="170" x2="290" y2="170" stroke="#8a7c62" stroke-width="2"/>
+      <polygon points="${pivotX-15},170 ${pivotX+15},170 ${pivotX},140" fill="#8a7c62"/>
+      <line x1="${pivotX}" y1="${pivotY}" x2="${tipX}" y2="${tipY}" stroke="#c9784f" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="${tipX}" cy="${tipY}" r="7" fill="#7a5fa8" id="katapelBola"/>
+    `;
+  }
+  function lontarkanKatapel(){
+    const lengan = parseFloat(document.getElementById('katapelLengan').value);
+    const kuat = parseFloat(document.getElementById('katapelKuat').value);
+    const jarak = lengan * kuat * 1.8;
+    document.getElementById('katapelHasil').textContent = jarak.toFixed(0) + ' cm';
+
+    let angle = -60;
+    const iv = setInterval(() => {
+      angle += 8;
+      renderKatapel(angle);
+      if(angle >= -10){ clearInterval(iv); animasikanBola(jarak); }
+    }, 20);
+  }
+  function animasikanBola(jarak){
+    const pivotX = 70, pivotY = 150;
+    const lengan = parseFloat(document.getElementById('katapelLengan').value);
+    const armLenPx = 20 + lengan*3;
+    const startX = pivotX + armLenPx*Math.cos(-10*Math.PI/180);
+    const startY = pivotY + armLenPx*Math.sin(-10*Math.PI/180);
+    const targetX = Math.min(280, startX + jarak*0.6);
+
+    let t = 0;
+    const svg = document.getElementById('katapelSvg');
+    const iv = setInterval(() => {
+      t += 0.05;
+      if(t > 1){ clearInterval(iv); return; }
+      const x = startX + (targetX-startX)*t;
+      const y = startY - 60*Math.sin(Math.PI*t) + 170*t*t*0.3;
+      let bola = document.getElementById('katapelBolaTerbang');
+      if(!bola){
+        bola = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        bola.setAttribute('id','katapelBolaTerbang');
+        bola.setAttribute('r','7');
+        bola.setAttribute('fill','#7a5fa8');
+        svg.appendChild(bola);
+      }
+      bola.setAttribute('cx', x);
+      bola.setAttribute('cy', Math.min(170,y));
+    }, 20);
+  }
+  ['katapelLengan','katapelKuat'].forEach(id => document.getElementById(id).addEventListener('input', () => renderKatapel()));
+
+  renderRodaAs();
+  renderHidrolik();
+  renderGesekan();
+  renderKatapel();
+</script>
+
+<script src="../alat-nav-kembali.js" defer></script>
+</body>
+</html>
