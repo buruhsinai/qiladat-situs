@@ -1,50 +1,210 @@
 {
-  "_catatan": "Data produk resmi JAZMI. Harga tidak dimuat di sini agar tidak ganda; harga ada di halaman masing-masing produk (variabel HARGA di bagian bawah halaman).",
-  "status": "resmi",
+  "versi": 2,
+  "_catatan": "SUMBER TUNGGAL data produk JAZMI. Ubah harga/status di sini, lalu jalankan toko-alat/bangun-produk.py (membuat ulang etalase, halaman produk baru, dan supabase-produk-seed.sql). Nilai yang diawali '[' dianggap BELUM DIISI dan tidak ditampilkan ke publik. status: 'tersedia' (bisa dibeli, wajib ada harga) atau 'segera' (daftar tunggu). tipe: 'digital', 'fisik', atau 'paket'.",
+  "kategori": ["Dien", "Kesehatan", "Sains", "Umum"],
   "produk": [
     {
       "id": "bekam-praktis",
+      "tipe": "digital",
+      "status": "tersedia",
       "kategori": "Kesehatan",
-      "nama": "Bekam Praktis (E-book, Edisi 1)",
-      "pilihan": true,
+      "nama": "Bekam Praktis",
+      "nama_lengkap": "Bekam Praktis (E-book, Edisi 1)",
+      "seri": "Trilogi JAZMI · Buku I",
       "ringkasan": "Panduan keselamatan dan langkah dasar bekam kering untuk pemula, dimulai dari siapa yang tidak boleh dibekam.",
       "deskripsi": "E-book PDF Trilogi JAZMI Buku I: 8 bab, 36 halaman, dan 5 lembar kerja siap cetak. Membahas penapisan, alat dan kebersihan, langkah bekam kering yang ringan, serta bekam basah hanya sebagai gerbang kesiapan bersama pembimbing.",
       "informasiPenting": "Materi edukasi, bukan diagnosis, dan tidak menjanjikan kesembuhan. Teknik melukai kulit tidak diajarkan di buku ini.",
-      "tautan": "/produk/bekam-praktis/",
-      "labelTautan": "Buka halaman Bekam Praktis"
+      "harga": 29000,
+      "maks_qty": 1,
+      "pilihan": true,
+      "halaman_manual": true,
+      "cover": { "arab": "حجامة", "warna": "zamrud", "label": "Buku I" },
+      "gambar": null,
+      "cuplikan": "/produk/cuplikan/Cuplikan-Bekam-Praktis.pdf",
+      "berkas": "bekam-praktis.pdf",
+      "spesifikasi": [
+        { "label": "Format", "nilai": "E-book PDF" },
+        { "label": "Halaman", "nilai": "36 halaman (A5), 8 bab" },
+        { "label": "Lembar kerja", "nilai": "5 lembar siap cetak" },
+        { "label": "Ukuran berkas", "nilai": "±0,2 MB" }
+      ]
     },
     {
       "id": "herbal-dapur",
+      "tipe": "digital",
+      "status": "tersedia",
       "kategori": "Kesehatan",
-      "nama": "Herbal Dapur (E-book, Edisi 1)",
-      "pilihan": true,
+      "nama": "Herbal Dapur",
+      "nama_lengkap": "Herbal Dapur (E-book, Edisi 1)",
+      "seri": "Trilogi JAZMI · Buku II",
       "ringkasan": "Mengenal jahe, kunyit, serai, dan bahan dapur lain dengan bukti dan batasnya, tanpa dosis terapi.",
       "deskripsi": "E-book PDF Trilogi JAZMI Buku II: 12 bab, 32 halaman, dan 3 lembar kerja siap cetak. Memuat sepuluh bahan dapur, cara mengolah dengan aman, cara membaca klaim dan bukti, serta siapa yang perlu lebih berhati-hati.",
       "informasiPenting": "Bahan pangan bukan obat. Buku ini memakai takaran kuliner, tidak memberi resep pengobatan, dan bukan pengganti saran dokter.",
-      "tautan": "/produk/herbal-dapur/",
-      "labelTautan": "Buka halaman Herbal Dapur"
+      "harga": 29000,
+      "maks_qty": 1,
+      "pilihan": true,
+      "halaman_manual": true,
+      "cover": { "arab": "أعشاب", "warna": "teal", "label": "Buku II" },
+      "gambar": null,
+      "cuplikan": "/produk/cuplikan/Cuplikan-Herbal-Dapur.pdf",
+      "berkas": "herbal-dapur.pdf",
+      "spesifikasi": [
+        { "label": "Format", "nilai": "E-book PDF" },
+        { "label": "Halaman", "nilai": "32 halaman (A5), 12 bab" },
+        { "label": "Lembar kerja", "nilai": "3 lembar siap cetak" },
+        { "label": "Ukuran berkas", "nilai": "±0,2 MB" }
+      ]
     },
     {
       "id": "akupresur-praktis",
+      "tipe": "digital",
+      "status": "tersedia",
       "kategori": "Kesehatan",
-      "nama": "Akupresur Praktis (E-book, Edisi 1)",
-      "pilihan": true,
+      "nama": "Akupresur Praktis",
+      "nama_lengkap": "Akupresur Praktis (E-book, Edisi 1)",
+      "seri": "Trilogi JAZMI · Buku III",
       "ringkasan": "Tekanan jari yang aman dan batas yang jelas, dimulai dari siapa yang tidak boleh ditekan.",
       "deskripsi": "E-book PDF Trilogi JAZMI Buku III: 8 bab, 38 halaman, dan 4 lembar kerja siap cetak. Memuat penapisan, area latihan yang aman, dan satu titik bernama (P6) lengkap dengan bukti dan batasnya.",
       "informasiPenting": "Materi edukasi, bukan diagnosis, dan tidak menjanjikan kesembuhan. Titik di leher, kepala, perut, dan dada tidak diajarkan.",
-      "tautan": "/produk/akupresur-praktis/",
-      "labelTautan": "Buka halaman Akupresur Praktis"
+      "harga": 29000,
+      "maks_qty": 1,
+      "pilihan": true,
+      "halaman_manual": true,
+      "cover": { "arab": "穴", "warna": "kuningan", "label": "Buku III" },
+      "gambar": null,
+      "cuplikan": "/produk/cuplikan/Cuplikan-Akupresur-Praktis.pdf",
+      "berkas": "akupresur-praktis.pdf",
+      "spesifikasi": [
+        { "label": "Format", "nilai": "E-book PDF" },
+        { "label": "Halaman", "nilai": "38 halaman (A5), 8 bab" },
+        { "label": "Lembar kerja", "nilai": "4 lembar siap cetak" },
+        { "label": "Ukuran berkas", "nilai": "±0,2 MB" }
+      ]
     },
     {
       "id": "paket-trilogi-jazmi",
+      "tipe": "paket",
+      "status": "tersedia",
       "kategori": "Kesehatan",
-      "nama": "Paket Trilogi JAZMI (3 E-book)",
-      "pilihan": false,
+      "nama": "Paket Trilogi JAZMI",
+      "nama_lengkap": "Paket Trilogi JAZMI (3 E-book)",
+      "seri": "Trilogi JAZMI · Buku I–III",
       "ringkasan": "Bekam Praktis, Herbal Dapur, dan Akupresur Praktis dalam satu paket, dikirim sekaligus.",
       "deskripsi": "Tiga e-book PDF dan 12 lembar kerja siap cetak dengan harga paket yang lebih hemat daripada membeli satuan.",
       "informasiPenting": "Ketiganya materi edukasi dan tidak menjanjikan kesembuhan.",
-      "tautan": "/produk/bekam-praktis/#paket",
-      "labelTautan": "Lihat pilihan paket"
+      "harga": 49000,
+      "maks_qty": 1,
+      "pilihan": true,
+      "halaman_manual": false,
+      "isi_paket": ["bekam-praktis", "herbal-dapur", "akupresur-praktis"],
+      "cover": { "arab": "ثلاثية", "warna": "zamrud", "label": "Paket" },
+      "gambar": null,
+      "cuplikan": null,
+      "berkas": null,
+      "spesifikasi": [
+        { "label": "Isi paket", "nilai": "3 e-book PDF" },
+        { "label": "Lembar kerja", "nilai": "12 lembar siap cetak (5 + 3 + 4)" },
+        { "label": "Total halaman", "nilai": "106 halaman (36 + 32 + 38)" },
+        { "label": "Pengiriman", "nilai": "Unduh sekaligus setelah pembayaran dikonfirmasi" }
+      ],
+      "untuk_siapa": [
+        "Pemula yang ingin memahami tiga ranah kesehatan tradisional dengan batas dan keselamatan yang jelas.",
+        "Keluarga yang ingin punya satu rangkaian bacaan, bukan potongan-potongan.",
+        "Pembaca yang sudah cocok dengan satu judul dan ingin melengkapi dua lainnya dengan harga lebih hemat."
+      ],
+      "isi": [
+        { "judul": "Bekam Praktis", "isi": "Dimulai dari siapa yang tidak boleh dibekam, lalu kebersihan dan langkah bekam kering yang ringan.", "tautan": "/produk/bekam-praktis/" },
+        { "judul": "Herbal Dapur", "isi": "Sepuluh bahan dapur dengan bukti dan batasnya, tanpa dosis terapi.", "tautan": "/produk/herbal-dapur/" },
+        { "judul": "Akupresur Praktis", "isi": "Penapisan, area latihan yang aman, dan satu titik bernama lengkap dengan bukti dan batasnya.", "tautan": "/produk/akupresur-praktis/" }
+      ],
+      "faq": [
+        { "q": "Bisakah membeli satuan?", "a": "Bisa. Setiap judul dijual terpisah. Jika Anda memasukkan dua atau tiga judul ke keranjang, halaman keranjang akan menunjukkan apakah paket lebih hemat." },
+        { "q": "Bagaimana e-book diterima?", "a": "Setelah pembayaran dikonfirmasi admin, buka halaman Status Pesanan, masukkan kode pesanan dan email, lalu unduh ketiga berkas. Cadangannya bisa dikirim lewat WhatsApp." },
+        { "q": "Apakah ada janji kesembuhan?", "a": "Tidak. Ketiga buku adalah materi edukasi dengan batas yang jelas, bukan diagnosis dan bukan pengganti nasihat medis profesional." }
+      ]
+    },
+    {
+      "id": "seratus-untaian-bait-kesehatan",
+      "tipe": "fisik",
+      "status": "segera",
+      "kategori": "Kesehatan",
+      "nama": "Seratus Untaian Bait Kesehatan Arab Klasik",
+      "nama_lengkap": "Seratus Untaian Bait Kesehatan Arab Klasik (Buku Cetak)",
+      "seri": "Buku cetak JAZMI",
+      "ringkasan": "Buku cetak berisi seratus untaian bait Arab klasik tentang kesehatan.",
+      "deskripsi": "Buku cetak berisi seratus untaian bait Arab klasik tentang kesehatan.",
+      "informasiPenting": "[ISI: catatan penting buku, mis. sifat isi dan batas penggunaannya]",
+      "harga": null,
+      "stok": null,
+      "berat_gram": null,
+      "maks_qty": 5,
+      "pilihan": true,
+      "halaman_manual": false,
+      "cover": { "arab": "مائة بيت", "warna": "kuningan", "label": "Buku cetak" },
+      "gambar": null,
+      "cuplikan": null,
+      "berkas": null,
+      "spesifikasi": [
+        { "label": "Jenis", "nilai": "Buku cetak" },
+        { "label": "Penulis / penyusun", "nilai": "[ISI]" },
+        { "label": "Penerbit", "nilai": "[ISI]" },
+        { "label": "Halaman", "nilai": "[ISI]" },
+        { "label": "Ukuran", "nilai": "[ISI]" },
+        { "label": "ISBN", "nilai": "[ISI]" },
+        { "label": "Berat", "nilai": "[ISI]" }
+      ],
+      "untuk_siapa": [
+        "[ISI: pembaca yang dituju, mis. pelajar bahasa Arab, pegiat syair, atau pembaca tema kesehatan]"
+      ],
+      "isi": [],
+      "faq": [
+        { "q": "Bagaimana cara memesan?", "a": "Daftarkan diri di daftar tunggu pada halaman ini, atau tanyakan langsung lewat WhatsApp. Pemesanan dibuka begitu harga dan stok diumumkan." },
+        { "q": "Bagaimana ongkos kirimnya?", "a": "Ongkos kirim dihitung admin sesuai alamat tujuan dan diberitahukan lewat WhatsApp sebelum Anda membayar." }
+      ]
+    },
+    {
+      "id": "metodologi-penelitian-modern",
+      "tipe": "digital",
+      "status": "segera",
+      "kategori": "Sains",
+      "nama": "Metodologi Penelitian Modern",
+      "nama_lengkap": "Metodologi Penelitian Modern (E-book)",
+      "seri": "Trilogi Penelitian Modern · Buku I (rancangan)",
+      "ringkasan": "Pegangan untuk membedakan teori, konsep, model, dan kerangka, serta memakai sumber agama dan budaya secara akademik.",
+      "deskripsi": "E-book PDF pertama dari rencana Trilogi Penelitian Modern: fondasi untuk membaca dan memakai teori serta konsep dalam penelitian, termasuk konsep yang bersumber dari agama dan budaya lokal.",
+      "informasiPenting": "Rancangan isi di bawah dapat berubah menjelang terbit. Konsep agama dan budaya tidak otomatis menjadi teori ilmiah; buku ini membahas cara memberi label status dan posisi pemakaiannya.",
+      "harga": null,
+      "maks_qty": 1,
+      "pilihan": false,
+      "halaman_manual": false,
+      "cover": { "arab": "منهج", "warna": "biru", "label": "Penelitian" },
+      "gambar": null,
+      "cuplikan": null,
+      "berkas": "metodologi-penelitian-modern.pdf",
+      "spesifikasi": [
+        { "label": "Format", "nilai": "E-book PDF" },
+        { "label": "Status", "nilai": "Dalam penyusunan, belum terbit" },
+        { "label": "Seri lanjutan (rencana)", "nilai": "Katalog Teori dan Katalog Konsep per program studi" }
+      ],
+      "untuk_siapa": [
+        "Mahasiswa yang menyusun proposal atau skripsi dan bingung membedakan teori, konsep, model, dan kerangka.",
+        "Dosen dan peneliti yang ingin memakai sumber agama atau budaya lokal secara akademik dan dapat ditelusuri.",
+        "Pembimbing yang butuh bahasa bersama untuk menilai landasan teori."
+      ],
+      "isi": [
+        { "judul": "Membedakan istilah", "isi": "Teori, konsep, model, kerangka, paradigma, pendekatan, metode, dan teknik: apa bedanya dan kapan memakai yang mana." },
+        { "judul": "Teori dalam tiga jenis penelitian", "isi": "Cara teori dipakai dalam penelitian kuantitatif, kualitatif, dan mixed methods." },
+        { "judul": "Konsep agama dan budaya secara akademik", "isi": "Konsep sebagai nilai, kerangka, hipotesis, objek kajian, atau sumber data, lengkap dengan label status epistemiknya." },
+        { "judul": "Aturan memakai sumber", "isi": "Kitab suci, kitab turats, lontara, naskah, buku, jurnal, wawancara, dan tradisi lisan." },
+        { "judul": "Menyusun landasan teori dan kerangka konseptual", "isi": "Alur dari masalah, pertanyaan penelitian, konsep, teori, data, analisis, sampai kesimpulan." },
+        { "judul": "Kesalahan yang sering terjadi", "isi": "Menyebut konsep sebagai teori tanpa dasar, menjadikan dalil sebagai temuan empiris, atau mencampur sumber primer dan sekunder tanpa label." }
+      ],
+      "faq": [
+        { "q": "Kapan buku ini terbit?", "a": "Belum ada tanggal pasti. Daftarkan diri di daftar tunggu pada halaman ini agar dikabari begitu terbit." },
+        { "q": "Apakah isinya sama dengan rancangan di atas?", "a": "Rancangan di atas adalah gambaran isi saat ini dan dapat berubah menjelang terbit." },
+        { "q": "Apakah ada edisi per program studi?", "a": "Dalam rencana, seri ini dilanjutkan dengan katalog teori dan katalog konsep untuk tiap program studi. Belum ada jadwalnya." }
+      ]
     }
-  ]
+  ],
+  "testimoni": []
 }
