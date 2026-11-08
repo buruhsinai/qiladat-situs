@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keranjang | Toko JAZMI</title>
+<meta name="description" content="Keranjang belanja dan pemesanan e-book serta buku cetak JAZMI.">
+<link rel="canonical" href="https://qiladat.com/produk/keranjang/">
+<meta name="robots" content="noindex,follow">
+<meta name="theme-color" content="#0F3D2E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="JAZMI — Jalinan Zamrud Islamiah">
+<meta property="og:locale" content="id_ID">
+<meta property="og:url" content="https://qiladat.com/produk/keranjang/">
+<meta property="og:title" content="Keranjang | Toko JAZMI">
+<meta property="og:description" content="Keranjang belanja dan pemesanan e-book serta buku cetak JAZMI.">
+<meta property="og:image" content="https://qiladat.com/produk/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Karla:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/produk/halaman-produk.css">
+<link rel="stylesheet" href="/produk/toko.css">
+
+</head>
+<body data-toko-nav class="">
+<a class="skip-link" href="#konten-utama">Langsung ke konten</a>
+<header class="site-header">
+  <div class="header-inner">
+    <a href="/" class="wordmark" aria-label="JAZMI — Beranda">
+      <span class="wordmark-mark" aria-hidden="true">ز</span>
+      <span class="wordmark-text"><span class="wordmark-main">JAZMI</span><span class="wordmark-sub">Jalinan Zamrud Islamiah</span></span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi"><span></span><span></span><span></span></button>
+    <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama"><ul><li><a href="/">Home</a></li><li><a href="/artikel/">Artikel</a></li><li><a href="/dien/">Dien</a></li><li><a href="/kesehatan/">Kesehatan</a></li><li><a href="/sains/">Sains</a></li><li><a href="/produk/" class="is-active">Produk</a></li><li><a href="/alat/">Alat</a></li><li><a href="/arsip/">Arsip</a></li><li><a href="/info/">Info</a></li></ul></nav>
+    <a class="cart-link" href="/produk/keranjang/" aria-label="Keranjang belanja, 0 item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.1"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg><span class="cart-count" hidden>0</span></a>
+  </div>
+</header>
+<main id="konten-utama">
+<section class="sec"><div class="wrap">
+  <div class="head"><h1 style="font-size:clamp(1.8rem,4vw,2.6rem);font-weight:600">Keranjang</h1></div>
+  <div id="keranjangRoot" class="keranjang-grid">
+    <div class="k-kolom">
+      <div id="kKosong">
+        <p class="data-empty-note">Keranjang masih kosong atau sedang dimuat.</p>
+        <p style="margin-top:1rem"><a class="btn btn-solid" href="/produk/">Lihat produk</a></p>
+      </div>
+      <div id="kIsi" hidden>
+        <ul class="k-list" id="kList"></ul>
+        <div id="kSaran"></div>
+        <form id="kForm" class="kartu" novalidate>
+          <h2>Data pemesan</h2>
+          <div class="field"><label for="fNama">Nama</label><input type="text" id="fNama" autocomplete="name" maxlength="100" required></div>
+          <div class="field-2">
+            <div class="field"><label for="fEmail">Email</label><input type="email" id="fEmail" autocomplete="email" maxlength="200" required></div>
+            <div class="field"><label for="fWA">WhatsApp</label><input type="tel" id="fWA" autocomplete="tel" inputmode="tel" maxlength="20" placeholder="08xxxxxxxxxx" required></div>
+          </div>
+          <div id="kAlamat" hidden>
+            <div class="field"><label for="fJalan">Alamat lengkap</label><input type="text" id="fJalan" autocomplete="street-address" maxlength="200" placeholder="Jalan, nomor, RT/RW, kelurahan"></div>
+            <div class="field-2">
+              <div class="field"><label for="fKota">Kota / kabupaten</label><input type="text" id="fKota" autocomplete="address-level2" maxlength="80"></div>
+              <div class="field"><label for="fProvinsi">Provinsi</label><input type="text" id="fProvinsi" autocomplete="address-level1" maxlength="80"></div>
+            </div>
+            <div class="field"><label for="fKodepos">Kode pos</label><input type="text" id="fKodepos" autocomplete="postal-code" inputmode="numeric" maxlength="5"></div>
+          </div>
+          <div class="field"><label for="fCatatan">Catatan <span class="opsional">(opsional)</span></label><textarea id="fCatatan" maxlength="500"></textarea></div>
+          <div class="jebakan" aria-hidden="true"><label for="fWebsite">Jangan diisi</label><input type="text" id="fWebsite" tabindex="-1" autocomplete="off"></div>
+          <label class="field-cek"><input type="checkbox" id="fSetuju"><span>Saya setuju data ini dipakai JAZMI untuk memproses pesanan dan menghubungi saya. <a href="/produk/ketentuan/#privasi" style="text-decoration:underline">Kebijakan privasi</a>.</span></label>
+          <button type="submit" class="btn btn-solid" id="kKirim" style="width:100%">Buat pesanan</button>
+          <p class="galat" id="kGalat" role="alert" hidden></p>
+        </form>
+      </div>
+    </div>
+    <aside class="k-ringkas" id="kRingkas" hidden aria-label="Ringkasan pesanan">
+      <h2>Ringkasan</h2>
+      <div class="baris-ringkas"><span>Subtotal</span><span id="kSubtotal">Rp0</span></div>
+      <div class="baris-ringkas" id="kOngkirBaris" hidden><span>Ongkos kirim</span><span>Dihitung admin</span></div>
+      <div class="baris-ringkas total"><span id="kTotalLabel">Total</span><span id="kTotal">Rp0</span></div>
+      <p class="k-catatan" id="kCatatanRingkas"></p>
+      <a class="btn btn-line" id="kWA" target="_blank" rel="noopener noreferrer" href="#">Pesan lewat WhatsApp saja</a>
+    </aside>
+  </div>
+  <div id="kSukses" hidden aria-live="polite"></div>
+</div></section>
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <nav class="footer-nav" aria-label="Tautan footer"><a href="/dien/">Dien</a><a href="/kesehatan/">Kesehatan</a><a href="/sains/">Sains</a><a href="/artikel/">Artikel</a><a href="/arsip/">Arsip</a><a href="/produk/">Produk</a><a href="/produk/status/">Status Pesanan</a><a href="/produk/ketentuan/">Cara Beli &amp; Ketentuan</a><a href="/alat/">Alat</a><a href="/info/">Info</a></nav>
+    <p class="footer-copy">© 2026 JAZMI — Jalinan Zamrud Islamiah.</p>
+  </div>
+</footer>
+<script src="/js/auth-config.js" defer></script>
+<script src="/produk/toko-config.js" defer></script>
+<script src="/produk/toko.js" defer></script>
+</body>
+</html>
