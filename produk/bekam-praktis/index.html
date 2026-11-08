@@ -180,6 +180,8 @@ p{margin:0}
 .lembar-list li::before{content:"\2022";color:var(--brass);margin-right:.5rem}
 .segera{display:inline-block;font-size:.8rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--brass);border:1px solid var(--brass);border-radius:999px;padding:.15rem .8rem;margin-bottom:1rem}
 </style>
+<link rel="stylesheet" href="/produk/toko.css"> <!-- toko-v2 -->
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Bekam Praktis (E-book, Edisi 1)", "description": "E-book PDF Trilogi JAZMI Buku I: 8 bab, 36 halaman, dan 5 lembar kerja siap cetak. Membahas penapisan, alat dan kebersihan, langkah bekam kering yang ringan, serta bekam basah hanya sebagai gerbang kesiapan bersama pembimbing.", "image": "https://qiladat.com/produk/bekam-praktis/og.jpg", "brand": {"@type": "Brand", "name": "JAZMI"}, "url": "https://qiladat.com/produk/bekam-praktis/", "category": "Kesehatan", "offers": {"@type": "Offer", "priceCurrency": "IDR", "price": "29000", "url": "https://qiladat.com/produk/bekam-praktis/", "availability": "https://schema.org/InStock", "itemCondition": "https://schema.org/NewCondition"}}</script>
 </head>
 <body>
 <a class="skip-link" href="#konten-utama">Langsung ke konten</a>
@@ -190,6 +192,7 @@ p{margin:0}
       <span class="wordmark-mark" aria-hidden="true">ز</span>
       <span class="wordmark-text"><span class="wordmark-main">JAZMI</span><span class="wordmark-sub">Jalinan Zamrud Islamiah</span></span>
     </a>
+    <a class="cart-link" href="/produk/keranjang/" aria-label="Keranjang belanja, 0 item"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2.2l2.1 10.2a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.1L20.5 8H6.1"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="17" cy="19.5" r="1.3"/></svg><span class="cart-count" hidden>0</span></a>
     <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="primaryNav" aria-label="Buka menu navigasi"><span></span><span></span><span></span></button>
     <nav class="primary-nav" id="primaryNav" aria-label="Navigasi utama">
       <ul>
@@ -201,7 +204,7 @@ p{margin:0}
         <li><a href="/produk/" class="is-active">Produk</a></li>
         <li><a href="/alat/">Alat</a></li>
         <li><a href="/arsip/">Arsip</a></li>
-        <li><a href="/info/">Info</a></li>
+        <li><a href="/produk/status/">Status Pesanan</a><a href="/produk/ketentuan/">Cara Beli &amp; Ketentuan</a><a href="/info/">Info</a></li>
       </ul>
     </nav>
   </div>
@@ -215,7 +218,7 @@ p{margin:0}
       <p class="lead">E-book PDF untuk pemula yang ingin memahami bekam dengan benar, terutama demi keluarga dan orang terdekat. Urutannya sengaja dimulai dari <strong>siapa yang tidak boleh dibekam</strong>, baru kemudian alat, kebersihan, dan langkah bekam kering yang ringan.</p>
       <div class="btn-row">
         <a class="btn btn-solid" href="#paket">Pesan e-book ini</a>
-        <a class="btn btn-line" href="https://wa.me/6281356572588?text=Saya%20ingin%20cuplikan%20gratis%20e-book%20Bekam%20Praktis" target="_blank" rel="noopener noreferrer">Minta cuplikan gratis</a>
+        <a class="btn btn-line" href="/produk/cuplikan/Cuplikan-Bekam-Praktis.pdf" download>Unduh cuplikan gratis</a>
       </div>
       <p class="hero-note">Buku panduan keselamatan, bukan klaim penyembuhan. Bekam basah hanya dibahas sebagai gerbang kesiapan, bukan tutorial melukai kulit.</p>
     </div>
@@ -258,23 +261,26 @@ p{margin:0}
         <h3>E-book Bekam Praktis (Edisi 1)</h3>
         <p class="harga" data-h="satuan">Rp29.000</p>
         <ul class="garis"><li>E-book PDF 8 bab, 36 halaman (A5)</li><li>5 lembar kerja siap cetak</li><li>Tersedia sekarang</li></ul>
-        <a class="btn btn-solid" href="https://wa.me/6281356572588?text=Saya%20ingin%20memesan%20e-book%20Bekam%20Praktis%20%28Edisi%201%29" target="_blank" rel="noopener noreferrer">Pesan Bekam Praktis</a>
+        <a class="btn btn-solid" href="#paket" data-beli="bekam-praktis">Beli e-book ini</a>
+        <a class="btn btn-line" href="#paket" data-tambah="bekam-praktis">Tambah ke keranjang</a>
       </div>
       <div class="kotak">
         <h3>Paket Trilogi JAZMI</h3>
         <p class="harga" data-h="paket">Rp49.000</p>
         <p class="catatan">Harga satuan 3 buku <s data-h="normal">Rp87.000</s>. Hemat <strong data-h="hemat">Rp38.000</strong> (<span data-h="persen">44%</span>).</p>
         <ul class="garis"><li>Bekam Praktis, Herbal Dapur, dan Akupresur Praktis</li><li>Tiga e-book PDF dan 12 lembar kerja</li><li>Tersedia sekarang, dikirim sekaligus</li></ul>
-        <a class="btn btn-line" href="https://wa.me/6281356572588?text=Saya%20ingin%20memesan%20Paket%20Trilogi%20JAZMI%20%28Bekam%20Praktis%2C%20Herbal%20Dapur%2C%20Akupresur%20Praktis%29" target="_blank" rel="noopener noreferrer">Pesan Paket Trilogi</a>
+        <a class="btn btn-line" href="/produk/paket-trilogi-jazmi/" data-beli="paket-trilogi-jazmi">Beli Paket Trilogi</a>
+        <a class="catatan" href="/produk/paket-trilogi-jazmi/" style="display:block;margin-top:.7rem;text-align:center;text-decoration:underline">Lihat isi paket</a>
       </div>
     </div>
+    <p class="catatan" style="margin:1.2rem 0 0">Tanpa akun. Pembayaran dikonfirmasi manual oleh admin. <a href="/produk/ketentuan/" style="text-decoration:underline">Cara beli &amp; ketentuan</a>.</p>
     <div class="lanjut"><p>Tiga e-book dalam satu seri:</p><ul class="garis"><li><strong>Bekam Praktis</strong> (halaman ini)</li><li><a href="/produk/herbal-dapur/">Herbal Dapur</a></li><li><a href="/produk/akupresur-praktis/">Akupresur Praktis</a></li></ul></div>
   </div></section>
 
   <section class="sec"><div class="wrap">
     <div class="head"><h2>Pertanyaan yang sering muncul</h2></div>
     <div class="faq"><details><summary>Saya benar-benar pemula, apakah bisa?</summary><p>Bisa. E-book dimulai dari pengertian dasar dan baru masuk ke praktik setelah pembaca paham batasan dan keselamatan.</p></details><details><summary>Setelah membaca, boleh langsung membekam orang lain?</summary><p>E-book ini bekal belajar. Penapisan wajib diisi setiap kali, dan hanya bekam kering yang ringan pada orang dewasa sehat yang diajarkan. Tindakan yang melukai kulit tidak diajarkan di sini dan memerlukan pembimbing langsung.</p></details><details><summary>Apakah buku ini mengajarkan bekam basah?</summary><p>Tidak sebagai tutorial. Bab 6 hanya menjelaskan gerbang kesiapan: syarat, risiko penularan lewat darah, perlindungan, dan apa yang dilakukan bila terpapar. Tekniknya dipelajari langsung dari pembimbing.</p></details><details><summary>Apakah cocok untuk anak atau ibu hamil?</summary><p>Anak, ibu hamil, dan orang dengan kondisi tertentu justru termasuk yang tidak boleh dibekam oleh pemula. Buku ini menjelaskan alasannya dan menyarankan pemeriksaan ke tenaga kesehatan.</p></details><details><summary>Apakah bekam bisa menyembuhkan penyakit?</summary><p>E-book tidak menjanjikan kesembuhan. Isinya edukasi dan panduan kerja yang aman. Keluhan kesehatan tetap perlu diperiksa tenaga kesehatan.</p></details>
-      <details><summary>Dalam format apa e-book dikirim?</summary><p>Berkas PDF, dikirim lewat WhatsApp setelah pesanan dan pembayaran dikonfirmasi. Rincian cara bayar diberikan saat Anda memesan.</p></details>
+      <details><summary>Dalam format apa e-book dikirim?</summary><p>Berkas PDF. Setelah pembayaran dikonfirmasi admin, buka halaman Status Pesanan, masukkan kode pesanan dan email, lalu unduh. Jika ada kendala, berkas dikirim lewat WhatsApp.</p></details>
     </div>
   </div></section>
 
@@ -282,7 +288,7 @@ p{margin:0}
     <h2>Mulai dari cuplikan gratis</h2>
     <p>Baca cuplikannya dulu. Jika cocok, lanjutkan ke e-book.</p>
     <div class="btn-row">
-      <a class="btn btn-solid" href="https://wa.me/6281356572588?text=Saya%20ingin%20cuplikan%20gratis%20e-book%20Bekam%20Praktis" target="_blank" rel="noopener noreferrer">Minta cuplikan gratis</a>
+      <a class="btn btn-solid" href="/produk/cuplikan/Cuplikan-Bekam-Praktis.pdf" download>Unduh cuplikan gratis</a>
       <a class="btn btn-line" href="#paket">Lihat pilihan pesanan</a>
     </div>
   </div></section>
@@ -290,6 +296,14 @@ p{margin:0}
   <section class="sec"><div class="wrap"><p class="catatan"><strong>Catatan penting.</strong> E-book ini adalah materi edukasi tentang kebersihan dan keselamatan, bukan diagnosis, dan bukan pengganti nasihat medis profesional. Bekam yang melukai kulit memerlukan pembimbing berpengalaman dan fasilitas kesehatan. Orang dengan kondisi medis tertentu perlu berkonsultasi lebih dulu. Pengalaman tiap orang berbeda dan tidak ada janji kesembuhan.</p></div></section>
 </main>
 
+<div class="beli-bar" id="beliBar" aria-label="Pembelian cepat">
+  <div><div class="nama">Bekam Praktis</div><div class="harga-kecil" data-harga="bekam-praktis">Rp29.000</div></div>
+  <a class="btn btn-solid" href="#paket" data-beli="bekam-praktis">Beli</a>
+</div>
+<script>
+(function(){var b=document.getElementById("beliBar"),t=document.querySelector(".hero .btn-row");if(!b||!t||!("IntersectionObserver" in window))return;
+new IntersectionObserver(function(e){var ada=!e[0].isIntersecting&&e[0].boundingClientRect.top<0;b.classList.toggle("tampil",ada);document.body.classList.toggle("ada-beli-bar",ada);}).observe(t);})();
+</script>
 <footer class="site-footer">
   <div class="footer-inner">
     <nav class="footer-nav" aria-label="Tautan footer">
@@ -316,13 +330,21 @@ p{margin:0}
 })();
 </script>
 <script>
-/* GANTI harga di sini (angka rupiah tanpa titik) */
+/* Harga diambil dari produk/data/produk.json lewat toko.js. Angka di bawah hanya cadangan bila data gagal dimuat. */
 var HARGA={satuan:29000,paket:49000};
 (function(){
   function rp(n){return 'Rp'+String(n).replace(/\B(?=(\d{3})+(?!\d))/g,'.');}
-  var normal=HARGA.satuan*3,hemat=normal-HARGA.paket,pr=Math.round(hemat/normal*100);
-  var m={satuan:rp(HARGA.satuan),paket:rp(HARGA.paket),normal:rp(normal),hemat:rp(hemat),persen:pr+'%'};
-  document.querySelectorAll('[data-h]').forEach(function(e){e.textContent=m[e.getAttribute('data-h')];});
+  function isi(H){var normal=H.normal||H.satuan*3,hemat=normal-H.paket,pr=Math.round(hemat/normal*100);
+    var m={satuan:rp(H.satuan),paket:rp(H.paket),normal:rp(normal),hemat:rp(hemat),persen:pr+'%'};
+    document.querySelectorAll('[data-h]').forEach(function(e){e.textContent=m[e.getAttribute('data-h')];});}
+  isi(HARGA);
+  document.addEventListener('DOMContentLoaded',function(){
+    if(!window.JAZMI_TOKO)return;
+    JAZMI_TOKO.siap.then(function(){
+      var s=JAZMI_TOKO.produk('bekam-praktis'),p=JAZMI_TOKO.produk('paket-trilogi-jazmi');
+      if(s&&p&&s.harga&&p.harga)isi({satuan:s.harga,paket:p.harga,normal:JAZMI_TOKO.hargaNormal('paket-trilogi-jazmi')});
+    }).catch(function(){});
+  });
 })();
 </script>
 <script>
@@ -340,5 +362,8 @@ var HARGA={satuan:29000,paket:49000};
   });
 })();
 </script>
+<script src="/js/auth-config.js" defer></script>
+<script src="/produk/toko-config.js" defer></script>
+<script src="/produk/toko.js" defer></script>
 </body>
 </html>
