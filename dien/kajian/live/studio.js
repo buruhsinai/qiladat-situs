@@ -38,8 +38,31 @@
     if (r.error) return pesan(/duplicate|unique/i.test(r.error.message) ? 'Masih ada sesi live. Muat ulang halaman ini untuk melanjutkannya.' : 'Gagal memulai: ' + r.error.message, true);
     masuk(r.data);
   };
+  /* ---- audio langsung (relay Cloudflare, tanpa SFU/TURN) ---- */
+  var au = null, RELAY = (window.JAZMI_LIVE || {}).relay;
+  function auSt(t) { $('audioSt').textContent = t; }
+  function auMati() { if (au) { au.stop(); au = null; } $('audioMulai').textContent = '🎙 Mulai audio'; $('audioJeda').hidden = true; $('audioJeda').textContent = 'Bisukan'; $('meter').style.width = '0'; $('audioPend').textContent = ''; }
+  $('audioMulai').onclick = async function () {
+    if (au) { auMati(); auSt('dimatikan'); return; }
+    if (!RELAY) return pesan('Alamat relay belum diisi (js/live-config.js).', true);
+    if (!sesi) return;
+    $('audioMulai').disabled = true;
+    try {
+      au = await LiveAudio.siar({
+        url: RELAY + '/siar?s=' + encodeURIComponent(sesi.id),
+        getToken: async function () { var r = await sb.auth.getSession(); if (!r.data.session) throw new Error('belum masuk'); return r.data.session.access_token; },
+        onStatus: auSt,
+        onLevel: function (v) { $('meter').style.width = Math.round(v * 100) + '%'; },
+        onPendengar: function (n) { $('audioPend').textContent = 'Pendengar saat ini: ' + n; }
+      });
+      $('audioMulai').textContent = '■ Hentikan audio'; $('audioJeda').hidden = false;
+    } catch (e) { pesan('Mikrofon/audio gagal: ' + (e && e.message || e), true); au = null; }
+    $('audioMulai').disabled = false;
+  };
+  $('audioJeda').onclick = function () { if (!au) return; var b = $('audioJeda').textContent === 'Bisukan'; au.bisu(b); $('audioJeda').textContent = b ? 'Lanjutkan' : 'Bisukan'; };
   $('selesai').onclick = async function () {
     if (!confirm('Akhiri kajian ini untuk semua penonton?')) return;
+    auMati();
     var r = await sb.from('live_sesi').update({ status: 'selesai', selesai: new Date().toISOString() }).eq('id', sesi.id);
     if (r.error) return gagal(r.error); sesi = null; $('kendali').hidden = true; $('formMulai').hidden = false; pesan('Kajian diakhiri.');
   };

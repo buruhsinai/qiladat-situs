@@ -10,8 +10,18 @@
     LivePdf.render($('cv'), n).then(function () { tampil = n; $('pg').textContent = 'Halaman ' + n + (sesi.total ? ' / ' + sesi.total : ''); })
       .catch(function () { pesanPdf('Halaman tidak dapat ditampilkan.'); }).then(function () { sibuk = false; if (ikut && hal !== tampil) gambar(hal); });
   }
+  /* ---- audio langsung (relay) ---- */
+  var RELAY = (window.JAZMI_LIVE || {}).relay, au = null;
+  function auMati() { if (au) { au.stop(); au = null; } $('audioMain').textContent = '▶ Dengarkan di sini'; }
+  if ($('audioMain')) $('audioMain').onclick = function () {
+    if (au) { auMati(); $('audioInfo').textContent = 'Audio dihentikan. Ketuk tombol untuk mendengarkan lagi.'; return; }
+    if (!sesi || !RELAY) return;
+    $('audioMain').textContent = '■ Hentikan';
+    au = LiveAudio.dengar({ url: RELAY + '/dengar?s=' + encodeURIComponent(sesi.id), onStatus: function (k, t) { $('audioInfo').textContent = t; } });
+  };
   function terapkan(s) {
-    sesi = s; $('judul').textContent = s.judul; $('sub').textContent = s.pengajar_nama || '';
+    sesi = s;
+    if ($('audioMain')) { $('audioMain').hidden = !(RELAY && s.status === 'live'); if (RELAY && s.status === 'live' && !au) $('audioInfo').textContent = 'Ketuk “Dengarkan di sini” untuk audio langsung. Cadangan: Facebook Live.'; if (s.status !== 'live' && au) { auMati(); $('audioInfo').textContent = 'Kajian ini sudah selesai.'; } } $('judul').textContent = s.judul; $('sub').textContent = s.pengajar_nama || '';
     $('status').textContent = s.status === 'live' ? '● Sedang live' : 'Kajian ini sudah selesai';
     if (s.fb_url) $('fbBtn').href = s.fb_url;
     if (!s.pdf_url) { $('pdfBox').hidden = true; return; }

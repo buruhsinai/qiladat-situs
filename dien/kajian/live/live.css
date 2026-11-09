@@ -16,3 +16,7 @@
 .lv-panel label{display:block;font-weight:600;margin:.6rem 0 .2rem}
 .lv-panel input,.lv-panel select{width:100%;padding:.55rem;border:1px solid var(--line-soft);border-radius:6px;font:inherit}
 .lv-panel .btn{margin-top:.8rem}
+.lv-mic{border-top:1px solid var(--line-soft);margin-top:.8rem;padding-top:.6rem}
+.lv-meter{height:8px;background:var(--line-soft);border-radius:4px;overflow:hidden;margin:.3rem 0}
+.lv-meter i{display:block;height:100%;width:0;background:var(--emerald-deep,#0f6b4f);transition:width .08s}
+.lv-hint{color:var(--ink-soft);font-size:.9rem;margin:.3rem 0}

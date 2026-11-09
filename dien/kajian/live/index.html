@@ -20,7 +20,10 @@
   </section>
   <section class="lv-audio" aria-label="Audio">
     <p id="audioInfo">Audio langsung sementara disiarkan lewat Facebook Live.</p>
-    <a class="btn btn-outline" id="fbBtn" href="https://www.facebook.com/share/1JYpKQ6SVo/" target="_blank" rel="noopener">Dengarkan di Facebook →</a>
+    <div class="lv-tools">
+      <button class="btn btn-outline" id="audioMain" type="button" hidden>▶ Dengarkan di sini</button>
+      <a class="btn btn-outline" id="fbBtn" href="https://www.facebook.com/share/1JYpKQ6SVo/" target="_blank" rel="noopener">Dengarkan di Facebook →</a>
+    </div>
   </section>
   <section class="lv-pdf" id="pdfBox" hidden aria-label="Halaman kitab">
     <div class="lv-tools">
@@ -35,6 +38,8 @@
   </section>
 </main>
 <script src="../../../js/auth-config.js"></script>
+<script src="../../../js/live-config.js"></script>
+<script src="../../../js/live-audio.js"></script>
 <script src="../../../js/live-pdf.js"></script>
 <script src="live.js"></script>
 </body>
