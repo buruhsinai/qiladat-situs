@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Alat Terkunci — JAZMI</title>
 <meta name="robots" content="noindex">
+<script>/* ?embed=1 = dimuat di dalam Ruang Kajian (live-alat.js): tanpa header dan bilah atas */if(/[?&]embed=1(&|$)/.test(location.search))document.documentElement.className+=" embed";</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -24,6 +25,8 @@
   .buka-status .btn:hover { background: var(--emerald); }
   #bingkai { flex: 1; width: 100%; min-height: 0; border: 0; background: #fff; }
   [hidden] { display: none !important; }
+  html.embed .site-header, html.embed #bar { display: none !important; }
+  html.embed .buka-status { padding-top: 1.5rem; }
 </style>
 </head>
 <body>
@@ -82,6 +85,7 @@
 <script>
 (function () {
   var $ = function (id) { return document.getElementById(id); };
+  var EMBED = /[?&]embed=1(&|$)/.test(window.location.search);
 
   // Menu mobile
   var toggle = $('navToggle'), nav = $('primaryNav');
@@ -97,7 +101,7 @@
     $('statusJudul').textContent = judul;
     $('statusIsi').textContent = isi;
     var a = $('statusAksi');
-    if (aksiTeks) { a.textContent = aksiTeks; a.setAttribute('href', aksiHref); a.hidden = false; }
+    if (aksiTeks) { a.textContent = aksiTeks; a.setAttribute('href', aksiHref); a.hidden = false; if (EMBED) a.setAttribute('target', '_blank'); }
     else { a.hidden = true; }
   }
 
@@ -124,7 +128,7 @@
     var s = await sb.auth.getSession();
     var sesi = s.data && s.data.session;
     if (!sesi) {
-      status('Alat ini khusus anggota', 'Masuk dengan akun yang diundang untuk membuka alat ini.',
+      status('Alat ini khusus anggota', EMBED ? 'Alat ini terkunci. Masuk dengan akun anggota (di tab baru) lalu muat ulang halaman kajian untuk melihat peragaan.' : 'Masuk dengan akun yang diundang untuk membuka alat ini.',
              'Masuk', '/masuk/?next=' + encodeURIComponent('/alat/buka.html?id=' + id));
       return;
     }
@@ -175,7 +179,7 @@
           var nama;
           try { nama = decodeURIComponent(m[1]); } catch (_) { nama = m[1]; }
           var tujuan = nama.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-          if (tujuan) window.location.href = '/alat/buka.html?id=' + encodeURIComponent(tujuan);
+          if (tujuan) window.location.href = '/alat/buka.html?id=' + encodeURIComponent(tujuan) + (EMBED ? '&embed=1' : '');
         });
       } catch (_) { /* abaikan: alat tetap berjalan tanpa pengalihan tautan */ }
     });
