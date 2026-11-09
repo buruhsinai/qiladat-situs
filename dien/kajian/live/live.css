@@ -1,0 +1,18 @@
+.lv-bar{display:flex;align-items:center;justify-content:space-between;padding:.7rem 1.25rem;border-bottom:1px solid var(--line-soft)}
+.lv-crumb a{font-weight:600;color:var(--emerald-deep)}
+.lv-main{max-width:60rem;margin:0 auto;padding:1.25rem}
+.lv-status{font-weight:700;color:var(--emerald-deep);margin:0}
+.lv-title{font-family:'Fraunces',serif;font-size:1.7rem;margin:.2rem 0}
+.lv-sub{color:var(--ink-soft);margin:0 0 1rem}
+.lv-audio{border:1px solid var(--line-soft);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
+.lv-audio p{margin:0 0 .7rem}
+.lv-tools{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.5rem}
+.lv-tools .btn{margin-top:0;min-width:2.6rem}
+.lv-pdfjudul{margin:.2rem 0 .6rem;color:var(--ink-soft);font-size:.9rem}
+.lv-canvas{display:flex;justify-content:center;background:#fff;border:1px solid var(--line-soft);border-radius:8px;overflow:auto}
+.lv-canvas canvas{max-width:100%;height:auto!important}
+.lv-err{color:#a12a1f}
+.lv-panel{border:1px solid var(--line-soft);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
+.lv-panel label{display:block;font-weight:600;margin:.6rem 0 .2rem}
+.lv-panel input,.lv-panel select{width:100%;padding:.55rem;border:1px solid var(--line-soft);border-radius:6px;font:inherit}
+.lv-panel .btn{margin-top:.8rem}

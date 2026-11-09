@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<title>Ruang Kajian Langsung — JAZMI</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index,follow">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../css/style.css">
+<link rel="stylesheet" href="live.css">
+</head>
+<body>
+<header class="lv-bar"><a href="../../../index.html" class="wordmark" aria-label="JAZMI — Beranda"><span class="wordmark-mark" aria-hidden="true">ز</span><span class="wordmark-text"><span class="wordmark-main">JAZMI</span></span></a>
+<nav class="lv-crumb" aria-label="Jejak"><a href="../index.html">← Kajian</a></nav></header>
+<main class="lv-main" id="konten-utama">
+  <section class="lv-head">
+    <p class="lv-status" id="status" role="status" aria-live="polite">Memuat…</p>
+    <h1 class="lv-title" id="judul">Ruang Kajian</h1>
+    <p class="lv-sub" id="sub"></p>
+  </section>
+  <section class="lv-audio" aria-label="Audio">
+    <p id="audioInfo">Audio langsung sementara disiarkan lewat Facebook Live.</p>
+    <a class="btn btn-outline" id="fbBtn" href="https://www.facebook.com/share/1JYpKQ6SVo/" target="_blank" rel="noopener">Dengarkan di Facebook →</a>
+  </section>
+  <section class="lv-pdf" id="pdfBox" hidden aria-label="Halaman kitab">
+    <div class="lv-tools">
+      <button class="btn btn-outline" id="prev" type="button" aria-label="Halaman sebelumnya">‹</button>
+      <span id="pg" aria-live="polite">–</span>
+      <button class="btn btn-outline" id="next" type="button" aria-label="Halaman berikutnya">›</button>
+      <button class="btn btn-outline" id="ikuti" type="button" hidden>Ikuti pengajar</button>
+    </div>
+    <p class="lv-pdfjudul" id="pdfJudul"></p>
+    <div class="lv-canvas"><canvas id="cv"></canvas></div>
+    <p class="lv-err" id="pdfErr" role="alert" hidden></p>
+  </section>
+</main>
+<script src="../../../js/auth-config.js"></script>
+<script src="../../../js/live-pdf.js"></script>
+<script src="live.js"></script>
+</body>
+</html>
