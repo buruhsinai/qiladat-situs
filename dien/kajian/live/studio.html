@@ -18,7 +18,8 @@
   <section class="lv-panel" id="formMulai" hidden>
     <label for="fJudul">Judul kajian</label><input id="fJudul" maxlength="160" placeholder="mis. Kajian Kitab … bab …">
     <label for="fNama">Nama pengajar</label><input id="fNama" maxlength="80">
-    <label for="fPdf">Kitab / modul</label><select id="fPdf"><option value="">— tanpa PDF —</option></select>
+    <label for="fBerkas">Kitab / modul (PDF dari perangkat ini)</label><input id="fBerkas" type="file" accept="application/pdf,.pdf">
+    <label for="fPdf">atau pilih dari daftar pustaka</label><select id="fPdf"><option value="">— tanpa PDF —</option></select>
     <label for="fFb">Tautan Facebook Live (opsional)</label><input id="fFb" inputmode="url" placeholder="https://www.facebook.com/…">
     <button class="btn btn-outline" id="mulai" type="button">Mulai kajian</button>
   </section>
@@ -40,10 +41,42 @@
       <p class="lv-hint" id="audioPend"></p>
       <p class="lv-hint">Biarkan layar menyala dan halaman ini tetap terbuka selama siaran. Pakai headset bila memungkinkan.</p>
     </div>
-    <label for="gantiPdf">Ganti kitab / modul</label><select id="gantiPdf"><option value="">—</option></select>
+    <div class="lv-mic" id="alatBox">
+      <p><strong>Alat peraga</strong> — <span id="alatSt">belum ada yang ditampilkan</span></p>
+      <input id="alatCari" type="search" placeholder="Cari alat (mis. matahari, pendulum)…" autocomplete="off" aria-label="Cari alat peraga">
+      <ul class="lv-hasil" id="alatHasil"></ul>
+      <div class="lv-tools">
+        <button class="btn btn-outline" id="alatReset" type="button" hidden>↻ Setel ulang untuk peserta</button>
+        <button class="btn btn-outline" id="alatTutup" type="button" hidden>✕ Tutup alat</button>
+      </div>
+      <p class="lv-hint">Peserta memuat alat ini sendiri; yang dikirim hanya gerakan Anda (geser, klik, ketik). Alat terkunci (🔒) hanya terlihat oleh peserta yang masuk sebagai anggota.</p>
+      <div class="lv-alatbingkai" id="alatWadah" hidden><iframe id="alatBingkai" title="Alat peraga" allow="fullscreen; clipboard-write" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+    </div>
+    <div class="lv-mic" id="kursiBox">
+      <p><strong>Majelis</strong> — <span id="kursiSt">memeriksa…</span></p>
+      <div class="lv-tools">
+        <button class="btn btn-outline" id="kapKurang" type="button" aria-label="Kurangi kapasitas">− 5</button>
+        <span>Kapasitas: <strong id="kapNilai">–</strong></span>
+        <button class="btn btn-outline" id="kapTambah" type="button" aria-label="Tambah kapasitas">+ 5</button>
+      </div>
+      <div class="lv-tools">
+        <button class="btn btn-outline" id="kursiKunci" type="button">🔒 Kunci majelis</button>
+        <button class="btn btn-outline" id="kursiKosong" type="button">Kosongkan kursi</button>
+      </div>
+      <p class="lv-hint">Peserta yang sudah duduk tidak terganggu saat kapasitas dikurangi atau majelis dikunci; hanya yang baru yang menunggu. “Kosongkan kursi” dipakai bila ada kursi tersangkut: peserta yang masih aktif masuk lagi sendiri dalam beberapa detik. Batas tertinggi 80.</p>
+    </div>
+    <div class="lv-mic" id="tanyaPanel">
+      <p><strong>Sesi pertanyaan</strong> — <span id="tanyaSt">memeriksa…</span></p>
+      <div class="lv-tools"><button class="btn btn-outline" id="tanyaToggle" type="button">❓ Buka sesi tanya</button></div>
+      <ul class="lv-tlist" id="tanyaDaftar"></ul>
+      <p class="lv-hint">🔒 = penanya memilih tertutup: bacakan pertanyaannya di audio tanpa menyebut nama. 👁 = ditampakkan; nama dan antreannya terlihat peserta lain, dan yang berstatus “sedang dijawab” disorot di layar mereka. Saat satu pertanyaan ditandai “sedang dijawab”, pertanyaan yang sebelumnya sedang dijawab otomatis menjadi “dijawab”. Pertanyaan ikut terhapus saat kajian diakhiri.</p>
+    </div>
+    <div class="lv-tools"><button class="btn btn-outline" id="pilihBerkas" type="button">📄 Pilih PDF dari perangkat</button><input id="inBerkas" type="file" accept="application/pdf,.pdf" hidden></div>
+    <p class="lv-hint" id="berkasInfo"></p>
+    <label for="gantiPdf">atau ganti dengan kitab dari daftar pustaka</label><select id="gantiPdf"><option value="">—</option></select>
     <p><a id="tautPenonton" href="index.html" target="_blank" rel="noopener">Buka ruang penonton ↗</a></p>
     <button class="btn btn-outline" id="selesai" type="button">Akhiri kajian</button>
-    <div class="lv-canvas"><canvas id="cv"></canvas></div>
+    <div class="lv-canvas"><canvas id="cv" hidden></canvas><img id="gb" alt="Pratinjau halaman" hidden></div>
   </section>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
@@ -51,6 +84,7 @@
 <script src="../../../js/live-config.js"></script>
 <script src="../../../js/live-audio.js"></script>
 <script src="../../../js/live-pdf.js"></script>
+<script src="../../../js/live-alat.js"></script>
 <script src="studio.js"></script>
 </body>
 </html>

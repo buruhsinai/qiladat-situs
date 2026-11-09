@@ -11,6 +11,8 @@
 .lv-pdfjudul{margin:.2rem 0 .6rem;color:var(--ink-soft);font-size:.9rem}
 .lv-canvas{display:flex;justify-content:center;background:#fff;border:1px solid var(--line-soft);border-radius:8px;overflow:auto}
 .lv-canvas canvas{max-width:100%;height:auto!important}
+.lv-canvas img{display:block;max-width:100%;height:auto;min-height:6rem}
+.lv-canvas [hidden]{display:none}
 .lv-err{color:#a12a1f}
 .lv-panel{border:1px solid var(--line-soft);border-radius:12px;padding:1rem 1.25rem;margin-bottom:1rem}
 .lv-panel label{display:block;font-weight:600;margin:.6rem 0 .2rem}
@@ -20,3 +22,32 @@
 .lv-meter{height:8px;background:var(--line-soft);border-radius:4px;overflow:hidden;margin:.3rem 0}
 .lv-meter i{display:block;height:100%;width:0;background:var(--emerald-deep,#0f6b4f);transition:width .08s}
 .lv-hint{color:var(--ink-soft);font-size:.9rem;margin:.3rem 0}
+
+.lv-alat{margin-bottom:1rem}
+.lv-alatbingkai iframe{display:block;width:100%;height:min(78vh,760px);border:1px solid var(--line-soft);border-radius:8px;background:#fff}
+.lv-hasil{list-style:none;margin:.4rem 0;padding:0;display:flex;flex-wrap:wrap;gap:.4rem}
+.lv-hasil .btn{margin-top:0;font-size:.85rem;padding:.3rem .7rem}
+.lv-alatbingkai{margin-top:.6rem}
+
+.lv-penuh{border:1px solid currentColor;border-radius:.6rem;padding:1rem 1.1rem;margin:1rem 0;opacity:.95}
+.lv-penuh h2{margin:.1rem 0 .4rem;font-size:1.15rem}
+.lv-penuh[hidden],.lv-audio[hidden]{display:none}
+
+.lv-tanya{border:1px solid var(--line-soft);border-radius:12px;padding:.7rem 1.25rem;margin-bottom:1rem}
+.lv-tanya[hidden]{display:none}
+.lv-tanya>summary{cursor:pointer;font-weight:700;color:var(--emerald-deep)}
+.lv-tanya.buka>summary::after{content:" ●";color:var(--emerald-deep)}
+.lv-tanya label{display:block;font-weight:600;margin:.6rem 0 .2rem}
+.lv-tanya input[type=text],.lv-tanya input:not([type]),.lv-tanya textarea{width:100%;padding:.55rem;border:1px solid var(--line-soft);border-radius:6px;font:inherit;box-sizing:border-box}
+.lv-tanya textarea{resize:vertical}
+.lv-tanya .lv-cek{display:flex;align-items:center;gap:.5rem;font-weight:600}
+.lv-tanya .lv-cek input{width:auto}
+.lv-tanya .btn{margin-top:.6rem}
+.lv-h3{font-size:1rem;margin:1rem 0 .3rem}
+.lv-tlist{list-style:none;margin:.2rem 0;padding:0}
+.lv-tlist li{border-top:1px solid var(--line-soft);padding:.5rem 0;overflow-wrap:anywhere}
+.lv-tlist .lv-meta{display:block;color:var(--ink-soft);font-size:.85rem}
+.lv-tlist .lv-aksi{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.3rem}
+.lv-tlist .lv-aksi .btn{margin-top:0;font-size:.85rem;padding:.25rem .6rem}
+.lv-tlist li.sedang{font-weight:700}
+.lv-tlist li.saya{background:rgba(15,107,79,.06)}

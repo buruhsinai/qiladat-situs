@@ -18,12 +18,43 @@
     <h1 class="lv-title" id="judul">Ruang Kajian</h1>
     <p class="lv-sub" id="sub"></p>
   </section>
+  <section class="lv-penuh" id="penuh" hidden role="status" aria-live="polite">
+    <h2 id="penuhJudul">Majelis penuh</h2>
+    <p id="penuhIsi"></p>
+    <p class="lv-hint">Halaman ini mencoba lagi sendiri tiap 15 detik; tidak perlu dimuat ulang.</p>
+    <a class="btn btn-outline" id="penuhFb" href="https://www.facebook.com/share/1JYpKQ6SVo/" target="_blank" rel="noopener">Dengarkan di Facebook →</a>
+  </section>
   <section class="lv-audio" aria-label="Audio">
     <p id="audioInfo">Audio langsung sementara disiarkan lewat Facebook Live.</p>
     <div class="lv-tools">
       <button class="btn btn-outline" id="audioMain" type="button" hidden>▶ Dengarkan di sini</button>
       <a class="btn btn-outline" id="fbBtn" href="https://www.facebook.com/share/1JYpKQ6SVo/" target="_blank" rel="noopener">Dengarkan di Facebook →</a>
     </div>
+  </section>
+  <details class="lv-tanya" id="tanyaBox" hidden>
+    <summary id="tanyaRingkas">Tanya pengajar</summary>
+    <div id="tanyaBaru">
+      <label for="tanyaNama">Nama (boleh dikosongkan)</label>
+      <input id="tanyaNama" maxlength="30" autocomplete="off" placeholder="Anonim">
+      <label for="tanyaIsi">Pertanyaan Anda</label>
+      <textarea id="tanyaIsi" maxlength="300" rows="3" placeholder="Tulis pertanyaan singkat (maks. 300 huruf)"></textarea>
+      <p class="lv-hint"><span id="tanyaHitung">0</span>/300</p>
+      <label class="lv-cek"><input type="checkbox" id="tanyaTampil"> Tampilkan pertanyaan ini ke peserta lain</label>
+      <p class="lv-hint">Tidak dicentang = tertutup: tidak tampil di layar peserta lain. Pengajar tetap bisa membacanya dan menjawabnya di audio, tanpa menyebut nama. Pilihan ini bisa diubah kapan saja.</p>
+      <button class="btn btn-outline" id="tanyaKirim" type="button">Kirim pertanyaan</button>
+    </div>
+    <p class="lv-hint" id="tanyaTutupInfo" hidden>Sesi tanya sedang ditutup. Pengajar akan membukanya kembali.</p>
+    <p class="lv-hint" id="tanyaPesan" role="status" aria-live="polite"></p>
+    <h3 class="lv-h3" id="tanyaSayaJudul" hidden>Pertanyaan saya</h3>
+    <ul class="lv-tlist" id="tanyaSaya"></ul>
+    <h3 class="lv-h3" id="tanyaPublikJudul">Antrean yang ditampakkan</h3>
+    <ul class="lv-tlist" id="tanyaPublik"></ul>
+    <p class="lv-hint" id="tanyaTertutup"></p>
+  </details>
+  <section class="lv-alat" id="alatBox" hidden aria-label="Alat peraga">
+    <p class="lv-pdfjudul"><strong id="alatJudul"></strong> <span id="alatInfo"></span></p>
+    <div class="lv-alatbingkai"><iframe id="alatBingkai" title="Alat peraga kajian" allow="fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox"></iframe></div>
+    <p class="lv-hint">Gerakan pengajar tampil di sini secara langsung. Anda juga boleh mencoba sendiri.</p>
   </section>
   <section class="lv-pdf" id="pdfBox" hidden aria-label="Halaman kitab">
     <div class="lv-tools">
@@ -33,7 +64,7 @@
       <button class="btn btn-outline" id="ikuti" type="button" hidden>Ikuti pengajar</button>
     </div>
     <p class="lv-pdfjudul" id="pdfJudul"></p>
-    <div class="lv-canvas"><canvas id="cv"></canvas></div>
+    <div class="lv-canvas"><canvas id="cv" hidden></canvas><img id="gb" alt="Halaman kitab yang sedang dikaji" hidden></div>
     <p class="lv-err" id="pdfErr" role="alert" hidden></p>
   </section>
 </main>
@@ -41,6 +72,7 @@
 <script src="../../../js/live-config.js"></script>
 <script src="../../../js/live-audio.js"></script>
 <script src="../../../js/live-pdf.js"></script>
+<script src="../../../js/live-alat.js"></script>
 <script src="live.js"></script>
 </body>
 </html>
