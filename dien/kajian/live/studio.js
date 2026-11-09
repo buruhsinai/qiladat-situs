@@ -54,6 +54,7 @@
   function info(t) { $('berkasInfo').textContent = t || ''; }
   function simpan(patch) { // tulis dengan jeda 300 ms agar loncatan cepat tidak membanjiri server
     Object.assign(sesi, patch); gambar(); clearTimeout(tmr);
+    if ('halaman' in patch) { $('kanvas').scrollTop = 0; $('kanvas').scrollLeft = 0; kgKirim(true); }   // halaman baru: peserta ikut pindah dan kembali ke atas
     tmr = setTimeout(async function () { var r = await sb.from('live_sesi').update(patch).eq('id', sesi.id); if (r.error) gagal(r.error); else pesan('● Live — halaman ' + sesi.halaman); }, 300);
   }
   /* mode gambar: halaman harus ada di Worker SEBELUM nomornya diumumkan ke penonton */
@@ -88,7 +89,7 @@
       if (r.error) throw r.error;
       Object.assign(sesi, { pdf_kunci: kunci, pdf_url: null, pdf_judul: judul, halaman: h, total: n });
       $('kJudul').textContent = sesi.judul; info('PDF siap: ' + judul + ' (' + n + ' halaman). Halaman berikutnya dikirim otomatis di latar.');
-      await gambar(); pesan('● Live — halaman ' + h); prefetch(h + 1);
+      await gambar(); pesan('● Live — halaman ' + h); prefetch(h + 1); kgKirim(true);
     } catch (e) {
       LivePdf.tutupBerkas(); lupakanGambar();
       Object.assign(sesi, { pdf_kunci: sebelum.kunci, pdf_url: sebelum.url, pdf_judul: sebelum.judul, halaman: sebelum.hal, total: sebelum.total });
@@ -100,7 +101,7 @@
   async function masuk(s) {
     sesi = s; $('formMulai').hidden = true; $('kendali').hidden = false; $('kJudul').textContent = s.judul;
     $('tautPenonton').href = 'index.html?s=' + encodeURIComponent(s.id); await bukaPdf(); await gambar(); pesan('● Live — halaman ' + s.halaman);
-    pulihAlat(s); kursiTampil(); kursiPeriksa(); tData = []; tanyaTampilTombol(); tanyaMuat();
+    kanalSiap(); kunciTampil(); pulihAlat(s); kursiTampil(); kursiPeriksa(); tData = []; tanyaTampilTombol(); tanyaMuat();
     if (s.pdf_kunci && !LivePdf.adaBerkas()) info('Kitab “' + (s.pdf_judul || '') + '” sedang tampil untuk penonton. Untuk memindah halaman, pilih ulang berkas PDF yang sama.');
   }
   $('prev').onclick = function () { lompat(sesi.halaman - 1); }; $('next').onclick = function () { lompat(sesi.halaman + 1); };
@@ -113,7 +114,7 @@
     var r = await sb.from('live_sesi').update({ pdf_url: p.url, pdf_judul: p.judul, halaman: 1, total: null, pdf_kunci: null }).eq('id', sesi.id);
     if (r.error) return gagal(r.error);
     hapusGambar(); LivePdf.tutupBerkas(); lupakanGambar(); info('');
-    Object.assign(sesi, { pdf_url: p.url, pdf_judul: p.judul, halaman: 1, total: null, pdf_kunci: null }); await bukaPdf(); await gambar();
+    Object.assign(sesi, { pdf_url: p.url, pdf_judul: p.judul, halaman: 1, total: null, pdf_kunci: null }); await bukaPdf(); await gambar(); kgKirim(true);
   };
   $('mulai').onclick = async function () {
     var judul = $('fJudul').value.trim(); if (judul.length < 3) return pesan('Isi judul kajian.', true);
@@ -151,10 +152,43 @@
   /* ---- alat peraga: peserta memuat alat sendiri; yang dikirim hanya peristiwa kecil lewat relay (js/live-alat.js) ---- */
   var LA = window.LiveAlat, kanalAlat = null, hentiTangkap = null, batalMuat = null, alatNow = null, tmrCari = null;
   function alatSt(t) { $('alatSt').textContent = t; }
+  var kanalOk = false;
   function kanalSiap() {
     if (kanalAlat || !RELAY || !sesi) return;
     kanalAlat = LA.siar({ url: RELAY + '/alat-siar?s=' + encodeURIComponent(sesi.id), getToken: token,
-      onStatus: function (k) { if (k === 'ditolak') alatSt('relay menolak: akun bukan pengajar atau sesi tidak sedang live'); } });
+      onStatus: function (k) { kanalOk = k === 'tersambung'; if (k === 'ditolak') alatSt('relay menolak: akun bukan pengajar atau sesi tidak sedang live'); } });
+  }
+  async function kanalTunggu() { for (var i = 0; i < 40 && !kanalOk; i++) await tunggu(200); }
+  /* posisi kitab (halaman + gulir) untuk layar peserta yang terkunci / "Ikuti pengajar" */
+  function kgKirim(final) {
+    if (!kanalAlat || !sesi || !(sesi.pdf_kunci || sesi.pdf_url)) return;
+    var k = $('kanvas'), mx = k.scrollWidth - k.clientWidth, my = k.scrollHeight - k.clientHeight;
+    var o = { t: 'kg', h: sesi.halaman | 0, x: mx > 0 ? +(k.scrollLeft / mx).toFixed(4) : 0, y: my > 0 ? +(k.scrollTop / my).toFixed(4) : 0 };
+    if (sesi.pdf_kunci) o.v = sesi.pdf_kunci; if (final) o.f = 1;
+    kanalAlat.kirim(o);
+  }
+  var kgT = 0, kgF = null;
+  $('kanvas').addEventListener('scroll', function () {
+    var n = Date.now(); if (n - kgT > 80) { kgT = n; kgKirim(false); }
+    clearTimeout(kgF); kgF = setTimeout(function () { kgKirim(true); }, 300);
+  });
+  function alatStatus() {
+    if (!alatNow) return alatSt('belum ada yang ditampilkan');
+    var e = alatNow.e;
+    alatSt('● tampil untuk peserta: ' + e.judul + (!e.terkunci ? '' : sesi && sesi.alat_umum ? ' 🔒 (tampil juga untuk non-anggota: isi alat dititipkan di relay)' : ' 🔒 (hanya anggota aktif yang melihatnya; peserta umum akan melihat "khusus anggota")'));
+  }
+  /* alat terkunci → titipkan HTML-nya ke relay supaya peserta non-anggota bisa melihatnya (hanya bila pengajar menyalakan "untuk umum") */
+  async function titipIsi(e, n) {
+    var d = await sb.storage.from(cfg.bucket || 'alat-privat').download(e.id + '.html');
+    if (d.error || !d.data) throw new Error('berkas alat tidak dapat diunduh (pastikan akun ini anggota aktif)');
+    var html = (await d.data.text()).replace(/<script[^>]*alat-nav-kembali\.js[^>]*>\s*<\/script>/gi, ''), b = new TextEncoder().encode(html);
+    if (b.length > 4000000) throw new Error('alat terlalu besar (' + Math.round(b.length / 1e5) / 10 + ' MB; batas 4 MB)');
+    for (var i = 0; i < 5; i++) {
+      var r = await fetch(HTTP + '/alat-isi?s=' + encodeURIComponent(sesi.id) + '&n=' + encodeURIComponent(n), { method: 'POST', headers: { Authorization: 'Bearer ' + await token(), 'Content-Type': 'text/plain; charset=utf-8' }, body: b });
+      if (r.ok) return;
+      if ((r.status === 404 || r.status === 409) && i < 4) { await tunggu(700); continue; }   // pesan "baru" lewat WebSocket mungkin belum diproses relay
+      throw new Error('relay menolak (' + r.status + ')');
+    }
   }
   function bersihAlat() {
     if (batalMuat) { batalMuat(); batalMuat = null; }
@@ -168,13 +202,18 @@
       if (!alatNow || alatNow.n !== nonce) return;
       if (!doc) { alatSt('alat tidak dapat dimuat di studio' + (e.terkunci ? ' (alat terkunci: pastikan akun ini anggota aktif)' : '')); return; }
       hentiTangkap = LA.tangkap(doc, function (o) { o.n = nonce; if (kanalAlat) kanalAlat.kirim(o); });
-      alatSt('● tampil untuk peserta: ' + e.judul + (e.terkunci ? ' 🔒 (hanya anggota aktif yang melihatnya; peserta umum akan melihat "khusus anggota")' : ''));
+      alatStatus();
     });
   }
   async function bukaAlat(e) {
     if (!sesi) return;
     if (!RELAY) return pesan('Alamat relay belum diisi (js/live-config.js).', true);
-    var n = kodeAcak(); kanalSiap(); kanalAlat.kirim({ t: 'baru', n: n });
+    var n = kodeAcak(); kanalSiap(); if (e.terkunci && sesi.alat_umum) await kanalTunggu();
+    kanalAlat.kirim({ t: 'baru', n: n });
+    if (e.terkunci && sesi.alat_umum) {
+      try { alatSt('menitipkan isi alat ke relay…'); await titipIsi(e, n); }
+      catch (x) { kanalAlat.kirim({ t: 'tutup' }); alatSt('belum ada yang ditampilkan'); return pesan('Alat terkunci tidak bisa dibagikan ke non-anggota: ' + (x && x.message || x) + '. Alat tidak ditampilkan.', true); }
+    }
     var r = await sb.from('live_sesi').update({ alat_ref: e.id, alat_nonce: n }).eq('id', sesi.id);
     if (r.error) { kanalAlat.kirim({ t: 'tutup' }); return pesan(/alat_ref|alat_nonce/.test(r.error.message) ? 'Kolom alat belum ada: jalankan supabase-live-alat.sql di Supabase dulu.' : 'Gagal: ' + r.error.message, true); }
     Object.assign(sesi, { alat_ref: e.id, alat_nonce: n }); $('alatHasil').innerHTML = ''; $('alatCari').value = '';
@@ -201,6 +240,40 @@
     }, 150);
   };
   $('alatTutup').onclick = tutupAlat;
+  /* ---- mode kunci layar peserta (supabase-live-kunci.sql) ---- */
+  function kunciTampil() {
+    if (!sesi) return;
+    var a = !!sesi.kunci_kitab, b = !!sesi.kunci_alat, u = !!sesi.alat_umum;
+    $('kunciKitab').textContent = a ? '🔒 Layar kitab peserta: TERKUNCI' : '🔓 Kunci layar kitab peserta'; $('kunciKitab').setAttribute('aria-pressed', a);
+    $('kunciAlat').textContent = b ? '🔒 Alat peserta: TERKUNCI' : '🔓 Kunci alat peserta'; $('kunciAlat').setAttribute('aria-pressed', b);
+    $('alatUmum').textContent = u ? '🌐 Alat terkunci: tampil untuk umum' : '🔒 Alat terkunci: hanya anggota'; $('alatUmum').setAttribute('aria-pressed', u);
+    $('kunciSt').textContent = (a ? 'kitab dikunci' : 'kitab bebas') + ' · ' + (b ? 'alat dikunci' : 'alat bebas') + ' · alat 🔒 ' + (u ? 'terbuka untuk umum' : 'khusus anggota');
+  }
+  async function kunciUbah(patch) {
+    if (!sesi) return false;
+    var r = await sb.from('live_sesi').update(patch).eq('id', sesi.id);
+    if (r.error) { pesan(/kunci_kitab|kunci_alat|alat_umum|schema cache/.test(r.error.message) ? 'Kolom kunci belum ada: jalankan supabase-live-kunci.sql di Supabase dulu.' : 'Gagal: ' + r.error.message, true); return false; }
+    Object.assign(sesi, patch); kunciTampil(); kanalSiap();
+    if (kanalAlat) {
+      if ('kunci_kitab' in patch || 'kunci_alat' in patch) { kanalAlat.kirim({ t: 'mode', a: !!sesi.kunci_kitab, b: !!sesi.kunci_alat }); if (patch.kunci_kitab) kgKirim(true); }
+      if ('alat_umum' in patch) kanalAlat.kirim({ t: 'umum', v: !!sesi.alat_umum });
+    }
+    return true;
+  }
+  $('kunciKitab').onclick = function () { if (sesi) kunciUbah({ kunci_kitab: !sesi.kunci_kitab }).then(function (ok) { if (ok) pesan(sesi.kunci_kitab ? 'Layar kitab peserta dikunci: mengikuti halaman dan gulir Anda.' : 'Layar kitab peserta dibuka: peserta boleh menjelajah sendiri.'); }); };
+  $('kunciAlat').onclick = function () { if (sesi) kunciUbah({ kunci_alat: !sesi.kunci_alat }).then(function (ok) { if (ok) pesan(sesi.kunci_alat ? 'Alat peserta dikunci: peserta hanya menonton gerakan Anda.' : 'Alat peserta dibuka: peserta boleh mencoba sendiri.'); }); };
+  $('alatUmum').onclick = async function () {
+    if (!sesi) return; var baru = !sesi.alat_umum;
+    if (baru) {
+      if (!RELAY) return pesan('Alamat relay belum diisi (js/live-config.js).', true);
+      if (!confirm('Alat terkunci (🔒) yang Anda tampilkan akan terlihat juga oleh peserta yang BUKAN anggota.\n\nKonsekuensinya: isi HTML alat itu dititipkan sementara di relay dan dikirim ke setiap peserta yang memegang kursi, sehingga peserta yang teknis bisa menyimpannya. Titipan dihapus saat alat ditutup, saat ini dimatikan, dan saat kajian berakhir.\n\nLanjutkan?')) return;
+      if (alatNow && alatNow.e.terkunci) {   // alat terkunci sedang tampil: titipkan dulu sebelum peserta diberi tahu
+        try { kanalSiap(); await kanalTunggu(); alatSt('menitipkan isi alat ke relay…'); await titipIsi(alatNow.e, alatNow.n); }
+        catch (x) { alatStatus(); return pesan('Gagal menitipkan isi alat: ' + (x && x.message || x), true); }
+      }
+    }
+    if (await kunciUbah({ alat_umum: baru })) { alatStatus(); pesan(baru ? 'Alat terkunci kini tampil untuk umum.' : 'Alat terkunci kembali khusus anggota.'); }
+  };
   $('alatReset').onclick = function () { if (alatNow) bukaAlat(alatNow.e); };
   function pulihAlat(s) {   // studio dimuat ulang saat alat masih tampil: peserta tidak terganggu, alat dimuat ulang di studio
     if (!s.alat_ref || !s.alat_nonce || !window.LiveAlat) return;
@@ -212,7 +285,7 @@
     if (sesi.pdf_kunci) await hapusGambar();
     var r = await sb.from('live_sesi').update({ status: 'selesai', selesai: new Date().toISOString() }).eq('id', sesi.id);
     if (r.error) return gagal(r.error);
-    sesi = null; LivePdf.tutupBerkas(); lupakanGambar(); info(''); $('gb').hidden = true; $('kendali').hidden = true; $('formMulai').hidden = false; pesan('Kajian diakhiri.');
+    sesi = null; $('kunciSt').textContent = 'memeriksa…'; LivePdf.tutupBerkas(); lupakanGambar(); info(''); $('gb').hidden = true; $('kendali').hidden = true; $('formMulai').hidden = false; pesan('Kajian diakhiri.');
   };
 
   /* ---- majelis: kapasitas, kunci, jumlah terisi (supabase-live-kursi.sql) ---- */

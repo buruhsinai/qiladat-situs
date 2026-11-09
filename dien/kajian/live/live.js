@@ -15,6 +15,10 @@
     return k;
   }
   var KUNCI = kunciPeserta(), lama = false, tmrPutar = null;
+  /* ---- mode kunci (supabase-live-kunci.sql): kKitab = halaman+gulir kitab hanya mengikuti pengajar; kAlat = alat hanya ditonton;
+     umum = alat terkunci tampil juga untuk non-anggota. Relay (cepat) menang atas polling DB (lambat) selama < 5 detik. kg = posisi kitab pengajar. ---- */
+  var kKitab = false, kAlat = false, umum = false, kg = null, kgAt = 0, modeAt = 0, umumAt = 0, progGulir = 0, kanal = null;
+  function prog() { progGulir = Date.now(); }
   /* {tak:true} = fungsi belum dipasang di Supabase (pakai cara lama); null = gangguan jaringan/galat; {j:…} = hasil */
   function rpc(fn, body, keep) {
     return fetch(c.url + '/rest/v1/rpc/' + fn, { method: 'POST', headers: { apikey: c.anonKey, 'Content-Type': 'application/json' }, body: JSON.stringify(body), keepalive: !!keep })
@@ -34,7 +38,7 @@
       var im = new Image();
       im.onload = function () {
         if (kk !== kunci) return selesai(false);
-        $('gb').src = u; tampil = n; label(n); pesanPdf('');
+        prog(); $('kanvas').scrollTop = 0; $('gb').src = u; tampil = n; label(n); pesanPdf('');   // gulir dikembalikan ke atas; bila pengajar punya posisi untuk halaman ini, gulirTerapkan() menyusul saat gambar termuat
         if (sesi.total && n < sesi.total) { var nx = new Image(); nx.src = urlGambar(n + 1); }   // hangatkan cache peramban untuk halaman berikutnya
         selesai(true);
       };
@@ -48,10 +52,42 @@
   /* mode lama: PDF dari alamat URL, dirender di perangkat penonton */
   function gambarPdf(n) {
     if (sibuk || n === tampil) return; sibuk = true; pesanPdf('');
-    LivePdf.render($('cv'), n).then(function () { tampil = n; label(n); })
-      .catch(function () { pesanPdf('Halaman tidak dapat ditampilkan.'); }).then(function () { sibuk = false; if (ikut && hal !== tampil) gambar(hal); });
+    LivePdf.render($('cv'), n).then(function () { tampil = n; label(n); gulirTerapkan(); })
+      .catch(function () { pesanPdf('Halaman tidak dapat ditampilkan.'); }).then(function () { sibuk = false; if ((ikut || kKitab) && hal !== tampil) gambar(hal); });
   }
   function gambar(n) { if (kunci) gambarImg(n); else gambarPdf(n); }
+  /* ---- kitab terkunci / gulir tersinkron ---- */
+  function kgCocok() { return !!kg && (kg.v || null) === (kunci || null); }
+  function kgSegar() { return kgCocok() && Date.now() - kgAt < 6000; }   // posisi dari relay lebih dipercaya daripada polling DB yang bisa tertinggal beberapa detik
+  function gulirTerapkan() {
+    var k = $('kanvas'); if (!k || !kg || !kgCocok() || kg.h !== tampil || !(ikut || kKitab)) return;
+    var mx = k.scrollWidth - k.clientWidth, my = k.scrollHeight - k.clientHeight;
+    prog(); if (my > 0) k.scrollTop = Math.round((+kg.y || 0) * my); if (mx > 0) k.scrollLeft = Math.round((+kg.x || 0) * mx);
+  }
+  function kgTerima(m) {
+    if (!m || !Number.isInteger(m.h)) return;
+    kg = { h: m.h, x: +m.x || 0, y: +m.y || 0, v: m.v }; kgAt = Date.now();
+    if (!kgCocok() || !(ikut || kKitab)) return;
+    if (m.h !== hal) { hal = m.h; gambar(hal); } else gulirTerapkan();
+  }
+  function modeTampil() {
+    $('prev').hidden = $('next').hidden = kKitab; $('ikuti').hidden = kKitab || ikut;
+    $('kitabKunciInfo').hidden = !kKitab; $('kanvas').classList.toggle('kunci', kKitab);
+    $('alatLapis').hidden = !kAlat; $('alatSamakan').hidden = kAlat;
+    if (kAlat) $('alatBingkai').setAttribute('inert', ''); else $('alatBingkai').removeAttribute('inert');
+    $('alatHint').textContent = kAlat ? 'Pengajar sedang memegang kendali: gerakannya tampil di sini secara langsung.' : 'Gerakan pengajar tampil di sini secara langsung. Anda juga boleh mencoba sendiri; bila terasa berbeda dari pengajar, ketuk “Samakan dengan pengajar”.';
+  }
+  function modeSet(a, b, dariRelay) {
+    a = !!a; b = !!b; if (dariRelay) modeAt = Date.now();
+    var baruKunci = a && !kKitab; kKitab = a; kAlat = b;
+    if (baruKunci) { ikut = true; hal = kgSegar() ? kg.h : (sesi ? sesi.halaman : hal); if (sesi && (kunci || pdfUrl)) gambar(hal); gulirTerapkan(); }
+    modeTampil();
+  }
+  function umumSet(v, dariRelay) {
+    v = !!v; if (dariRelay) umumAt = Date.now();
+    if (v === umum) return; umum = v;
+    if (aRef && aEntry && aEntry.terkunci) alatMuatUlang();   // jalur muat alat terkunci berubah (isi titipan ↔ khusus anggota)
+  }
   /* ---- audio langsung (relay) ---- */
   function auMati() { if (au) { au.stop(); au = null; } $('audioMain').textContent = '▶ Dengarkan di sini'; }
   if ($('audioMain')) $('audioMain').onclick = function () {
@@ -61,7 +97,7 @@
     au = LiveAudio.dengar({ url: RELAY + '/dengar?s=' + encodeURIComponent(sesi.id) + '&k=' + KUNCI, onStatus: function (k, t) { $('audioInfo').textContent = t; } });
   };
   /* ---- alat peraga: dimuat sendiri oleh tiap peserta; gerakan pengajar diputar ulang dari relay ---- */
-  var LA = window.LiveAlat, aRef = null, aNonce = null, aKanal = null, aDoc = null, aBatal = null, aTunda = {}, aMulai = null, aQ = 0;
+  var LA = window.LiveAlat, aRef = null, aNonce = null, aEntry = null, aDoc = null, aBatal = null, aTunda = {}, aMulai = null, aQ = 0, aTry = 0, aTmr = null;
   function aInfo(t) { $('alatInfo').textContent = t || ''; }
   function aPutar(e) {
     if (!e || typeof e !== 'object' || typeof e.n !== 'string') return;
@@ -77,10 +113,64 @@
       (m.log || []).forEach(function (x) { try { var o = JSON.parse(x); if (baru || !(o.q <= aQ)) { if (o.q > aQ) aQ = o.q; aPutar(o); } } catch (e) { } });
     }
   }
-  function aTutup() {
+  function aTutup() {   // menutup alat saja; saluran relay tetap hidup (membawa juga mode kunci dan posisi kitab)
     if (aBatal) { aBatal(); aBatal = null; }
-    if (aKanal) { aKanal.stop(); aKanal = null; }
-    aRef = aNonce = aDoc = aMulai = null; aQ = 0; aTunda = {}; $('alatBingkai').removeAttribute('src'); aInfo('');
+    clearTimeout(aTmr);
+    aRef = aNonce = aEntry = aDoc = aMulai = null; aQ = 0; aTunda = {}; $('alatBingkai').removeAttribute('src'); $('alatBingkai').removeAttribute('srcdoc'); aInfo('');
+  }
+  /* saluran relay persisten: peristiwa alat, mode kunci, izin umum, posisi kitab */
+  function kPesan(m) {
+    if (!m || typeof m !== 'object') return;
+    if (m.t === 'e') aPesan(m);
+    else if (m.t === 'mulai') {
+      if (m.mode) modeSet(m.mode.a, m.mode.b, true);
+      if (typeof m.umum === 'boolean') umumSet(m.umum, true);
+      if (m.kg) kgTerima(m.kg);
+      aPesan(m);
+    }
+    else if (m.t === 'mode') modeSet(m.a, m.b, true);
+    else if (m.t === 'umum') umumSet(m.v, true);
+    else if (m.t === 'kg') kgTerima(m);
+    else if (m.t === 'baru' || m.t === 'tutup') setTimeout(segarkan, 400);   // alat berganti: tak perlu menunggu polling berikutnya
+    else if (m.t === 'isi') { if (m.n === aNonce && !aDoc && aEntry && aEntry.terkunci && umum) { aTry = 0; aMuatIsi(aEntry, aNonce); } }
+  }
+  function kanalMulai() {
+    if (kanal || !RELAY || !sesi || !LA) return;
+    kanal = LA.dengar({ url: RELAY + '/alat-dengar?s=' + encodeURIComponent(sesi.id) + '&k=' + KUNCI, onPesan: kPesan,
+      onStatus: function (k) { if (k === 'penuh') aInfo('Peragaan langsung penuh; alat tetap bisa dicoba sendiri.'); } });
+  }
+  function kanalStop() { if (kanal) { kanal.stop(); kanal = null; } }
+  function kanalUlang() { kanalStop(); kanalMulai(); }   // soket baru = relay mengirim ulang log lengkap
+  /* jalur biasa: alat publik dimuat sendiri; alat terkunci lewat buka.html (peserta non-anggota melihat "khusus anggota") */
+  function aMuatNormal(e, n) {
+    aBatal = LA.muat($('alatBingkai'), e, function (doc) {
+      aBatal = null; if (aNonce !== n) return;
+      if (!doc) { aInfo(e.terkunci ? 'Alat ini khusus anggota. Masuk sebagai anggota (di tab baru) lalu muat ulang halaman ini.' : 'Alat tidak dapat dimuat.'); return; }
+      aSiap(doc, n);
+    });
+  }
+  function aSiap(doc, n) {
+    aDoc = doc; aInfo('');
+    (aTunda[n] || []).forEach(function (x) { LA.putar(doc, x); }); delete aTunda[n];
+  }
+  /* alat terkunci + pengajar menyalakan "untuk umum": isi HTML-nya diambil dari relay (butuh kursi); belum ada → tunggu, lalu cadangan jalur biasa */
+  function aMuatIsi(e, n) {
+    clearTimeout(aTmr);
+    if (aNonce !== n) return;
+    fetch(HTTP + '/alat-isi?s=' + encodeURIComponent(sesi.id) + '&n=' + encodeURIComponent(n) + '&k=' + KUNCI, { cache: 'no-store' }).then(function (r) {
+      if (aNonce !== n) return;
+      if (r.ok) return r.text().then(function (html) {
+        if (aNonce !== n) return;
+        aBatal = LA.muatTeks($('alatBingkai'), html, function (doc) { aBatal = null; if (aNonce !== n) return; if (doc) aSiap(doc, n); else aInfo('Alat tidak dapat dimuat.'); });
+      });
+      if (r.status === 404 && ++aTry < 6) { aInfo('Menunggu pengajar menyiapkan alat…'); aTmr = setTimeout(function () { aMuatIsi(e, n); }, 1500); return; }
+      aMuatNormal(e, n);
+    }).catch(function () { if (aNonce !== n) return; if (++aTry < 6) aTmr = setTimeout(function () { aMuatIsi(e, n); }, 1500); else aMuatNormal(e, n); });
+  }
+  function aMuatAlat(e, n) { aTry = 0; if (e.terkunci && umum && HTTP) aMuatIsi(e, n); else aMuatNormal(e, n); }
+  function alatMuatUlang() {   // "Samakan dengan pengajar" dan perubahan izin umum: muat ulang alat + putar ulang seluruh gerakan pengajar
+    if (!sesi) return; var s0 = sesi;
+    aTutup(); kanalUlang(); alatTerapkan(s0);
   }
   function alatTerapkan(s) {   // true = alat sedang ditampilkan (menggantikan kitab)
     if (!s.alat_ref || !s.alat_nonce || s.status !== 'live') { if (aRef) aTutup(); $('alatBox').hidden = true; return false; }
@@ -91,31 +181,28 @@
     LA.muatManifest().then(function (m) {
       if (aNonce !== n) return;
       var e = m.per[r]; if (!e) { aInfo('Alat tidak dikenal.'); return; }
-      $('alatJudul').textContent = e.judul + (e.terkunci ? ' 🔒' : '');
-      aBatal = LA.muat($('alatBingkai'), e, function (doc) {
-        aBatal = null; if (aNonce !== n) return;
-        if (!doc) { aInfo(e.terkunci ? 'Alat ini khusus anggota. Masuk sebagai anggota (di tab baru) lalu muat ulang halaman ini.' : 'Alat tidak dapat dimuat.'); return; }
-        aDoc = doc; aInfo('');
-        (aTunda[n] || []).forEach(function (x) { LA.putar(doc, x); }); delete aTunda[n];
-      });
-      if (!aKanal && RELAY && sesi) aKanal = LA.dengar({ url: RELAY + '/alat-dengar?s=' + encodeURIComponent(sesi.id) + '&k=' + KUNCI, onPesan: aPesan,
-        onStatus: function (k) { if (k === 'penuh') aInfo('Peragaan langsung penuh; alat tetap bisa dicoba sendiri.'); } });
+      aEntry = e; $('alatJudul').textContent = e.judul + (e.terkunci ? ' 🔒' : '');
+      aMuatAlat(e, n);
+      kanalMulai();
     }).catch(function () { if (aNonce === n) aInfo('Daftar alat gagal dimuat.'); });
     return true;
   }
   function terapkan(s) {
     sesi = s;
+    if (s.status === 'live') kanalMulai(); else { kanalStop(); if (kKitab || kAlat) modeSet(false, false); }
+    if ('kunci_kitab' in s && Date.now() - modeAt > 5000) modeSet(s.kunci_kitab, s.kunci_alat, false);
+    if ('alat_umum' in s && Date.now() - umumAt > 5000) umumSet(s.alat_umum, false);
     if ($('audioMain')) { $('audioMain').hidden = !(RELAY && s.status === 'live'); if (RELAY && s.status === 'live' && !au) $('audioInfo').textContent = 'Ketuk “Dengarkan di sini” untuk audio langsung. Cadangan: Facebook Live.'; if (s.status !== 'live' && au) { auMati(); $('audioInfo').textContent = 'Kajian ini sudah selesai.'; } } $('judul').textContent = s.judul; $('sub').textContent = s.pengajar_nama || '';
     $('status').textContent = s.status === 'live' ? '● Sedang live' : 'Kajian ini sudah selesai';
     if (s.fb_url) $('fbBtn').href = s.fb_url;
     if (LA && alatTerapkan(s)) return;
     if (!s.pdf_url && !s.pdf_kunci) { $('pdfBox').hidden = true; return; }
     $('pdfBox').hidden = false; $('pdfJudul').textContent = s.pdf_judul || '';
-    if (ikut) hal = s.halaman;   // penonton yang sedang membuka halaman sendiri tidak diseret
+    if (ikut || kKitab) hal = kgSegar() ? kg.h : s.halaman;   // penonton yang sedang membuka halaman sendiri tidak diseret
     if (s.pdf_kunci) {
       if (!HTTP) { pesanPdf('Kitab belum bisa ditampilkan (alamat relay belum diisi).'); return; }
       $('cv').hidden = true; $('gb').hidden = false;
-      if (s.pdf_kunci !== kunci) { kunci = s.pdf_kunci; pdfUrl = null; tampil = 0; ikut = true; $('ikuti').hidden = true; }
+      if (s.pdf_kunci !== kunci) { kunci = s.pdf_kunci; pdfUrl = null; tampil = 0; ikut = true; $('ikuti').hidden = true; if (kg && !kgCocok()) kg = null; if (kgCocok()) hal = kg.h; }
       if (ikut) gambar(hal); return;
     }
     $('cv').hidden = false; $('gb').hidden = true; kunci = null;
@@ -125,9 +212,15 @@
         .catch(function (e) { pesanPdf(e.message || 'Kitab gagal dimuat.'); });
     } else if (ikut) gambar(hal);
   }
-  function geser(d) { ikut = false; $('ikuti').hidden = false; var n = Math.max(1, Math.min(sesi && sesi.total || 9999, (tampil || hal) + d)); hal = n; gambar(n); }
+  function geser(d) { if (kKitab) return; ikut = false; $('ikuti').hidden = false; var n = Math.max(1, Math.min(sesi && sesi.total || 9999, (tampil || hal) + d)); hal = n; gambar(n); }
   $('prev').onclick = function () { geser(-1); }; $('next').onclick = function () { geser(1); };
-  $('ikuti').onclick = function () { ikut = true; $('ikuti').hidden = true; if (sesi) { hal = sesi.halaman; gambar(hal); } };
+  $('ikuti').onclick = function () { ikut = true; $('ikuti').hidden = true; if (sesi) { hal = kgCocok() ? kg.h : sesi.halaman; gambar(hal); gulirTerapkan(); } };
+  $('alatSamakan').onclick = alatMuatUlang;
+  $('kanvas').addEventListener('scroll', function () {   // peserta menggulir sendiri (bukan program) → lepas dari pengajar
+    if (kKitab || Date.now() - progGulir < 400 || !sesi) return;
+    if (ikut) { ikut = false; modeTampil(); }
+  });
+  $('gb').addEventListener('load', function () { gulirTerapkan(); });
   /* ---- sesi pertanyaan (supabase-live-tanya.sql): hanya muncul bila ruang_keadaan mengembalikan 'tanya' ---- */
   var tanyaSig = '', tanyaTunda = 0, tanyaData = null;
   function pesanT(t) { $('tanyaPesan').textContent = t || ''; }
@@ -194,7 +287,7 @@
   };
   /* ---- kursi: layar "Majelis penuh" ---- */
   function tinggalkan() {   // kursi tidak dipegang: hentikan audio dan alat, sembunyikan kitab
-    auMati(); aTutup(); sesi = null; kunci = null; pdfUrl = null; tampil = 0; tanyaTerapkan(null);
+    auMati(); aTutup(); kanalStop(); kg = null; modeSet(false, false); sesi = null; kunci = null; pdfUrl = null; tampil = 0; tanyaTerapkan(null);
     $('alatBox').hidden = true; $('pdfBox').hidden = true;
   }
   function tampilPenuh(k, s) {

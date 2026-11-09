@@ -3,10 +3,10 @@
 <head>
 <title>Ruang Kajian Langsung — JAZMI</title>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#093d2f">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="index,follow">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Karla:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../../css/style.css">
 <link rel="stylesheet" href="live.css">
 </head>
 <body>
@@ -53,8 +53,10 @@
   </details>
   <section class="lv-alat" id="alatBox" hidden aria-label="Alat peraga">
     <p class="lv-pdfjudul"><strong id="alatJudul"></strong> <span id="alatInfo"></span></p>
-    <div class="lv-alatbingkai"><iframe id="alatBingkai" title="Alat peraga kajian" allow="fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox"></iframe></div>
-    <p class="lv-hint">Gerakan pengajar tampil di sini secara langsung. Anda juga boleh mencoba sendiri.</p>
+    <div class="lv-tools"><button class="btn btn-outline" id="alatSamakan" type="button" hidden>↻ Samakan dengan pengajar</button></div>
+    <div class="lv-alatbingkai"><iframe id="alatBingkai" title="Alat peraga kajian" allow="fullscreen" sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups allow-popups-to-escape-sandbox"></iframe>
+      <div class="lv-lapis" id="alatLapis" hidden><span>🔒 Dikendalikan pengajar</span></div></div>
+    <p class="lv-hint" id="alatHint">Gerakan pengajar tampil di sini secara langsung. Anda juga boleh mencoba sendiri; bila terasa berbeda dari pengajar, ketuk “Samakan dengan pengajar”.</p>
   </section>
   <section class="lv-pdf" id="pdfBox" hidden aria-label="Halaman kitab">
     <div class="lv-tools">
@@ -63,10 +65,12 @@
       <button class="btn btn-outline" id="next" type="button" aria-label="Halaman berikutnya">›</button>
       <button class="btn btn-outline" id="ikuti" type="button" hidden>Ikuti pengajar</button>
     </div>
+    <p class="lv-kunci" id="kitabKunciInfo" hidden>🔒 Layar mengikuti pengajar</p>
     <p class="lv-pdfjudul" id="pdfJudul"></p>
-    <div class="lv-canvas"><canvas id="cv" hidden></canvas><img id="gb" alt="Halaman kitab yang sedang dikaji" hidden></div>
+    <div class="lv-canvas" id="kanvas"><canvas id="cv" hidden></canvas><img id="gb" alt="Halaman kitab yang sedang dikaji" hidden></div>
     <p class="lv-err" id="pdfErr" role="alert" hidden></p>
   </section>
+  <p class="lv-foot"><b>◆</b> JAZMI · qiladat.com <b>◆</b></p>
 </main>
 <script src="../../../js/auth-config.js"></script>
 <script src="../../../js/live-config.js"></script>
