@@ -139,8 +139,28 @@
     };
   }
 
+  /* iPhone iOS <= 16.3: Web Audio ikut dibisukan tombol senyap fisik. Memutar <audio> (berkas WAV senyap, berulang)
+     dari ketukan pengguna memindahkan sesi audio ke kategori "playback" sehingga tetap bunyi. */
+  function bukaSenyap() {
+    try {
+      if (typeof document === 'undefined') return null;
+      var n = 4000, b = new Uint8Array(44 + n), v = new DataView(b.buffer);
+      function s(o, x) { for (var i = 0; i < x.length; i++) b[o + i] = x.charCodeAt(i); }
+      s(0, 'RIFF'); v.setUint32(4, 36 + n, true); s(8, 'WAVEfmt '); v.setUint32(16, 16, true); v.setUint16(20, 1, true); v.setUint16(22, 1, true);
+      v.setUint32(24, 8000, true); v.setUint32(28, 8000, true); v.setUint16(32, 1, true); v.setUint16(34, 8, true); s(36, 'data'); v.setUint32(40, n, true);
+      for (var i = 44; i < b.length; i++) b[i] = 128; // 8-bit tanpa tanda: 128 = hening
+      var bin = ''; for (var j = 0; j < b.length; j++) bin += String.fromCharCode(b[j]);
+      var a = document.createElement('audio');
+      a.setAttribute('playsinline', ''); a.setAttribute('aria-hidden', 'true');
+      a.loop = true; a.src = 'data:audio/wav;base64,' + btoa(bin);
+      var pr = a.play(); if (pr && pr.catch) pr.catch(function () { });
+      return a;
+    } catch (e) { return null; }
+  }
+
   /* ---------- PENONTON ---------- */
   function dengar(o) { // o: { url, onStatus(kode, teks) } — HARUS dipanggil dari ketukan pengguna (aturan autoplay)
+    var senyapEl = bukaSenyap(); // harus sinkron di dalam ketukan pengguna
     var AC = root.AudioContext || root.webkitAudioContext, ctx = new AC();
     try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) { } // iPhone: tetap bunyi saat tombol senyap aktif (bila didukung)
     if (ctx.state === 'suspended') ctx.resume();
@@ -202,7 +222,7 @@
       }, 5000);
     }
     sambung();
-    return { stop: function () { mati = true; clearInterval(jaga); clearTimeout(tmrSambung); try { ws.close(1000); } catch (e) { } try { ctx.close(); } catch (e) { } st('berhenti', 'Audio dihentikan.'); } };
+    return { stop: function () { mati = true; clearInterval(jaga); clearTimeout(tmrSambung); try { ws.close(1000); } catch (e) { } try { ctx.close(); } catch (e) { } try { if (senyapEl) { senyapEl.pause(); senyapEl.removeAttribute('src'); senyapEl.load(); } } catch (e) { } st('berhenti', 'Audio dihentikan.'); } };
   }
 
   var api = { enkode: enkode, dekode: dekode, Resampler: Resampler, siar: siar, dengar: dengar, RATE: RATE, BLOK: BLOK };

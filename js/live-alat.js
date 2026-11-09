@@ -61,7 +61,29 @@
       if (e.terkunci) return tunggu();
       try { var d = frame.contentDocument; if (d && d.getElementById('jazmi-nav-kembali-host')) d.getElementById('jazmi-nav-kembali-host').remove(); /* tombol navigasi melayang bawaan alat: tautannya akan membawa bingkai keluar dari kajian */ ok(d && d.body ? d : null); } catch (x) { ok(null); }
     };
+    frame.removeAttribute('srcdoc');   // srcdoc mengalahkan src: buang sisa muatan teks sebelumnya
     frame.src = alamat(e);
+    return function () { batal = true; };
+  }
+
+  /* ---------- alat terkunci yang isinya dititipkan pengajar di relay (hanya bila pengajar menyalakan "tampil untuk umum"):
+     HTML dimuat langsung lewat srcdoc; tautan relatif ke alat lain tidak boleh membawa bingkai keluar dari kajian ---------- */
+  function muatTeks(frame, html, cb) {
+    var selesai = false, batal = false;
+    function ok(doc) { if (!selesai && !batal) { selesai = true; cb(doc); } }
+    html = String(html).replace(/<script[^>]*alat-nav-kembali\.js[^>]*>\s*<\/script>/gi, '');
+    frame.onload = function () {
+      if (batal) return;
+      try {
+        var d = frame.contentDocument; if (!d || !d.body) return ok(null);
+        d.addEventListener('click', function (ev) {
+          var a = ev.target && ev.target.closest ? ev.target.closest('a[href]') : null; if (!a) return;
+          if (/^(?:\.\/)?[^\/#?:]+\.html?(?:[#?].*)?$/i.test(a.getAttribute('href') || '')) ev.preventDefault();
+        });
+        ok(d);
+      } catch (x) { ok(null); }
+    };
+    frame.removeAttribute('src'); frame.srcdoc = html;
     return function () { batal = true; };
   }
 
@@ -141,7 +163,18 @@
       };
     }
     a('keydown', tombol('d')); a('keyup', tombol('u'));
-    return function henti() { mati = true; clearTimeout(tm); buf = []; };
+    /* gulir (tidak menggelembung, tapi tertangkap di fase tangkap): kirim pecahan 0..1; sesudah 250 ms diam kirim sekali lagi sebagai posisi akhir (f:1) yang disimpan relay */
+    var akhir = {};
+    a('scroll', function (ev) {
+      var el = ev.target, isDoc = el === doc, tgt = isDoc ? (doc.scrollingElement || doc.documentElement) : el;
+      if (!tgt || !tgt.scrollHeight) return;
+      var p = isDoc ? '' : jalur(el, doc); if (p === null) return;
+      var mx = tgt.scrollWidth - tgt.clientWidth, my = tgt.scrollHeight - tgt.clientHeight;
+      var o = { t: 'e', k: 's', p: p, x: mx > 0 ? +Math.min(1, Math.max(0, tgt.scrollLeft / mx)).toFixed(4) : 0, y: my > 0 ? +Math.min(1, Math.max(0, tgt.scrollTop / my)).toFixed(4) : 0 };
+      dorong(o, 's|' + p); clearTimeout(akhir[p]);
+      akhir[p] = setTimeout(function () { if (!mati) dorong({ t: 'e', k: 's', p: p, x: o.x, y: o.y, f: 1 }); }, 250);
+    });
+    return function henti() { mati = true; clearTimeout(tm); buf = []; Object.keys(akhir).forEach(function (k) { clearTimeout(akhir[k]); }); };
   }
 
   /* ---------- penonton: putar ulang satu peristiwa di dokumen alat ---------- */
@@ -151,6 +184,12 @@
       if (e.k === 'd' || e.k === 'u') {
         el = (e.p && elemen(doc, e.p)) || doc.body; if (!el) return;
         el.dispatchEvent(new w.KeyboardEvent(e.k === 'd' ? 'keydown' : 'keyup', { key: e.y, code: e.c, repeat: !!e.r, shiftKey: !!(e.f & 1), ctrlKey: !!(e.f & 2), altKey: !!(e.f & 4), metaKey: !!(e.f & 8), bubbles: true, cancelable: true, view: w }));
+        return;
+      }
+      if (e.k === 's') {
+        var sc = e.p === '' ? (doc.scrollingElement || doc.documentElement) : elemen(doc, e.p); if (!sc) return;
+        var mx = sc.scrollWidth - sc.clientWidth, my = sc.scrollHeight - sc.clientHeight;
+        if (mx > 0) sc.scrollLeft = Math.round((+e.x || 0) * mx); if (my > 0) sc.scrollTop = Math.round((+e.y || 0) * my);
         return;
       }
       el = elemen(doc, e.p); if (!el) return;
@@ -230,5 +269,5 @@
     return { stop: function () { clearInterval(ping); s.stop(); } };
   }
 
-  g.LiveAlat = { idDariFile: idDariFile, muatManifest: muatManifest, cari: cari, alamat: alamat, muat: muat, tangkap: tangkap, putar: putar, jalur: jalur, elemen: elemen, siar: siar, dengar: dengar };
+  g.LiveAlat = { idDariFile: idDariFile, muatManifest: muatManifest, cari: cari, alamat: alamat, muat: muat, muatTeks: muatTeks, tangkap: tangkap, putar: putar, jalur: jalur, elemen: elemen, siar: siar, dengar: dengar };
 })(window);
