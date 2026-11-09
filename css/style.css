@@ -1432,3 +1432,16 @@ h1, h2, h3 { font-family: var(--font-display); margin: 0; color: var(--emerald-d
 .bait-btn-kedua:hover { background: var(--bg-alt); }
 .bait-btn:disabled { opacity: 0.6; cursor: progress; }
 .bait-studio-catatan { margin: 0; font-size: 0.78rem; color: var(--ink-faint); }
+
+/* ===== Kajian Langsung (pita beranda + kartu) ===== */
+.live-strip { display:flex; align-items:center; gap:.7rem; flex-wrap:wrap; padding:.55rem 1.25rem; font-size:.88rem; color:var(--ink-soft); background:var(--paper-alt,#f4f1e8); border-bottom:1px solid var(--line-soft); text-decoration:none; }
+.live-strip.is-live { background:var(--emerald-deep); color:#fff; }
+.live-strip .live-judul { flex:1 1 12rem; min-width:0; }
+.live-strip .live-go { font-weight:700; margin-left:auto; }
+.live-dot { width:.6rem; height:.6rem; border-radius:50%; background:#e5483a; display:inline-block; margin-right:.4rem; animation:livePulse 1.4s ease-in-out infinite; }
+@keyframes livePulse { 50% { opacity:.3; transform:scale(.8); } }
+@media (prefers-reduced-motion:reduce) { .live-dot { animation:none; } }
+.live-card { border:1px solid var(--line-soft); border-radius:12px; padding:1.1rem 1.25rem; }
+.live-card.is-live { border-color:var(--emerald); box-shadow:0 0 0 2px rgba(28,92,66,.12); }
+.live-card-status { font-weight:700; color:var(--emerald-deep); margin:0 0 .3rem; }
+.live-card-judul { margin:0 0 .8rem; color:var(--ink-soft); }
