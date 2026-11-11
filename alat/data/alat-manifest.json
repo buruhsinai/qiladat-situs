@@ -3141,6 +3141,61 @@
       "file": "katalog-buku.html",
       "kategori": "filsafat-epistemologi-dan-kesadaran",
       "judul": "katalog buku"
+    },
+    {
+      "file": "babon-falak.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "babon falak"
+    },
+    {
+      "file": "babon-biologi.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "babon biologi"
+    },
+    {
+      "file": "kedokteran-babon.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "kedokteran babon"
+    },
+    {
+      "file": "babon-ekonomi.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "babon ekonomi"
+    },
+    {
+      "file": "babon-komputer.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "babon komputer"
+    },
+    {
+      "file": "babon-metodologi.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "babon metodologi"
+    },
+    {
+      "file": "babon-statistika.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "babon statistika"
+    },
+    {
+      "file": "peta-belajar-matematika.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "peta belajar matematika"
+    },
+    {
+      "file": "babon-atmosfer.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "babon atmosfer"
+    },
+    {
+      "file": "babon-bumi.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "babon bumi"
+    },
+    {
+      "file": "babon-geodesi.html",
+      "kategori": "ekonomi-dan-ilmu-sosial",
+      "judul": "babon geodesi"
     }
   ]
 }
